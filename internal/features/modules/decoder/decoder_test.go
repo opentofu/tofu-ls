@@ -112,7 +112,7 @@ func TestDecoder_CodeLensesForFile_concurrencyBug(t *testing.T) {
 			defer wg.Done()
 			_, err := d.CodeLensesForFile(ctx, lang.Path{
 				Path:       dirName,
-				LanguageID: "terraform",
+				LanguageID: "opentofu",
 			}, "main.tf")
 			if err != nil {
 				t.Error(err)

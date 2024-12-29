@@ -203,9 +203,9 @@ func getTelemetryProperties(out *settings.DecodedOptions) map[string]interface{}
 		"options.indexing.ignoreDirectoryNames":           false,
 		"options.indexing.ignorePaths":                    false,
 		"options.experimentalFeatures.validateOnSave":     false,
-		"options.terraform.path":                          false,
-		"options.terraform.timeout":                       "",
-		"options.terraform.logFilePath":                   false,
+		"options.opentofu.path":                           false,
+		"options.opentofu.timeout":                        "",
+		"options.opentofu.logFilePath":                    false,
 		"options.validation.earlyValidation":              false,
 		"root_uri":                                        "dir",
 		"lsVersion":                                       "",
@@ -219,9 +219,9 @@ func getTelemetryProperties(out *settings.DecodedOptions) map[string]interface{}
 	properties["options.experimentalFeatures.prefillRequiredFields"] = out.Options.ExperimentalFeatures.PrefillRequiredFields
 	properties["options.experimentalFeatures.validateOnSave"] = out.Options.ExperimentalFeatures.ValidateOnSave
 	properties["options.ignoreSingleFileWarning"] = out.Options.IgnoreSingleFileWarning
-	properties["options.terraform.path"] = len(out.Options.Terraform.Path) > 0
-	properties["options.terraform.timeout"] = out.Options.Terraform.Timeout
-	properties["options.terraform.logFilePath"] = len(out.Options.Terraform.LogFilePath) > 0
+	properties["options.opentofu.path"] = len(out.Options.OpenTofu.Path) > 0
+	properties["options.opentofu.timeout"] = out.Options.OpenTofu.Timeout
+	properties["options.opentofu.logFilePath"] = len(out.Options.OpenTofu.LogFilePath) > 0
 	properties["options.validation.earlyValidation"] = out.Options.Validation.EnableEnhancedValidation
 
 	return properties

@@ -10,10 +10,10 @@ package lsp
 type LanguageID string
 
 const (
-	Terraform LanguageID = "terraform"
-	Tfvars    LanguageID = "terraform-vars"
-	Stacks    LanguageID = "terraform-stack"
-	Deploy    LanguageID = "terraform-deploy"
+	Terraform LanguageID = "opentofu"
+	Tfvars    LanguageID = "opentofu-vars"
+	Stacks    LanguageID = "opentofu-stack"
+	Deploy    LanguageID = "opentofu-deploy"
 )
 
 func (l LanguageID) String() string {

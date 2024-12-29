@@ -444,8 +444,8 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 
 	// The following is set via CLI flags, hence available in the server context
 	execOpts := &exec.ExecutorOpts{}
-	if len(cfgOpts.Terraform.Path) > 0 {
-		execOpts.ExecPath = cfgOpts.Terraform.Path
+	if len(cfgOpts.OpenTofu.Path) > 0 {
+		execOpts.ExecPath = cfgOpts.OpenTofu.Path
 	} else {
 		path, err := svc.tfDiscoFunc()
 		if err == nil {
@@ -454,12 +454,12 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 	}
 	svc.srvCtx = lsctx.WithTerraformExecPath(svc.srvCtx, execOpts.ExecPath)
 
-	if len(cfgOpts.Terraform.LogFilePath) > 0 {
-		execOpts.ExecLogPath = cfgOpts.Terraform.LogFilePath
+	if len(cfgOpts.OpenTofu.LogFilePath) > 0 {
+		execOpts.ExecLogPath = cfgOpts.OpenTofu.LogFilePath
 	}
 
-	if len(cfgOpts.Terraform.Timeout) > 0 {
-		d, err := time.ParseDuration(cfgOpts.Terraform.Timeout)
+	if len(cfgOpts.OpenTofu.Timeout) > 0 {
+		d, err := time.ParseDuration(cfgOpts.OpenTofu.Timeout)
 		if err != nil {
 			return fmt.Errorf("failed to parse terraform.timeout LSP config option: %s", err)
 		}
@@ -555,10 +555,10 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 
 	svc.decoder = decoder.NewDecoder(&idecoder.GlobalPathReader{
 		PathReaderMap: idecoder.PathReaderMap{
-			"terraform":        svc.features.Modules,
-			"terraform-vars":   svc.features.Variables,
-			"terraform-stack":  svc.features.Stacks,
-			"terraform-deploy": svc.features.Stacks,
+			"opentofu":        svc.features.Modules,
+			"opentofu-vars":   svc.features.Variables,
+			"opentofu-stack":  svc.features.Stacks,
+			"opentofu-deploy": svc.features.Stacks,
 		},
 	})
 	decoderContext := idecoder.DecoderContext(ctx)

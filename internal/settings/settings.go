@@ -30,7 +30,7 @@ type Indexing struct {
 	IgnorePaths          []string `mapstructure:"ignorePaths"`
 }
 
-type Terraform struct {
+type OpenTofu struct {
 	Path        string `mapstructure:"path"`
 	Timeout     string `mapstructure:"timeout"`
 	LogFilePath string `mapstructure:"logFilePath"`
@@ -47,7 +47,7 @@ type Options struct {
 
 	IgnoreSingleFileWarning bool `mapstructure:"ignoreSingleFileWarning"`
 
-	Terraform Terraform `mapstructure:"terraform"`
+	OpenTofu OpenTofu `mapstructure:"openTofu"`
 
 	XLegacyModulePaths              []string `mapstructure:"rootModulePaths"`
 	XLegacyExcludeModulePaths       []string `mapstructure:"excludeModulePaths"`
@@ -58,8 +58,8 @@ type Options struct {
 }
 
 func (o *Options) Validate() error {
-	if o.Terraform.Path != "" {
-		path := o.Terraform.Path
+	if o.OpenTofu.Path != "" {
+		path := o.OpenTofu.Path
 		if !filepath.IsAbs(path) {
 			return fmt.Errorf("Expected absolute path for Terraform binary, got %q", path)
 		}

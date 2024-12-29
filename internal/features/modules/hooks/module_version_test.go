@@ -49,7 +49,7 @@ func TestHooks_RegistryModuleVersions(t *testing.T) {
 
 	ctx = decoder.WithPath(ctx, lang.Path{
 		Path:       tmpDir,
-		LanguageID: "terraform",
+		LanguageID: "opentofu",
 	})
 	ctx = decoder.WithPos(ctx, hcl.Pos{
 		Line:   2,

@@ -8,4 +8,4 @@
 
 package discovery
 
-const executableName = "terraform"
+const executableName = "opentofu"

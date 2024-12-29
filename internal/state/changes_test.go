@@ -28,7 +28,7 @@ func TestChanges_dirOpenMark_openBeforeChange(t *testing.T) {
 		Dir:      modHandle,
 		Filename: "main.tf",
 	}
-	err = ss.DocumentStore.OpenDocument(docHandle, "terraform", 0, []byte{})
+	err = ss.DocumentStore.OpenDocument(docHandle, "opentofu", 0, []byte{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -69,7 +69,7 @@ func TestChanges_dirOpenMark_openAfterChange(t *testing.T) {
 		Dir:      modHandle,
 		Filename: "main.tf",
 	}
-	err = ss.DocumentStore.OpenDocument(docHandle, "terraform", 0, []byte{})
+	err = ss.DocumentStore.OpenDocument(docHandle, "opentofu", 0, []byte{})
 	if err != nil {
 		t.Fatal(err)
 	}

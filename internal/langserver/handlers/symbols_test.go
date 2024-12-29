@@ -72,7 +72,7 @@ func TestLangServer_symbols_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": "%s/main.tf"
 		}
@@ -151,7 +151,7 @@ func TestLangServer_symbols_missing(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": "%s/main.tf"
 		}

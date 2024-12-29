@@ -77,7 +77,7 @@ func TestCodeLens_withoutOptIn(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"test\" {\n\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -178,7 +178,7 @@ func TestCodeLens_referenceCount(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": %q,
 			"uri": "%s/main.tf"
 		}
@@ -289,7 +289,7 @@ func TestCodeLens_referenceCount_crossModule(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": %q,
 			"uri": "%s/main.tf"
 		}

@@ -58,7 +58,7 @@ func TestLangServer_workspaceExecuteCommand_modules_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": %q
 		}

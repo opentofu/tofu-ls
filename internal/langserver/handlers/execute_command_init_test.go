@@ -60,7 +60,7 @@ func TestLangServer_workspaceExecuteCommand_init_argumentError(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": %q
 		}
@@ -145,7 +145,7 @@ func TestLangServer_workspaceExecuteCommand_init_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": %q
 		}
@@ -235,7 +235,7 @@ func TestLangServer_workspaceExecuteCommand_init_error(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": %q
 		}

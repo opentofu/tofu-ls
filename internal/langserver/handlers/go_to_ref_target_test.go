@@ -80,7 +80,7 @@ func TestDefinition_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
 			`variable "test" {
 }
@@ -209,7 +209,7 @@ func TestDefinition_withLinkToDefLessBlock(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
 			`resource "test_resource_2" "foo" {
     setting {
@@ -364,7 +364,7 @@ func TestDefinition_withLinkToDefBlock(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
 			`resource "test_resource_2" "foo" {
     setting {
@@ -474,7 +474,7 @@ func TestDefinition_moduleInputToVariable(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
 			`module "gorilla-app" {
 	source           = "./application"
@@ -577,7 +577,7 @@ func TestDeclaration_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
 			`variable "test" {
 }
@@ -706,7 +706,7 @@ func TestDeclaration_withLinkSupport(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
 			`resource "test_resource_2" "foo" {
     setting {
