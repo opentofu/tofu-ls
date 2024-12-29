@@ -262,7 +262,7 @@ func initializeResult(ctx context.Context) lsp.InitializeResult {
 		},
 	}
 
-	serverCaps.ServerInfo.Name = "terraform-ls"
+	serverCaps.ServerInfo.Name = "opentofu-ls"
 	version, ok := lsctx.LanguageServerVersion(ctx)
 	if ok {
 		serverCaps.ServerInfo.Version = version

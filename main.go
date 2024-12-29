@@ -15,7 +15,7 @@ import (
 
 func main() {
 	c := &cli.CLI{
-		Name:       "terraform-ls",
+		Name:       "opentofu-ls",
 		Version:    VersionString(),
 		Args:       os.Args[1:],
 		HelpWriter: os.Stdout,

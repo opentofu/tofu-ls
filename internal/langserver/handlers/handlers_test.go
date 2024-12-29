@@ -84,7 +84,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 				}
 			},
 			"serverInfo": {
-				"name": "terraform-ls",
+				"name": "opentofu-ls",
 				"version": ""
 			}
 		}
@@ -267,7 +267,7 @@ func validTfMockCalls() []*mock.Call {
 //
 // The returned filehandler is the parent tmp dir
 func TempDir(t *testing.T, nested ...string) document.DirHandle {
-	tmpDir := filepath.Join(os.TempDir(), "terraform-ls", t.Name())
+	tmpDir := filepath.Join(os.TempDir(), "opentofu-ls", t.Name())
 	err := os.MkdirAll(tmpDir, 0755)
 	if err != nil && !os.IsExist(err) {
 		t.Fatal(err)

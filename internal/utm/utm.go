@@ -11,7 +11,7 @@ import (
 	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
 )
 
-const UtmSource = "terraform-ls"
+const UtmSource = "opentofu-ls"
 
 func UtmMedium(ctx context.Context) string {
 	clientName, ok := ilsp.ClientName(ctx)

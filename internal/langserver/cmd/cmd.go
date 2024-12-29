@@ -14,7 +14,7 @@ import (
 type Handler func(context.Context, CommandArgs) (interface{}, error)
 type Handlers map[string]Handler
 
-const langServerPrefix = "terraform-ls."
+const langServerPrefix = "opentofu-ls."
 
 func Name(name string) string {
 	return langServerPrefix + name
