@@ -63,7 +63,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_argumentError(t *tes
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": %q
 		}

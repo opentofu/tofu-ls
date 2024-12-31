@@ -101,7 +101,7 @@ func TestLangServer_DidChangeWatchedFiles_change_file(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "",
 			"uri": "%s/another.tf"
 		}
@@ -280,7 +280,7 @@ func TestLangServer_DidChangeWatchedFiles_create_file(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "variable \"original\" {\n  default = \"foo\"\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -419,7 +419,7 @@ func TestLangServer_DidChangeWatchedFiles_delete_file(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "",
 			"uri": "%s/another.tf"
 		}
@@ -553,7 +553,7 @@ func TestLangServer_DidChangeWatchedFiles_change_dir(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "",
 			"uri": "%s/another.tf"
 		}
@@ -694,7 +694,7 @@ func TestLangServer_DidChangeWatchedFiles_create_dir(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "variable \"original\" {\n  default = \"foo\"\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -832,7 +832,7 @@ func TestLangServer_DidChangeWatchedFiles_delete_dir(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "variable \"original\" {\n  default = \"foo\"\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -1001,7 +1001,7 @@ func TestLangServer_DidChangeWatchedFiles_pluginChange(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 				"textDocument": {
 					"version": 0,
-					"languageId": "terraform",
+					"languageId": "opentofu",
 					"text": "provider \"foo\" {\n\n}\n",
 					"uri": "%s/main.tf"
 				}
@@ -1105,7 +1105,7 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "module {\n  source = \"github.com/hashicorp/terraform-azurerm-hcp-consul?ref=v0.2.4\"\n}\n",
 			"uri": "%s/main.tf"
 		}

@@ -119,7 +119,7 @@ func TestSignatureHelp_withValidData(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "variable \"name\" {\n  default = file(\"~/foo\")\n}",
 			"uri": "%s/main.tf"
 		}

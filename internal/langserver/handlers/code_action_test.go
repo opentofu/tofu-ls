@@ -28,7 +28,7 @@ func TestLangServer_codeActionWithoutInitialization(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": "%s/main.tf"
 		}
@@ -104,7 +104,7 @@ func TestLangServer_codeAction_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider  \"test\"   {\n\n      }\n",
 			"uri": "%s/main.tf"
 		}
@@ -353,7 +353,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 				ReqParams: fmt.Sprintf(`{
 				"textDocument": {
 					"version": 0,
-					"languageId": "terraform",
+					"languageId": "opentofu",
 					"text": "provider  \"test\"   {\n\n      }\n",
 					"uri": "%s/main.tf"
 				}

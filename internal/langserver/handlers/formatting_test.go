@@ -30,7 +30,7 @@ func TestLangServer_formattingWithoutInitialization(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"github\" {}",
 			"uri": "%s/main.tf"
 		}
@@ -107,7 +107,7 @@ func TestLangServer_formatting_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider  \"test\"   {\n\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -206,7 +206,7 @@ func TestLangServer_formatting_oldVersion(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider  \"test\"   {\n\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -293,7 +293,7 @@ func TestLangServer_formatting_variables(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform-vars",
+			"languageId": "opentofu-vars",
 			"text": "test  = \"dev\"",
 			"uri": "%s/terraform.tfvars"
 		}
@@ -409,7 +409,7 @@ func TestLangServer_formatting_diffBug(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q", cfg)+`,
 			"uri": "%s/main.tf"
 		}

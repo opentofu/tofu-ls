@@ -114,7 +114,7 @@ func TestHover_withValidData(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "provider \"test\" {\n\n}\n",
 			"uri": "%s/main.tf"
 		}
@@ -223,7 +223,7 @@ func TestVarsHover_withValidData(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform",
+			"languageId": "opentofu",
 			"text": "variable \"test\" {\n type=string\n sensitive=true}\n",
 			"uri": "%s/variables.tf"
 		}
@@ -233,7 +233,7 @@ func TestVarsHover_withValidData(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
-			"languageId": "terraform-vars",
+			"languageId": "opentofu-vars",
 			"text": "test = \"dev\"\n",
 			"uri": "%s/terraform.tfvars"
 		}

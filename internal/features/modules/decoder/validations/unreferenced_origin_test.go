@@ -114,7 +114,7 @@ func TestUnreferencedOrigins(t *testing.T) {
 					},
 					TargetPath: lang.Path{
 						Path:       "./submodule",
-						LanguageID: "terraform",
+						LanguageID: "opentofu",
 					},
 					Constraints: reference.OriginConstraints{},
 				},

@@ -45,7 +45,7 @@ func (f *VariablesFeature) didOpen(ctx context.Context, dir document.DirHandle, 
 	// b) the opened file is a variable file
 	//
 	// Add to state if language ID matches
-	if languageID == "terraform-vars" {
+	if languageID == "opentofu-vars" {
 		err := f.store.AddIfNotExists(path)
 		if err != nil {
 			return ids, err

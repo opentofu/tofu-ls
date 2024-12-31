@@ -53,7 +53,7 @@ func (f *ModulesFeature) didOpen(ctx context.Context, dir document.DirHandle, la
 	// b) the opened file is a module file
 	//
 	// Add to state if language ID matches
-	if languageID == "terraform" {
+	if languageID == "opentofu" {
 		err := f.Store.AddIfNotExists(path)
 		if err != nil {
 			return ids, err

@@ -40,7 +40,7 @@ func TestApplyChanges_partialUpdate(t *testing.T) {
 			Name:     "length grow: 4",
 			Original: "hello world",
 			Change: &testChange{
-				text: "terraform",
+				text: "opentofu",
 				rng: &Range{
 					Start: Pos{
 						Line:   0,
@@ -52,7 +52,7 @@ func TestApplyChanges_partialUpdate(t *testing.T) {
 					},
 				},
 			},
-			Expect: "hello terraform",
+			Expect: "hello opentofu",
 		},
 		{
 			Name:     "length the same",

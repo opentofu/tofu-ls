@@ -11,6 +11,7 @@ import (
 	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
 )
 
+// TODO remove this logic as we'll want to use the OpenTofu registry instead
 const UtmSource = "terraform-ls"
 
 func UtmMedium(ctx context.Context) string {

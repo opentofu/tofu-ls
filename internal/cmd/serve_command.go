@@ -107,7 +107,7 @@ func (c *ServeCommand) Run(args []string) int {
 		logger.Printf("Custom request concurrency set to %d", c.reqConcurrency)
 	}
 
-	logger.Printf("Starting terraform-ls %s", c.Version)
+	logger.Printf("Starting opentofu-ls %s", c.Version)
 
 	ctx = lsctx.WithLanguageServerVersion(ctx, c.Version)
 	if c.AlgoliaAppID != "" && c.AlgoliaAPIKey != "" {
@@ -157,7 +157,7 @@ func (c *ServeCommand) Run(args []string) int {
 
 func (c *ServeCommand) otelResourceAttributes() []attribute.KeyValue {
 	return []attribute.KeyValue{
-		semconv.ServiceName("terraform-ls"),
+		semconv.ServiceName("opentofu-ls"),
 		semconv.ServiceVersion(c.Version),
 		attribute.Int("process.pid", os.Getpid()),
 		attribute.Int("runtime.NumCPU", runtime.NumCPU()),
@@ -211,7 +211,7 @@ func writeMemoryProfileInto(rawPath string) error {
 
 func (c *ServeCommand) Help() string {
 	helpText := `
-Usage: terraform-ls serve [options]
+Usage: opentofu-ls serve [options]
 
 ` + c.Synopsis() + "\n\n" + helpForFlags(c.flags())
 
