@@ -11,11 +11,9 @@ import (
 	"io"
 	"log"
 
-	"github.com/algolia/algoliasearch-client-go/v3/algolia/search"
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
-	"github.com/opentofu/opentofu-ls/internal/algolia"
 	"github.com/opentofu/opentofu-ls/internal/document"
 	"github.com/opentofu/opentofu-ls/internal/eventbus"
 	fdecoder "github.com/opentofu/opentofu-ls/internal/features/modules/decoder"
@@ -170,11 +168,6 @@ func (f *ModulesFeature) AppendCompletionHooks(srvCtx context.Context, decoderCo
 		ModStore:       f.Store,
 		RegistryClient: f.registryClient,
 		Logger:         f.logger,
-	}
-
-	credentials, ok := algolia.CredentialsFromContext(srvCtx)
-	if ok {
-		h.AlgoliaClient = search.NewClient(credentials.AppID, credentials.APIKey)
 	}
 
 	decoderContext.CompletionHooks["CompleteLocalModuleSources"] = h.LocalModuleSources
