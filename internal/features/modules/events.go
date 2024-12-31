@@ -12,18 +12,18 @@ import (
 	"path/filepath"
 
 	"github.com/hashicorp/go-multierror"
-	lsctx "github.com/hashicorp/terraform-ls/internal/context"
-	"github.com/hashicorp/terraform-ls/internal/document"
-	"github.com/hashicorp/terraform-ls/internal/features/modules/ast"
-	"github.com/hashicorp/terraform-ls/internal/features/modules/jobs"
-	"github.com/hashicorp/terraform-ls/internal/job"
-	"github.com/hashicorp/terraform-ls/internal/protocol"
-	"github.com/hashicorp/terraform-ls/internal/schemas"
-	globalState "github.com/hashicorp/terraform-ls/internal/state"
-	globalAst "github.com/hashicorp/terraform-ls/internal/terraform/ast"
-	op "github.com/hashicorp/terraform-ls/internal/terraform/module/operation"
 	tfaddr "github.com/hashicorp/terraform-registry-address"
 	tfmod "github.com/hashicorp/terraform-schema/module"
+	lsctx "github.com/opentofu/opentofu-ls/internal/context"
+	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/opentofu-ls/internal/features/modules/ast"
+	"github.com/opentofu/opentofu-ls/internal/features/modules/jobs"
+	"github.com/opentofu/opentofu-ls/internal/job"
+	"github.com/opentofu/opentofu-ls/internal/protocol"
+	"github.com/opentofu/opentofu-ls/internal/schemas"
+	globalState "github.com/opentofu/opentofu-ls/internal/state"
+	globalAst "github.com/opentofu/opentofu-ls/internal/terraform/ast"
+	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
 )
 
 func (f *ModulesFeature) discover(path string, files []string) error {
