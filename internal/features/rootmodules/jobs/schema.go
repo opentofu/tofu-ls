@@ -7,14 +7,14 @@ package jobs
 
 import (
 	"context"
+	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/opentofu-ls/internal/job"
+	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
 
 	tfaddr "github.com/hashicorp/terraform-registry-address"
-	"github.com/opentofu/opentofu-ls/internal/document"
 	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
-	"github.com/opentofu/opentofu-ls/internal/job"
 	globalState "github.com/opentofu/opentofu-ls/internal/state"
 	"github.com/opentofu/opentofu-ls/internal/terraform/module"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
 )
 
@@ -60,6 +60,9 @@ func ObtainSchema(ctx context.Context, rootStore *state.RootStore, schemaStore *
 			// skip unparsable address
 			continue
 		}
+
+		// We are overriding the hostname with the OpenTofu Registry instead
+		pAddr.Hostname = "registry.opentofu.org"
 
 		if pAddr.IsLegacy() {
 			// TODO: check for migrations via Registry API?
