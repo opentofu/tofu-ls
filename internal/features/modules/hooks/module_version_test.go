@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
 	"github.com/hashicorp/hcl/v2"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
 	"github.com/opentofu/opentofu-ls/internal/registry"
 	globalState "github.com/opentofu/opentofu-ls/internal/state"

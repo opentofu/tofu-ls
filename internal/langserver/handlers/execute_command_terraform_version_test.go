@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/document"
 	"github.com/opentofu/opentofu-ls/internal/eventbus"
 	"github.com/opentofu/opentofu-ls/internal/filesystem"

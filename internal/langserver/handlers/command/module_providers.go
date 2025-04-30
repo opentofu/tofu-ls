@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	"github.com/creachadair/jrpc2"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/opentofu-ls/internal/uri"
 )
