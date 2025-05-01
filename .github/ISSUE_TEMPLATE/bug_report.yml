@@ -1,30 +1,52 @@
 name: "Bug report"
 description: "Let us know about an unexpected error, a crash, or an incorrect behavior."
-labels: [bug]
-assignees: []
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/terraform-editor-integrations/) where there are more people ready to help.
+      value: |
+        # Thank you for opening an issue.
+
+        The [OpenTofu Language Server](https://github.com/opentofu/opentofu-ls) issue tracker is reserved for bug reports relating to the OpenTofu Language Server repository.
+        We use GitHub issues for tracking bugs and enhancements.
+        For questions, please use [the community slack](https://opentofucommunity.slack.com/archives/C08Q08C6H88) where there are more people ready to help.
+
+        ## Filing a bug report
+
+        To fix problems, we need clear reproduction cases - we need to be able to see it happen locally. A reproduction case is ideally something any engineer can git-clone or copy-paste and run immediately, without inventing any details or context.
+
+        * A short example can be directly copy-pasteable; longer examples should be in separate git repositories, especially if multiple files are needed
+        * Please include all needed context. For example, if you figured out that an expression can cause a crash, put the expression in a variable definition or a resource
+        * Set defaults on (or omit) any variables. The person reproducing it should not need to invent variable settings
+        * Omit any unneeded complexity: remove variables, conditional statements, functions, etc. that are not needed to trigger the bug
+
+  - type: textarea
+    id: community-note
+    attributes:
+      label: Community note
+      description: Please leave this note unchanged.
+      value: |
+        > [!TIP]
+        > 👋 Hi there, OpenTofu community! The OpenTofu team prioritizes issues based on upvotes. Please make sure to upvote this issue and describe how it affects you in detail in the comments to show your support.
 
   - type: input
-    id: version
+    id: ls-version
     attributes:
       label: Language Server Version
       description: |
-        Run `terraform-ls --version` to show the version.
+        Run `tofu-ls --version` to show the version.
         If you are not running the latest version, please try upgrading because your issue may have already been fixed.
       placeholder: v0.31.2
     validations:
       required: true
 
   - type: input
-    id: terraform
+    id: tofu-version
     attributes:
-      label: Terraform Version
+      label: OpenTofu Version
       description: |
-        Run `terraform -v` to show the version. Make sure you are running the same binary that the language server would normally pick up from $PATH if you have more than one version installed on your system.
-      placeholder: Terraform v1.4.6 on darwin_arm64
+        Run `tofu -v` to show the version. Make sure you are running the same binary that the language server would normally pick up from $PATH if you have more than one version installed on your system.
+      placeholder: OpenTofu v1.9.0 on linux_amd64
     validations:
       required: true
 
@@ -41,16 +63,16 @@ body:
   - type: textarea
     id: configuration
     attributes:
-      label: Terraform Configuration
+      label: OpenTofu Configuration
       description: |
-        Include the relevant Terraform configuration that might be helpful for reproducing your issue.
+        Include the relevant OpenTofu configuration that might be helpful for reproducing your issue.
         Please remove any sensitive information such as passwords before sharing configuration snippets.
 
-        For large Terraform configs, please use a service like Dropbox and share a link to the ZIP file.
-        For security, you can optionally encrypt the files using [HashiCorp's GPG public key](https://www.hashicorp.com/security#secure-communications).
+        For OpenTofu configs larger than a few resources, please consider using another GitHub repository or a GitHub gist.
       placeholder: |
-        resource "github_repository" "test" {
-          name = "vscode-terraform"
+        resource "aws_instance" "web" {
+          ami           = "ami-a1b2c3d4"
+          instance_type = "t2.micro"
         }
 
         # etc...
@@ -98,9 +120,9 @@ body:
         Do *NOT* pastethe debug output in the issue, since it may be long.
 
         Full debug output can be obtained by launching the server with a particular flag (e.g. `-log-file`).
-        Please follow the instructions in [`docs/TROUBLESHOOTING.md`](https://github.com/hashicorp/terraform-ls/tree/main/docs/TROUBLESHOOTING.md).
+        Please follow the instructions in [`docs/TROUBLESHOOTING.md`](https://github.com/opentofu/opentofu-ls/blob/main/docs/TROUBLESHOOTING.md).
 
-        Debug output may contain sensitive information. Please review it before posting publicly, and if you are concerned, feel free to encrypt the files using [HashiCorp's GPG public key](https://www.hashicorp.com/security#secure-communications).
+        Debug output may contain sensitive information. Please review it before posting publicly.
       placeholder: |
         https://gist.github.com/gdb/b6365e79be6052e7531e7ba6ea8caf23
     validations:
@@ -125,8 +147,7 @@ body:
       placeholder: |
         - #123
         - #456
-        - hashicorp/terraform#789
-        - https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks
+        - opentofu/opentofu#123
     validations:
       required: false
 
@@ -138,15 +159,3 @@ body:
       options:
         - label: I'm interested in contributing a fix myself
           required: false
-
-  - type: textarea
-    id: community
-    attributes:
-      label: Community Note
-      description: Please do not remove, edit, or change the following note for our community. Just leave everything in this textbox as-is.
-      value: |
-        - Please vote on this issue by adding a 👍 [reaction](https://blog.github.com/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/) to the original issue to help the community and maintainers prioritize this request
-        - Please do not leave "+1" or other comments that do not add relevant new information or questions, they generate extra noise for issue followers and do not help prioritize the request
-        - If you are interested in working on this issue or have submitted a pull request, please leave a comment
-    validations:
-      required: true
