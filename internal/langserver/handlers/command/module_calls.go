@@ -12,10 +12,10 @@ import (
 	"strings"
 
 	"github.com/creachadair/jrpc2"
-	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/opentofu-ls/internal/uri"
 	tfmod "github.com/opentofu/opentofu-schema/module"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 const moduleCallsVersion = 0
@@ -126,10 +126,10 @@ func (h *CmdHandler) parseModuleRecords(ctx context.Context, moduleCalls tfmod.M
 
 func getModuleDocumentationLink(ctx context.Context, sourceAddr tfmod.ModuleSourceAddr) (string, error) {
 	registryAddr, ok := sourceAddr.(tfaddr.Module)
-	if !ok || registryAddr.Package.Host != "registry.terraform.io" {
+	if !ok || registryAddr.Package.Host != "registry.opentofu.org" {
 		return "", nil
 	}
-	rawURL := fmt.Sprintf(`https://registry.terraform.io/modules/%s/latest`, registryAddr.Package.ForRegistryProtocol())
+	rawURL := fmt.Sprintf(`https://registry.opentofu.org/module/%s/latest`, registryAddr.Package.ForRegistryProtocol())
 
 	u, err := docsURL(ctx, rawURL, "workspace/executeCommand/module.calls")
 	if err != nil {

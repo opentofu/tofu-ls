@@ -315,6 +315,12 @@ github.com/olekukonko/tablewriter v0.0.5 h1:P2Ga83D34wi1o9J6Wh1mRuqd4mF/x/lgBS7N
 github.com/olekukonko/tablewriter v0.0.5/go.mod h1:hPp6KlRPjbx+hW8ykQs1w3UBbZlj6HuIJcUGPhkA7kY=
 github.com/opentofu/opentofu-schema v0.0.0-20241229134401-b19156cfdbf1 h1:k1PwWfrYjrhNHJQ3QkSevleBUshOh+vrwJdYNhxRKeY=
 github.com/opentofu/opentofu-schema v0.0.0-20241229134401-b19156cfdbf1/go.mod h1:S3bivH0TbJHExabcLSqEoiLI0hTkG9QQ2ql8ll4NXmk=
+github.com/opentofu/opentofu-schema v0.0.0-20250430204133-4d6063531bbd h1:hDIatQZJM1L38pnI3+SUQuwZ/gLdCV87Pk2BkM/1xcA=
+github.com/opentofu/opentofu-schema v0.0.0-20250430204133-4d6063531bbd/go.mod h1:5lwstlPpDS/cIwO1YJTt94LbHokINBPqjx84VfoAgzY=
+github.com/opentofu/opentofu-schema v0.0.0-20250430205615-4293787c92bf h1:KTahw+J3ke7WcQAkZQXa9UPswkTAYnaMpP1Hu6edKeI=
+github.com/opentofu/opentofu-schema v0.0.0-20250430205615-4293787c92bf/go.mod h1:5lwstlPpDS/cIwO1YJTt94LbHokINBPqjx84VfoAgzY=
+github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a h1:NyM/PPbc+kxxv2d4OKfE32C5fLtVTLceyg4YKKCYO9Y=
+github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a/go.mod h1:HzQhpVo/NJnGmN+7FPECCVCA5ijU7AUcvf39enBKYOc=
 github.com/otiai10/copy v1.14.0 h1:dCI/t1iTdYGtkvCuBG2BgR6KZa83PTclw4U5n2wAllU=
 github.com/otiai10/copy v1.14.0/go.mod h1:ECfuL02W+/FkTWZWgQqXPWZgW9oeKCSQ5qVfSc4qc4w=
 github.com/otiai10/mint v1.5.1 h1:XaPLeE+9vGbuyEHem1JNk3bYc7KKqyI/na0/mLd/Kks=

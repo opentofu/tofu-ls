@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://registry.terraform.io"
+	defaultBaseURL = "https://registry.opentofu.org"
 	defaultTimeout = 5 * time.Second
 	tracerName     = "github.com/opentofu/opentofu-ls/internal/registry"
 )

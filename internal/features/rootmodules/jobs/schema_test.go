@@ -16,11 +16,11 @@ import (
 	"github.com/hashicorp/hcl-lang/schema"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
-	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
 	globalState "github.com/opentofu/opentofu-ls/internal/state"
 	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 )
 
@@ -716,9 +716,9 @@ func TestStateStore_ListSchemas(t *testing.T) {
 			Schema: &tfschema.ProviderSchema{
 				Provider: &schema.BodySchema{
 					Detail:   "hashicorp/aws-local 0.9.0",
-					HoverURL: "https://registry.terraform.io/providers/hashicorp/aws-local/0.9.0/docs",
+					HoverURL: "https://search.opentofu.org/provider/hashicorp/aws-local/v0.9.0/",
 					DocsLink: &schema.DocsLink{
-						URL:     "https://registry.terraform.io/providers/hashicorp/aws-local/0.9.0/docs",
+						URL:     "https://search.opentofu.org/provider/hashicorp/aws-local/v0.9.0/",
 						Tooltip: "hashicorp/aws-local Documentation",
 					},
 					Attributes: map[string]*schema.AttributeSchema{},
@@ -739,9 +739,9 @@ func TestStateStore_ListSchemas(t *testing.T) {
 			Schema: &tfschema.ProviderSchema{
 				Provider: &schema.BodySchema{
 					Detail:   "hashicorp/aws-local 1.0.0",
-					HoverURL: "https://registry.terraform.io/providers/hashicorp/aws-local/1.0.0/docs",
+					HoverURL: "https://search.opentofu.org/provider/hashicorp/aws-local/v1.0.0/",
 					DocsLink: &schema.DocsLink{
-						URL:     "https://registry.terraform.io/providers/hashicorp/aws-local/1.0.0/docs",
+						URL:     "https://search.opentofu.org/provider/hashicorp/aws-local/v1.0.0/",
 						Tooltip: "hashicorp/aws-local Documentation",
 					},
 					Attributes: map[string]*schema.AttributeSchema{},
@@ -762,9 +762,9 @@ func TestStateStore_ListSchemas(t *testing.T) {
 			Schema: &tfschema.ProviderSchema{
 				Provider: &schema.BodySchema{
 					Detail:   "hashicorp/aws-local 1.3.0",
-					HoverURL: "https://registry.terraform.io/providers/hashicorp/aws-local/1.3.0/docs",
+					HoverURL: "https://search.opentofu.org/provider/hashicorp/aws-local/v1.3.0/",
 					DocsLink: &schema.DocsLink{
-						URL:     "https://registry.terraform.io/providers/hashicorp/aws-local/1.3.0/docs",
+						URL:     "https://search.opentofu.org/provider/hashicorp/aws-local/v1.3.0/",
 						Tooltip: "hashicorp/aws-local Documentation",
 					},
 					Attributes: map[string]*schema.AttributeSchema{},
@@ -785,9 +785,9 @@ func TestStateStore_ListSchemas(t *testing.T) {
 			Schema: &tfschema.ProviderSchema{
 				Provider: &schema.BodySchema{
 					Detail:   "hashicorp/blah 1.0.0",
-					HoverURL: "https://registry.terraform.io/providers/hashicorp/blah/1.0.0/docs",
+					HoverURL: "https://search.opentofu.org/provider/hashicorp/blah/v1.0.0/",
 					DocsLink: &schema.DocsLink{
-						URL:     "https://registry.terraform.io/providers/hashicorp/blah/1.0.0/docs",
+						URL:     "https://search.opentofu.org/provider/hashicorp/blah/v1.0.0/",
 						Tooltip: "hashicorp/blah Documentation",
 					},
 					Attributes: map[string]*schema.AttributeSchema{},

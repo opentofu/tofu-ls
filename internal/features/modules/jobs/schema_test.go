@@ -24,7 +24,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/lang"
-	tfaddr "github.com/opentofu/registry-address"
 	lsctx "github.com/opentofu/opentofu-ls/internal/context"
 	"github.com/opentofu/opentofu-ls/internal/document"
 	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
@@ -33,6 +32,7 @@ import (
 	"github.com/opentofu/opentofu-ls/internal/registry"
 	globalState "github.com/opentofu/opentofu-ls/internal/state"
 	tfregistry "github.com/opentofu/opentofu-schema/registry"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 	"github.com/zclconf/go-cty/cty"
 )
@@ -587,11 +587,11 @@ func TestPreloadEmbeddedSchema_basic(t *testing.T) {
 	dataDir := "data"
 	schemasFS := fstest.MapFS{
 		dataDir:                            &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp":              &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random":       &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random/1.0.0/schema.json.gz": &fstest.MapFile{
+		dataDir + "/registry.opentofu.org": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp":              &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random":       &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random/1.0.0/schema.json.gz": &fstest.MapFile{
 			Data: gzipCompressBytes(t, []byte(randomSchemaJSON)),
 		},
 	}
@@ -726,11 +726,11 @@ func TestPreloadEmbeddedSchema_idempotency(t *testing.T) {
 	dataDir := "data"
 	schemasFS := fstest.MapFS{
 		dataDir:                            &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp":              &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random":       &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random/1.0.0/schema.json.gz": &fstest.MapFile{
+		dataDir + "/registry.opentofu.org": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp":              &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random":       &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random/1.0.0/schema.json.gz": &fstest.MapFile{
 			Data: gzipCompressBytes(t, []byte(randomSchemaJSON)),
 		},
 	}
@@ -810,11 +810,11 @@ func TestPreloadEmbeddedSchema_raceCondition(t *testing.T) {
 	dataDir := "data"
 	schemasFS := fstest.MapFS{
 		dataDir:                            &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp":              &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random":       &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/registry.terraform.io/hashicorp/random/1.0.0/schema.json.gz": &fstest.MapFile{
+		dataDir + "/registry.opentofu.org": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp":              &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random":       &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/hashicorp/random/1.0.0/schema.json.gz": &fstest.MapFile{
 			Data: gzipCompressBytes(t, []byte(randomSchemaJSON)),
 		},
 	}
@@ -903,7 +903,7 @@ func gzipCompressBytes(t *testing.T, b []byte) []byte {
 var randomSchemaJSON = `{
 	"format_version": "1.0",
 	"provider_schemas": {
-		"registry.terraform.io/hashicorp/random": {
+		"registry.opentofu.org/hashicorp/random": {
 			"provider": {
 				"version": 0,
 				"block": {

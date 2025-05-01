@@ -10,9 +10,9 @@ import (
 	"fmt"
 
 	"github.com/creachadair/jrpc2"
-	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/opentofu-ls/internal/uri"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 const moduleProvidersVersion = 0
@@ -78,11 +78,11 @@ func (h *CmdHandler) ModuleProvidersHandler(ctx context.Context, args cmd.Comman
 }
 
 func getProviderDocumentationLink(ctx context.Context, provider tfaddr.Provider) (string, error) {
-	if provider.IsLegacy() || provider.IsBuiltIn() || provider.Hostname != "registry.terraform.io" {
+	if provider.IsLegacy() || provider.IsBuiltIn() || provider.Hostname != "registry.opentofu.org" {
 		return "", nil
 	}
 
-	rawURL := fmt.Sprintf(`https://registry.terraform.io/providers/%s/latest`, provider.ForDisplay())
+	rawURL := fmt.Sprintf(`https://registry.opentofu.org/provider/%s/latest`, provider.ForDisplay())
 
 	u, err := docsURL(ctx, rawURL, "workspace/executeCommand/module.providers")
 	if err != nil {
