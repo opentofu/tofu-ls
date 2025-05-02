@@ -69,39 +69,25 @@ func gen() error {
 
 	// obtain all official & partner providers from the Registry
 	client := registry.NewClient()
-	log.Println("fetching official providers from registry")
-	officialProviders, err := client.ListProviders("official")
+	log.Println("fetching from registry")
+	listOfProviders, err := client.ListProviders()
 	if err != nil {
 		return err
 	}
-	log.Printf("fetched official providers: %d", len(officialProviders))
-	for _, p := range officialProviders {
-		if p.Attributes.Namespace == "hashicorp" && p.Attributes.Name == "terraform" {
-			// skip the old terraform provider as this is now built-in
+	log.Printf("fetched providers: %d", len(listOfProviders))
+	for _, p := range listOfProviders {
+		pAddr, err := tfaddr.ParseProviderSource(p.Addr)
+		if err != nil {
+			// TODO: Better error handling
+			fmt.Printf("error processing %s\n", pAddr)
 			continue
 		}
 		providers = append(providers, Provider{
-			ID: p.ID,
+			ID: p.Addr,
 			Addr: tfaddr.NewProvider(
 				tfaddr.DefaultProviderRegistryHost,
-				p.Attributes.Namespace,
-				p.Attributes.Name,
-			),
-		})
-	}
-	log.Println("fetching verified partner providers from registry")
-	partnerProviders, err := client.ListProviders("partner")
-	if err != nil {
-		return err
-	}
-	log.Printf("fetched partner providers: %d", len(partnerProviders))
-	for _, p := range partnerProviders {
-		providers = append(providers, Provider{
-			ID: p.ID,
-			Addr: tfaddr.NewProvider(
-				tfaddr.DefaultProviderRegistryHost,
-				p.Attributes.Namespace,
-				p.Attributes.Name,
+				pAddr.Namespace,
+				pAddr.Type,
 			),
 		})
 	}
@@ -239,11 +225,6 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 	if input.Provider.Addr.IsBuiltIn() {
 		pVersion = input.CoreVersion
 	} else {
-		resp, err := client.GetLatestProviderVersion(input.Provider.ID)
-		if err != nil {
-			return nil, fmt.Errorf("failed to get latest version: %w", err)
-		}
-
 		pVersion, err = version.NewVersion(resp.Data.Attributes.Version)
 		if err != nil {
 			return nil, fmt.Errorf("invalid version %q: %w", resp.Data.Attributes.Version, err)

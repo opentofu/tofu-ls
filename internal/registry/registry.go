@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://registry.opentofu.org"
+	defaultBaseURL = "https://api.opentofu.org"
 	defaultTimeout = 5 * time.Second
 	tracerName     = "github.com/opentofu/tofu-ls/internal/registry"
 )
