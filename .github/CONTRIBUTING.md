@@ -1,6 +1,6 @@
 # Contributing to OpenTofu Language Server
 
-Welcome and thank you for wanting to contribute! 
+Welcome, and thank you for wanting to contribute!
 
 ## Get started
 
@@ -19,7 +19,10 @@ Welcome and thank you for wanting to contribute!
 > [!TIP]
 > For more OpenTofu events, subscribe to the [OpenTofu Events Calendar](https://calendar.google.com/calendar/embed?src=c_3f2dd3c1fe0ef4e93ef3fc456ca2dd219a2e8fd85f6b40750af16c3df370bf93%40group.calendar.google.com)!
 
-**⚠️ Important:** Please avoid working on features or refactor without [an `accepted` issue](https://github.com/opentofu/opentofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted). Every change needs careful consideration. We cannot merge non-bug pull requests without first having a discussion about them, no matter how trivial the issue may seem.
+**⚠️ Important:** Please avoid working on features or refactoring without [an
+`accepted` issue](https://github.com/opentofu/opentofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted). Every change
+needs careful consideration. We cannot merge non-bug pull requests without discussing them, no matter how trivial the
+issue may seem.
 
 We specifically do not merge PRs **without prior issues** that:
 
@@ -31,7 +34,7 @@ We specifically do not merge PRs **without prior issues** that:
 
 ## Scope
 
-This repository contains the source code only for OpenTofu language server,
+This repository contains the source code only for the OpenTofu language server,
 which in turn relies on other projects that have their own repositories.
 
 [OpenTofu CLI/core has its own repository.](https://github.com/opentofu/opentofu)
@@ -48,12 +51,13 @@ the OpenTofu. If you have feedback about them (including bug reports) please do 
 
 Eager to get started on coding? Here's the short version:
 
-1. Set up a Go development environment with Git.
+1. Set up a Go development environment with git.
 2. Pay attention to copyright: [please read the DCO](https://developercertificate.org/), write the code yourself, avoid copy/paste. **Disable your AI coding assistant.**
 3. Run the tests with `go test` in the package you are working on.
 4. Build the Language Server by running either:
-   - `go install` in the root of the repository. This will create a `opentofu-ls` executable in your `$GOBIN` (or `$GOPATH/bin`) directory.
-   - `go build` in the root of the repository. This will create a `opentofu-ls` executable in the current directory.
+  - `go install` in the root of the repository. This will create a `opentofu-ls` executable in your `$GOBIN` (or
+    `$GOPATH/bin`) directory.
+  - `go build` in the root of the repository. This will create a `opentofu-ls` executable in the current directory.
 5. Update [the changelog](CHANGELOG.md).
 6. When you commit, use `git commit -s` to sign off your commits.
 7. Complete the checklist below before you submit your PR (or submit a draft PR).
@@ -72,29 +76,29 @@ Please make sure you complete the following checklist before you mark your PR re
 
 ### Go checklist
 
-If your PR contains Go code, please make sure you check off all items on this list:
+If your PR contains a Go code, please make sure you check off all items on this list:
 
-- [ ] I have run golangci-lint on my change and receive no errors relevant to my code.
+- [ ] I have run golangci-lint on my change and received no errors relevant to my code.
 - [ ] I have run existing tests to ensure my code doesn't break anything.
-- [ ] I have added tests for all relevant use cases of my code, and those tests are passing.
-- [ ] I have only exported functions, variables and structs that should be used from other packages.
+- [ ] I have added tests for all relevant use cases of my code, which are passing.
+- [ ] I have only exported functions, variables and structs that should be used from the other packages.
 - [ ] I have added meaningful comments to all exported functions, variables, and structs.
 
 ## Development
 
 If you wish to work on the source code, you'll first need to install
- the [Go](https://golang.org/) compiler and the version control system
+the [Go](https://golang.org/) compiler and the version control system
 [Git](https://git-scm.com/).
 
 Refer to the file [`.go-version`](.go-version) to see which version of Go
 the language server is currently built with. Other versions will often work,
-but if you run into any build or testing problems please try with the specific
+but if you run into any build or testing problems, please try the specific
 Go version indicated. You can optionally simplify the installation of multiple
 specific versions of Go on your system by installing
 [`goenv`](https://github.com/syndbg/goenv), which reads `.go-version` and
 automatically selects the correct Go version.
 
-Use Git to clone this repository into a location of your choice. Dependencies
+Use git to clone this repository into a location of your choice. Dependencies
 are tracked via [Go Modules](https://blog.golang.org/using-go-modules),
 and so you should _not_ clone it inside your `GOPATH`.
 
@@ -106,7 +110,7 @@ cd opentofu-ls
 go install
 ```
 
-Once the compilation process succeeds, you can find a `opentofu-ls` executable in
+Once the compilation succeeds, you can find a `opentofu-ls` executable in
 the Go executable directory. If you haven't overridden it with the `GOBIN`
 environment variable, the executable directory is the `bin` directory inside
 the directory returned by the following command:
@@ -124,7 +128,7 @@ go test ./...
 
 As you make your changes, you can re-run the above command to ensure that the
 tests are _still_ passing. If you are working only on a specific Go package,
-you can speed up your testing cycle by testing only that single package, or
+you can speed up your testing cycle by testing only that single package or
 packages under a particular package prefix:
 
 ```
@@ -169,11 +173,11 @@ go mod tidy
 ```
 
 Because dependency changes affect a shared, top-level file, they are more likely
-than some other change types to become conflicted with other proposed changes
+then some other change types to become conflicted with other proposed changes
 during the code review process. For that reason, and to make dependency changes
 more visible in the change history, we prefer to record dependency changes as
 separate commits that include only the results of the above commands and the
-minimal set of changes to the language server's own code for compatibility
+minimal set of changes to the language server's code for compatibility
 with the new version:
 
 ```
@@ -181,7 +185,7 @@ git add go.mod go.sum
 git commit -m "deps: go get github.com/hashicorp/hcl/v2@2.0.0"
 ```
 
-You can then make use of the new or updated dependency in new code added in
+You can then make use of the new or updated dependency in the new code added in
 subsequent commits.
 
 ### Updating the changelog
@@ -192,7 +196,10 @@ We are keeping track of the changes to OpenTofu in the [CHANGELOG.md](CHANGELOG.
 
 ### Signing off your commits
 
-When you contribute code to OpenTofu, we require you to add a [Developer Certificate of Origin](https://developercertificate.org/) sign-off. Please read the DCO carefully before you proceed and only contribute code you have written yourself. Please do not add code that you have not written from scratch yourself without discussing it in the related issue first.
+When you contribute code to OpenTofu, we require you to add
+a [Developer Certificate of Origin](https://developercertificate.org/) sign-off. Please read the DCO carefully before
+you proceed and only contribute the code you have written yourself. Please do not add code that you have not written (
+from scratch) yourself without first discussing it in the related issue.
 
 The simplest way to add a sign-off is to use the `-s` command when you commit:
 
@@ -201,7 +208,8 @@ git commit -s -m "My commit message"
 ```
 
 > [!IMPORTANT]
-> Make sure your `user.name` and `user.email` setting in Git matches your GitHub settings. This will allow the automated DCO check to pass and avoid delays when merging your PR.
+> Make sure your `user.name` and `user.email` settings in git match your GitHub settings. This will allow the automated
+> DCO check to pass and avoid delays when merging your PR.
 
 > [!TIP]
 > Have you forgotten your sign-off? Click the "details" button on the failing DCO check for a guide on how to fix it!
@@ -226,7 +234,7 @@ We take copyright and intellectual property very seriously. A few quick rules sh
 
 ## Debugging
 
-[PacketSender](https://packetsender.com) enables you to open a TCP socket with a server, when launched as such.
+When launched as such, [PacketSender](https://packetsender.com) enables you to open a TCP socket with a server.
 Approximate steps of debugging follow.
 
  - Install PacketSender (e.g. on MacOS via `brew cask install packet-sender`)
@@ -236,7 +244,7 @@ Approximate steps of debugging follow.
    - Set `Port` to `8080`
    - Tick `Persistent TCP`
    - Hit the `Send` button (which opens the TCP connection)
-   - Paste or type request in LSP format (see below) & hit `Send`
+   - Paste or type the request in LSP format (see below) & hit `Send`
 
 Examples of formatted requests follow.
 
