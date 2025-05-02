@@ -23,7 +23,6 @@ import (
 	"github.com/opentofu/opentofu-ls/internal/eventbus"
 	fmodules "github.com/opentofu/opentofu-ls/internal/features/modules"
 	frootmodules "github.com/opentofu/opentofu-ls/internal/features/rootmodules"
-	"github.com/opentofu/opentofu-ls/internal/features/stacks"
 	fvariables "github.com/opentofu/opentofu-ls/internal/features/variables"
 	"github.com/opentofu/opentofu-ls/internal/filesystem"
 	"github.com/opentofu/opentofu-ls/internal/job"
@@ -50,7 +49,6 @@ type Features struct {
 	Modules     *fmodules.ModulesFeature
 	RootModules *frootmodules.RootModulesFeature
 	Variables   *fvariables.VariablesFeature
-	Stacks      *stacks.StacksFeature
 }
 
 type service struct {
@@ -533,27 +531,17 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 		variablesFeature.SetLogger(svc.logger)
 		variablesFeature.Start(svc.sessCtx)
 
-		stacksFeature, err := stacks.NewStacksFeature(svc.eventBus, svc.stateStore, svc.fs)
-		if err != nil {
-			return err
-		}
-		stacksFeature.SetLogger(svc.logger)
-		stacksFeature.Start(svc.sessCtx)
-
 		svc.features = &Features{
 			Modules:     modulesFeature,
 			RootModules: rootModulesFeature,
 			Variables:   variablesFeature,
-			Stacks:      stacksFeature,
 		}
 	}
 
 	svc.decoder = decoder.NewDecoder(&idecoder.GlobalPathReader{
 		PathReaderMap: idecoder.PathReaderMap{
-			"opentofu":        svc.features.Modules,
-			"opentofu-vars":   svc.features.Variables,
-			"opentofu-stack":  svc.features.Stacks,
-			"opentofu-deploy": svc.features.Stacks,
+			"opentofu":      svc.features.Modules,
+			"opentofu-vars": svc.features.Variables,
 		},
 	})
 	decoderContext := idecoder.DecoderContext(ctx)
@@ -631,9 +619,6 @@ func (svc *service) shutdown() {
 		}
 		if svc.features.Variables != nil {
 			svc.features.Variables.Stop()
-		}
-		if svc.features.Stacks != nil {
-			svc.features.Stacks.Stop()
 		}
 	}
 }

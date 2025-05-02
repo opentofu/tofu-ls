@@ -19,7 +19,6 @@ import (
 	"github.com/opentofu/opentofu-ls/internal/eventbus"
 	fmodules "github.com/opentofu/opentofu-ls/internal/features/modules"
 	frootmodules "github.com/opentofu/opentofu-ls/internal/features/rootmodules"
-	fstacks "github.com/opentofu/opentofu-ls/internal/features/stacks"
 	fvariables "github.com/opentofu/opentofu-ls/internal/features/variables"
 	"github.com/opentofu/opentofu-ls/internal/filesystem"
 	"github.com/opentofu/opentofu-ls/internal/langserver/session"
@@ -164,15 +163,9 @@ func NewTestFeatures(eventBus *eventbus.EventBus, s *state.StateStore, fs *files
 		return nil, err
 	}
 
-	stacksFeature, err := fstacks.NewStacksFeature(eventBus, s, fs)
-	if err != nil {
-		return nil, err
-	}
-
 	return &Features{
 		Modules:     modulesFeature,
 		RootModules: rootModulesFeature,
 		Variables:   variablesFeature,
-		Stacks:      stacksFeature,
 	}, nil
 }
