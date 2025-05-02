@@ -1,37 +1,84 @@
-# Contributing to Terraform Language Server
+# Contributing to OpenTofu Language Server
 
-## Reporting Feedback
+Welcome and thank you for wanting to contribute! 
 
-Terraform language server is an open source project and we appreciate
-contributions of various kinds, including bug reports and fixes,
-enhancement proposals, documentation updates, and user experience feedback.
+## Get started
 
-To record a bug report, enhancement proposal, or give any other product
-feedback, please [open a GitHub issue](https://github.com/hashicorp/terraform-ls/issues/new/choose)
-using the most appropriate issue template. Please do fill in all of the
-information the issue templates request, because we've seen from experience that
-this will maximize the chance that we'll be able to act on your feedback.
+- Have a question? Post it in [GitHub Discussions ➡️](https://github.com/orgs/opentofu/discussions) or on the [OpenTofu Slack ➡️](https://opentofu.org/slack/)!
+- Found a bug? [Report it here ➡️](https://github.com/opentofu/opentofu-ls/issues/new?assignees=&labels=bug%2Cpending-decision&projects=&template=bug_report.yml)
+- Have a feature idea? [Submit it here ➡️](https://github.com/opentofu/opentofu-ls/issues/new?assignees=&labels=enhancement%2Cpending-decision&projects=&template=feature_request.yml)
+- Want to provide a proof-of-concept for an issue? Please [submit a draft PR here ➡️](https://github.com/opentofu/opentofu-ls/compare)
+- Want to add a feature, fix a linter error, refactor something, or add CI tooling?
+  1. Check if there is an [open issues with the `accepted` label](https://github.com/opentofu/opentofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
+  2. Comment on the issue that you want to work on it,
+  3. Wait for a maintainer to assign it to you,
+  4. Then [submit your code here ➡️](https://github.com/opentofu/opentofu-ls/compare)
+- Want to fix a bug? [Submit a PR here ➡️](https://github.com/opentofu/opentofu-ls/compare)
+- Want to know what's going on? Read the [weekly updates ➡️](https://github.com/opentofu/opentofu/blob/main/WEEKLY_UPDATES.md), the [TSC summary ➡️](https://github.com/opentofu/opentofu/blob/main/TSC_SUMMARY.md) or join the [community meetings ➡️](https://meet.google.com/xfm-cgms-has) on Wednesdays at 14:30 CET / 8:30 AM Eastern / 5:30 AM Western / 19:00 India time on this link: https://meet.google.com/xfm-cgms-has ([📅 calendar link](https://calendar.google.com/calendar/event?eid=NDg0aWl2Y3U1aHFva3N0bGhyMHBhNzdpZmsgY18zZjJkZDNjMWZlMGVmNGU5M2VmM2ZjNDU2Y2EyZGQyMTlhMmU4ZmQ4NWY2YjQwNzUwYWYxNmMzZGYzNzBiZjkzQGc))
 
-**All communication on GitHub, the community forum, and other HashiCorp-provided
-communication channels is subject to
-[the HashiCorp community guidelines](https://www.hashicorp.com/community-guidelines).**
+> [!TIP]
+> For more OpenTofu events, subscribe to the [OpenTofu Events Calendar](https://calendar.google.com/calendar/embed?src=c_3f2dd3c1fe0ef4e93ef3fc456ca2dd219a2e8fd85f6b40750af16c3df370bf93%40group.calendar.google.com)!
+
+**⚠️ Important:** Please avoid working on features or refactor without [an `accepted` issue](https://github.com/opentofu/opentofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted). Every change needs careful consideration. We cannot merge non-bug pull requests without first having a discussion about them, no matter how trivial the issue may seem.
+
+We specifically do not merge PRs **without prior issues** that:
+
+- Reformat code
+- Rename things
+- Move code around
+- Fix linter warnings for tools not currently in the CI pipeline
+- Add new CI tooling
 
 ## Scope
 
-This repository contains the source code only for Terraform language server,
+This repository contains the source code only for OpenTofu language server,
 which in turn relies on other projects that have their own repositories.
 
-[Terraform CLI/core has its own repository.](https://github.com/hashicorp/terraform)
+[OpenTofu CLI/core has its own repository.](https://github.com/opentofu/opentofu)
 
-Terraform providers are **not** maintained in this repository; you can find relevant
+OpenTofu providers are **not** maintained in this repository; you can find relevant
 repository and relevant issue tracker for each provider within the
-[Terraform Registry index](https://registry.terraform.io/browse/providers).
+Registry index.
 
 This repository also does **not** include the source code for some other parts of
-the Terraform product including HCP Terraform, Terraform Enterprise, and the
-Terraform Registry. Those components are not open source, though if you have
-feedback about them (including bug reports) please do feel free to
-[open a GitHub issue in the core repository](https://github.com/hashicorp/terraform/issues/new/choose).
+the OpenTofu. If you have feedback about them (including bug reports) please do feel free to
+[open a GitHub issue in the core repository](https://github.com/opentofu/opentofu/issues/new/choose).
+
+## Writing code for OpenTofu
+
+Eager to get started on coding? Here's the short version:
+
+1. Set up a Go development environment with Git.
+2. Pay attention to copyright: [please read the DCO](https://developercertificate.org/), write the code yourself, avoid copy/paste. **Disable your AI coding assistant.**
+3. Run the tests with `go test` in the package you are working on.
+4. Build the Language Server by running either:
+   - `go install` in the root of the repository. This will create a `opentofu-ls` executable in your `$GOBIN` (or `$GOPATH/bin`) directory.
+   - `go build` in the root of the repository. This will create a `opentofu-ls` executable in the current directory.
+5. Update [the changelog](CHANGELOG.md).
+6. When you commit, use `git commit -s` to sign off your commits.
+7. Complete the checklist below before you submit your PR (or submit a draft PR).
+8. Your PR will be reviewed by the core team once it is marked as ready to review.
+
+## PR checklist
+
+<!-- Make sure to keep this in sync with the PR template. -->
+
+Please make sure you complete the following checklist before you mark your PR ready for review. If you cannot complete the checklist but want to submit a PR, please submit it as a draft PR. Please note, the core team will only review your PR if you have completed the checklist and marked your PR as ready to review.
+
+- [ ] I have read the contribution guidelines.
+- [ ] I have not used an AI coding assistant to create this PR.
+- [ ] I have written all code in this PR myself OR I have marked all code I have not written myself (including modified code, e.g. copied from other places and then modified) with a comment indicating where it came from.
+- [ ] I (and other contributors to this PR) have not looked at the Terraform-ls source code while implementing this PR.
+
+### Go checklist
+
+If your PR contains Go code, please make sure you check off all items on this list:
+
+- [ ] I have run golangci-lint on my change and receive no errors relevant to my code.
+- [ ] I have run existing tests to ensure my code doesn't break anything.
+- [ ] I have added tests for all relevant use cases of my code, and those tests are passing.
+- [ ] I have only exported functions, variables and structs that should be used from other packages.
+- [ ] I have added meaningful comments to all exported functions, variables, and structs.
 
 ## Development
 
@@ -55,11 +102,11 @@ Switch into the root directory of the cloned repository and build
 the language server
 
 ```
-cd terraform-ls
+cd opentofu-ls
 go install
 ```
 
-Once the compilation process succeeds, you can find a `terraform-ls` executable in
+Once the compilation process succeeds, you can find a `opentofu-ls` executable in
 the Go executable directory. If you haven't overridden it with the `GOBIN`
 environment variable, the executable directory is the `bin` directory inside
 the directory returned by the following command:
@@ -87,7 +134,7 @@ go test ./langserver
 
 ### Bundled schemas
 
-The language server ships with bundled provider schemas of all official HashiCorp and partner providers to allow completions for common providers without the need to initialize a Terraform project first.
+The language server ships with bundled provider schemas of all official and partner providers to allow completions for common providers without the need to initialize an OpenTofu project first.
 These schemas are not checked into version control and are automatically fetched and bundled when the language server is built in CI.
 
 To generate these locally, run
@@ -99,11 +146,11 @@ The generated schemas can then be found in `internal/schemas/data`.
 
 ## External Dependencies
 
-Terraform uses [Go Modules]((https://blog.golang.org/using-go-modules))
+OpenTofu uses [Go Modules]((https://blog.golang.org/using-go-modules))
 for dependency management.
 
-If you need to add a new dependency to Terraform or update the selected version
-for an existing one, use `go get` from the root of the Terraform repository
+If you need to add a new dependency to OpenTofu or update the selected version
+for an existing one, use `go get` from the root of the OpenTofu repository
 as follows:
 
 ```
@@ -137,16 +184,45 @@ git commit -m "deps: go get github.com/hashicorp/hcl/v2@2.0.0"
 You can then make use of the new or updated dependency in new code added in
 subsequent commits.
 
-### Licensing Policy
+### Updating the changelog
 
-Our dependency licensing policy excludes proprietary licenses and "copyleft"-style
-licenses. We accept the common Mozilla Public License v2, MIT License,
-and BSD licenses. We will consider other open source licenses
-in similar spirit to those three, but if you plan to include such a dependency
-in a contribution we'd recommend opening a GitHub issue first to discuss what
-you intend to implement and what dependencies it will require so that the
-maintainer team can review the relevant licenses to for whether
-they meet our licensing needs.
+We are keeping track of the changes to OpenTofu in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add features or fix bugs in OpenTofu.
+
+---
+
+### Signing off your commits
+
+When you contribute code to OpenTofu, we require you to add a [Developer Certificate of Origin](https://developercertificate.org/) sign-off. Please read the DCO carefully before you proceed and only contribute code you have written yourself. Please do not add code that you have not written from scratch yourself without discussing it in the related issue first.
+
+The simplest way to add a sign-off is to use the `-s` command when you commit:
+
+```
+git commit -s -m "My commit message"
+```
+
+> [!IMPORTANT]
+> Make sure your `user.name` and `user.email` setting in Git matches your GitHub settings. This will allow the automated DCO check to pass and avoid delays when merging your PR.
+
+> [!TIP]
+> Have you forgotten your sign-off? Click the "details" button on the failing DCO check for a guide on how to fix it!
+
+---
+
+### A note on copyright (WIP)
+
+We take copyright and intellectual property very seriously. A few quick rules should help you:
+
+1. When you submit a PR, you are responsible for the code in that pull request. You signal your acceptance of the [DCO](https://developercertificate.org/) with your sign-off.
+2. If you include code in your PR that you didn't write yourself, make sure you have permission from the author. If you have permission, always add the `Co-authored-by` sign-off to your commits to indicate the author of the code you are adding.
+3. Be careful about AI coding assistants! Coding assistants based on large language models (LLMs), such as ChatGPT or GitHub Copilot, are awesome tools to help. However, in the specific case of OpenTofu the training data may include the BSL-licensed Terraform. Since the OpenTofu/Terraform codebase is very specific and LLMs don't have any other training sources, they may emit copyrighted code. Please avoid using LLM-based coding assistants.
+4. When you copy/paste code from within the OpenTofu code, always make it explicit where you copied from. This helps us resolve issues later on.
+5. Before you copy code from external sources, make sure that the license allows this. Also make sure that any licensing requirements, such as attribution, are met. When in doubt, ask first!
+6. Specifically, do not copy from the Terraform repository, or any PRs others have filed against that repository. This code is licensed under the BSL, a license which is not compatible with OpenTofu. (You may submit the same PR to both Terraform and OpenTofu as long as you are the author of both.)
+
+> [!WARNING]
+> To protect the OpenTofu project from legal issues violating these rules will immediately disqualify your PR from being merged and you from working on that area of the OpenTofu code base in the future. Repeat violations may get you barred from contributing to OpenTofu.
+
+---
 
 ## Debugging
 
@@ -154,7 +230,7 @@ they meet our licensing needs.
 Approximate steps of debugging follow.
 
  - Install PacketSender (e.g. on MacOS via `brew cask install packet-sender`)
- - Launch LS in TCP mode: `terraform-ls serve -port=8080`
+ - Launch LS in TCP mode: `opentofu-ls serve -port=8080`
  - Send any requests via PacketSender
    - Set `Address` to `127.0.0.1`
    - Set `Port` to `8080`
@@ -176,48 +252,3 @@ Content-Length: 47\n\n{"jsonrpc":"2.0","method":"shutdown","id":null}
 
 Keep in mind that each TCP session receives an isolated context,
 so you cannot cancel requests you didn't start yourself
-
-## Proposing a Change
-
-If you'd like to contribute a code change, we'd love to review a GitHub pull request.
-
-In order to be respectful of the time of community contributors, we prefer to
-discuss potential changes in GitHub issues prior to implementation. That will
-allow us to give design feedback up front and set expectations about the scope
-of the change, and, for larger changes, how best to approach the work such that
-the maintainer team can review it and merge it along with other concurrent work.
-
-If the bug you wish to fix or enhancement you wish to implement isn't already
-covered by a GitHub issue that contains feedback from the maintainer team,
-please do start a discussion (either in
-[a new GitHub issue](https://github.com/hashicorp/terraform-ls/issues/new/choose)
-or an existing one, as appropriate) before you invest significant development
-time. If you mention your intent to implement the change described in your
-issue, the maintainer team can prioritize including implementation-related
-feedback in the subsequent discussion.
-
-Most changes will involve updates to the test suite, and changes to the
-documentation. The maintainer team can advise on different testing strategies
-for specific scenarios, and may ask you to revise the specific phrasing of
-your proposed documentation prose to match better with the standard "voice" of
-Terraform's documentation.
-
-This repository is primarily maintained by a small team at HashiCorp along with
-their other responsibilities, so unfortunately we cannot always respond
-promptly to pull requests, particularly if they do not relate to an existing
-GitHub issue where the maintainer team has already participated. We _are_
-grateful for all contributions however, and will give feedback on pull requests
-as soon as we're able to.
-
-## Releasing
-
-Releases are made on a reasonably regular basis by the maintainers (HashiCorp staff), using our internal tooling. The following notes are only relevant to maintainers.
-
-Release process:
-
- 1. Update [`version/VERSION`](https://github.com/hashicorp/terraform-ls/blob/main/version/VERSION) to remove `-dev` suffix and set it to the intended version to be released
- 1. Wait for [`build` workflow](https://github.com/hashicorp/terraform-ls/actions/workflows/build.yml) and dependent `prepare` workflow to finish
- 1. Run the [Release workflow](https://github.com/hashicorp/terraform-ls/actions/workflows/release.yml) with the appropriate version (matching the one in `version/VERSION`) & SHA (long one).
- 1. Wait for `staging` release [is finished](https://github.com/hashicorp/crt-workflows-common/actions/workflows/crt-promote-staging.yml).
- 1. Wait for a message in the Slack channel saying that authorisation is needed to promote artifacts to production. Click on the link and approve.
- 
