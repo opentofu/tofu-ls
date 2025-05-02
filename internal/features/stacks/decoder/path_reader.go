@@ -46,13 +46,9 @@ func (pr *PathReader) PathContext(path lang.Path) (*decoder.PathContext, error) 
 }
 
 func stackPathContext(record *state.StackRecord) (*decoder.PathContext, error) {
+	// TODO: get Terraform version from record and use that to get the schema
 	// TODO: this should only work for terraform 1.8 and above
-	version := record.RequiredTerraformVersion
-	if version == nil {
-		version = stackschema.LatestAvailableVersion
-	}
-
-	schema, err := stackschema.CoreStackSchemaForVersion(version)
+	schema, err := stackschema.CoreStackSchemaForVersion(stackschema.LatestAvailableVersion)
 	if err != nil {
 		return nil, err
 	}
@@ -76,13 +72,9 @@ func stackPathContext(record *state.StackRecord) (*decoder.PathContext, error) {
 }
 
 func deployPathContext(record *state.StackRecord) (*decoder.PathContext, error) {
+	// TODO: get Terraform version from record and use that to get the schema
 	// TODO: this should only work for terraform 1.8 and above
-	version := record.RequiredTerraformVersion
-	if version == nil {
-		version = stackschema.LatestAvailableVersion
-	}
-
-	schema, err := stackschema.CoreDeploySchemaForVersion(version)
+	schema, err := stackschema.CoreDeploySchemaForVersion(stackschema.LatestAvailableVersion)
 	if err != nil {
 		return nil, err
 	}
