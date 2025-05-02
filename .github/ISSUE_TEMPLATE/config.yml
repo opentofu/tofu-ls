@@ -2,16 +2,3 @@
 # SPDX-License-Identifier: MPL-2.0
 
 blank_issues_enabled: true
-contact_links:
-  - name: Provider-related Feedback and Questions
-    url: https://registry.terraform.io/browse/providers
-    about: Each provider (e.g. AWS, Azure, GCP, Oracle, K8S, etc.) has its own repository, any provider related issues or questions should be directed to the appropriate issue tracker linked from the Registry.
-  - name: Provider Development Feedback and Questions
-    url: https://github.com/hashicorp/terraform-plugin-sdk/issues/new/choose
-    about: Plugin SDK has its own repository, any SDK and provider development related issues or questions should be directed there.
-  - name: Terraform Language or Workflow Feedback and Questions
-    url: https://github.com/hashicorp/terraform/issues/new/choose
-    about: Terraform Core has its own repository, any language (HCL) or workflow related issues or questions should be directed there.
-  - name: Language Server / Editor Integration Questions
-    url: https://discuss.hashicorp.com/c/terraform-core/terraform-editor-integrations
-    about: Please ask and answer LS or editor related questions through the Community Forum.

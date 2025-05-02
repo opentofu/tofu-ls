@@ -1,18 +1,35 @@
 name: "Feature request"
 description: "Suggest a new feature or other enhancement."
 labels: [enhancement]
-assignees: []
 body:
   - type: markdown
     attributes:
-      value: We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/terraform-editor-integrations/) where there are more people ready to help.
+      value: |
+        # Thank you for opening a feature request.
 
+        The [OpenTofu Language Server](https://github.com/opentofu/opentofu-ls) issue tracker is reserved for bug reports relating to the OpenTofu Language Server repository.
+        We use GitHub issues for tracking bugs and enhancements.
+        For questions, please use [the community slack](https://opentofucommunity.slack.com/archives/C08Q08C6H88) where there are more people ready to help.
+
+        In order to make your feature request a success, here are some simple tips to follow:
+
+        1. Try to describe what you need to achieve rather than how you would like to change.
+        2. Be as specific as possible. Overarching large changes to OpenTofu have a lower chance of getting accepted than specific changes.
+        3. Describe how it affects your current project specifically. Try to support it with specific code and describe why the current situation is unsatisfactory.
+  - type: textarea
+    id: community-note
+    attributes:
+      label: Community note
+      description: Please leave this note unchanged.
+      value: |
+        > [!TIP]
+        > 👋 Hi there, OpenTofu community! The OpenTofu team prioritizes issues based on upvotes. Please make sure to upvote (👍) this issue and describe how it affects you in detail in the comments to show your support.
   - type: input
-    id: version
+    id: tofu-version
     attributes:
       label: Language Server Version
       description: |
-        Run `terraform-ls --version` to show the version.
+        Run `tofu-ls --version` to show the version.
         If you are not running the latest version, please try upgrading because your issue may have already been fixed.
       placeholder: v0.31.2
     validations:
@@ -87,8 +104,7 @@ body:
       placeholder: |
         - #123
         - #456
-        - hashicorp/terraform#789
-        - https://developer.hashicorp.com/terraform/language/expressions/dynamic-blocks
+        - opentofu/opentofu#5
     validations:
       required: false
 
@@ -100,15 +116,3 @@ body:
       options:
         - label: I'm interested in contributing a fix myself
           required: false
-
-  - type: textarea
-    id: community
-    attributes:
-      label: Community Note
-      description: Please do not remove, edit, or change the following note for our community. Just leave everything in this textbox as-is.
-      value: |
-        - Please vote on this issue by adding a 👍 [reaction](https://blog.github.com/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/) to the original issue to help the community and maintainers prioritize this request
-        - Please do not leave "+1" or other comments that do not add relevant new information or questions, they generate extra noise for issue followers and do not help prioritize the request
-        - If you are interested in working on this issue or have submitted a pull request, please leave a comment
-    validations:
-      required: true
