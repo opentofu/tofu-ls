@@ -173,7 +173,7 @@ go mod tidy
 ```
 
 Because dependency changes affect a shared, top-level file, they are more likely
-then some other change types to become conflicted with other proposed changes
+than some other change types to become conflicted with other proposed changes
 during the code review process. For that reason, and to make dependency changes
 more visible in the change history, we prefer to record dependency changes as
 separate commits that include only the results of the above commands and the
