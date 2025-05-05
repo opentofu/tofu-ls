@@ -200,7 +200,7 @@ git commit -s -m "My commit message"
 
 ---
 
-### A note on copyright (WIP)
+### A note on copyright
 
 We take copyright and intellectual property very seriously. A few quick rules should help you:
 
