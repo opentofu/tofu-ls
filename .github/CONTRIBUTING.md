@@ -39,10 +39,6 @@ which in turn relies on other projects that have their own repositories.
 
 [OpenTofu CLI/core has its own repository.](https://github.com/opentofu/opentofu)
 
-OpenTofu providers are **not** maintained in this repository; you can find relevant
-repository and relevant issue tracker for each provider within the
-Registry index.
-
 This repository also does **not** include the source code for some other parts of
 OpenTofu. If you have feedback about them (including bug reports) please do feel free to
 [open a GitHub issue in the core repository](https://github.com/opentofu/opentofu/issues/new/choose).
@@ -135,18 +131,6 @@ packages under a particular package prefix:
 go test ./internal/terraform/exec/...
 go test ./langserver
 ```
-
-### Bundled schemas
-
-The language server ships with bundled provider schemas of all official and partner providers to allow completions for common providers without the need to initialize an OpenTofu project first.
-These schemas are not checked into version control and are automatically fetched and bundled when the language server is built in CI.
-
-To generate these locally, run
-```bash
-go generate ./internal/schemas
-```
-
-The generated schemas can then be found in `internal/schemas/data`.
 
 ## External Dependencies
 
