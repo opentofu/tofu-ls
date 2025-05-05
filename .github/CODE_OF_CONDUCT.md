@@ -1,5 +1,5 @@
 # Code of Conduct
 
-HashiCorp Community Guidelines apply to you when interacting with the community here on GitHub and contributing code.
+We follow the [CNCF Code of Conduct](https://github.com/cncf/foundation/blob/main/code-of-conduct.md).
 
-Please read the full text at https://www.hashicorp.com/community-guidelines
+Please contact core@opentofu.org in order to report violations of the Code of Conduct.
