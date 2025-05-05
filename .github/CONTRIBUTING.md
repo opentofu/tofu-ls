@@ -44,10 +44,10 @@ repository and relevant issue tracker for each provider within the
 Registry index.
 
 This repository also does **not** include the source code for some other parts of
-the OpenTofu. If you have feedback about them (including bug reports) please do feel free to
+OpenTofu. If you have feedback about them (including bug reports) please do feel free to
 [open a GitHub issue in the core repository](https://github.com/opentofu/opentofu/issues/new/choose).
 
-## Writing code for OpenTofu
+## Writing code for OpenTofu-ls
 
 Eager to get started on coding? Here's the short version:
 
@@ -190,7 +190,7 @@ subsequent commits.
 
 ### Updating the changelog
 
-We are keeping track of the changes to OpenTofu in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add features or fix bugs in OpenTofu.
+We are keeping track of the changes to opentofu-ls in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add features or fix bugs.
 
 ---
 
