@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/document"
 	globalState "github.com/opentofu/opentofu-ls/internal/state"
 	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"

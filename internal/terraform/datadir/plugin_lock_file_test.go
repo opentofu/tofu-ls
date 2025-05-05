@@ -14,7 +14,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 func TestParsePluginVersions_basic012(t *testing.T) {
@@ -49,11 +49,11 @@ func TestParsePluginVersions_basic013(t *testing.T) {
 		filepath.Join("foo-module", ".terraform", "plugins"): &fstest.MapFile{Mode: fs.ModeDir},
 		filepath.Join("foo-module", ".terraform", "plugins", "selections.json"): &fstest.MapFile{
 			Data: []byte(`{
-  "registry.terraform.io/hashicorp/aws": {
+  "registry.opentofu.org/hashicorp/aws": {
     "hash": "h1:j6RGCfnoLBpzQVOKUbGyxf4EJtRvQClKplO+WdXL5O0=",
     "version": "4.23.0"
   },
-  "registry.terraform.io/hashicorp/google": {
+  "registry.opentofu.org/hashicorp/google": {
     "hash": "h1:vZdocusWLMUSeRLI3W3dd3bgKYovGntsaHiXFIfM484=",
     "version": "4.29.0"
   }
@@ -81,7 +81,7 @@ func TestParsePluginVersions_basic014(t *testing.T) {
 			Data: []byte(`# This file is maintained automatically by "terraform init".
 # Manual edits may be lost in future updates.
 
-provider "registry.terraform.io/hashicorp/aws" {
+provider "registry.opentofu.org/hashicorp/aws" {
   version = "4.23.0"
   hashes = [
     "h1:j6RGCfnoLBpzQVOKUbGyxf4EJtRvQClKplO+WdXL5O0=",
@@ -100,7 +100,7 @@ provider "registry.terraform.io/hashicorp/aws" {
   ]
 }
 
-provider "registry.terraform.io/hashicorp/google" {
+provider "registry.opentofu.org/hashicorp/google" {
   version = "4.29.0"
   hashes = [
     "h1:vZdocusWLMUSeRLI3W3dd3bgKYovGntsaHiXFIfM484=",

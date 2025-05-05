@@ -172,14 +172,14 @@ installed version.
 {
   "v": 0,
   "provider_requirements": {
-    "registry.terraform.io/hashicorp/aws": {
+    "registry.opentofu.org/hashicorp/aws": {
       "display_name": "hashicorp/aws",
       "version_constraint": "~> 3.64.0",
-      "docs_link": "https://registry.terraform.io/providers/hashicorp/aws/latest"
+      "docs_link": "https://registry.opentofu.org/providers/hashicorp/aws/latest"
     }
   },
   "installed_providers": {
-    "registry.terraform.io/hashicorp/aws": "3.64.2"
+    "registry.opentofu.org/hashicorp/aws": "3.64.2"
   }
 }
 ```

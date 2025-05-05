@@ -8,7 +8,7 @@ package jobs
 import (
 	"context"
 
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/document"
 	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
 	"github.com/opentofu/opentofu-ls/internal/job"

@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/zclconf/go-cty/cty"
 )
 

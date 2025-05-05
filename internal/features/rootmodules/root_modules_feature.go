@@ -11,7 +11,7 @@ import (
 	"log"
 
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-ls/internal/eventbus"
 	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/jobs"
 	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"

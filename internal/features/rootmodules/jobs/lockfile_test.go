@@ -16,12 +16,12 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
 	tfjson "github.com/hashicorp/terraform-json"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
 	lsctx "github.com/opentofu/opentofu-ls/internal/context"
 	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
 	globalState "github.com/opentofu/opentofu-ls/internal/state"
 	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
 	"github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
+	tfaddr "github.com/opentofu/registry-address"
 	"github.com/stretchr/testify/mock"
 	"github.com/zclconf/go-cty/cty"
 )
@@ -32,7 +32,7 @@ func TestParseProviderVersions(t *testing.T) {
 	fs := fstest.MapFS{
 		modPath: &fstest.MapFile{Mode: fs.ModeDir},
 		filepath.Join(modPath, ".terraform.lock.hcl"): &fstest.MapFile{
-			Data: []byte(`provider "registry.terraform.io/hashicorp/aws" {
+			Data: []byte(`provider "registry.opentofu.org/hashicorp/aws" {
   version = "4.23.0"
   hashes = [
     "h1:j6RGCfnoLBpzQVOKUbGyxf4EJtRvQClKplO+WdXL5O0=",
@@ -97,7 +97,7 @@ func TestParseProviderVersions_multipleVersions(t *testing.T) {
 	fs := fstest.MapFS{
 		modPathFirst: &fstest.MapFile{Mode: fs.ModeDir},
 		filepath.Join(modPathFirst, ".terraform.lock.hcl"): &fstest.MapFile{
-			Data: []byte(`provider "registry.terraform.io/hashicorp/aws" {
+			Data: []byte(`provider "registry.opentofu.org/hashicorp/aws" {
   version = "4.23.0"
   hashes = [
     "h1:j6RGCfnoLBpzQVOKUbGyxf4EJtRvQClKplO+WdXL5O0=",
@@ -137,7 +137,7 @@ func TestParseProviderVersions_multipleVersions(t *testing.T) {
 
 		modPathSecond: &fstest.MapFile{Mode: fs.ModeDir},
 		filepath.Join(modPathSecond, ".terraform.lock.hcl"): &fstest.MapFile{
-			Data: []byte(`provider "registry.terraform.io/hashicorp/aws" {
+			Data: []byte(`provider "registry.opentofu.org/hashicorp/aws" {
   version = "4.25.0"
   hashes = [
     "h1:j6RGCfnoLBpzQVOKUbGyxf4EJtRvQClKplO+WdXL5O0=",
@@ -241,7 +241,7 @@ func TestParseProviderVersions_multipleVersions(t *testing.T) {
 						&tfjson.ProviderSchemas{
 							FormatVersion: "1.0",
 							Schemas: map[string]*tfjson.ProviderSchema{
-								"registry.terraform.io/hashicorp/aws": {
+								"registry.opentofu.org/hashicorp/aws": {
 									ConfigSchema: &tfjson.Schema{
 										Block: &tfjson.SchemaBlock{
 											Attributes: map[string]*tfjson.SchemaAttribute{
@@ -270,7 +270,7 @@ func TestParseProviderVersions_multipleVersions(t *testing.T) {
 						&tfjson.ProviderSchemas{
 							FormatVersion: "1.0",
 							Schemas: map[string]*tfjson.ProviderSchema{
-								"registry.terraform.io/hashicorp/aws": {
+								"registry.opentofu.org/hashicorp/aws": {
 									ConfigSchema: &tfjson.Schema{
 										Block: &tfjson.SchemaBlock{
 											Attributes: map[string]*tfjson.SchemaAttribute{

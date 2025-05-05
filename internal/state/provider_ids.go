@@ -7,7 +7,7 @@ package state
 
 import (
 	"github.com/hashicorp/go-uuid"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 type ProviderIds struct {

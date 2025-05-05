@@ -12,7 +12,7 @@ import (
 
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl/v2"
-	tfaddr "github.com/hashicorp/terraform-registry-address"
+	tfaddr "github.com/opentofu/registry-address"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	"github.com/zclconf/go-cty/cty"
 )
