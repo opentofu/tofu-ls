@@ -37,6 +37,4 @@ const (
 	OpTypeSchemaVarsValidation
 	OpTypeReferenceValidation
 	OpTypeTerraformValidate
-	OpTypeParseStackConfiguration
-	OpTypeLoadStackRequiredTerraformVersion
 )

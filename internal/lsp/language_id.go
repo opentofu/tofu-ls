@@ -12,8 +12,6 @@ type LanguageID string
 const (
 	Terraform LanguageID = "opentofu"
 	Tfvars    LanguageID = "opentofu-vars"
-	Stacks    LanguageID = "opentofu-stack"
-	Deploy    LanguageID = "opentofu-deploy"
 )
 
 func (l LanguageID) String() string {

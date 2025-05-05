@@ -3,7 +3,6 @@ module github.com/opentofu/opentofu-ls
 go 1.22.4
 
 require (
-	github.com/algolia/algoliasearch-client-go/v3 v3.31.2
 	github.com/apparentlymart/go-textseg v1.0.0
 	github.com/creachadair/jrpc2 v1.2.1
 	github.com/google/go-cmp v0.6.0
@@ -18,12 +17,12 @@ require (
 	github.com/hashicorp/terraform-exec v0.21.0
 	github.com/hashicorp/terraform-json v0.22.1
 	github.com/hashicorp/terraform-registry-address v0.2.3
-	github.com/opentofu/opentofu-schema v0.0.0-20241229134401-b19156cfdbf1
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mh-cbon/go-fmt-fail v0.0.0-20160815164508-67765b3fbcb5
 	github.com/mitchellh/cli v1.1.5
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
+	github.com/opentofu/opentofu-schema v0.0.0-20241229134401-b19156cfdbf1
 	github.com/otiai10/copy v1.14.0
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/stretchr/testify v1.9.0
@@ -53,7 +52,7 @@ require (
 	github.com/antonmedv/expr v1.10.5 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/bgentry/speakeasy v0.1.0 // indirect
-	github.com/chigopher/pathlib v1.0.0 // indirect
+	github.com/chigopher/pathlib v0.19.1 // indirect
 	github.com/cloudflare/circl v1.3.7 // indirect
 	github.com/creachadair/mds v0.16.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect

@@ -59,7 +59,6 @@ We currently have several features:
 - `*.tf` and `*.tf.json` files are handled in the `modules` feature
 - `*.tfvars` and `*.tfvars.json` files are handled in the `variables` feature
 - `.terraform/` and `.terraform.lock.hcl` related operations are handled in the `rootmodules` feature
-- `*.tfstack.hcl` and `*.tfdeploy.hcl` files are handled in the `stacks` feature
 
 A feature can provide data to the external consumers through methods. For example, the `variables` feature needs a list of variables from the `modules` feature. There should be no direct import from feature packages (we could enforce this by using `internal/`, but we won't for now) into other parts of the codebase. The "hot path" service mentioned above takes care of initializing each feature at the start of a new LS session.
 
