@@ -9,10 +9,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/opentofu/opentofu-ls/internal/langserver/errors"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/langserver/errors"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/terraform/module"
 )
 
 func (svc *service) TextDocumentCodeAction(ctx context.Context, params lsp.CodeActionParams) []lsp.CodeAction {

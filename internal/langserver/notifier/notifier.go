@@ -11,7 +11,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/opentofu/opentofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/state"
 )
 
 type recordPathCtxKey struct{}

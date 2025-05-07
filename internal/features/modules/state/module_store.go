@@ -13,15 +13,15 @@ import (
 	"github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/reference"
-	tfaddr "github.com/opentofu/registry-address"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/ast"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
-	globalAst "github.com/opentofu/opentofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	"github.com/opentofu/opentofu-schema/registry"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
+	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/modules/ast"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
+	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 type ModuleStore struct {

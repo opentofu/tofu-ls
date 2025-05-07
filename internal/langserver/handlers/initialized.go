@@ -10,9 +10,9 @@ import (
 
 	"github.com/creachadair/jrpc2"
 	"github.com/hashicorp/go-uuid"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
 )
 
 func (svc *service) Initialized(ctx context.Context, params lsp.InitializedParams) error {

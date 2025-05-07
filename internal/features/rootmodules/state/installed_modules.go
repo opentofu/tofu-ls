@@ -5,7 +5,7 @@
 
 package state
 
-import "github.com/opentofu/opentofu-ls/internal/terraform/datadir"
+import "github.com/opentofu/tofu-ls/internal/terraform/datadir"
 
 // InstalledModules is a map of normalized source addresses from the
 // manifest to the path of the local directory where the module is installed

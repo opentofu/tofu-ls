@@ -10,13 +10,13 @@ import (
 
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
-	idecoder "github.com/opentofu/opentofu-ls/internal/decoder"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	fdecoder "github.com/opentofu/opentofu-ls/internal/features/modules/decoder"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
-	"github.com/opentofu/opentofu-ls/internal/job"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
+	idecoder "github.com/opentofu/tofu-ls/internal/decoder"
+	"github.com/opentofu/tofu-ls/internal/document"
+	fdecoder "github.com/opentofu/tofu-ls/internal/features/modules/decoder"
+	"github.com/opentofu/tofu-ls/internal/features/modules/state"
+	"github.com/opentofu/tofu-ls/internal/job"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 // DecodeReferenceTargets collects reference targets,

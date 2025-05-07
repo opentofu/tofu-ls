@@ -11,9 +11,9 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	lsctx "github.com/opentofu/opentofu-ls/internal/context"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/job"
+	lsctx "github.com/opentofu/tofu-ls/internal/context"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/job"
 )
 
 func TestChanges_dirOpenMark_openBeforeChange(t *testing.T) {

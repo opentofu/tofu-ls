@@ -12,10 +12,10 @@ import (
 	"strings"
 
 	"github.com/creachadair/jrpc2"
-	"github.com/opentofu/opentofu-ls/internal/langserver/cmd"
-	"github.com/opentofu/opentofu-ls/internal/uri"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
+	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
 const moduleCallsVersion = 0

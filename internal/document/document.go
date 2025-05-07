@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/opentofu/opentofu-ls/internal/source"
+	"github.com/opentofu/tofu-ls/internal/source"
 )
 
 type Document struct {

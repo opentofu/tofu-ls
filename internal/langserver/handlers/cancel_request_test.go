@@ -15,9 +15,9 @@ import (
 
 	"github.com/creachadair/jrpc2"
 	"github.com/creachadair/jrpc2/handler"
-	"github.com/opentofu/opentofu-ls/internal/langserver"
-	"github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/walker"
+	"github.com/opentofu/tofu-ls/internal/langserver"
+	"github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/walker"
 )
 
 func TestLangServer_cancelRequest(t *testing.T) {

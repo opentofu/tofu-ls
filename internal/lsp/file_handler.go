@@ -6,8 +6,8 @@
 package lsp
 
 import (
-	"github.com/opentofu/opentofu-ls/internal/document"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/document"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 func HandleFromDocumentURI(docUri lsp.DocumentURI) document.Handle {

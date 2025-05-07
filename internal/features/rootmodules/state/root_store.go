@@ -11,12 +11,12 @@ import (
 
 	"github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
 	tfmod "github.com/opentofu/opentofu-schema/module"
+	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/document"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 type RootStore struct {

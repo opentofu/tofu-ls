@@ -18,7 +18,7 @@ import (
 	"github.com/creachadair/jrpc2"
 	"github.com/creachadair/jrpc2/channel"
 	"github.com/creachadair/jrpc2/server"
-	"github.com/opentofu/opentofu-ls/internal/langserver/session"
+	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"go.opentelemetry.io/otel/trace"
 )
 

@@ -10,9 +10,9 @@ import (
 	"fmt"
 
 	"github.com/creachadair/jrpc2"
-	"github.com/opentofu/opentofu-ls/internal/langserver/cmd"
-	"github.com/opentofu/opentofu-ls/internal/uri"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
+	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
 const moduleProvidersVersion = 0

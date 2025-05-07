@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/ast"
-	"github.com/opentofu/opentofu-ls/internal/terraform/parser"
+	"github.com/opentofu/tofu-ls/internal/features/modules/ast"
+	"github.com/opentofu/tofu-ls/internal/terraform/parser"
 )
 
 func ParseModuleFiles(fs parser.FS, modPath string) (ast.ModFiles, ast.ModDiags, error) {

@@ -8,9 +8,9 @@ package handlers
 import (
 	"context"
 
-	lsctx "github.com/opentofu/opentofu-ls/internal/context"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
+	lsctx "github.com/opentofu/tofu-ls/internal/context"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 func (svc *service) TextDocumentComplete(ctx context.Context, params lsp.CompletionParams) (lsp.CompletionList, error) {

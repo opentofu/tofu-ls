@@ -9,13 +9,13 @@ import (
 	"context"
 
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
-	"github.com/opentofu/opentofu-ls/internal/job"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
 	"github.com/opentofu/opentofu-schema/earlydecoder"
 	tfmodule "github.com/opentofu/opentofu-schema/module"
+	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/modules/state"
+	"github.com/opentofu/tofu-ls/internal/job"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 // LoadModuleMetadata loads data about the module in a version-independent

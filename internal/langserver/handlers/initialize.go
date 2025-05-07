@@ -13,12 +13,12 @@ import (
 
 	"github.com/creachadair/jrpc2"
 	"github.com/mitchellh/go-homedir"
-	lsctx "github.com/opentofu/opentofu-ls/internal/context"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/settings"
-	"github.com/opentofu/opentofu-ls/internal/uri"
+	lsctx "github.com/opentofu/tofu-ls/internal/context"
+	"github.com/opentofu/tofu-ls/internal/document"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/settings"
+	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
 func (svc *service) Initialize(ctx context.Context, params lsp.InitializeParams) (lsp.InitializeResult, error) {
@@ -203,7 +203,7 @@ func initializeResult(ctx context.Context) lsp.InitializeResult {
 		},
 	}
 
-	serverCaps.ServerInfo.Name = "opentofu-ls"
+	serverCaps.ServerInfo.Name = "tofu-ls"
 	version, ok := lsctx.LanguageServerVersion(ctx)
 	if ok {
 		serverCaps.ServerInfo.Version = version

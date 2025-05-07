@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/go-version"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
 )
 
 func TestInstalledProviders(t *testing.T) {

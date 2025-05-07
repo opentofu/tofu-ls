@@ -9,7 +9,7 @@ import (
 	"context"
 	"net/url"
 
-	"github.com/opentofu/opentofu-ls/internal/utm"
+	"github.com/opentofu/tofu-ls/internal/utm"
 )
 
 func docsURL(ctx context.Context, rawURL, utmContent string) (*url.URL, error) {

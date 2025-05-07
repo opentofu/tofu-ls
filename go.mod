@@ -1,4 +1,4 @@
-module github.com/opentofu/opentofu-ls
+module github.com/opentofu/tofu-ls
 
 go 1.22.4
 

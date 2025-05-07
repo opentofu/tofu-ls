@@ -6,7 +6,7 @@ Releases are made on a reasonably regular basis by the maintainers, using our in
 
 Release process:
 
-1. Update [`version/VERSION`](https://github.com/opentofu/opentofu-ls/blob/main/version/VERSION) to remove `-dev` suffix and set it to the intended version to be released
-2. Wait for [`build` workflow](https://github.com/opentofu/opentofu-ls/actions/workflows/build.yml) and dependent `prepare` workflow to finish
-3. Run the [Release workflow](https://github.com/opentofu/opentofu-ls/actions/workflows/release.yml) with the appropriate version (matching the one in `version/VERSION`) & SHA (long one).
+1. Update [`version/VERSION`](https://github.com/opentofu/tofu-ls/blob/main/version/VERSION) to remove `-dev` suffix and set it to the intended version to be released
+2. Wait for [`build` workflow](https://github.com/opentofu/tofu-ls/actions/workflows/build.yml) and dependent `prepare` workflow to finish
+3. Run the [Release workflow](https://github.com/opentofu/tofu-ls/actions/workflows/release.yml) with the appropriate version (matching the one in `version/VERSION`) & SHA (long one).
 4. Wait for `staging` release to finish.

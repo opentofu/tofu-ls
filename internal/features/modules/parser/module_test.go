@@ -14,7 +14,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/ast"
+	"github.com/opentofu/tofu-ls/internal/features/modules/ast"
 )
 
 func TestParseModuleFiles(t *testing.T) {

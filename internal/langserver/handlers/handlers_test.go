@@ -16,11 +16,11 @@ import (
 
 	"github.com/hashicorp/go-version"
 	tfjson "github.com/hashicorp/terraform-json"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/langserver"
-	"github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
-	"github.com/opentofu/opentofu-ls/internal/walker"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/langserver"
+	"github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -84,7 +84,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 				}
 			},
 			"serverInfo": {
-				"name": "opentofu-ls",
+				"name": "tofu-ls",
 				"version": ""
 			}
 		}
@@ -267,7 +267,7 @@ func validTfMockCalls() []*mock.Call {
 //
 // The returned filehandler is the parent tmp dir
 func TempDir(t *testing.T, nested ...string) document.DirHandle {
-	tmpDir := filepath.Join(os.TempDir(), "opentofu-ls", t.Name())
+	tmpDir := filepath.Join(os.TempDir(), "tofu-ls", t.Name())
 	err := os.MkdirAll(tmpDir, 0755)
 	if err != nil && !os.IsExist(err) {
 		t.Fatal(err)

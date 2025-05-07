@@ -11,12 +11,12 @@ import (
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
-	tfaddr "github.com/opentofu/registry-address"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	"github.com/opentofu/opentofu-schema/registry"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
+	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/features/modules/state"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 )
 
 type StateReader interface {

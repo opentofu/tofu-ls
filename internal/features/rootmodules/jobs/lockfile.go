@@ -8,11 +8,11 @@ package jobs
 import (
 	"context"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
-	"github.com/opentofu/opentofu-ls/internal/job"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
+	"github.com/opentofu/tofu-ls/internal/job"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 // ParseProviderVersions is a job complimentary to [ObtainSchema]

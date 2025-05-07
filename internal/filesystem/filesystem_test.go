@@ -14,7 +14,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 )
 
 func TestFilesystem_ReadFile_osOnly(t *testing.T) {

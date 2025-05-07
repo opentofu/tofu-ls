@@ -9,16 +9,16 @@ import (
 	"context"
 	"path/filepath"
 
-	lsctx "github.com/opentofu/opentofu-ls/internal/context"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/ast"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/parser"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/state"
-	"github.com/opentofu/opentofu-ls/internal/job"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	globalAst "github.com/opentofu/opentofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
-	"github.com/opentofu/opentofu-ls/internal/uri"
+	lsctx "github.com/opentofu/tofu-ls/internal/context"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/variables/ast"
+	"github.com/opentofu/tofu-ls/internal/features/variables/parser"
+	"github.com/opentofu/tofu-ls/internal/features/variables/state"
+	"github.com/opentofu/tofu-ls/internal/job"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
 // ParseVariables parses the variables configuration,

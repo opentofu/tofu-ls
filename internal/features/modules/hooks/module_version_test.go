@@ -16,11 +16,11 @@ import (
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
-	"github.com/opentofu/opentofu-ls/internal/registry"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/features/modules/state"
+	"github.com/opentofu/tofu-ls/internal/registry"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
 	"github.com/zclconf/go-cty/cty"
 )
 

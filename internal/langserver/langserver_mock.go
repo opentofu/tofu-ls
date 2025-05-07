@@ -19,7 +19,7 @@ import (
 	"github.com/creachadair/jrpc2"
 	"github.com/creachadair/jrpc2/channel"
 	"github.com/google/go-cmp/cmp"
-	"github.com/opentofu/opentofu-ls/internal/langserver/session"
+	"github.com/opentofu/tofu-ls/internal/langserver/session"
 )
 
 type T interface {

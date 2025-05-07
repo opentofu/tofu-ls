@@ -23,7 +23,7 @@ const (
 	walkerPathsTableName    = "walker_paths"
 	registryModuleTableName = "registry_module"
 
-	tracerName = "github.com/opentofu/opentofu-ls/internal/state"
+	tracerName = "github.com/opentofu/tofu-ls/internal/state"
 )
 
 var dbSchema = &memdb.DBSchema{

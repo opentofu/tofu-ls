@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 )
 
 type ignoreState struct{}

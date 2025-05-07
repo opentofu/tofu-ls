@@ -8,7 +8,7 @@ package filesystem
 import (
 	"io/fs"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 )
 
 func documentAsFile(doc *document.Document) fs.File {

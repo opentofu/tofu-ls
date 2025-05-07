@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 )
 
 func TerraformExecutorForModule(ctx context.Context, modPath string) (exec.TerraformExecutor, error) {

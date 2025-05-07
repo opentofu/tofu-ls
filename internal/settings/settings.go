@@ -13,7 +13,7 @@ import (
 
 	"github.com/mcuadros/go-defaults"
 	"github.com/mitchellh/mapstructure"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
 )
 
 type ExperimentalFeatures struct {

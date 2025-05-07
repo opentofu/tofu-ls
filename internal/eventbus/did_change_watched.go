@@ -8,7 +8,7 @@ package eventbus
 import (
 	"context"
 
-	"github.com/opentofu/opentofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 // DidChangeWatchedEvent is the event that is emitted when a client notifies
