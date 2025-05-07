@@ -9,7 +9,7 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/go-memdb"
-	"github.com/opentofu/opentofu-ls/internal/job"
+	"github.com/opentofu/tofu-ls/internal/job"
 )
 
 type JobIdSliceIndex struct {

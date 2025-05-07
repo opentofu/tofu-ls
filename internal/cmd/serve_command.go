@@ -17,11 +17,11 @@ import (
 	"syscall"
 
 	"github.com/mitchellh/cli"
-	lsctx "github.com/opentofu/opentofu-ls/internal/context"
-	"github.com/opentofu/opentofu-ls/internal/langserver"
-	"github.com/opentofu/opentofu-ls/internal/langserver/handlers"
-	"github.com/opentofu/opentofu-ls/internal/logging"
-	"github.com/opentofu/opentofu-ls/internal/pathtpl"
+	lsctx "github.com/opentofu/tofu-ls/internal/context"
+	"github.com/opentofu/tofu-ls/internal/langserver"
+	"github.com/opentofu/tofu-ls/internal/langserver/handlers"
+	"github.com/opentofu/tofu-ls/internal/logging"
+	"github.com/opentofu/tofu-ls/internal/pathtpl"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.20.0"
@@ -103,7 +103,7 @@ func (c *ServeCommand) Run(args []string) int {
 		logger.Printf("Custom request concurrency set to %d", c.reqConcurrency)
 	}
 
-	logger.Printf("Starting opentofu-ls %s", c.Version)
+	logger.Printf("Starting tofu-ls %s", c.Version)
 
 	ctx = lsctx.WithLanguageServerVersion(ctx, c.Version)
 
@@ -150,7 +150,7 @@ func (c *ServeCommand) Run(args []string) int {
 
 func (c *ServeCommand) otelResourceAttributes() []attribute.KeyValue {
 	return []attribute.KeyValue{
-		semconv.ServiceName("opentofu-ls"),
+		semconv.ServiceName("tofu-ls"),
 		semconv.ServiceVersion(c.Version),
 		attribute.Int("process.pid", os.Getpid()),
 		attribute.Int("runtime.NumCPU", runtime.NumCPU()),
@@ -204,7 +204,7 @@ func writeMemoryProfileInto(rawPath string) error {
 
 func (c *ServeCommand) Help() string {
 	helpText := `
-Usage: opentofu-ls serve [options]
+Usage: tofu-ls serve [options]
 
 ` + c.Synopsis() + "\n\n" + helpForFlags(c.flags())
 

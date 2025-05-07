@@ -14,7 +14,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/opentofu/opentofu-ls/internal/pathtpl"
+	"github.com/opentofu/tofu-ls/internal/pathtpl"
 )
 
 func NewLogger(w io.Writer) *log.Logger {

@@ -12,8 +12,8 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/source"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/source"
 	"github.com/pmezard/go-difflib/difflib"
 )
 

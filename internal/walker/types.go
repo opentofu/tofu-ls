@@ -5,7 +5,7 @@
 
 package walker
 
-import "github.com/opentofu/opentofu-ls/internal/document"
+import "github.com/opentofu/tofu-ls/internal/document"
 
 type DocumentStore interface {
 	HasOpenDocuments(dirHandle document.DirHandle) (bool, error)

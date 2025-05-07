@@ -13,9 +13,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	version "github.com/hashicorp/go-version"
-	"github.com/opentofu/opentofu-ls/internal/pathcmp"
+	"github.com/hashicorp/go-version"
 	tfmod "github.com/opentofu/opentofu-schema/module"
+	"github.com/opentofu/tofu-ls/internal/pathcmp"
 )
 
 var manifestPathElements = []string{

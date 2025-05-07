@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 )
 
 func TestWalkerPathStore_EnqueueDir(t *testing.T) {

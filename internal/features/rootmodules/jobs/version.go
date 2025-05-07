@@ -10,11 +10,11 @@ import (
 
 	"github.com/hashicorp/go-version"
 	tfaddr "github.com/opentofu/registry-address"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
-	"github.com/opentofu/opentofu-ls/internal/job"
-	"github.com/opentofu/opentofu-ls/internal/terraform/module"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
+	"github.com/opentofu/tofu-ls/internal/job"
+	"github.com/opentofu/tofu-ls/internal/terraform/module"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 // GetTerraformVersion obtains "installed" Terraform version

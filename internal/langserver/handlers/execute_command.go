@@ -10,10 +10,10 @@ import (
 	"fmt"
 
 	"github.com/creachadair/jrpc2"
-	lsctx "github.com/opentofu/opentofu-ls/internal/context"
-	"github.com/opentofu/opentofu-ls/internal/langserver/cmd"
-	"github.com/opentofu/opentofu-ls/internal/langserver/handlers/command"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
+	lsctx "github.com/opentofu/tofu-ls/internal/context"
+	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
+	"github.com/opentofu/tofu-ls/internal/langserver/handlers/command"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 func cmdHandlers(svc *service) cmd.Handlers {

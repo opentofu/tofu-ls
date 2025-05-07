@@ -7,7 +7,7 @@ package lsp
 
 import (
 	"github.com/hashicorp/hcl-lang/lang"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 func HoverData(data *lang.HoverData, cc lsp.TextDocumentClientCapabilities) *lsp.Hover {

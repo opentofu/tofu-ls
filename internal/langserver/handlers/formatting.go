@@ -9,13 +9,13 @@ import (
 	"context"
 	"time"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/hcl"
-	"github.com/opentofu/opentofu-ls/internal/langserver/errors"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
-	"github.com/opentofu/opentofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/hcl"
+	"github.com/opentofu/tofu-ls/internal/langserver/errors"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/terraform/module"
 )
 
 func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.DocumentFormattingParams) ([]lsp.TextEdit, error) {

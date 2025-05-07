@@ -11,13 +11,13 @@ import (
 	"log"
 
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
-	"github.com/opentofu/opentofu-ls/internal/eventbus"
-	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/jobs"
-	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
 	tfmod "github.com/opentofu/opentofu-schema/module"
+	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/eventbus"
+	"github.com/opentofu/tofu-ls/internal/features/rootmodules/jobs"
+	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 )
 
 // RootModulesFeature groups everything related to root modules. Its internal

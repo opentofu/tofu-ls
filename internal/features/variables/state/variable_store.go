@@ -10,11 +10,11 @@ import (
 
 	"github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/hcl-lang/reference"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/ast"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
-	globalAst "github.com/opentofu/opentofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/opentofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/variables/ast"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
+	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
+	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
 )
 
 type VariableStore struct {

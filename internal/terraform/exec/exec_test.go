@@ -104,7 +104,7 @@ func newExecutor(t *testing.T) TerraformExecutor {
 }
 
 func TempDir(t *testing.T) string {
-	tmpDir := filepath.Join(os.TempDir(), "opentofu-ls", t.Name())
+	tmpDir := filepath.Join(os.TempDir(), "tofu-ls", t.Name())
 
 	err := os.MkdirAll(tmpDir, 0755)
 	if err != nil {

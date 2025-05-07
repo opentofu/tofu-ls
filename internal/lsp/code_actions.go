@@ -8,7 +8,7 @@ package lsp
 import (
 	"sort"
 
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 const (

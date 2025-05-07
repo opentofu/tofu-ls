@@ -8,7 +8,7 @@ package document
 import (
 	"bytes"
 
-	"github.com/opentofu/opentofu-ls/internal/source"
+	"github.com/opentofu/tofu-ls/internal/source"
 )
 
 type Change interface {

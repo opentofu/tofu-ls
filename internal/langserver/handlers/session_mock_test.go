@@ -16,17 +16,17 @@ import (
 	"testing"
 
 	"github.com/creachadair/jrpc2/handler"
-	"github.com/opentofu/opentofu-ls/internal/eventbus"
-	fmodules "github.com/opentofu/opentofu-ls/internal/features/modules"
-	frootmodules "github.com/opentofu/opentofu-ls/internal/features/rootmodules"
-	fvariables "github.com/opentofu/opentofu-ls/internal/features/variables"
-	"github.com/opentofu/opentofu-ls/internal/filesystem"
-	"github.com/opentofu/opentofu-ls/internal/langserver/session"
-	"github.com/opentofu/opentofu-ls/internal/registry"
-	"github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/terraform/discovery"
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
-	"github.com/opentofu/opentofu-ls/internal/walker"
+	"github.com/opentofu/tofu-ls/internal/eventbus"
+	fmodules "github.com/opentofu/tofu-ls/internal/features/modules"
+	frootmodules "github.com/opentofu/tofu-ls/internal/features/rootmodules"
+	fvariables "github.com/opentofu/tofu-ls/internal/features/variables"
+	"github.com/opentofu/tofu-ls/internal/filesystem"
+	"github.com/opentofu/tofu-ls/internal/langserver/session"
+	"github.com/opentofu/tofu-ls/internal/registry"
+	"github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/terraform/discovery"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/walker"
 )
 
 type MockSessionInput struct {

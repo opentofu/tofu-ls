@@ -13,7 +13,7 @@ import (
 	"sync"
 
 	"github.com/hashicorp/go-memdb"
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 	"go.opentelemetry.io/otel/trace"
 )
 

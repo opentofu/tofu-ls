@@ -9,9 +9,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/opentofu/opentofu-ls/internal/langserver/diagnostics"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/settings"
+	"github.com/opentofu/tofu-ls/internal/langserver/diagnostics"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/settings"
 )
 
 type contextKey struct {

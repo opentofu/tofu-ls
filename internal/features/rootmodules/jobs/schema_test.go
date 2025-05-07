@@ -16,11 +16,11 @@ import (
 	"github.com/hashicorp/hcl-lang/schema"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
-	"github.com/opentofu/opentofu-ls/internal/features/rootmodules/state"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 )
 

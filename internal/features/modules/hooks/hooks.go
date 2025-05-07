@@ -9,10 +9,10 @@
 package hooks
 
 import (
-	"github.com/opentofu/opentofu-ls/internal/registry"
+	"github.com/opentofu/tofu-ls/internal/registry"
 	"log"
 
-	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
+	"github.com/opentofu/tofu-ls/internal/features/modules/state"
 )
 
 type Hooks struct {

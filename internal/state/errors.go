@@ -8,8 +8,8 @@ package state
 import (
 	"fmt"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/job"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/job"
 )
 
 type AlreadyExistsError struct {

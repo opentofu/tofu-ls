@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/hcl-lang/decoder"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
 	"github.com/zclconf/go-cty/cty"
 )
 

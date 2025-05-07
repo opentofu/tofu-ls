@@ -12,12 +12,12 @@ import (
 
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
-	"github.com/opentofu/opentofu-ls/internal/eventbus"
-	fdecoder "github.com/opentofu/opentofu-ls/internal/features/variables/decoder"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/jobs"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/state"
-	"github.com/opentofu/opentofu-ls/internal/langserver/diagnostics"
-	globalState "github.com/opentofu/opentofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/eventbus"
+	fdecoder "github.com/opentofu/tofu-ls/internal/features/variables/decoder"
+	"github.com/opentofu/tofu-ls/internal/features/variables/jobs"
+	"github.com/opentofu/tofu-ls/internal/features/variables/state"
+	"github.com/opentofu/tofu-ls/internal/langserver/diagnostics"
+	globalState "github.com/opentofu/tofu-ls/internal/state"
 )
 
 // VariablesFeature groups everything related to variables. Its internal

@@ -10,9 +10,9 @@ import (
 	"fmt"
 
 	"github.com/creachadair/jrpc2"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/uri"
+	"github.com/opentofu/tofu-ls/internal/document"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
 func (svc *service) DidChangeWorkspaceFolders(ctx context.Context, params lsp.DidChangeWorkspaceFoldersParams) error {

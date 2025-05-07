@@ -10,12 +10,12 @@ import (
 
 	"github.com/mitchellh/cli"
 
-	"github.com/opentofu/opentofu-ls/internal/cmd"
+	"github.com/opentofu/tofu-ls/internal/cmd"
 )
 
 func main() {
 	c := &cli.CLI{
-		Name:       "opentofu-ls",
+		Name:       "tofu-ls",
 		Version:    VersionString(),
 		Args:       os.Args[1:],
 		HelpWriter: os.Stdout,

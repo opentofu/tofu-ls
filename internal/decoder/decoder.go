@@ -9,10 +9,10 @@ import (
 	"context"
 
 	"github.com/hashicorp/hcl-lang/decoder"
-	"github.com/opentofu/opentofu-ls/internal/codelens"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
-	"github.com/opentofu/opentofu-ls/internal/utm"
+	"github.com/opentofu/tofu-ls/internal/codelens"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
+	"github.com/opentofu/tofu-ls/internal/utm"
 )
 
 func DecoderContext(ctx context.Context) decoder.DecoderContext {

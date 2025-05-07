@@ -10,10 +10,10 @@ import (
 
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
-	"github.com/opentofu/opentofu-ls/internal/document"
-	"github.com/opentofu/opentofu-ls/internal/features/variables/state"
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
 	tfmod "github.com/opentofu/opentofu-schema/module"
+	"github.com/opentofu/tofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/features/variables/state"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 )
 
 type StateReader interface {

@@ -7,7 +7,7 @@ body:
       value: |
         # Thank you for opening an issue.
 
-        The [OpenTofu Language Server](https://github.com/opentofu/opentofu-ls) issue tracker is reserved for bug reports relating to the OpenTofu Language Server repository.
+        The [OpenTofu Language Server](https://github.com/opentofu/tofu-ls) issue tracker is reserved for bug reports relating to the OpenTofu Language Server repository.
         We use GitHub issues for tracking bugs and enhancements.
         For questions, please use [the community slack](https://opentofucommunity.slack.com/archives/C08Q08C6H88) where there are more people ready to help.
 
@@ -120,7 +120,7 @@ body:
         Do *NOT* pastethe debug output in the issue, since it may be long.
 
         Full debug output can be obtained by launching the server with a particular flag (e.g. `-log-file`).
-        Please follow the instructions in [`docs/TROUBLESHOOTING.md`](https://github.com/opentofu/opentofu-ls/blob/main/docs/TROUBLESHOOTING.md).
+        Please follow the instructions in [`docs/TROUBLESHOOTING.md`](https://github.com/opentofu/tofu-ls/blob/main/docs/TROUBLESHOOTING.md).
 
         Debug output may contain sensitive information. Please review it before posting publicly.
       placeholder: |

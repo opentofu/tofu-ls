@@ -9,10 +9,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/opentofu/opentofu-ls/internal/langserver/diagnostics"
-	"github.com/opentofu/opentofu-ls/internal/langserver/notifier"
-	"github.com/opentofu/opentofu-ls/internal/langserver/session"
-	"github.com/opentofu/opentofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/langserver/diagnostics"
+	"github.com/opentofu/tofu-ls/internal/langserver/notifier"
+	"github.com/opentofu/tofu-ls/internal/langserver/session"
+	"github.com/opentofu/tofu-ls/internal/state"
 )
 
 func updateDiagnostics(features *Features, dNotifier *diagnostics.Notifier) notifier.Hook {

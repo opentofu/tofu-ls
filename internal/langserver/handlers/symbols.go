@@ -8,8 +8,8 @@ package handlers
 import (
 	"context"
 
-	ilsp "github.com/opentofu/opentofu-ls/internal/lsp"
-	lsp "github.com/opentofu/opentofu-ls/internal/protocol"
+	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
+	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
 func (svc *service) TextDocumentSymbol(ctx context.Context, params lsp.DocumentSymbolParams) ([]lsp.DocumentSymbol, error) {

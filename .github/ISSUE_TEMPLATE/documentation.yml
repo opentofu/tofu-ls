@@ -7,7 +7,7 @@ body:
       value: |
         # Thank you for opening a feature request.
 
-        The [OpenTofu Language Server](https://github.com/opentofu/opentofu-ls) issue tracker is reserved for bug reports relating to the OpenTofu Language Server repository.
+        The [OpenTofu Language Server](https://github.com/opentofu/tofu-ls) issue tracker is reserved for bug reports relating to the OpenTofu Language Server repository.
         We use GitHub issues for tracking bugs and enhancements.
         For questions, please use [the community slack](https://opentofucommunity.slack.com/archives/C08Q08C6H88) where there are more people ready to help.
   - type: textarea
@@ -34,7 +34,7 @@ body:
         Include links to affected or related documentation page(s) or issues.
         Guide to referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
       placeholder: |
-        - https://github.com/opentofu/opentofu-ls/blob/main/docs/TROUBLESHOOTING.md
+        - https://github.com/opentofu/tofu-ls/blob/main/docs/TROUBLESHOOTING.md
         - #123
         - #456
     validations:

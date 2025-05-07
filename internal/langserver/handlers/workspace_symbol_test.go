@@ -9,10 +9,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/opentofu/opentofu-ls/internal/langserver"
-	"github.com/opentofu/opentofu-ls/internal/state"
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
-	"github.com/opentofu/opentofu-ls/internal/walker"
+	"github.com/opentofu/tofu-ls/internal/langserver"
+	"github.com/opentofu/tofu-ls/internal/state"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
 

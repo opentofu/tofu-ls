@@ -8,9 +8,9 @@ package decoder
 import (
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/schema"
-	"github.com/opentofu/opentofu-ls/internal/features/modules/state"
 	tfmodule "github.com/opentofu/opentofu-schema/module"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
+	"github.com/opentofu/tofu-ls/internal/features/modules/state"
 )
 
 func functionsForModule(mod *state.ModuleRecord, stateReader CombinedReader) (map[string]schema.FunctionSignature, error) {

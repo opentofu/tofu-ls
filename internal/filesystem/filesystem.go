@@ -13,7 +13,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 )
 
 // Filesystem provides io/fs.FS compatible two-layer read-only filesystem

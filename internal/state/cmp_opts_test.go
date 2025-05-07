@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl/v2"
 	"github.com/hashicorp/hcl/v2/hclsyntax"
-	"github.com/opentofu/opentofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 )
 

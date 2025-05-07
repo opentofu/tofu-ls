@@ -8,7 +8,7 @@ package job
 import (
 	"context"
 
-	"github.com/opentofu/opentofu-ls/internal/document"
+	"github.com/opentofu/tofu-ls/internal/document"
 )
 
 type Job struct {

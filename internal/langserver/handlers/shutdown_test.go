@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/creachadair/jrpc2"
-	"github.com/opentofu/opentofu-ls/internal/langserver"
-	"github.com/opentofu/opentofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/langserver"
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/stretchr/testify/mock"
 )
 

@@ -5,22 +5,26 @@ Welcome, and thank you for wanting to contribute!
 ## Get started
 
 - Have a question? Post it in [GitHub Discussions ➡️](https://github.com/orgs/opentofu/discussions) or on the [OpenTofu Slack ➡️](https://opentofu.org/slack/)!
-- Found a bug? [Report it here ➡️](https://github.com/opentofu/opentofu-ls/issues/new?assignees=&labels=bug%2Cpending-decision&projects=&template=bug_report.yml)
-- Have a feature idea? [Submit it here ➡️](https://github.com/opentofu/opentofu-ls/issues/new?assignees=&labels=enhancement%2Cpending-decision&projects=&template=feature_request.yml)
-- Want to provide a proof-of-concept for an issue? Please [submit a draft PR here ➡️](https://github.com/opentofu/opentofu-ls/compare)
+- Found a
+  bug? [Report it here ➡️](https://github.com/opentofu/tofu-ls/issues/new?assignees=&labels=bug%2Cpending-decision&projects=&template=bug_report.yml)
+- Have a feature
+  idea? [Submit it here ➡️](https://github.com/opentofu/tofu-ls/issues/new?assignees=&labels=enhancement%2Cpending-decision&projects=&template=feature_request.yml)
+- Want to provide a proof-of-concept for an issue?
+  Please [submit a draft PR here ➡️](https://github.com/opentofu/tofu-ls/compare)
 - Want to add a feature, fix a linter error, refactor something, or add CI tooling?
-  1. Check if there is an [open issues with the `accepted` label](https://github.com/opentofu/opentofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
+    1. Check if there is an [open issues with the
+       `accepted` label](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
   2. Comment on the issue that you want to work on it,
   3. Wait for a maintainer to assign it to you,
-  4. Then [submit your code here ➡️](https://github.com/opentofu/opentofu-ls/compare)
-- Want to fix a bug? [Submit a PR here ➡️](https://github.com/opentofu/opentofu-ls/compare)
+    4. Then [submit your code here ➡️](https://github.com/opentofu/tofu-ls/compare)
+- Want to fix a bug? [Submit a PR here ➡️](https://github.com/opentofu/tofu-ls/compare)
 - Want to know what's going on? Read the [weekly updates ➡️](https://github.com/opentofu/opentofu/blob/main/WEEKLY_UPDATES.md), the [TSC summary ➡️](https://github.com/opentofu/opentofu/blob/main/TSC_SUMMARY.md) or join the [community meetings ➡️](https://meet.google.com/xfm-cgms-has) on Wednesdays at 14:30 CET / 8:30 AM Eastern / 5:30 AM Western / 19:00 India time on this link: https://meet.google.com/xfm-cgms-has ([📅 calendar link](https://calendar.google.com/calendar/event?eid=NDg0aWl2Y3U1aHFva3N0bGhyMHBhNzdpZmsgY18zZjJkZDNjMWZlMGVmNGU5M2VmM2ZjNDU2Y2EyZGQyMTlhMmU4ZmQ4NWY2YjQwNzUwYWYxNmMzZGYzNzBiZjkzQGc))
 
 > [!TIP]
 > For more OpenTofu events, subscribe to the [OpenTofu Events Calendar](https://calendar.google.com/calendar/embed?src=c_3f2dd3c1fe0ef4e93ef3fc456ca2dd219a2e8fd85f6b40750af16c3df370bf93%40group.calendar.google.com)!
 
 **⚠️ Important:** Please avoid working on features or refactoring without [an
-`accepted` issue](https://github.com/opentofu/opentofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted). Every change
+`accepted` issue](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted). Every change
 needs careful consideration. We cannot merge non-bug pull requests without discussing them, no matter how trivial the
 issue may seem.
 
@@ -43,7 +47,7 @@ This repository also does **not** include the source code for some other parts o
 OpenTofu. If you have feedback about them (including bug reports) please do feel free to
 [open a GitHub issue in the core repository](https://github.com/opentofu/opentofu/issues/new/choose).
 
-## Writing code for OpenTofu-ls
+## Writing code for OpenTofu language server
 
 Eager to get started on coding? Here's the short version:
 
@@ -51,9 +55,10 @@ Eager to get started on coding? Here's the short version:
 2. Pay attention to copyright: [please read the DCO](https://developercertificate.org/), write the code yourself, avoid copy/paste. **Disable your AI coding assistant.**
 3. Run the tests with `go test` in the package you are working on.
 4. Build the Language Server by running either:
-  - `go install` in the root of the repository. This will create a `opentofu-ls` executable in your `$GOBIN` (or
+
+- `go install` in the root of the repository. This will create a `tofu-ls` executable in your `$GOBIN` (or
     `$GOPATH/bin`) directory.
-  - `go build` in the root of the repository. This will create a `opentofu-ls` executable in the current directory.
+- `go build` in the root of the repository. This will create a `tofu-ls` executable in the current directory.
 5. Update [the changelog](CHANGELOG.md).
 6. When you commit, use `git commit -s` to sign off your commits.
 7. Complete the checklist below before you submit your PR (or submit a draft PR).
@@ -102,11 +107,11 @@ Switch into the root directory of the cloned repository and build
 the language server
 
 ```
-cd opentofu-ls
+cd tofu-ls
 go install
 ```
 
-Once the compilation succeeds, you can find a `opentofu-ls` executable in
+Once the compilation succeeds, you can find a `tofu-ls` executable in
 the Go executable directory. If you haven't overridden it with the `GOBIN`
 environment variable, the executable directory is the `bin` directory inside
 the directory returned by the following command:
@@ -174,7 +179,8 @@ subsequent commits.
 
 ### Updating the changelog
 
-We are keeping track of the changes to opentofu-ls in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add features or fix bugs.
+We are keeping track of the changes to tofu-ls in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add
+features or fix bugs.
 
 ---
 
@@ -222,7 +228,7 @@ When launched as such, [PacketSender](https://packetsender.com) enables you to o
 Approximate steps of debugging follow.
 
  - Install PacketSender (e.g. on MacOS via `brew cask install packet-sender`)
- - Launch LS in TCP mode: `opentofu-ls serve -port=8080`
+- Launch LS in TCP mode: `tofu-ls serve -port=8080`
  - Send any requests via PacketSender
    - Set `Address` to `127.0.0.1`
    - Set `Port` to `8080`

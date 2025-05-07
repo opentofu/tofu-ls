@@ -79,7 +79,7 @@ func (c *VersionCommand) Run(args []string) int {
 
 func (c *VersionCommand) Help() string {
 	helpText := `
-Usage: opentofu-ls version [-json]
+Usage: tofu-ls version [-json]
 
 ` + c.Synopsis() + "\n\n" + helpForFlags(c.flags())
 

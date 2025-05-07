@@ -8,7 +8,7 @@ package mdplain_test
 import (
 	"testing"
 
-	"github.com/opentofu/opentofu-ls/internal/mdplain"
+	"github.com/opentofu/tofu-ls/internal/mdplain"
 )
 
 func TestClean(t *testing.T) {

@@ -16,7 +16,7 @@ import (
 const (
 	defaultBaseURL = "https://registry.opentofu.org"
 	defaultTimeout = 5 * time.Second
-	tracerName     = "github.com/opentofu/opentofu-ls/internal/registry"
+	tracerName     = "github.com/opentofu/tofu-ls/internal/registry"
 )
 
 type Client struct {
