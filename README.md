@@ -1,7 +1,6 @@
 # OpenTofu Language Server [WIP]
 
-The official [OpenTofu](https://opentofu.org/) language server (`tofu-ls`) maintained by the OpenTofu Core Team provides
-IDE features to any [LSP](https://microsoft.github.io/language-server-protocol/)-compatible editor.
+The official [OpenTofu](https://opentofu.org/) language server (`tofu-ls`) maintained by the OpenTofu Core Team provides IDE features to any [LSP](https://microsoft.github.io/language-server-protocol/)-compatible editor.
 
 ## Current Status
 
@@ -17,8 +16,7 @@ if you experience a bug or have an idea for a feature.
 
 We aim to communicate our intentions regarding breaking changes via [semver](https://semver.org). Relatedly we may use pre-releases, such as `MAJOR.MINOR.PATCH-beta1` to gather early feedback on certain features and changes.
 
-We ask that you [report any bugs](https://github.com/opentofu/tofu-ls/issues/new/choose) in any versions but especially
-in pre-releases, if you decide to use them.
+We ask that you [report any bugs](https://github.com/opentofu/tofu-ls/issues/new/choose) in any versions but especially in pre-releases, if you decide to use them.
 
 ## Installation
 

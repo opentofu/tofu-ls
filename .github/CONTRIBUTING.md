@@ -5,17 +5,13 @@ Welcome, and thank you for wanting to contribute!
 ## Get started
 
 - Have a question? Post it in [GitHub Discussions ➡️](https://github.com/orgs/opentofu/discussions) or on the [OpenTofu Slack ➡️](https://opentofu.org/slack/)!
-- Found a
-  bug? [Report it here ➡️](https://github.com/opentofu/tofu-ls/issues/new?assignees=&labels=bug%2Cpending-decision&projects=&template=bug_report.yml)
-- Have a feature
-  idea? [Submit it here ➡️](https://github.com/opentofu/tofu-ls/issues/new?assignees=&labels=enhancement%2Cpending-decision&projects=&template=feature_request.yml)
-- Want to provide a proof-of-concept for an issue?
-  Please [submit a draft PR here ➡️](https://github.com/opentofu/tofu-ls/compare)
+- Found a bug? [Report it here ➡️](https://github.com/opentofu/tofu-ls/issues/new?assignees=&labels=bug%2Cpending-decision&projects=&template=bug_report.yml)
+- Have a feature idea? [Submit it here ➡️](https://github.com/opentofu/tofu-ls/issues/new?assignees=&labels=enhancement%2Cpending-decision&projects=&template=feature_request.yml)
+- Want to provide a proof-of-concept for an issue? Please [submit a draft PR here ➡️](https://github.com/opentofu/tofu-ls/compare)
 - Want to add a feature, fix a linter error, refactor something, or add CI tooling?
-  1. Check if there is an [open issues with the
-     `accepted` label](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
-  2. Comment on the issue that you want to work on it,
-  3. Wait for a maintainer to assign it to you,
+    1. Check if there is an [open issues with the `accepted` label](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
+    2. Comment on the issue that you want to work on it,
+    3. Wait for a maintainer to assign it to you,
     4. Then [submit your code here ➡️](https://github.com/opentofu/tofu-ls/compare)
 - Want to fix a bug? [Submit a PR here ➡️](https://github.com/opentofu/tofu-ls/compare)
 - Want to know what's going on? Read the [weekly updates ➡️](https://github.com/opentofu/opentofu/blob/main/WEEKLY_UPDATES.md), the [TSC summary ➡️](https://github.com/opentofu/opentofu/blob/main/TSC_SUMMARY.md) or join the [community meetings ➡️](https://meet.google.com/xfm-cgms-has) on Wednesdays at 14:30 CET / 8:30 AM Eastern / 5:30 AM Western / 19:00 India time on this link: https://meet.google.com/xfm-cgms-has ([📅 calendar link](https://calendar.google.com/calendar/event?eid=NDg0aWl2Y3U1aHFva3N0bGhyMHBhNzdpZmsgY18zZjJkZDNjMWZlMGVmNGU5M2VmM2ZjNDU2Y2EyZGQyMTlhMmU4ZmQ4NWY2YjQwNzUwYWYxNmMzZGYzNzBiZjkzQGc))
@@ -178,8 +174,7 @@ subsequent commits.
 
 ### Updating the changelog
 
-We are keeping track of the changes to tofu-ls in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add
-features or fix bugs.
+We are keeping track of the changes to tofu-ls in the [CHANGELOG.md](CHANGELOG.md) file. Please update it when you add features or fix bugs.
 
 ---
 
@@ -229,11 +224,11 @@ Approximate steps of debugging follow.
 - Install PacketSender (e.g. on MacOS via `brew cask install packet-sender`)
 - Launch LS in TCP mode: `tofu-ls serve -port=8080`
 - Send any requests via PacketSender
-  - Set `Address` to `127.0.0.1`
-  - Set `Port` to `8080`
-  - Tick `Persistent TCP`
-  - Hit the `Send` button (which opens the TCP connection)
-  - Paste or type the request in LSP format (see below) & hit `Send`
+    - Set `Address` to `127.0.0.1`
+    - Set `Port` to `8080`
+    - Tick `Persistent TCP`
+    - Hit the `Send` button (which opens the TCP connection)
+    - Paste or type the request in LSP format (see below) & hit `Send`
 
 Examples of formatted requests follow.
 
