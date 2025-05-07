@@ -12,8 +12,8 @@ Welcome, and thank you for wanting to contribute!
 - Want to provide a proof-of-concept for an issue?
   Please [submit a draft PR here ➡️](https://github.com/opentofu/tofu-ls/compare)
 - Want to add a feature, fix a linter error, refactor something, or add CI tooling?
-    1. Check if there is an [open issues with the
-       `accepted` label](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
+  1. Check if there is an [open issues with the
+     `accepted` label](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3Aaccepted),
   2. Comment on the issue that you want to work on it,
   3. Wait for a maintainer to assign it to you,
     4. Then [submit your code here ➡️](https://github.com/opentofu/tofu-ls/compare)
@@ -55,9 +55,8 @@ Eager to get started on coding? Here's the short version:
 2. Pay attention to copyright: [please read the DCO](https://developercertificate.org/), write the code yourself, avoid copy/paste. **Disable your AI coding assistant.**
 3. Run the tests with `go test` in the package you are working on.
 4. Build the Language Server by running either:
-
 - `go install` in the root of the repository. This will create a `tofu-ls` executable in your `$GOBIN` (or
-    `$GOPATH/bin`) directory.
+  `$GOPATH/bin`) directory.
 - `go build` in the root of the repository. This will create a `tofu-ls` executable in the current directory.
 5. Update [the changelog](CHANGELOG.md).
 6. When you commit, use `git commit -s` to sign off your commits.
@@ -227,14 +226,14 @@ We take copyright and intellectual property very seriously. A few quick rules sh
 When launched as such, [PacketSender](https://packetsender.com) enables you to open a TCP socket with a server.
 Approximate steps of debugging follow.
 
- - Install PacketSender (e.g. on MacOS via `brew cask install packet-sender`)
+- Install PacketSender (e.g. on MacOS via `brew cask install packet-sender`)
 - Launch LS in TCP mode: `tofu-ls serve -port=8080`
- - Send any requests via PacketSender
-   - Set `Address` to `127.0.0.1`
-   - Set `Port` to `8080`
-   - Tick `Persistent TCP`
-   - Hit the `Send` button (which opens the TCP connection)
-   - Paste or type the request in LSP format (see below) & hit `Send`
+- Send any requests via PacketSender
+  - Set `Address` to `127.0.0.1`
+  - Set `Port` to `8080`
+  - Tick `Persistent TCP`
+  - Hit the `Send` button (which opens the TCP connection)
+  - Paste or type the request in LSP format (see below) & hit `Send`
 
 Examples of formatted requests follow.
 
