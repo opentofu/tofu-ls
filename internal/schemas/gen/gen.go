@@ -184,6 +184,8 @@ func gen() error {
 		close(providerChan)
 	}()
 
+	registryClient := registry.NewRegistryClient()
+
 	var workerWg sync.WaitGroup
 	workerCount := runtime.NumCPU()
 	log.Printf("worker count: %d", workerCount)
@@ -193,7 +195,7 @@ func gen() error {
 			defer workerWg.Done()
 			for input := range providerChan {
 				log.Printf("%s: obtaining schema ...", input.Provider.Addr.ForDisplay())
-				details, err := schemaForProvider(ctx, client, input)
+				details, err := schemaForProvider(ctx, registryClient, input)
 
 				if err != nil {
 					log.Printf("%s: %s", input.Provider.Addr.ForDisplay(), err)
@@ -340,7 +342,9 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 			return nil, fmt.Errorf("expected provider version %s to match %s", pv, pVersion)
 		}
 
-		if !providerVersionSupportsOsAndArch(resp.Included, runtime.GOOS, runtime.GOARCH) {
+		lpv, err := client.CheckProviderVersionSupported(input.Provider)
+
+		if !providerVersionSupportsOsAndArch(lpv.Versions, runtime.GOOS, runtime.GOARCH) {
 			return nil, fmt.Errorf("version %s does not support %s/%s", pVersion, runtime.GOOS, runtime.GOARCH)
 		}
 	}
