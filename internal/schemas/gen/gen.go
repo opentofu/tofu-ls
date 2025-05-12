@@ -30,9 +30,9 @@ import (
 	"github.com/hashicorp/hc-install/product"
 	"github.com/hashicorp/hc-install/releases"
 	"github.com/hashicorp/hc-install/src"
-	"github.com/hashicorp/terraform-exec/tfexec"
 	tfjson "github.com/hashicorp/terraform-json"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-exec/tfexec"
 	lsctx "github.com/opentofu/tofu-ls/internal/context"
 	"github.com/opentofu/tofu-ls/internal/registry"
 )
@@ -118,7 +118,7 @@ func gen() error {
 	defer i.Remove(ctx)
 
 	// log version
-	tf, err := tfexec.NewTerraform(installDir, execPath)
+	tf, err := tfexec.NewTofu(installDir, execPath)
 	if err != nil {
 		return err
 	}
@@ -291,7 +291,7 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 	}
 	configFile.Close()
 
-	tf, err := tfexec.NewTerraform(wd, input.TerraformExecPath)
+	tf, err := tfexec.NewTofu(wd, input.TerraformExecPath)
 	if err != nil {
 		return nil, err
 	}
@@ -389,7 +389,7 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 
 // retryInit runs "terraform init" and attempts to retry
 // on known (typically network-related) transient errors
-func retryInit(ctx context.Context, tf *tfexec.Terraform, fullName string, retried int) (time.Duration, error) {
+func retryInit(ctx context.Context, tf *tfexec.Tofu, fullName string, retried int) (time.Duration, error) {
 	maxRetries := 5
 	backoffPeriod := 2 * time.Second
 
@@ -415,7 +415,7 @@ func retryInit(ctx context.Context, tf *tfexec.Terraform, fullName string, retri
 	return timeElapsed, nil
 }
 
-func retryProviderSchema(ctx context.Context, tf *tfexec.Terraform, fullName string, retried int) (*tfjson.ProviderSchemas, error) {
+func retryProviderSchema(ctx context.Context, tf *tfexec.Tofu, fullName string, retried int) (*tfjson.ProviderSchemas, error) {
 	maxRetries := 5
 	backoffPeriod := 2 * time.Second
 
