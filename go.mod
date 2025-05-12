@@ -1,6 +1,6 @@
 module github.com/opentofu/tofu-ls
 
-go 1.22.4
+go 1.24
 
 require (
 	github.com/apparentlymart/go-textseg v1.0.0
@@ -23,6 +23,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/opentofu/opentofu-schema v0.0.0-20250502135811-81e1e56e23af
 	github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a
+	github.com/opentofu/tofu-exec v0.0.0-20250512145156-a034e2764c20
 	github.com/otiai10/copy v1.14.0
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/stretchr/testify v1.9.0
@@ -35,12 +36,42 @@ require (
 )
 
 require (
+	github.com/AlecAivazis/survey/v2 v2.3.7 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
+	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef // indirect
+	github.com/bmatcuk/doublestar/v4 v4.6.0 // indirect
+	github.com/bradleyfalzon/ghinstallation/v2 v2.5.0 // indirect
+	github.com/cli/go-gh/v2 v2.11.2 // indirect
+	github.com/cli/safeexec v1.0.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
+	github.com/go-openapi/errors v0.20.2 // indirect
+	github.com/go-openapi/strfmt v0.21.3 // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.1 // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/go-github/v45 v45.2.0 // indirect
+	github.com/google/go-github/v53 v53.0.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/hashicorp/copywrite v0.22.0 // indirect
+	github.com/hashicorp/go-hclog v1.6.3 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
+	github.com/jedib0t/go-pretty v4.3.0+incompatible // indirect
+	github.com/jedib0t/go-pretty/v6 v6.4.6 // indirect
+	github.com/joho/godotenv v1.3.0 // indirect
+	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
+	github.com/knadh/koanf v1.5.0 // indirect
+	github.com/mergestat/timediff v0.0.3 // indirect
+	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
+	github.com/oklog/ulid v1.3.1 // indirect
+	github.com/samber/lo v1.37.0 // indirect
+	github.com/thanhpk/randstr v1.0.4 // indirect
+	go.mongodb.org/mongo-driver v1.10.0 // indirect
 	go.opentelemetry.io/otel/metric v1.29.0 // indirect
+	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
+	golang.org/x/oauth2 v0.8.0 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 )
 
 require (
@@ -75,17 +106,17 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/posener/complete v1.2.3 // indirect
-	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rs/zerolog v1.29.0 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
-	github.com/spf13/afero v1.9.3 // indirect
+	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/cobra v1.6.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -99,7 +130,7 @@ require (
 	go.opentelemetry.io/otel v1.29.0
 	golang.org/x/crypto v0.31.0 // indirect
 	golang.org/x/mod v0.20.0 // indirect
-	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/term v0.27.0 // indirect
