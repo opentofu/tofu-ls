@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-version"
-	"github.com/hashicorp/terraform-exec/tfexec"
 	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/opentofu/tofu-exec/tfexec"
 )
 
 // ExecutorFactory can be used in external consumers of exec pkg

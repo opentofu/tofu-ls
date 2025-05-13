@@ -9,7 +9,7 @@ import (
 
 	mock "github.com/stretchr/testify/mock"
 
-	tfexec "github.com/hashicorp/terraform-exec/tfexec"
+	tfexec "github.com/opentofu/tofu-exec/tfexec"
 
 	tfjson "github.com/hashicorp/terraform-json"
 

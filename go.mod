@@ -1,6 +1,6 @@
 module github.com/opentofu/tofu-ls
 
-go 1.22.4
+go 1.24
 
 require (
 	github.com/apparentlymart/go-textseg v1.0.0
@@ -14,7 +14,6 @@ require (
 	github.com/hashicorp/hc-install v0.8.0
 	github.com/hashicorp/hcl-lang v0.0.0-20240605150436-0e930f47b31b
 	github.com/hashicorp/hcl/v2 v2.21.0
-	github.com/hashicorp/terraform-exec v0.21.0
 	github.com/hashicorp/terraform-json v0.22.1
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mh-cbon/go-fmt-fail v0.0.0-20160815164508-67765b3fbcb5
@@ -23,6 +22,8 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/opentofu/opentofu-schema v0.0.0-20250502135811-81e1e56e23af
 	github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a
+	github.com/opentofu/tofu-exec v0.0.0-20250512145156-a034e2764c20
+	github.com/opentofu/tofudl v0.0.0-20250129123822-d4254f2a6147
 	github.com/otiai10/copy v1.14.0
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/stretchr/testify v1.9.0
@@ -35,12 +36,17 @@ require (
 )
 
 require (
+	github.com/ProtonMail/go-mime v0.0.0-20230322103455-7d82a3887f2f // indirect
+	github.com/ProtonMail/gopenpgp/v2 v2.7.5 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.2 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
+	github.com/itchyny/gojq v0.12.15 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	go.opentelemetry.io/otel/metric v1.29.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
 
 require (
@@ -75,17 +81,17 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/posener/complete v1.2.3 // indirect
-	github.com/rivo/uniseg v0.2.0 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rs/zerolog v1.29.0 // indirect
 	github.com/shopspring/decimal v1.2.0 // indirect
-	github.com/spf13/afero v1.9.3 // indirect
+	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/cobra v1.6.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -99,7 +105,7 @@ require (
 	go.opentelemetry.io/otel v1.29.0
 	golang.org/x/crypto v0.31.0 // indirect
 	golang.org/x/mod v0.20.0 // indirect
-	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/term v0.27.0 // indirect

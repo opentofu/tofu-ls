@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-version"
-	"github.com/hashicorp/terraform-exec/tfexec"
 	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/opentofu/tofu-exec/tfexec"
 	"github.com/opentofu/tofu-ls/internal/logging"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -30,13 +30,13 @@ const tracerName = "github.com/opentofu/tofu-ls/internal/terraform/exec"
 type ctxKey string
 
 type Executor struct {
-	tf         *tfexec.Terraform
+	tf         *tfexec.Tofu
 	timeout    time.Duration
 	rawLogPath string
 }
 
 func NewExecutor(workDir, execPath string) (TerraformExecutor, error) {
-	tf, err := tfexec.NewTerraform(workDir, execPath)
+	tf, err := tfexec.NewTofu(workDir, execPath)
 	if err != nil {
 		return nil, err
 	}
