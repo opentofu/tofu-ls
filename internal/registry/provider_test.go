@@ -12,6 +12,7 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/hashicorp/go-version"
 	tfaddr "github.com/opentofu/registry-address"
 )
 
@@ -118,5 +119,38 @@ func TestGetLatestProviderVersion(t *testing.T) {
 
 	if diff := cmp.Diff(expectedResponse, resp); diff != "" {
 		t.Fatalf("unexpected response: %s", diff)
+	}
+}
+
+func TestProviderSupport(t *testing.T) {
+	ver, err := version.NewVersion("6.0.0-beta1")
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pVersions := []ProviderVersion{
+		{
+			Version: "6.0.0-beta1",
+			Platforms: []ProviderVersionPlatform{
+				{
+					OS:   "darwin",
+					Arch: "amd64",
+				},
+				{
+					OS:   "linux",
+					Arch: "386",
+				},
+				{
+					OS:   "windows",
+					Arch: "386",
+				},
+			},
+		},
+	}
+
+	result := ProviderVersionSupportsOsAndArch(*ver, pVersions, "linux", "386")
+	if !result {
+		t.Fatalf("expecting linux 386 to be a supported version")
 	}
 }

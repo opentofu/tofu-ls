@@ -14,7 +14,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -26,15 +25,12 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-version"
-	hcinstall "github.com/hashicorp/hc-install"
-	"github.com/hashicorp/hc-install/product"
-	"github.com/hashicorp/hc-install/releases"
-	"github.com/hashicorp/hc-install/src"
 	tfjson "github.com/hashicorp/terraform-json"
 	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/tofu-exec/tfexec"
 	lsctx "github.com/opentofu/tofu-ls/internal/context"
 	"github.com/opentofu/tofu-ls/internal/registry"
+	"github.com/opentofu/tofudl"
 )
 
 var terraformVersion = version.MustConstraints(version.NewConstraint("~> 1.0"))
@@ -98,27 +94,34 @@ func gen() error {
 	}
 
 	// find or install Terraform
-	log.Println("ensuring terraform is installed")
-	installDir, err := ioutil.TempDir("", "hcinstall")
+	log.Println("ensuring tofu is installed")
+	tempDir, err := os.MkdirTemp("", "tofuinstall")
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	defer os.RemoveAll(installDir)
-	i := hcinstall.NewInstaller()
-	execPath, err := i.Ensure(ctx, []src.Source{
-		&releases.LatestVersion{
-			Product:     product.Terraform,
-			InstallDir:  installDir,
-			Constraints: terraformVersion,
-		},
-	})
+	defer os.RemoveAll(tempDir)
+
+	dl, err := tofudl.New()
 	if err != nil {
-		return err
+		log.Fatalf("error when instantiating tofudl %s", err)
 	}
-	defer i.Remove(ctx)
+
+	binary, err := dl.Download(ctx)
+	if err != nil {
+		log.Fatalf("error when downloading %s", err)
+	}
+
+	execPath := filepath.Join(tempDir, "tofu")
+	// Windows executable case
+	if runtime.GOOS == "windows" {
+		execPath += ".exe"
+	}
+	if err := os.WriteFile(execPath, binary, 0755); err != nil {
+		log.Fatalf("error when writing the file %s: %s", execPath, err)
+	}
 
 	// log version
-	tf, err := tfexec.NewTofu(installDir, execPath)
+	tf, err := tfexec.NewTofu(tempDir, execPath)
 	if err != nil {
 		return err
 	}
@@ -202,7 +205,7 @@ func gen() error {
 					continue
 				}
 
-				log.Printf("%s: obtained schema for %s (%db raw / %db compressed); terraform init: %s",
+				log.Printf("%s: obtained schema for %s (%db raw / %db compressed); tofu init: %s",
 					input.Provider.Addr.ForDisplay(), input.ProviderVersion,
 					details.RawSize, details.CompressedSize, details.InitElapsedTime)
 			}
@@ -331,10 +334,7 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 			return nil, err
 		}
 
-		// Since we're using tf.Version 5 lines above, the registry returned will be registry.terraform.io. After we fork tofu-exec sucessfully, we can use input.Provider.Addr instead of this string concatenation
-		key := fmt.Sprintf("registry.terraform.io/%s/%s", input.Provider.Addr.Namespace, input.Provider.Addr.Type)
-
-		pv, ok := pVersions[key]
+		pv, ok := pVersions[input.Provider.Addr.String()]
 		if !ok {
 			return nil, fmt.Errorf("provider version not found for %q", input.Provider.Addr.ForDisplay())
 		}
@@ -342,10 +342,10 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 			return nil, fmt.Errorf("expected provider version %s to match %s", pv, pVersion)
 		}
 
-		lpv, err := client.CheckProviderVersionSupported(input.Provider)
+		lpv, err := client.CheckProviderVersionSupported(input.Provider.Addr)
 
-		if !providerVersionSupportsOsAndArch(lpv.Versions, runtime.GOOS, runtime.GOARCH) {
-			return nil, fmt.Errorf("version %s does not support %s/%s", pVersion, runtime.GOOS, runtime.GOARCH)
+		if !registry.ProviderVersionSupportsOsAndArch(*input.ProviderVersion, lpv.Versions, runtime.GOOS, runtime.GOARCH) {
+			return nil, fmt.Errorf("version %s does not support %s/%s", input.ProviderVersion, runtime.GOOS, runtime.GOARCH)
 		}
 	}
 

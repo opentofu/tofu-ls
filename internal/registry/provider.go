@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/hashicorp/go-version"
 	tfaddr "github.com/opentofu/registry-address"
 )
 
@@ -85,4 +86,20 @@ func (c Client) CheckProviderVersionSupported(pAddr tfaddr.Provider) (*providerV
 	}
 
 	return &response, nil
+}
+
+func ProviderVersionSupportsOsAndArch(pVersion version.Version, providerVersions []ProviderVersion, os, arch string) bool {
+	for _, version := range providerVersions {
+		if version.Version != pVersion.String() {
+			continue
+		}
+		for _, platform := range version.Platforms {
+			if platform.OS == os &&
+				platform.Arch == arch {
+				return true
+			}
+		}
+	}
+
+	return false
 }
