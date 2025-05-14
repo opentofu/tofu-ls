@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright (c) 2024 HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
 binary {
@@ -8,6 +8,6 @@ binary {
 	nvd        = true  # Use the Nation Vulnerability Database
 
 	secrets { # Scan for secrets in the binary
-		all = true 
+		all = true
 	}
 }

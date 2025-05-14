@@ -1,6 +1,6 @@
 // Copyright (c) The OpenTofu Authors
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (c) HashiCorp, Inc.
+// Copyright (c) 2024 HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 package main

@@ -1,6 +1,6 @@
 // Copyright (c) The OpenTofu Authors
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (c) HashiCorp, Inc.
+// Copyright (c) 2024 HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 // Package hooks enables the implementation of hooks for dynamic
@@ -9,8 +9,9 @@
 package hooks
 
 import (
-	"github.com/opentofu/tofu-ls/internal/registry"
 	"log"
+
+	"github.com/opentofu/tofu-ls/internal/registry"
 
 	"github.com/opentofu/tofu-ls/internal/features/modules/state"
 )
