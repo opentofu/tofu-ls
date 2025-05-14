@@ -7,9 +7,9 @@ package state
 
 import (
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-schema/backend"
 	tfmod "github.com/opentofu/opentofu-schema/module"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 // ModuleMetadata contains the result of the early decoding of a module,

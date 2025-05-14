@@ -9,8 +9,8 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/opentofu-schema/registry"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 type RegistryModuleData struct {
