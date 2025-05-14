@@ -123,7 +123,7 @@ Log paths support template syntax. This allows for separation of logs while acco
   - `timestamp` - current timestamp (formatted as [`Time.Unix()`](https://golang.org/pkg/time/#Time.Unix), i.e. the number of seconds elapsed since January 1, 1970 UTC)
   - `lsPid` - process ID of the language server
   - `lsPpid` - parent process ID of the language server (typically editor's or editor plugin's PID)
-  - `method` - [`terraform-exec`](https://pkg.go.dev/github.com/hashicorp/terraform-exec) method (e.g. `Format` or `Version`)
+- `method` - [`tofu-exec`](https://pkg.go.dev/github.com/opentofu/tofu-exec) method (e.g. `Format` or `Version`)
 
 The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/terraform-ls-{{timestamp}}.log`.
 

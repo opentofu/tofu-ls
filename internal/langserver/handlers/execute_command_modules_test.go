@@ -1,6 +1,6 @@
 // Copyright (c) The OpenTofu Authors
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (c) HashiCorp, Inc.
+// Copyright (c) 2024 HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 package handlers
@@ -69,6 +69,6 @@ func TestLangServer_workspaceExecuteCommand_modules_basic(t *testing.T) {
 		Method: "workspace/executeCommand",
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
-		"arguments": ["uri=%s"] 
+		"arguments": ["uri=%s"]
 	}`, cmd.Name("rootmodules"), testFileURI)}, jrpc2.Errorf(jrpc2.MethodNotFound, "REMOVED: use module.callers instead"))
 }
