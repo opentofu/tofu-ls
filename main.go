@@ -16,7 +16,7 @@ import (
 func main() {
 	c := &cli.CLI{
 		Name:       "tofu-ls",
-		Version:    VersionString(),
+		Version:    version,
 		Args:       os.Args[1:],
 		HelpWriter: os.Stdout,
 	}
@@ -35,13 +35,13 @@ func main() {
 		"serve": func() (cli.Command, error) {
 			return &cmd.ServeCommand{
 				Ui:      ui,
-				Version: VersionString(),
+				Version: version,
 			}, nil
 		},
 		"version": func() (cli.Command, error) {
 			return &cmd.VersionCommand{
 				Ui:      ui,
-				Version: VersionString(),
+				Version: version,
 			}, nil
 		},
 	}

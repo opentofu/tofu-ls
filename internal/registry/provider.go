@@ -37,7 +37,6 @@ type providerVersionResponse struct {
 func (c Client) ListProviders() ([]Provider, error) {
 	var providers []Provider
 	url := fmt.Sprintf("%s/top/providers?limit=500", c.BaseURL)
-	fmt.Printf("using URL %s\n", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -64,7 +63,6 @@ func (c Client) ListProviders() ([]Provider, error) {
 
 func (c Client) CheckProviderVersionSupported(pAddr tfaddr.Provider) (*providerVersionResponse, error) {
 	url := fmt.Sprintf("%s/v1/providers/%s/%s/versions", c.BaseURL, pAddr.Namespace, pAddr.Type)
-	fmt.Printf("using URL %s\n", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err

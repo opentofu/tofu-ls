@@ -22,10 +22,5 @@ var (
 	//go:embed version/VERSION
 	rawVersion string
 
-	version = goversion.Must(goversion.NewVersion(strings.TrimSpace(rawVersion)))
+	version = goversion.Must(goversion.NewVersion(strings.TrimSpace(rawVersion))).String()
 )
-
-// VersionString returns the complete version string, including prerelease
-func VersionString() string {
-	return version.String()
-}

@@ -197,7 +197,6 @@ func gen() error {
 		go func(i int) {
 			defer workerWg.Done()
 			for input := range providerChan {
-				log.Printf("%s: obtaining schema ...", input.Provider.Addr.ForDisplay())
 				details, err := schemaForProvider(ctx, registryClient, input)
 
 				if err != nil {
