@@ -9,6 +9,7 @@
 package main
 
 import (
+	_ "github.com/hashicorp/copywrite"
 	_ "github.com/mh-cbon/go-fmt-fail"
 	_ "go.bobheadxi.dev/gobenchdata"
 )
