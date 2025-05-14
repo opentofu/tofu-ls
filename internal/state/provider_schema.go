@@ -11,8 +11,8 @@ import (
 
 	"github.com/hashicorp/go-memdb"
 	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
 	tfschema "github.com/opentofu/opentofu-schema/schema"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 type ProviderSchema struct {
