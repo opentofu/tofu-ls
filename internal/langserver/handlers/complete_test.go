@@ -1038,65 +1038,89 @@ output "test" {
 				"isIncomplete": false,
 				"items": [
 					{
-						"label": "providers",
-						"kind": 10,
-						"detail": "optional, map of provider references",
-						"documentation": "Explicit mapping of providers which the module uses",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "providers"
-						}
+					  "label": "count",
+					  "kind": 10,
+					  "detail": "optional, number",
+					  "documentation": "Total number of instances of this block.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "count"
+					  }
 					},
 					{
-						"label": "testvar",
-						"kind": 10,
-						"detail": "required, string",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "testvar"
-						}
+					  "label": "depends_on",
+					  "kind": 10,
+					  "detail": "optional, set of reference",
+					  "documentation": "Set of references to hidden dependencies, e.g. other resources or data sources",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "depends_on"
+					  }
 					},
 					{
-						"label": "version",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "version"
-						}
+					  "label": "for_each",
+					  "kind": 10,
+					  "detail": "optional, map of any single type or set of string or object",
+					  "documentation": "A meta-argument that accepts a map or a set of strings, and creates an instance for each item in that map or set.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "for_each"
+					  }
+					},
+					{
+					  "label": "providers",
+					  "kind": 10,
+					  "detail": "optional, map of provider references",
+					  "documentation": "Explicit mapping of providers which the module uses",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "providers"
+					  }
+					},
+					{
+					  "label": "testvar",
+					  "kind": 10,
+					  "detail": "required, string",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "testvar"
+					  }
+					},
+					{
+					  "label": "version",
+					  "kind": 10,
+					  "detail": "optional, string",
+					  "documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "version"
+					  }
 					}
-				]
+				  ]
 			}
 		}`)
 
@@ -1292,65 +1316,89 @@ output "test" {
 				"isIncomplete": false,
 				"items": [
 					{
-						"label": "alpha-var",
-						"kind": 10,
-						"detail": "required, string",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "alpha-var"
-						}
+					  "label": "alpha-var",
+					  "kind": 10,
+					  "detail": "required, string",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "alpha-var"
+					  }
 					},
 					{
-						"label": "providers",
-						"kind": 10,
-						"detail": "optional, map of provider references",
-						"documentation": "Explicit mapping of providers which the module uses",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "providers"
-						}
+					  "label": "count",
+					  "kind": 10,
+					  "detail": "optional, number",
+					  "documentation": "Total number of instances of this block.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "count"
+					  }
 					},
 					{
-						"label": "version",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "version"
-						}
+					  "label": "depends_on",
+					  "kind": 10,
+					  "detail": "optional, set of reference",
+					  "documentation": "Set of references to hidden dependencies, e.g. other resources or data sources",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "depends_on"
+					  }
+					},
+					{
+					  "label": "for_each",
+					  "kind": 10,
+					  "detail": "optional, map of any single type or set of string or object",
+					  "documentation": "A meta-argument that accepts a map or a set of strings, and creates an instance for each item in that map or set.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "for_each"
+					  }
+					},
+					{
+					  "label": "providers",
+					  "kind": 10,
+					  "detail": "optional, map of provider references",
+					  "documentation": "Explicit mapping of providers which the module uses",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "providers"
+					  }
+					},
+					{
+					  "label": "version",
+					  "kind": 10,
+					  "detail": "optional, string",
+					  "documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "version"
+					  }
 					}
-				]
+			  ]
 			}
 		}`)
 	// second module
@@ -1369,67 +1417,91 @@ output "test" {
 			"id": 4,
 			"result": {
 				"isIncomplete": false,
-				"items": [
+				 "items": [
 					{
-						"label": "beta-var",
-						"kind": 10,
-						"detail": "required, number",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 6,
-									"character": 0
-								},
-								"end": {
-									"line": 6,
-									"character": 0
-								}
-							},
-							"newText": "beta-var"
-						}
+					  "label": "beta-var",
+					  "kind": 10,
+					  "detail": "required, number",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "beta-var"
+					  }
 					},
 					{
-						"label": "providers",
-						"kind": 10,
-						"detail": "optional, map of provider references",
-						"documentation": "Explicit mapping of providers which the module uses",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 6,
-									"character": 0
-								},
-								"end": {
-									"line": 6,
-									"character": 0
-								}
-							},
-							"newText": "providers"
-						}
+					  "label": "count",
+					  "kind": 10,
+					  "detail": "optional, number",
+					  "documentation": "Total number of instances of this block.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "count"
+					  }
 					},
 					{
-						"label": "version",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 6,
-									"character": 0
-								},
-								"end": {
-									"line": 6,
-									"character": 0
-								}
-							},
-							"newText": "version"
-						}
+					  "label": "depends_on",
+					  "kind": 10,
+					  "detail": "optional, set of reference",
+					  "documentation": "Set of references to hidden dependencies, e.g. other resources or data sources",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "depends_on"
+					  }
+					},
+					{
+					  "label": "for_each",
+					  "kind": 10,
+					  "detail": "optional, map of any single type or set of string or object",
+					  "documentation": "A meta-argument that accepts a map or a set of strings, and creates an instance for each item in that map or set.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "for_each"
+					  }
+					},
+					{
+					  "label": "providers",
+					  "kind": 10,
+					  "detail": "optional, map of provider references",
+					  "documentation": "Explicit mapping of providers which the module uses",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "providers"
+					  }
+					},
+					{
+					  "label": "version",
+					  "kind": 10,
+					  "detail": "optional, string",
+					  "documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "version"
+					  }
 					}
-				]
+				  ]
 			}
 		}`)
 	// outputs
