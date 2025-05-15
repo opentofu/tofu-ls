@@ -230,7 +230,7 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 						"label": "version",
 						"kind": 10,
 						"detail": "optional, string",
-						"documentation": "Specifies a version constraint for the provider, e.g. ~\u003e 1.0",
+						"documentation": "Specifies a version constraint for the provider. e.g. ~\u003e 1.0.\nDEPRECATED: Use required_providers block to manage provider version instead.",
 						"insertTextFormat": 1,
 						"textEdit": {
 							"range": {
@@ -682,7 +682,7 @@ func TestModuleCompletion_withValidDataAndSnippets(t *testing.T) {
 						"label": "version",
 						"kind": 10,
 						"detail": "optional, string",
-						"documentation": "Specifies a version constraint for the provider, e.g. ~\u003e 1.0",
+						"documentation": "Specifies a version constraint for the provider. e.g. ~\u003e 1.0.\nDEPRECATED: Use required_providers block to manage provider version instead.",
 						"insertTextFormat": 2,
 						"textEdit": {
 							"range": {
