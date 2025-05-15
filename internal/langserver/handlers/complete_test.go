@@ -6,13 +6,10 @@
 package handlers
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
-	"runtime"
 	"testing"
 
 	"github.com/hashicorp/go-version"
@@ -22,7 +19,6 @@ import (
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
-	"github.com/opentofu/tofudl"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -1104,8 +1100,8 @@ output "test" {
 }
 `
 
-	tfExec := tfExecutor(t, tmpDir.Path(), "1.0.2")
-	err := tfExec.Get(context.Background())
+	tfExec := exec.NewTestingExecutor(t, tmpDir.Path())
+	err := tfExec.Get(t.Context())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1356,8 +1352,8 @@ output "test" {
 }
 `
 
-	tfExec := tfExecutor(t, tmpDir.Path(), "1.0.2")
-	err := tfExec.Get(context.Background())
+	tfExec := exec.NewTestingExecutor(t, tmpDir.Path())
+	err := tfExec.Get(t.Context())
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1832,41 +1828,6 @@ variable "ccc" {}
 				]
 			}
 		}`)
-}
-
-func tfExecutor(t *testing.T, workdir, tfVersion string) exec.TerraformExecutor {
-	ctx := context.Background()
-
-	dl, err := tofudl.New()
-	if err != nil {
-		log.Fatalf("error when instantiating tofudl %s", err)
-	}
-
-	binary, err := dl.Download(ctx)
-	if err != nil {
-		log.Fatalf("error when downloading %s", err)
-	}
-
-	execPath := filepath.Join(workdir, "tofu")
-	// Windows executable case
-	if runtime.GOOS == "windows" {
-		execPath += ".exe"
-	}
-	if err := os.WriteFile(execPath, binary, 0755); err != nil {
-		log.Fatalf("error when writing the file %s: %s", execPath, err)
-	}
-
-	t.Cleanup(func() {
-		if err := os.Remove(execPath); err != nil {
-			t.Fatal(err)
-		}
-	})
-
-	tfExec, err := exec.NewExecutor(workdir, execPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	return tfExec
 }
 
 func writeContentToFile(t *testing.T, path string, content string) {

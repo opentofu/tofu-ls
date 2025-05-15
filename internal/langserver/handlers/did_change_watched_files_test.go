@@ -8,10 +8,8 @@ package handlers
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
-	"runtime"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
@@ -25,7 +23,6 @@ import (
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
-	"github.com/opentofu/tofudl"
 	"github.com/otiai10/copy"
 	"github.com/stretchr/testify/mock"
 )
@@ -1020,7 +1017,7 @@ func TestLangServer_DidChangeWatchedFiles_pluginChange(t *testing.T) {
 }
 
 func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	testData, err := filepath.Abs("testdata")
 	if err != nil {
 		t.Fatal(err)
@@ -1102,38 +1099,9 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 		t.Fatalf("expected submodule not to be found: %s", err)
 	}
 
-	// Install Terraform
-	dl, err := tofudl.New()
-	if err != nil {
-		log.Fatalf("error when instantiating tofudl %s", err)
-	}
-
-	binary, err := dl.Download(ctx)
-	if err != nil {
-		log.Fatalf("error when downloading %s", err)
-	}
-
-	execPath := filepath.Join(testDir, "tofu")
-	// Windows executable case
-	if runtime.GOOS == "windows" {
-		execPath += ".exe"
-	}
-	if err := os.WriteFile(execPath, binary, 0755); err != nil {
-		log.Fatalf("error when writing the file %s: %s", execPath, err)
-	}
-
-	t.Cleanup(func() {
-		if err := os.Remove(execPath); err != nil {
-			t.Fatal(err)
-		}
-	})
-
-	// Install submodule
-	tf, err := exec.NewExecutor(testHandle.Path(), execPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	err = tf.Get(ctx)
+	// Install OpenTofu and get executable
+	tofu := exec.NewTestingExecutor(t, testHandle.Path())
+	err = tofu.Get(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}

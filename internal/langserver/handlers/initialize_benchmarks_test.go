@@ -83,13 +83,12 @@ func BenchmarkInitializeFolder_basic(b *testing.B) {
 
 	workDir := b.TempDir()
 
-	ctx := context.Background()
 	dl, err := tofudl.New()
 	if err != nil {
 		log.Fatalf("error when instantiating tofudl %s", err)
 	}
 
-	binary, err := dl.Download(ctx)
+	binary, err := dl.Download(b.Context())
 	if err != nil {
 		log.Fatalf("error when downloading %s", err)
 	}
@@ -117,7 +116,7 @@ func BenchmarkInitializeFolder_basic(b *testing.B) {
 			if err != nil {
 				b.Fatal(err)
 			}
-			err = tf.Init(ctx, tfexec.FromModule(mod.sourceAddr))
+			err = tf.Init(b.Context(), tfexec.FromModule(mod.sourceAddr))
 			if err != nil {
 				b.Fatal(err)
 			}
