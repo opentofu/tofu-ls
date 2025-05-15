@@ -11,7 +11,6 @@ import (
 )
 
 func NewTestingExecutor(t *testing.T, workDir string) TerraformExecutor {
-
 	dl, err := tofudl.New()
 	if err != nil {
 		log.Fatalf("error when instantiating tofudl %s", err)
