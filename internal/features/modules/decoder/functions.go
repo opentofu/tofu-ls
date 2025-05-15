@@ -16,7 +16,7 @@ import (
 func functionsForModule(mod *state.ModuleRecord, stateReader CombinedReader) (map[string]schema.FunctionSignature, error) {
 	resolvedVersion := tfschema.ResolveVersion(stateReader.TerraformVersion(mod.Path()), mod.Meta.CoreRequirements)
 	sm := tfschema.NewFunctionsMerger(mustFunctionsForVersion(resolvedVersion))
-	sm.SetTerraformVersion(resolvedVersion)
+	sm.SetTofuVersion(resolvedVersion)
 	sm.SetStateReader(stateReader)
 
 	meta := &tfmodule.Meta{

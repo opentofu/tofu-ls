@@ -20,10 +20,10 @@ require (
 	github.com/mitchellh/cli v1.1.5
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/opentofu/opentofu-schema v0.0.0-20250502135811-81e1e56e23af
+	github.com/opentofu/opentofu-schema v0.0.1
 	github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a
 	github.com/opentofu/tofu-exec v0.0.1
-	github.com/opentofu/tofudl v0.0.0-20250129123822-d4254f2a6147
+	github.com/opentofu/tofudl v0.0.1
 	github.com/otiai10/copy v1.14.0
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/stretchr/testify v1.10.0
