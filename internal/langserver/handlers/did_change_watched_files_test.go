@@ -14,10 +14,6 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
-	install "github.com/hashicorp/hc-install"
-	"github.com/hashicorp/hc-install/product"
-	"github.com/hashicorp/hc-install/releases"
-	"github.com/hashicorp/hc-install/src"
 	tfjson "github.com/hashicorp/terraform-json"
 	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/tofu-ls/internal/document"
@@ -26,6 +22,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/testutils"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/otiai10/copy"
 	"github.com/stretchr/testify/mock"
@@ -1021,7 +1018,7 @@ func TestLangServer_DidChangeWatchedFiles_pluginChange(t *testing.T) {
 }
 
 func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	testData, err := filepath.Abs("testdata")
 	if err != nil {
 		t.Fatal(err)
@@ -1103,25 +1100,9 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 		t.Fatalf("expected submodule not to be found: %s", err)
 	}
 
-	// Install Terraform
-	tfVersion := version.Must(version.NewVersion("1.1.7"))
-	i := install.NewInstaller()
-	execPath, err := i.Install(ctx, []src.Installable{
-		&releases.ExactVersion{
-			Product: product.Terraform,
-			Version: tfVersion,
-		},
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	// Install submodule
-	tf, err := exec.NewExecutor(testHandle.Path(), execPath)
-	if err != nil {
-		t.Fatal(err)
-	}
-	err = tf.Get(ctx)
+	// Install OpenTofu and get executable
+	tofu := testutils.NewTestingExecutor(t, testHandle.Path())
+	err = tofu.Get(ctx)
 	if err != nil {
 		t.Fatal(err)
 	}
