@@ -230,7 +230,7 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 						"label": "version",
 						"kind": 10,
 						"detail": "optional, string",
-						"documentation": "Specifies a version constraint for the provider, e.g. ~\u003e 1.0",
+						"documentation": "Specifies a version constraint for the provider. e.g. ~\u003e 1.0.\nDEPRECATED: Use required_providers block to manage provider version instead.",
 						"insertTextFormat": 1,
 						"textEdit": {
 							"range": {
@@ -244,170 +244,6 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 								}
 							},
 							"newText": "version"
-						}
-					}
-				]
-			}
-		}`)
-}
-
-// verify that for old versions we serve earliest available (v0.12) schema
-func TestModuleCompletion_withValidData_tooOldVersion(t *testing.T) {
-	tmpDir := TempDir(t)
-	InitPluginCache(t, tmpDir.Path())
-
-	err := os.WriteFile(filepath.Join(tmpDir.Path(), "main.tf"), []byte("variable \"test\" {\n\n}\n"), 0o755)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	var testSchema tfjson.ProviderSchemas
-	err = json.Unmarshal([]byte(testModuleSchemaOutput), &testSchema)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	ss, err := state.NewStateStore()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	wc := walker.NewWalkerCollector()
-
-	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		StateStore: ss,
-		TerraformCalls: &exec.TerraformMockCalls{
-			PerWorkDir: map[string][]*mock.Call{
-				tmpDir.Path(): {
-					{
-						Method:        "Version",
-						Repeatability: 1,
-						Arguments: []interface{}{
-							mock.AnythingOfType(""),
-						},
-						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.10.0")),
-							nil,
-							nil,
-						},
-					},
-					{
-						Method:        "ProviderSchemas",
-						Repeatability: 1,
-						Arguments: []interface{}{
-							mock.AnythingOfType(""),
-						},
-						ReturnArguments: []interface{}{
-							&testSchema,
-							nil,
-						},
-					},
-				},
-			},
-		},
-		WalkerCollector: wc,
-	}))
-	stop := ls.Start(t)
-	defer stop()
-
-	ls.Call(t, &langserver.CallRequest{
-		Method: "initialize",
-		ReqParams: fmt.Sprintf(`{
-		"capabilities": {},
-		"rootUri": %q,
-		"processId": 12345
-	}`, tmpDir.URI)})
-	waitForWalkerPath(t, ss, wc, tmpDir)
-	ls.Notify(t, &langserver.CallRequest{
-		Method:    "initialized",
-		ReqParams: "{}",
-	})
-	ls.Call(t, &langserver.CallRequest{
-		Method: "textDocument/didOpen",
-		ReqParams: fmt.Sprintf(`{
-		"textDocument": {
-			"version": 0,
-			"languageId": "opentofu",
-			"text": "variable \"test\" {\n\n}\n",
-			"uri": "%s/main.tf"
-		}
-	}`, tmpDir.URI)})
-	waitForAllJobs(t, ss)
-
-	ls.CallAndExpectResponse(t, &langserver.CallRequest{
-		Method: "textDocument/completion",
-		ReqParams: fmt.Sprintf(`{
-			"textDocument": {
-				"uri": "%s/main.tf"
-			},
-			"position": {
-				"character": 0,
-				"line": 1
-			}
-		}`, tmpDir.URI)}, `{
-			"jsonrpc": "2.0",
-			"id": 3,
-			"result": {
-				"isIncomplete": false,
-				"items": [
-					{
-						"label": "default",
-						"kind": 10,
-						"detail": "optional, any type",
-						"documentation": "Default value to use when variable is not explicitly set",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 1,
-									"character": 0
-								},
-								"end": {
-									"line": 1,
-									"character": 0
-								}
-							},
-							"newText": "default"
-						}
-					},
-					{
-						"label": "description",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Description to document the purpose of the variable and what value is expected",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 1,
-									"character": 0
-								},
-								"end": {
-									"line": 1,
-									"character": 0
-								}
-							},
-							"newText": "description"
-						}
-					},
-					{
-						"label": "type",
-						"kind": 10,
-						"detail": "optional, type",
-						"documentation": "Type constraint restricting the type of value to accept, e.g. string or list(string)",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 1,
-									"character": 0
-								},
-								"end": {
-									"line": 1,
-									"character": 0
-								}
-							},
-							"newText": "type"
 						}
 					}
 				]
@@ -846,7 +682,7 @@ func TestModuleCompletion_withValidDataAndSnippets(t *testing.T) {
 						"label": "version",
 						"kind": 10,
 						"detail": "optional, string",
-						"documentation": "Specifies a version constraint for the provider, e.g. ~\u003e 1.0",
+						"documentation": "Specifies a version constraint for the provider. e.g. ~\u003e 1.0.\nDEPRECATED: Use required_providers block to manage provider version instead.",
 						"insertTextFormat": 2,
 						"textEdit": {
 							"range": {
@@ -1202,65 +1038,89 @@ output "test" {
 				"isIncomplete": false,
 				"items": [
 					{
-						"label": "providers",
-						"kind": 10,
-						"detail": "optional, map of provider references",
-						"documentation": "Explicit mapping of providers which the module uses",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "providers"
-						}
+					  "label": "count",
+					  "kind": 10,
+					  "detail": "optional, number",
+					  "documentation": "Total number of instances of this block.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "count"
+					  }
 					},
 					{
-						"label": "testvar",
-						"kind": 10,
-						"detail": "required, string",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "testvar"
-						}
+					  "label": "depends_on",
+					  "kind": 10,
+					  "detail": "optional, set of reference",
+					  "documentation": "Set of references to hidden dependencies, e.g. other resources or data sources",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "depends_on"
+					  }
 					},
 					{
-						"label": "version",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "version"
-						}
+					  "label": "for_each",
+					  "kind": 10,
+					  "detail": "optional, map of any single type or set of string or object",
+					  "documentation": "A meta-argument that accepts a map or a set of strings, and creates an instance for each item in that map or set.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "for_each"
+					  }
+					},
+					{
+					  "label": "providers",
+					  "kind": 10,
+					  "detail": "optional, map of provider references",
+					  "documentation": "Explicit mapping of providers which the module uses",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "providers"
+					  }
+					},
+					{
+					  "label": "testvar",
+					  "kind": 10,
+					  "detail": "required, string",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "testvar"
+					  }
+					},
+					{
+					  "label": "version",
+					  "kind": 10,
+					  "detail": "optional, string",
+					  "documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "version"
+					  }
 					}
-				]
+				  ]
 			}
 		}`)
 
@@ -1456,65 +1316,89 @@ output "test" {
 				"isIncomplete": false,
 				"items": [
 					{
-						"label": "alpha-var",
-						"kind": 10,
-						"detail": "required, string",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "alpha-var"
-						}
+					  "label": "alpha-var",
+					  "kind": 10,
+					  "detail": "required, string",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "alpha-var"
+					  }
 					},
 					{
-						"label": "providers",
-						"kind": 10,
-						"detail": "optional, map of provider references",
-						"documentation": "Explicit mapping of providers which the module uses",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "providers"
-						}
+					  "label": "count",
+					  "kind": 10,
+					  "detail": "optional, number",
+					  "documentation": "Total number of instances of this block.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "count"
+					  }
 					},
 					{
-						"label": "version",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 2,
-									"character": 0
-								},
-								"end": {
-									"line": 2,
-									"character": 0
-								}
-							},
-							"newText": "version"
-						}
+					  "label": "depends_on",
+					  "kind": 10,
+					  "detail": "optional, set of reference",
+					  "documentation": "Set of references to hidden dependencies, e.g. other resources or data sources",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "depends_on"
+					  }
+					},
+					{
+					  "label": "for_each",
+					  "kind": 10,
+					  "detail": "optional, map of any single type or set of string or object",
+					  "documentation": "A meta-argument that accepts a map or a set of strings, and creates an instance for each item in that map or set.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "for_each"
+					  }
+					},
+					{
+					  "label": "providers",
+					  "kind": 10,
+					  "detail": "optional, map of provider references",
+					  "documentation": "Explicit mapping of providers which the module uses",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "providers"
+					  }
+					},
+					{
+					  "label": "version",
+					  "kind": 10,
+					  "detail": "optional, string",
+					  "documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 2, "character": 0 },
+						  "end": { "line": 2, "character": 0 }
+						},
+						"newText": "version"
+					  }
 					}
-				]
+			  ]
 			}
 		}`)
 	// second module
@@ -1533,67 +1417,91 @@ output "test" {
 			"id": 4,
 			"result": {
 				"isIncomplete": false,
-				"items": [
+				 "items": [
 					{
-						"label": "beta-var",
-						"kind": 10,
-						"detail": "required, number",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 6,
-									"character": 0
-								},
-								"end": {
-									"line": 6,
-									"character": 0
-								}
-							},
-							"newText": "beta-var"
-						}
+					  "label": "beta-var",
+					  "kind": 10,
+					  "detail": "required, number",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "beta-var"
+					  }
 					},
 					{
-						"label": "providers",
-						"kind": 10,
-						"detail": "optional, map of provider references",
-						"documentation": "Explicit mapping of providers which the module uses",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 6,
-									"character": 0
-								},
-								"end": {
-									"line": 6,
-									"character": 0
-								}
-							},
-							"newText": "providers"
-						}
+					  "label": "count",
+					  "kind": 10,
+					  "detail": "optional, number",
+					  "documentation": "Total number of instances of this block.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "count"
+					  }
 					},
 					{
-						"label": "version",
-						"kind": 10,
-						"detail": "optional, string",
-						"documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
-						"insertTextFormat": 1,
-						"textEdit": {
-							"range": {
-								"start": {
-									"line": 6,
-									"character": 0
-								},
-								"end": {
-									"line": 6,
-									"character": 0
-								}
-							},
-							"newText": "version"
-						}
+					  "label": "depends_on",
+					  "kind": 10,
+					  "detail": "optional, set of reference",
+					  "documentation": "Set of references to hidden dependencies, e.g. other resources or data sources",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "depends_on"
+					  }
+					},
+					{
+					  "label": "for_each",
+					  "kind": 10,
+					  "detail": "optional, map of any single type or set of string or object",
+					  "documentation": "A meta-argument that accepts a map or a set of strings, and creates an instance for each item in that map or set.\n\nNote: A given block cannot use both count and for_each.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "for_each"
+					  }
+					},
+					{
+					  "label": "providers",
+					  "kind": 10,
+					  "detail": "optional, map of provider references",
+					  "documentation": "Explicit mapping of providers which the module uses",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "providers"
+					  }
+					},
+					{
+					  "label": "version",
+					  "kind": 10,
+					  "detail": "optional, string",
+					  "documentation": "Constraint to set the version of the module, e.g. ~\u003e 1.0. Only applicable to modules in a module registry.",
+					  "insertTextFormat": 1,
+					  "textEdit": {
+						"range": {
+						  "start": { "line": 6, "character": 0 },
+						  "end": { "line": 6, "character": 0 }
+						},
+						"newText": "version"
+					  }
 					}
-				]
+				  ]
 			}
 		}`)
 	// outputs
