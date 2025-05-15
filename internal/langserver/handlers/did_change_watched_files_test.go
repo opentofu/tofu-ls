@@ -22,6 +22,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/testutils"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/otiai10/copy"
 	"github.com/stretchr/testify/mock"
@@ -1100,7 +1101,7 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 	}
 
 	// Install OpenTofu and get executable
-	tofu := exec.NewTestingExecutor(t, testHandle.Path())
+	tofu := testutils.NewTestingExecutor(t, testHandle.Path())
 	err = tofu.Get(ctx)
 	if err != nil {
 		t.Fatal(err)

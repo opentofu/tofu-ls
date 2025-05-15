@@ -1,4 +1,9 @@
-package exec
+// Copyright (c) The OpenTofu Authors
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) 2024 HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
+package testutils
 
 import (
 	"log"
@@ -7,10 +12,11 @@ import (
 	"runtime"
 	"testing"
 
+	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofudl"
 )
 
-func NewTestingExecutor(t *testing.T, workDir string) TerraformExecutor {
+func NewTestingExecutor(t *testing.T, workDir string) exec.TerraformExecutor {
 	dl, err := tofudl.New()
 	if err != nil {
 		log.Fatalf("error when instantiating tofudl %s", err)
@@ -36,7 +42,7 @@ func NewTestingExecutor(t *testing.T, workDir string) TerraformExecutor {
 		}
 	})
 
-	e, err := NewExecutor(workDir, execPath)
+	e, err := exec.NewExecutor(workDir, execPath)
 	if err != nil {
 		t.Fatal(err)
 	}

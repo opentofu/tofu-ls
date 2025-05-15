@@ -18,6 +18,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/testutils"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -1100,7 +1101,7 @@ output "test" {
 }
 `
 
-	tfExec := exec.NewTestingExecutor(t, tmpDir.Path())
+	tfExec := testutils.NewTestingExecutor(t, tmpDir.Path())
 	err := tfExec.Get(t.Context())
 	if err != nil {
 		t.Fatal(err)
@@ -1352,7 +1353,7 @@ output "test" {
 }
 `
 
-	tfExec := exec.NewTestingExecutor(t, tmpDir.Path())
+	tfExec := testutils.NewTestingExecutor(t, tmpDir.Path())
 	err := tfExec.Get(t.Context())
 	if err != nil {
 		t.Fatal(err)
