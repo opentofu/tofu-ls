@@ -106,7 +106,7 @@ ccc`,
 		{
 			"trailing whitespace removal",
 			`resource "aws_vpc" "name" {
-
+  
 }`,
 			`resource "aws_vpc" "name" {
 
