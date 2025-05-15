@@ -8,15 +8,14 @@ package exec
 import (
 	"context"
 	"errors"
+	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 	"time"
 
-	hcinstall "github.com/hashicorp/hc-install"
-	"github.com/hashicorp/hc-install/product"
-	"github.com/hashicorp/hc-install/releases"
-	"github.com/hashicorp/hc-install/src"
+	"github.com/opentofu/tofudl"
 )
 
 func TestExec_timeout(t *testing.T) {
@@ -67,31 +66,29 @@ func TestExec_cancel(t *testing.T) {
 
 func newExecutor(t *testing.T) TerraformExecutor {
 	ctx := context.Background()
-	workDir := TempDir(t)
-	installDir := filepath.Join(workDir, "hcinstall")
-	if err := os.MkdirAll(installDir, 0755); err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() {
-		if err := os.RemoveAll(installDir); err != nil {
-			t.Fatal(err)
-		}
-	})
+	workDir := t.TempDir()
 
-	i := hcinstall.NewInstaller()
-
-	execPath, err := i.Ensure(ctx, []src.Source{
-		&releases.LatestVersion{
-			Product:    product.Terraform,
-			InstallDir: installDir,
-		},
-	})
+	dl, err := tofudl.New()
 	if err != nil {
-		t.Fatal(err)
+		log.Fatalf("error when instantiating tofudl %s", err)
+	}
+
+	binary, err := dl.Download(ctx)
+	if err != nil {
+		log.Fatalf("error when downloading %s", err)
+	}
+
+	execPath := filepath.Join(workDir, "tofu")
+	// Windows executable case
+	if runtime.GOOS == "windows" {
+		execPath += ".exe"
+	}
+	if err := os.WriteFile(execPath, binary, 0755); err != nil {
+		log.Fatalf("error when writing the file %s: %s", execPath, err)
 	}
 
 	t.Cleanup(func() {
-		if err := i.Remove(ctx); err != nil {
+		if err := os.Remove(execPath); err != nil {
 			t.Fatal(err)
 		}
 	})

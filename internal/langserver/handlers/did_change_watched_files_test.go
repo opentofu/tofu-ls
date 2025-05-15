@@ -8,16 +8,14 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/go-version"
-	install "github.com/hashicorp/hc-install"
-	"github.com/hashicorp/hc-install/product"
-	"github.com/hashicorp/hc-install/releases"
-	"github.com/hashicorp/hc-install/src"
 	tfjson "github.com/hashicorp/terraform-json"
 	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/tofu-ls/internal/document"
@@ -27,6 +25,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
+	"github.com/opentofu/tofudl"
 	"github.com/otiai10/copy"
 	"github.com/stretchr/testify/mock"
 )
@@ -1104,17 +1103,30 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 	}
 
 	// Install Terraform
-	tfVersion := version.Must(version.NewVersion("1.1.7"))
-	i := install.NewInstaller()
-	execPath, err := i.Install(ctx, []src.Installable{
-		&releases.ExactVersion{
-			Product: product.Terraform,
-			Version: tfVersion,
-		},
-	})
+	dl, err := tofudl.New()
 	if err != nil {
-		t.Fatal(err)
+		log.Fatalf("error when instantiating tofudl %s", err)
 	}
+
+	binary, err := dl.Download(ctx)
+	if err != nil {
+		log.Fatalf("error when downloading %s", err)
+	}
+
+	execPath := filepath.Join(testDir, "tofu")
+	// Windows executable case
+	if runtime.GOOS == "windows" {
+		execPath += ".exe"
+	}
+	if err := os.WriteFile(execPath, binary, 0755); err != nil {
+		log.Fatalf("error when writing the file %s: %s", execPath, err)
+	}
+
+	t.Cleanup(func() {
+		if err := os.Remove(execPath); err != nil {
+			t.Fatal(err)
+		}
+	})
 
 	// Install submodule
 	tf, err := exec.NewExecutor(testHandle.Path(), execPath)

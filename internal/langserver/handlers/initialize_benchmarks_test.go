@@ -8,15 +8,12 @@ package handlers
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
-	"github.com/hashicorp/go-version"
-	install "github.com/hashicorp/hc-install"
-	"github.com/hashicorp/hc-install/product"
-	"github.com/hashicorp/hc-install/releases"
-	"github.com/hashicorp/hc-install/src"
 	"github.com/opentofu/tofu-exec/tfexec"
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/langserver"
@@ -25,6 +22,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/terraform/discovery"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
+	"github.com/opentofu/tofudl"
 )
 
 func BenchmarkInitializeFolder_basic(b *testing.B) {
@@ -83,19 +81,33 @@ func BenchmarkInitializeFolder_basic(b *testing.B) {
 		},
 	}
 
-	tfVersion := version.Must(version.NewVersion("1.1.7"))
+	workDir := b.TempDir()
 
-	i := install.NewInstaller()
 	ctx := context.Background()
-	execPath, err := i.Install(ctx, []src.Installable{
-		&releases.ExactVersion{
-			Product: product.Terraform,
-			Version: tfVersion,
-		},
-	})
+	dl, err := tofudl.New()
 	if err != nil {
-		b.Fatal(err)
+		log.Fatalf("error when instantiating tofudl %s", err)
 	}
+
+	binary, err := dl.Download(ctx)
+	if err != nil {
+		log.Fatalf("error when downloading %s", err)
+	}
+
+	execPath := filepath.Join(workDir, "tofu")
+	// Windows executable case
+	if runtime.GOOS == "windows" {
+		execPath += ".exe"
+	}
+	if err := os.WriteFile(execPath, binary, 0755); err != nil {
+		log.Fatalf("error when writing the file %s: %s", execPath, err)
+	}
+
+	b.Cleanup(func() {
+		if err := os.Remove(execPath); err != nil {
+			b.Fatal(err)
+		}
+	})
 
 	for _, mod := range modules {
 		b.Run(mod.name, func(b *testing.B) {

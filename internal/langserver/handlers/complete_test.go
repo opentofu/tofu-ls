@@ -9,22 +9,20 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/hashicorp/go-version"
-	hcinstall "github.com/hashicorp/hc-install"
-	"github.com/hashicorp/hc-install/fs"
-	"github.com/hashicorp/hc-install/product"
-	"github.com/hashicorp/hc-install/releases"
-	"github.com/hashicorp/hc-install/src"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
+	"github.com/opentofu/tofudl"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -1092,7 +1090,7 @@ output "testout" {
 }
 
 output "test" {
-
+  value = 42
 }
 `
 	writeContentToFile(t, filepath.Join(tmpDir.Path(), "main.tf"), mainCfg)
@@ -1340,7 +1338,7 @@ module "beta" {
 }
 
 output "test" {
-
+	value = 2
 }
 `
 	writeContentToFile(t, filepath.Join(tmpDir.Path(), "main.tf"), mainCfg)
@@ -1838,36 +1836,28 @@ variable "ccc" {}
 
 func tfExecutor(t *testing.T, workdir, tfVersion string) exec.TerraformExecutor {
 	ctx := context.Background()
-	installDir := filepath.Join(t.TempDir(), "hcinstall")
-	if err := os.MkdirAll(installDir, 0o755); err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() {
-		if err := os.Remove(installDir); err != nil {
-			t.Fatal(err)
-		}
-	})
 
-	i := hcinstall.NewInstaller()
-	v := version.Must(version.NewVersion(tfVersion))
-
-	execPath, err := i.Ensure(ctx, []src.Source{
-		&fs.ExactVersion{
-			Product: product.Terraform,
-			Version: v,
-		},
-		&releases.ExactVersion{
-			Product:    product.Terraform,
-			Version:    v,
-			InstallDir: installDir,
-		},
-	})
+	dl, err := tofudl.New()
 	if err != nil {
-		t.Fatal(err)
+		log.Fatalf("error when instantiating tofudl %s", err)
+	}
+
+	binary, err := dl.Download(ctx)
+	if err != nil {
+		log.Fatalf("error when downloading %s", err)
+	}
+
+	execPath := filepath.Join(workdir, "tofu")
+	// Windows executable case
+	if runtime.GOOS == "windows" {
+		execPath += ".exe"
+	}
+	if err := os.WriteFile(execPath, binary, 0755); err != nil {
+		log.Fatalf("error when writing the file %s: %s", execPath, err)
 	}
 
 	t.Cleanup(func() {
-		if err := i.Remove(ctx); err != nil {
+		if err := os.Remove(execPath); err != nil {
 			t.Fatal(err)
 		}
 	})
