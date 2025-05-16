@@ -190,8 +190,6 @@ func gen() error {
 		close(providerChan)
 	}()
 
-	registryClient := registry.NewRegistryClient()
-
 	var workerWg sync.WaitGroup
 	// We should have high worker count since the main bottleneck is the network
 	workerCount := 30
@@ -202,7 +200,7 @@ func gen() error {
 		go func(i int) {
 			defer workerWg.Done()
 			for input := range providerChan {
-				details, err := schemaForProvider(ctx, registryClient, input)
+				details, err := schemaForProvider(ctx, input)
 
 				if err != nil {
 					log.Printf("%s: %s", input.Provider.Addr.ForDisplay(), err)
@@ -238,7 +236,7 @@ type Outputs struct {
 	InitElapsedTime time.Duration
 }
 
-func schemaForProvider(ctx context.Context, client registry.Client, input Inputs) (*Outputs, error) {
+func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	var pVersion *version.Version
 	pVersion = input.CoreVersion
 

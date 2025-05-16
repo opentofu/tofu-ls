@@ -42,12 +42,12 @@ func (c Client) ListPopularProviders(limit int) ([]Provider, error) {
 	if err != nil {
 		return nil, err
 	}
-	return filterUnsupportedProviders(providers)
+	return c.filterUnsupportedProviders(providers)
 }
 
 func (c Client) listPopularProvidersRaw(limit int) ([]Provider, error) {
 	var providers []Provider
-	url := fmt.Sprintf("%s/top/providers?limit=%d", c.BaseURL, limit)
+	url := fmt.Sprintf("%s/top/providers?limit=%d", c.BaseAPIURL, limit)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -75,9 +75,8 @@ func (c Client) listPopularProvidersRaw(limit int) ([]Provider, error) {
 // filterUnsupportedProviders filters out providers that are not supported
 // by the current OS and architecture. It uses a worker pool to check each provider in parallel.
 // The function returns a slice of supported providers.
-func filterUnsupportedProviders(providers []Provider) ([]Provider, error) {
+func (c Client) filterUnsupportedProviders(providers []Provider) ([]Provider, error) {
 	log.Printf("Filtering providers, based on OS/ARCH support initial providers %d", len(providers))
-	regClient := NewRegistryClient()
 	workerCount := 20
 	// Put all the providers into a channel to be processed
 	providersToCheckCh := make(chan Provider, len(providers))
@@ -99,7 +98,7 @@ func filterUnsupportedProviders(providers []Provider) ([]Provider, error) {
 				if err != nil {
 					continue
 				}
-				lpv, err := regClient.CheckProviderVersionSupported(tfAddr)
+				lpv, err := c.checkProviderVersionSupported(tfAddr)
 				if err != nil {
 					log.Printf("Error checking provider address: %s", provider.Addr)
 					continue
@@ -110,11 +109,16 @@ func filterUnsupportedProviders(providers []Provider) ([]Provider, error) {
 					continue
 				}
 				if !ProviderVersionSupportsOsAndArch(*v, lpv.Versions, runtime.GOOS, runtime.GOARCH) {
-					log.Printf("Provider %s version %s does not support %s/%s", provider.Addr, provider.Version, runtime.GOOS, runtime.GOARCH)
+					supportedFound.Add(1)
+					log.Printf("(%d/%d) Provider %s version %s does not support %s/%s",
+						supportedFound.Load(), len(providers),
+						provider.Addr, provider.Version, runtime.GOOS, runtime.GOARCH)
 					continue
 				}
 				supportedFound.Add(1)
-				log.Printf("(%d/%d) Provider %s version %s supports %s/%s", supportedFound.Load(), len(providers), provider.Addr, provider.Version, runtime.GOOS, runtime.GOARCH)
+				log.Printf("(%d/%d) Provider %s version %s supports %s/%s",
+					supportedFound.Load(), len(providers),
+					provider.Addr, provider.Version, runtime.GOOS, runtime.GOARCH)
 				supportedProvidersCh <- provider
 			}
 		}()
@@ -133,8 +137,8 @@ func filterUnsupportedProviders(providers []Provider) ([]Provider, error) {
 
 }
 
-func (c Client) CheckProviderVersionSupported(pAddr tfaddr.Provider) (*providerVersionResponse, error) {
-	url := fmt.Sprintf("%s/v1/providers/%s/%s/versions", c.BaseURL, pAddr.Namespace, pAddr.Type)
+func (c Client) checkProviderVersionSupported(pAddr tfaddr.Provider) (*providerVersionResponse, error) {
+	url := fmt.Sprintf("%s/v1/providers/%s/%s/versions", c.BaseRegistryURL, pAddr.Namespace, pAddr.Type)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
