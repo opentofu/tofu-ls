@@ -15,8 +15,8 @@ import (
 	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/tofu-ls/internal/document"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 type RootStore struct {

@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/hcl/v2"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
 )
 
 type ModFilename string

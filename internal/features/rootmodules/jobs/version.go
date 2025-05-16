@@ -13,8 +13,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	"github.com/opentofu/tofu-ls/internal/job"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // GetTerraformVersion obtains "installed" Terraform version

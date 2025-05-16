@@ -16,8 +16,8 @@ import (
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
-	"github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 )
 

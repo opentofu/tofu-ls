@@ -14,7 +14,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/eventbus"
 	"github.com/opentofu/tofu-ls/internal/filesystem"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 )
 
 func TestRootModulesFeature_TerraformVersion(t *testing.T) {

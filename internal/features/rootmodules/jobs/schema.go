@@ -14,8 +14,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	"github.com/opentofu/tofu-ls/internal/job"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // ObtainSchema obtains provider schemas via Terraform CLI.
