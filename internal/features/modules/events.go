@@ -22,8 +22,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/protocol"
 	"github.com/opentofu/tofu-ls/internal/schemas"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 func (f *ModulesFeature) discover(path string, files []string) error {

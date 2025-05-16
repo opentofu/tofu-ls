@@ -12,7 +12,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofudl"
 )
 

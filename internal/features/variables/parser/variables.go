@@ -10,7 +10,7 @@ import (
 
 	"github.com/hashicorp/hcl/v2"
 	"github.com/opentofu/tofu-ls/internal/features/variables/ast"
-	"github.com/opentofu/tofu-ls/internal/terraform/parser"
+	"github.com/opentofu/tofu-ls/internal/tofu/parser"
 )
 
 func ParseVariableFiles(fs parser.FS, modPath string) (ast.VarsFiles, ast.VarsDiags, error) {

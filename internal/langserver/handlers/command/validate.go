@@ -14,7 +14,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/job"
 	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/tofu-ls/internal/langserver/progress"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
