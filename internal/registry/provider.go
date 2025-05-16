@@ -37,9 +37,17 @@ type providerVersionResponse struct {
 	Versions []ProviderVersion `json:"versions"`
 }
 
-func (c Client) ListProviders() ([]Provider, error) {
+func (c Client) ListPopularProviders(limit int) ([]Provider, error) {
+	providers, err := c.listPopularProvidersRaw(limit)
+	if err != nil {
+		return nil, err
+	}
+	return filterUnsupportedProviders(providers)
+}
+
+func (c Client) listPopularProvidersRaw(limit int) ([]Provider, error) {
 	var providers []Provider
-	url := fmt.Sprintf("%s/top/providers?limit=100", c.BaseURL)
+	url := fmt.Sprintf("%s/top/providers?limit=%d", c.BaseURL, limit)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -61,7 +69,7 @@ func (c Client) ListProviders() ([]Provider, error) {
 	}
 	providers = append(providers, response...)
 
-	return filterUnsupportedProviders(providers)
+	return providers, err
 }
 
 // filterUnsupportedProviders filters out providers that are not supported

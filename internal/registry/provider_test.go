@@ -20,7 +20,7 @@ func TestListProviders(t *testing.T) {
 	client := NewClient()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/top/providers?limit=500" {
+		if r.RequestURI == "/top/providers?limit=4" {
 			w.Write([]byte(`[
 				{"addr":"hashicorp/aws","version":"v6.0.0-beta1","popularity":10291},
 				{"addr":"hashicorp/azurerm","version":"v4.27.0","popularity":4722},
@@ -36,7 +36,7 @@ func TestListProviders(t *testing.T) {
 	client.ProviderPageSize = 2
 	t.Cleanup(srv.Close)
 
-	providers, err := client.ListProviders()
+	providers, err := client.listPopularProvidersRaw(4)
 	if err != nil {
 		t.Fatal(err)
 	}

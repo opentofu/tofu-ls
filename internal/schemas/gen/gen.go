@@ -52,6 +52,8 @@ func main() {
 	}())
 }
 
+const NumberOfProviders = 100
+
 func gen() error {
 	ctx := context.Background()
 
@@ -63,7 +65,7 @@ func gen() error {
 
 	client := registry.NewClient()
 	log.Println("fetching from registry")
-	listOfProviders, err := client.ListProviders()
+	listOfProviders, err := client.ListPopularProviders(NumberOfProviders)
 	if err != nil {
 		return err
 	}
