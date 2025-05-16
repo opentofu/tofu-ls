@@ -20,6 +20,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"text/template"
 	"time"
@@ -194,6 +195,7 @@ func gen() error {
 	workerCount := 30
 	log.Printf("worker count: %d", workerCount)
 	workerWg.Add(workerCount)
+	schemaCounter := atomic.Int32{}
 	for i := 1; i <= workerCount; i++ {
 		go func(i int) {
 			defer workerWg.Done()
@@ -204,8 +206,9 @@ func gen() error {
 					log.Printf("%s: %s", input.Provider.Addr.ForDisplay(), err)
 					continue
 				}
-
-				log.Printf("%s: obtained schema for %s (%db raw / %db compressed); tofu init: %s",
+				schemaCounter.Add(1)
+				log.Printf("(%d/%d) %s: obtained schema for %s (%db raw / %db compressed); tofu init: %s",
+					schemaCounter.Load(), len(providers),
 					input.Provider.Addr.ForDisplay(), input.ProviderVersion,
 					details.RawSize, details.CompressedSize, details.InitElapsedTime)
 			}
