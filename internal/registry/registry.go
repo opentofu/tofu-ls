@@ -21,10 +21,10 @@ const (
 )
 
 type Client struct {
-	BaseURL          string
-	Timeout          time.Duration
-	ProviderPageSize int
-	httpClient       *http.Client
+	BaseAPIURL      string
+	BaseRegistryURL string
+	Timeout         time.Duration
+	httpClient      *http.Client
 }
 
 func NewClient() Client {
@@ -33,22 +33,9 @@ func NewClient() Client {
 	client.Transport = otelhttp.NewTransport(client.Transport)
 
 	return Client{
-		BaseURL:          defaultBaseURL,
-		Timeout:          defaultTimeout,
-		ProviderPageSize: 100,
-		httpClient:       client,
-	}
-}
-
-func NewRegistryClient() Client {
-	client := cleanhttp.DefaultClient()
-	client.Timeout = defaultTimeout
-	client.Transport = otelhttp.NewTransport(client.Transport)
-
-	return Client{
-		BaseURL:          registryBaseURL,
-		Timeout:          defaultTimeout,
-		ProviderPageSize: 100,
-		httpClient:       client,
+		BaseAPIURL:      defaultBaseURL,
+		BaseRegistryURL: registryBaseURL,
+		Timeout:         defaultTimeout,
+		httpClient:      client,
 	}
 }

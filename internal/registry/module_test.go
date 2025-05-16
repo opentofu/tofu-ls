@@ -41,7 +41,7 @@ func TestGetModuleData(t *testing.T) {
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
 	}))
-	client.BaseURL = srv.URL
+	client.BaseAPIURL = srv.URL
 	t.Cleanup(srv.Close)
 
 	data, err := client.GetModuleData(ctx, addr, cons)
@@ -146,7 +146,7 @@ func TestGetMatchingModuleVersion(t *testing.T) {
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
 	}))
-	client.BaseURL = srv.URL
+	client.BaseAPIURL = srv.URL
 	t.Cleanup(srv.Close)
 
 	v, err := client.GetMatchingModuleVersion(ctx, addr, cons)
@@ -180,7 +180,7 @@ func TestCancellationThroughContext(t *testing.T) {
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
 	}))
-	client.BaseURL = srv.URL
+	client.BaseAPIURL = srv.URL
 	t.Cleanup(srv.Close)
 
 	_, err = client.GetMatchingModuleVersion(ctx, addr, cons)

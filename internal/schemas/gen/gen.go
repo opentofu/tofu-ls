@@ -20,6 +20,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"syscall"
 	"text/template"
 	"time"
@@ -51,6 +52,8 @@ func main() {
 	}())
 }
 
+const NumberOfProviders = 100
+
 func gen() error {
 	ctx := context.Background()
 
@@ -62,7 +65,7 @@ func gen() error {
 
 	client := registry.NewClient()
 	log.Println("fetching from registry")
-	listOfProviders, err := client.ListProviders()
+	listOfProviders, err := client.ListPopularProviders(NumberOfProviders)
 	if err != nil {
 		return err
 	}
@@ -187,24 +190,25 @@ func gen() error {
 		close(providerChan)
 	}()
 
-	registryClient := registry.NewRegistryClient()
-
 	var workerWg sync.WaitGroup
-	workerCount := runtime.NumCPU()
+	// We should have high worker count since the main bottleneck is the network
+	workerCount := 30
 	log.Printf("worker count: %d", workerCount)
 	workerWg.Add(workerCount)
+	schemaCounter := atomic.Int32{}
 	for i := 1; i <= workerCount; i++ {
 		go func(i int) {
 			defer workerWg.Done()
 			for input := range providerChan {
-				details, err := schemaForProvider(ctx, registryClient, input)
+				details, err := schemaForProvider(ctx, input)
 
 				if err != nil {
 					log.Printf("%s: %s", input.Provider.Addr.ForDisplay(), err)
 					continue
 				}
-
-				log.Printf("%s: obtained schema for %s (%db raw / %db compressed); tofu init: %s",
+				schemaCounter.Add(1)
+				log.Printf("(%d/%d) %s: obtained schema for %s (%db raw / %db compressed); tofu init: %s",
+					schemaCounter.Load(), len(providers),
 					input.Provider.Addr.ForDisplay(), input.ProviderVersion,
 					details.RawSize, details.CompressedSize, details.InitElapsedTime)
 			}
@@ -232,7 +236,7 @@ type Outputs struct {
 	InitElapsedTime time.Duration
 }
 
-func schemaForProvider(ctx context.Context, client registry.Client, input Inputs) (*Outputs, error) {
+func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	var pVersion *version.Version
 	pVersion = input.CoreVersion
 
@@ -339,12 +343,6 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 		}
 		if !pv.Equal(input.ProviderVersion) {
 			return nil, fmt.Errorf("expected provider version %s to match %s", pv, pVersion)
-		}
-
-		lpv, err := client.CheckProviderVersionSupported(input.Provider.Addr)
-
-		if !registry.ProviderVersionSupportsOsAndArch(*input.ProviderVersion, lpv.Versions, runtime.GOOS, runtime.GOARCH) {
-			return nil, fmt.Errorf("version %s does not support %s/%s", input.ProviderVersion, runtime.GOOS, runtime.GOARCH)
 		}
 	}
 
