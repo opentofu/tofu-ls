@@ -190,7 +190,8 @@ func gen() error {
 	registryClient := registry.NewRegistryClient()
 
 	var workerWg sync.WaitGroup
-	workerCount := runtime.NumCPU()
+	// We should have high worker count since the main bottleneck is the network
+	workerCount := 30
 	log.Printf("worker count: %d", workerCount)
 	workerWg.Add(workerCount)
 	for i := 1; i <= workerCount; i++ {
@@ -339,12 +340,6 @@ func schemaForProvider(ctx context.Context, client registry.Client, input Inputs
 		}
 		if !pv.Equal(input.ProviderVersion) {
 			return nil, fmt.Errorf("expected provider version %s to match %s", pv, pVersion)
-		}
-
-		lpv, err := client.CheckProviderVersionSupported(input.Provider.Addr)
-
-		if !registry.ProviderVersionSupportsOsAndArch(*input.ProviderVersion, lpv.Versions, runtime.GOOS, runtime.GOARCH) {
-			return nil, fmt.Errorf("version %s does not support %s/%s", input.ProviderVersion, runtime.GOOS, runtime.GOARCH)
 		}
 	}
 
