@@ -16,7 +16,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/variables/jobs"
 	"github.com/opentofu/tofu-ls/internal/job"
 	"github.com/opentofu/tofu-ls/internal/protocol"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 func (f *VariablesFeature) discover(path string, files []string) error {

@@ -15,7 +15,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/features/modules/state"
 	"github.com/opentofu/tofu-ls/internal/job"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // LoadModuleMetadata loads data about the module in a version-independent

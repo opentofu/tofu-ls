@@ -16,7 +16,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/job"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/ast"
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 

@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
 	"github.com/opentofu/tofu-ls/internal/testutils"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 )
 
 func TestExec_timeout(t *testing.T) {
