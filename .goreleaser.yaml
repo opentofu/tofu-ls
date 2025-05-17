@@ -21,7 +21,7 @@ builds:
 
 archives:
   - formats: [tar.gz]
-    # this name template makes the OS and Arch compatible with the results of `uname`.
+    # this name template makes the OS and Arch compatible with the platform and architecture names from NodeJS.
     name_template: >-
       {{ .ProjectName }}_
       {{- .Os }}_
