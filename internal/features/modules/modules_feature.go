@@ -70,7 +70,8 @@ func (f *ModulesFeature) Start(ctx context.Context) {
 	ctx, cancelFunc := context.WithCancel(ctx)
 	f.stopFunc = cancelFunc
 
-	discover := f.eventbus.OnDiscover("feature.modules", nil)
+	discoverDone := make(chan struct{}, 10)
+	discover := f.eventbus.OnDiscover("feature.modules", discoverDone)
 
 	didOpenDone := make(chan struct{}, 10)
 	didOpen := f.eventbus.OnDidOpen("feature.modules", didOpenDone)
@@ -87,6 +88,7 @@ func (f *ModulesFeature) Start(ctx context.Context) {
 			case discover := <-discover:
 				// TODO? collect errors
 				f.discover(discover.Path, discover.Files)
+				discoverDone <- struct{}{}
 			case didOpen := <-didOpen:
 				// TODO? collect errors
 				f.didOpen(didOpen.Context, didOpen.Dir, didOpen.LanguageID)
