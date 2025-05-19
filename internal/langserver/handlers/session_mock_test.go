@@ -84,7 +84,7 @@ func (ms *mockSession) new(srvCtx context.Context) session.Session {
 	}
 	ms.registryServer.Start()
 
-	regClient.BaseURL = ms.registryServer.URL
+	regClient.BaseAPIURL = ms.registryServer.URL
 
 	svc := &service{
 		logger:             testLogger(),

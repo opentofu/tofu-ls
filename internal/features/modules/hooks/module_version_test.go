@@ -75,7 +75,7 @@ func TestHooks_RegistryModuleVersions(t *testing.T) {
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
 	}))
-	regClient.BaseURL = srv.URL
+	regClient.BaseAPIURL = srv.URL
 	t.Cleanup(srv.Close)
 
 	h := &Hooks{

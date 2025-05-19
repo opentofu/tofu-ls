@@ -87,7 +87,7 @@ func (c Client) GetModuleData(ctx context.Context, addr tfaddr.Module, cons vers
 
 	ctx = httptrace.WithClientTrace(ctx, otelhttptrace.NewClientTrace(ctx, otelhttptrace.WithoutSubSpans()))
 
-	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/%s", c.BaseURL,
+	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/%s", c.BaseAPIURL,
 		addr.Package.Namespace,
 		addr.Package.Name,
 		addr.Package.TargetSystem,
@@ -142,7 +142,7 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "registry:GetModuleVersions")
 	defer span.End()
 
-	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/versions", c.BaseURL,
+	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/versions", c.BaseAPIURL,
 		addr.Package.Namespace,
 		addr.Package.Name,
 		addr.Package.TargetSystem)
