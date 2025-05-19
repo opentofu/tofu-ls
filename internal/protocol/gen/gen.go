@@ -10,7 +10,7 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -51,7 +51,7 @@ func main() {
 		log.Fatalf("status code: %d (%s)", resp.StatusCode, url)
 	}
 
-	b, err := ioutil.ReadAll(resp.Body)
+	b, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("failed reading body: %s", err)
 	}

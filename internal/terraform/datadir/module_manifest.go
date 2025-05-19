@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -161,7 +161,7 @@ func (mm *ModuleManifest) ContainsLocalModule(path string) bool {
 }
 
 func ParseModuleManifestFromFile(path string) (*ModuleManifest, error) {
-	b, err := ioutil.ReadFile(path)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}

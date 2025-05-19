@@ -8,7 +8,7 @@ package scheduler
 import (
 	"context"
 	"errors"
-	"io/ioutil"
+	"io"
 	"log"
 
 	"github.com/opentofu/tofu-ls/internal/job"
@@ -35,7 +35,7 @@ type JobStorage interface {
 }
 
 func NewScheduler(jobStorage JobStorage, parallelism int, priority job.JobPriority) *Scheduler {
-	discardLogger := log.New(ioutil.Discard, "", 0)
+	discardLogger := log.New(io.Discard, "", 0)
 
 	return &Scheduler{
 		logger:      discardLogger,

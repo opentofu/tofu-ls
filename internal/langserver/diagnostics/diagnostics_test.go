@@ -7,7 +7,7 @@ package diagnostics
 
 import (
 	"context"
-	"io/ioutil"
+	"io"
 	"log"
 	"testing"
 
@@ -16,7 +16,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/terraform/ast"
 )
 
-var discardLogger = log.New(ioutil.Discard, "", 0)
+var discardLogger = log.New(io.Discard, "", 0)
 
 func TestDiags_Closes(t *testing.T) {
 	n := NewNotifier(noopNotifier{}, discardLogger)

@@ -6,8 +6,8 @@
 package filesystem
 
 import (
+	"io"
 	"io/fs"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -345,5 +345,5 @@ func testLogger() *log.Logger {
 		return log.New(os.Stdout, "", log.LstdFlags|log.Lshortfile)
 	}
 
-	return log.New(ioutil.Discard, "", 0)
+	return log.New(io.Discard, "", 0)
 }
