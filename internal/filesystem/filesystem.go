@@ -8,8 +8,8 @@ package filesystem
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/fs"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -36,7 +36,7 @@ func NewFilesystem(docStore DocumentStore) *Filesystem {
 	return &Filesystem{
 		osFs:     osFs{},
 		docStore: docStore,
-		logger:   log.New(ioutil.Discard, "", 0),
+		logger:   log.New(io.Discard, "", 0),
 	}
 }
 

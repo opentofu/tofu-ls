@@ -8,7 +8,7 @@ package notifier
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"sync"
 	"testing"
@@ -61,5 +61,5 @@ func testLogger() *log.Logger {
 	if testing.Verbose() {
 		return log.Default()
 	}
-	return log.New(ioutil.Discard, "", 0)
+	return log.New(io.Discard, "", 0)
 }

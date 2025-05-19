@@ -7,13 +7,13 @@ package cmd
 
 import (
 	"flag"
-	"io/ioutil"
+	"io"
 	"strings"
 )
 
 func defaultFlagSet(cmdName string) *flag.FlagSet {
 	f := flag.NewFlagSet(cmdName, flag.ContinueOnError)
-	f.SetOutput(ioutil.Discard)
+	f.SetOutput(io.Discard)
 
 	// Set the default Usage to empty
 	f.Usage = func() {}

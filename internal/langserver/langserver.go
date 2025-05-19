@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -48,7 +47,7 @@ func NewLangServer(srvCtx context.Context, sf session.SessionFactory) *langServe
 
 	return &langServer{
 		srvCtx:     srvCtx,
-		logger:     log.New(ioutil.Discard, "", 0),
+		logger:     log.New(io.Discard, "", 0),
 		srvOptions: opts,
 		newSession: sf,
 	}

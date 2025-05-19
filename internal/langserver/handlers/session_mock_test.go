@@ -7,7 +7,7 @@ package handlers
 
 import (
 	"context"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -116,7 +116,7 @@ func testLogger() *log.Logger {
 		return log.New(os.Stdout, "", log.LstdFlags|log.Lshortfile)
 	}
 
-	return log.New(ioutil.Discard, "", 0)
+	return log.New(io.Discard, "", 0)
 }
 
 func (ms *mockSession) stop() {
