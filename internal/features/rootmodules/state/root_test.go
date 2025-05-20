@@ -80,7 +80,7 @@ func TestModuleStore_ModuleByPath(t *testing.T) {
 	}
 
 	tfVersion := version.Must(version.NewVersion("1.0.0"))
-	err = s.UpdateTerraformAndProviderVersions(modPath, tfVersion, nil, nil)
+	err = s.UpdateTofuAndProviderVersions(modPath, tfVersion, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -274,7 +274,7 @@ func TestModuleStore_UpdateTerraformAndProviderVersions(t *testing.T) {
 
 	vErr := customErr{}
 
-	err = s.UpdateTerraformAndProviderVersions(tmpDir, testVersion(t, "0.12.4"), nil, vErr)
+	err = s.UpdateTofuAndProviderVersions(tmpDir, testVersion(t, "0.12.4"), nil, vErr)
 	if err != nil {
 		t.Fatal(err)
 	}

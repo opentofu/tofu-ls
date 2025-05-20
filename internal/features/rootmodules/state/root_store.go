@@ -300,7 +300,7 @@ func (s *RootStore) SetTofuVersionState(path string, state op.OpState) error {
 	return nil
 }
 
-func (s *RootStore) UpdateTerraformAndProviderVersions(path string, tfVer *version.Version, pv map[tfaddr.Provider]*version.Version, vErr error) error {
+func (s *RootStore) UpdateTofuAndProviderVersions(path string, tfVer *version.Version, pv map[tfaddr.Provider]*version.Version, vErr error) error {
 	txn := s.db.Txn(true)
 	txn.Defer(func() {
 		s.SetTofuVersionState(path, op.OpStateLoaded)

@@ -30,7 +30,7 @@ import (
 )
 
 type MockSessionInput struct {
-	TerraformCalls     *exec.TofuMockCalls
+	TofuCalls          *exec.TofuMockCalls
 	AdditionalHandlers map[string]handler.Func
 	StateStore         *state.StateStore
 	WalkerCollector    *walker.WalkerCollector
@@ -70,8 +70,8 @@ func (ms *mockSession) new(srvCtx context.Context) session.Session {
 	}
 
 	var tfCalls *exec.TofuMockCalls
-	if ms.mockInput != nil && ms.mockInput.TerraformCalls != nil {
-		tfCalls = ms.mockInput.TerraformCalls
+	if ms.mockInput != nil && ms.mockInput.TofuCalls != nil {
+		tfCalls = ms.mockInput.TofuCalls
 	}
 
 	d := &discovery.MockDiscovery{

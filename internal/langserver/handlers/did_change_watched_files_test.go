@@ -68,7 +68,7 @@ func TestLangServer_DidChangeWatchedFiles_change_file(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -245,7 +245,7 @@ func TestLangServer_DidChangeWatchedFiles_create_file(t *testing.T) {
 
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -382,7 +382,7 @@ func TestLangServer_DidChangeWatchedFiles_delete_file(t *testing.T) {
 
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -514,7 +514,7 @@ func TestLangServer_DidChangeWatchedFiles_change_dir(t *testing.T) {
 
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -653,7 +653,7 @@ func TestLangServer_DidChangeWatchedFiles_create_dir(t *testing.T) {
 
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -789,7 +789,7 @@ func TestLangServer_DidChangeWatchedFiles_delete_dir(t *testing.T) {
 
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -956,7 +956,7 @@ func TestLangServer_DidChangeWatchedFiles_pluginChange(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,
@@ -1058,7 +1058,7 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      ss,
 		WalkerCollector: wc,
 		Features:        features,

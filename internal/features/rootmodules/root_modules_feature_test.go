@@ -113,7 +113,7 @@ func TestRootModulesFeature_TofuVersion(t *testing.T) {
 
 			for _, record := range tc.records {
 				feature.Store.Add(record.path)
-				feature.Store.UpdateTerraformAndProviderVersions(record.path, record.version, nil, nil)
+				feature.Store.UpdateTofuAndProviderVersions(record.path, record.version, nil, nil)
 			}
 
 			version := feature.TofuVersion(tc.path)

@@ -69,7 +69,7 @@ func TestLangServer_workspaceExecuteCommand_tofuVersion_basic(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = features.RootModules.Store.UpdateTerraformAndProviderVersions(modDir, ver, map[tfaddr.Provider]*version.Version{}, nil)
+	err = features.RootModules.Store.UpdateTofuAndProviderVersions(modDir, ver, map[tfaddr.Provider]*version.Version{}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -77,7 +77,7 @@ func TestLangServer_workspaceExecuteCommand_tofuVersion_basic(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      s,
 		WalkerCollector: wc,
 		Features:        features,

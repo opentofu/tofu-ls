@@ -12,7 +12,7 @@ import (
 )
 
 func EnrichTfExecError(err error) error {
-	if module.IsTerraformNotFound(err) {
+	if module.IsTofuNotFound(err) {
 		return e.New("Terraform (CLI) is required. " +
 			"Please install Terraform or make it available in $PATH")
 	}

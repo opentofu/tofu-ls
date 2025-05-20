@@ -30,7 +30,7 @@ func TestLangServer_workspaceExecuteCommand_noCommandHandlerError(t *testing.T) 
 	InitPluginCache(t, tmpDir.Path())
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},

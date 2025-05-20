@@ -33,7 +33,7 @@ func TestInitialize_twice(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -71,7 +71,7 @@ func TestInitialize_withIncompatibleTofuVersion(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -107,7 +107,7 @@ func TestInitialize_withIncompatibleTofuVersion(t *testing.T) {
 func TestInitialize_withInvalidRootURI(t *testing.T) {
 	tmpDir := TempDir(t)
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -135,7 +135,7 @@ func TestInitialize_multipleFolders(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				rootDir.Path(): validTfMockCalls(),
 			},
@@ -177,7 +177,7 @@ func TestInitialize_ignoreDirectoryNames(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				pluginDir: validTfMockCalls(),
 				emptyDir: {
@@ -530,7 +530,7 @@ func TestInitialize_differentWorkspaceLayouts(t *testing.T) {
 			wc := walker.NewWalkerCollector()
 
 			ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-				TerraformCalls:  mockCalls,
+				TofuCalls:       mockCalls,
 				StateStore:      ss,
 				WalkerCollector: wc,
 				Features:        features,

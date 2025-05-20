@@ -29,7 +29,7 @@ func TestReferences_basic(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -160,7 +160,7 @@ func TestReferences_variableToModuleInput(t *testing.T) {
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore: ss,
-		TerraformCalls: &exec.TofuMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				submodPath: validTfMockCalls(),
 			},

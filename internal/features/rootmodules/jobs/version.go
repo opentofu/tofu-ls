@@ -41,7 +41,7 @@ func GetTofuVersion(ctx context.Context, rootStore *state.RootStore, modPath str
 
 	tfExec, err := module.TofuExecutorForModule(ctx, mod.Path())
 	if err != nil {
-		sErr := rootStore.UpdateTerraformAndProviderVersions(modPath, nil, nil, err)
+		sErr := rootStore.UpdateTofuAndProviderVersions(modPath, nil, nil, err)
 		if sErr != nil {
 			return sErr
 		}
@@ -58,7 +58,7 @@ func GetTofuVersion(ctx context.Context, rootStore *state.RootStore, modPath str
 	// See https://github.com/hashicorp/terraform-ls/issues/24
 	pVersions := providerVersionsFromTfVersion(pv)
 
-	sErr := rootStore.UpdateTerraformAndProviderVersions(modPath, v, pVersions, err)
+	sErr := rootStore.UpdateTofuAndProviderVersions(modPath, v, pVersions, err)
 	if sErr != nil {
 		return sErr
 	}
