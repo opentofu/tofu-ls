@@ -23,7 +23,7 @@ func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.Docum
 
 	dh := ilsp.HandleFromDocumentURI(params.TextDocument.URI)
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, dh.Dir.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, dh.Dir.Path())
 	if err != nil {
 		return edits, errors.EnrichTfExecError(err)
 	}

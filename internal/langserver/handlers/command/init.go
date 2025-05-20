@@ -29,7 +29,7 @@ func (h *CmdHandler) TerraformInitHandler(ctx context.Context, args cmd.CommandA
 	}
 
 	dirHandle := document.DirHandleFromURI(dirUri)
-	tfExec, err := module.TerraformExecutorForModule(ctx, dirHandle.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, dirHandle.Path())
 	if err != nil {
 		return nil, errors.EnrichTfExecError(err)
 	}

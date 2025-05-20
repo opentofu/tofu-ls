@@ -152,7 +152,7 @@ func TofuValidate(ctx context.Context, modStore *state.ModuleStore, modPath stri
 		return err
 	}
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, mod.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, mod.Path())
 	if err != nil {
 		return err
 	}

@@ -39,7 +39,7 @@ func GetTerraformVersion(ctx context.Context, rootStore *state.RootStore, modPat
 	}
 	defer rootStore.SetTerraformVersionState(modPath, op.OpStateLoaded)
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, mod.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, mod.Path())
 	if err != nil {
 		sErr := rootStore.UpdateTerraformAndProviderVersions(modPath, nil, nil, err)
 		if sErr != nil {
