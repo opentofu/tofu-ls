@@ -116,7 +116,7 @@ func TestRootModulesFeature_TerraformVersion(t *testing.T) {
 				feature.Store.UpdateTerraformAndProviderVersions(record.path, record.version, nil, nil)
 			}
 
-			version := feature.TerraformVersion(tc.path)
+			version := feature.TofuVersion(tc.path)
 
 			if diff := cmp.Diff(version, tc.version); diff != "" {
 				t.Fatalf("version mismatch for %q: %s", tc.path, diff)

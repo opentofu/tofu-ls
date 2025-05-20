@@ -121,7 +121,7 @@ func (f *RootModulesFeature) InstalledModuleCalls(modPath string) (map[string]tf
 // If a root module exists at the given path, it will return the Terraform
 // version of that root module. If not, it will return the version of any
 // of the other root modules.
-func (f *RootModulesFeature) TerraformVersion(modPath string) *version.Version {
+func (f *RootModulesFeature) TofuVersion(modPath string) *version.Version {
 	record, err := f.Store.RootRecordByPath(modPath)
 	if err != nil {
 		if globalState.IsRecordNotFound(err) {

@@ -267,7 +267,7 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 		Version          string
 	}
 	tmpl, err := template.New("providers").Parse(`terraform {
-  required_version = "{{ .TerraformVersion }}"
+  required_version = "{{ .TofuVersion }}"
   required_providers {
     {{ .LocalName }} = {
       source  = "{{ .Source }}"

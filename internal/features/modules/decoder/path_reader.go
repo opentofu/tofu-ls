@@ -31,7 +31,7 @@ type StateReader interface {
 
 type RootReader interface {
 	InstalledModuleCalls(modPath string) (map[string]tfmod.InstalledModuleCall, error)
-	TerraformVersion(modPath string) *version.Version
+	TofuVersion(modPath string) *version.Version
 	InstalledModulePath(rootPath string, normalizedSource string) (string, bool)
 }
 

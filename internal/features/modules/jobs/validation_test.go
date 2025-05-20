@@ -26,7 +26,7 @@ func (r RootReaderMock) InstalledModuleCalls(modPath string) (map[string]tfmod.I
 	return nil, nil
 }
 
-func (r RootReaderMock) TerraformVersion(modPath string) *version.Version {
+func (r RootReaderMock) TofuVersion(modPath string) *version.Version {
 	return nil
 }
 
