@@ -24,7 +24,7 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T) {
+func TestLangServer_workspaceExecuteCommand_tofuVersion_basic(t *testing.T) {
 	modDir := t.TempDir()
 	modUri := uri.FromPath(modDir)
 
@@ -34,7 +34,7 @@ func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T)
 	}
 
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			modDir: validTfMockCalls(),
 		},

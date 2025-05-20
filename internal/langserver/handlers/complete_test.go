@@ -65,7 +65,7 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore: ss,
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -276,7 +276,7 @@ func TestModuleCompletion_withValidData_tooNewVersion(t *testing.T) {
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore: ss,
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -496,7 +496,7 @@ func TestModuleCompletion_withValidDataAndSnippets(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -800,7 +800,7 @@ func TestVarsCompletion_withValidData(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -955,7 +955,7 @@ output "test" {
 	}
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -1232,7 +1232,7 @@ output "test" {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -1595,7 +1595,7 @@ variable "ccc" {}
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{

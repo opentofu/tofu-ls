@@ -6,10 +6,10 @@
 package protocol
 
 type ExperimentalServerCapabilities struct {
-	ReferenceCountCodeLens  bool `json:"referenceCountCodeLens"`
-	RefreshModuleProviders  bool `json:"refreshModuleProviders"`
-	RefreshModuleCalls      bool `json:"refreshModuleCalls"`
-	RefreshTerraformVersion bool `json:"refreshTerraformVersion"`
+	ReferenceCountCodeLens bool `json:"referenceCountCodeLens"`
+	RefreshModuleProviders bool `json:"refreshModuleProviders"`
+	RefreshModuleCalls     bool `json:"refreshModuleCalls"`
+	RefreshTofuVersion     bool `json:"refreshTerraformVersion"`
 }
 
 type ExpClientCapabilities map[string]interface{}

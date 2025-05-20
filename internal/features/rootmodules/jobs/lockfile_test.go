@@ -228,7 +228,7 @@ func TestParseProviderVersions_multipleVersions(t *testing.T) {
 	ctx = exec.WithExecutorOpts(ctx, &exec.ExecutorOpts{
 		ExecPath: "mock",
 	})
-	ctx = exec.WithExecutorFactory(ctx, exec.NewMockExecutor(&exec.TerraformMockCalls{
+	ctx = exec.WithExecutorFactory(ctx, exec.NewMockExecutor(&exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			"first": {
 				{

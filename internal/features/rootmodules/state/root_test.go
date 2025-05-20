@@ -91,9 +91,9 @@ func TestModuleStore_ModuleByPath(t *testing.T) {
 	}
 
 	expectedModule := &RootRecord{
-		path:                  modPath,
-		TerraformVersion:      tfVersion,
-		TerraformVersionState: operation.OpStateLoaded,
+		path:             modPath,
+		TofuVersion:      tfVersion,
+		TofuVersionState: operation.OpStateLoaded,
 	}
 	if diff := cmp.Diff(expectedModule, mod, cmpOpts); diff != "" {
 		t.Fatalf("unexpected module: %s", diff)
@@ -285,10 +285,10 @@ func TestModuleStore_UpdateTerraformAndProviderVersions(t *testing.T) {
 	}
 
 	expectedModule := &RootRecord{
-		path:                  tmpDir,
-		TerraformVersion:      testVersion(t, "0.12.4"),
-		TerraformVersionState: operation.OpStateLoaded,
-		TerraformVersionErr:   vErr,
+		path:             tmpDir,
+		TofuVersion:      testVersion(t, "0.12.4"),
+		TofuVersionState: operation.OpStateLoaded,
+		TofuVersionErr:   vErr,
 	}
 	if diff := cmp.Diff(expectedModule, mod, cmpOpts); diff != "" {
 		t.Fatalf("unexpected module data: %s", diff)

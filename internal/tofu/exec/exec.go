@@ -35,7 +35,7 @@ type Executor struct {
 	rawLogPath string
 }
 
-func NewExecutor(workDir, execPath string) (TerraformExecutor, error) {
+func NewExecutor(workDir, execPath string) (TofuExecutor, error) {
 	tf, err := tfexec.NewTofu(workDir, execPath)
 	if err != nil {
 		return nil, err

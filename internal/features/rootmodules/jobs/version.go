@@ -17,19 +17,19 @@ import (
 	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
-// GetTerraformVersion obtains "installed" Terraform version
+// GetTofuVersion obtains "installed" Terraform version
 // which can inform what version of core schema to pick.
 // Knowing the version is not required though as we can rely on
 // the constraint in `required_version` (as parsed via
 // [LoadModuleMetadata] and compare it against known released versions.
-func GetTerraformVersion(ctx context.Context, rootStore *state.RootStore, modPath string) error {
+func GetTofuVersion(ctx context.Context, rootStore *state.RootStore, modPath string) error {
 	mod, err := rootStore.RootRecordByPath(modPath)
 	if err != nil {
 		return err
 	}
 
 	// Avoid getting version if getting is already in progress or already known
-	if mod.TerraformVersionState != op.OpStateUnknown && !job.IgnoreState(ctx) {
+	if mod.TofuVersionState != op.OpStateUnknown && !job.IgnoreState(ctx) {
 		return job.StateNotChangedErr{Dir: document.DirHandleFromPath(modPath)}
 	}
 

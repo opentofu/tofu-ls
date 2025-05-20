@@ -30,7 +30,7 @@ import (
 )
 
 type MockSessionInput struct {
-	TerraformCalls     *exec.TerraformMockCalls
+	TerraformCalls     *exec.TofuMockCalls
 	AdditionalHandlers map[string]handler.Func
 	StateStore         *state.StateStore
 	WalkerCollector    *walker.WalkerCollector
@@ -69,7 +69,7 @@ func (ms *mockSession) new(srvCtx context.Context) session.Session {
 		eventBus = ms.mockInput.EventBus
 	}
 
-	var tfCalls *exec.TerraformMockCalls
+	var tfCalls *exec.TofuMockCalls
 	if ms.mockInput != nil && ms.mockInput.TerraformCalls != nil {
 		tfCalls = ms.mockInput.TerraformCalls
 	}
@@ -147,7 +147,7 @@ func NewMockSession(input *MockSessionInput) session.SessionFactory {
 	return newMockSession(input).new
 }
 
-func NewTestFeatures(eventBus *eventbus.EventBus, s *state.StateStore, fs *filesystem.Filesystem, tfCalls *exec.TerraformMockCalls) (*Features, error) {
+func NewTestFeatures(eventBus *eventbus.EventBus, s *state.StateStore, fs *filesystem.Filesystem, tfCalls *exec.TofuMockCalls) (*Features, error) {
 	rootModulesFeature, err := frootmodules.NewRootModulesFeature(eventBus, s, fs, exec.NewMockExecutor(tfCalls))
 	if err != nil {
 		return nil, err

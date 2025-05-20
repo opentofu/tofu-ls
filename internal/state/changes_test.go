@@ -144,7 +144,7 @@ func TestChanges_AwaitNextChangeBatch_multipleChanges(t *testing.T) {
 	}
 
 	err = ss.ChangeStore.QueueChange(modHandle, Changes{
-		TerraformVersion: true,
+		TofuVersion: true,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -161,7 +161,7 @@ func TestChanges_AwaitNextChangeBatch_multipleChanges(t *testing.T) {
 		FirstChangeTime: testTimeProvider(),
 		IsDirOpen:       false,
 		Changes: Changes{
-			TerraformVersion: true,
+			TofuVersion: true,
 		},
 	}
 	if diff := cmp.Diff(expectedBatch, batch); diff != "" {

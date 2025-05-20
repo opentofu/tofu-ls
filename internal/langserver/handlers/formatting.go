@@ -41,7 +41,7 @@ func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.Docum
 	return edits, nil
 }
 
-func (svc *service) formatDocument(ctx context.Context, tfExec exec.TerraformExecutor, original []byte, dh document.Handle) ([]lsp.TextEdit, error) {
+func (svc *service) formatDocument(ctx context.Context, tfExec exec.TofuExecutor, original []byte, dh document.Handle) ([]lsp.TextEdit, error) {
 	var edits []lsp.TextEdit
 
 	svc.logger.Printf("formatting document via %q", tfExec.GetExecPath())

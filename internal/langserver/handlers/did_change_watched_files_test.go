@@ -48,7 +48,7 @@ func TestLangServer_DidChangeWatchedFiles_change_file(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			tmpDir.Path(): validTfMockCalls(),
 		},
@@ -188,7 +188,7 @@ func TestLangServer_DidChangeWatchedFiles_create_file(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			tmpDir.Path(): {
 				{
@@ -363,7 +363,7 @@ func TestLangServer_DidChangeWatchedFiles_delete_file(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			tmpDir.Path(): validTfMockCalls(),
 		},
@@ -495,7 +495,7 @@ func TestLangServer_DidChangeWatchedFiles_change_dir(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			tmpDir.Path(): validTfMockCalls(),
 		},
@@ -634,7 +634,7 @@ func TestLangServer_DidChangeWatchedFiles_create_dir(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			tmpDir.Path(): validTfMockCalls(),
 		},
@@ -770,7 +770,7 @@ func TestLangServer_DidChangeWatchedFiles_delete_dir(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			tmpDir.Path(): validTfMockCalls(),
 		},
@@ -899,7 +899,7 @@ func TestLangServer_DidChangeWatchedFiles_pluginChange(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			testHandle.Path(): {
 				{
@@ -1039,7 +1039,7 @@ func TestLangServer_DidChangeWatchedFiles_moduleInstalled(t *testing.T) {
 		t.Fatal(err)
 	}
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			testHandle.Path(): validTfMockCalls(),
 		},

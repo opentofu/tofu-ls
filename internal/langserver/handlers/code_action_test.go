@@ -45,7 +45,7 @@ func TestLangServer_codeAction_basic(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -294,7 +294,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 			wc := walker.NewWalkerCollector()
 
 			ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-				TerraformCalls: &exec.TerraformMockCalls{
+				TerraformCalls: &exec.TofuMockCalls{
 					PerWorkDir: map[string][]*mock.Call{
 						tmpDir.Path(): {
 							{

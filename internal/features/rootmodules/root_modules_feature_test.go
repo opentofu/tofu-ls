@@ -17,7 +17,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 )
 
-func TestRootModulesFeature_TerraformVersion(t *testing.T) {
+func TestRootModulesFeature_TofuVersion(t *testing.T) {
 	ss, err := globalState.NewStateStore()
 	if err != nil {
 		t.Fatal(err)

@@ -131,13 +131,13 @@ func (f *RootModulesFeature) TofuVersion(modPath string) *version.Version {
 				return nil
 			}
 
-			return record.TerraformVersion
+			return record.TofuVersion
 		}
 
 		return nil
 	}
 
-	return record.TerraformVersion
+	return record.TofuVersion
 }
 
 // InstalledProviders returns the installed providers for the given module path

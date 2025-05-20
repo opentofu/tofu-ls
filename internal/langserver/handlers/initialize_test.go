@@ -33,7 +33,7 @@ func TestInitialize_twice(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -71,7 +71,7 @@ func TestInitialize_withIncompatibleTerraformVersion(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -107,7 +107,7 @@ func TestInitialize_withIncompatibleTerraformVersion(t *testing.T) {
 func TestInitialize_withInvalidRootURI(t *testing.T) {
 	tmpDir := TempDir(t)
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -135,7 +135,7 @@ func TestInitialize_multipleFolders(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				rootDir.Path(): validTfMockCalls(),
 			},
@@ -177,7 +177,7 @@ func TestInitialize_ignoreDirectoryNames(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TerraformCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				pluginDir: validTfMockCalls(),
 				emptyDir: {
@@ -510,7 +510,7 @@ func TestInitialize_differentWorkspaceLayouts(t *testing.T) {
 				t.Fatal(err)
 			}
 			eventBus := eventbus.NewEventBus()
-			mockCalls := &exec.TerraformMockCalls{
+			mockCalls := &exec.TofuMockCalls{
 				PerWorkDir: map[string][]*mock.Call{
 					dir.Path(): validTfMockCalls(),
 				},

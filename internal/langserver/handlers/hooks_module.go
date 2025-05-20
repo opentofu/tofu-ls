@@ -79,7 +79,7 @@ func refreshSemanticTokens(clientRequester session.ClientCaller) notifier.Hook {
 			return err
 		}
 
-		localChanges := isOpen && (changes.TerraformVersion || changes.CoreRequirements ||
+		localChanges := isOpen && (changes.TofuVersion || changes.CoreRequirements ||
 			changes.InstalledProviders || changes.ProviderRequirements)
 
 		if localChanges || changes.ReferenceOrigins || changes.ReferenceTargets {
