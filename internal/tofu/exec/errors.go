@@ -24,7 +24,7 @@ func (e *ExitError) Unwrap() error {
 }
 
 func (e *ExitError) Error() string {
-	out := fmt.Sprintf("terraform %q (pid %d) exited (code %d): %s",
+	out := fmt.Sprintf("OpenTofu %q (pid %d) exited (code %d): %s",
 		e.Method,
 		e.Err.Pid(),
 		e.Err.ExitCode(),

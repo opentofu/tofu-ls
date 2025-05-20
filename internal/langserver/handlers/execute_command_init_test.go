@@ -71,7 +71,7 @@ func TestLangServer_workspaceExecuteCommand_init_argumentError(t *testing.T) {
 		Method: "workspace/executeCommand",
 		ReqParams: fmt.Sprintf(`{
 		"command": %q
-	}`, cmd.Name("terraform.init"))}, jrpc2.InvalidParams.Err())
+	}`, cmd.Name("tofu.init"))}, jrpc2.InvalidParams.Err())
 }
 
 func TestLangServer_workspaceExecuteCommand_init_basic(t *testing.T) {
@@ -157,7 +157,7 @@ func TestLangServer_workspaceExecuteCommand_init_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
 		"arguments": ["uri=%s"]
-	}`, cmd.Name("terraform.init"), tmpDir.URI)}, `{
+	}`, cmd.Name("tofu.init"), tmpDir.URI)}, `{
 		"jsonrpc": "2.0",
 		"id": 3,
 		"result": null
@@ -247,5 +247,5 @@ func TestLangServer_workspaceExecuteCommand_init_error(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
 		"arguments": ["uri=%s"]
-	}`, cmd.Name("terraform.init"), testFileURI)}, jrpc2.SystemError.Err())
+	}`, cmd.Name("tofu.init"), testFileURI)}, jrpc2.SystemError.Err())
 }

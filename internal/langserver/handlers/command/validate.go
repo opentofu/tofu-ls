@@ -35,7 +35,7 @@ func (h *CmdHandler) TofuValidateHandler(ctx context.Context, args cmd.CommandAr
 		progress.End(ctx, "Finished")
 	}()
 
-	progress.Report(ctx, "Running terraform validate ...")
+	progress.Report(ctx, "Running tofu validate ...")
 	id, err := h.StateStore.JobStore.EnqueueJob(ctx, job.Job{
 		Dir: dirHandle,
 		Func: func(ctx context.Context) error {

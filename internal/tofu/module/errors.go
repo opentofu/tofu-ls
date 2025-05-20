@@ -31,7 +31,7 @@ func IsModuleNotFound(err error) bool {
 type NoTofuExecPathErr struct{}
 
 func (NoTofuExecPathErr) Error() string {
-	return "No exec path provided for terraform"
+	return "No exec path provided for tofu"
 }
 
 func IsTofuNotFound(err error) bool {

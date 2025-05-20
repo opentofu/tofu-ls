@@ -49,10 +49,10 @@ func (svc *service) formatDocument(ctx context.Context, tfExec exec.TofuExecutor
 	startTime := time.Now()
 	formatted, err := tfExec.Format(ctx, original)
 	if err != nil {
-		svc.logger.Printf("Failed 'terraform fmt' in %s", time.Since(startTime))
+		svc.logger.Printf("Failed 'tofu fmt' in %s", time.Since(startTime))
 		return edits, err
 	}
-	svc.logger.Printf("Finished 'terraform fmt' in %s", time.Since(startTime))
+	svc.logger.Printf("Finished 'tofu fmt' in %s", time.Since(startTime))
 
 	changes := hcl.Diff(dh, original, formatted)
 

@@ -119,14 +119,14 @@ func TestLangServer_codeAction_basic(t *testing.T) {
 				"start": { "line": 0, "character": 0 },
 				"end": { "line": 1, "character": 0 }
 			},
-			"context": { "diagnostics": [], "only": ["source.formatAll.terraform"] }
+			"context": { "diagnostics": [], "only": ["source.formatAll.tofu"] }
 		}`, tmpDir.URI)}, fmt.Sprintf(`{
 			"jsonrpc": "2.0",
 			"id": 3,
 			"result": [
 				{
 					"title": "Format Document",
-					"kind": "source.formatAll.terraform",
+					"kind": "source.formatAll.tofu",
 					"edit":{
 						"changes":{
 							"%s/main.tf": [
@@ -191,7 +191,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 			}`,
 		},
 		{
-			name: "source.formatAll.terraform code action requested",
+			name: "source.formatAll.tofu code action requested",
 			request: &langserver.CallRequest{
 				Method: "textDocument/codeAction",
 				ReqParams: fmt.Sprintf(`{
@@ -200,7 +200,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 							"start": { "line": 0, "character": 0 },
 							"end": { "line": 1, "character": 0 }
 						},
-						"context": { "diagnostics": [], "only": ["source.formatAll.terraform"] }
+						"context": { "diagnostics": [], "only": ["source.formatAll.tofu"] }
 					}`, tmpDir.URI)},
 			want: fmt.Sprintf(`{
 				"jsonrpc": "2.0",
@@ -208,7 +208,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 				"result": [
 					{
 						"title":"Format Document",
-						"kind":"source.formatAll.terraform",
+						"kind":"source.formatAll.tofu",
 						"edit":{
 							"changes": {
 								"%s/main.tf": [
@@ -240,7 +240,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 				}`, tmpDir.URI),
 		},
 		{
-			name: "source.fixAll and source.formatAll.terraform code action requested",
+			name: "source.fixAll and source.formatAll.tofu code action requested",
 			request: &langserver.CallRequest{
 				Method: "textDocument/codeAction",
 				ReqParams: fmt.Sprintf(`{
@@ -249,7 +249,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 							"start": { "line": 0, "character": 0 },
 							"end": { "line": 1, "character": 0 }
 						},
-						"context": { "diagnostics": [], "only": ["source.fixAll", "source.formatAll.terraform"] }
+						"context": { "diagnostics": [], "only": ["source.fixAll", "source.formatAll.tofu"] }
 					}`, tmpDir.URI),
 			},
 			want: fmt.Sprintf(`{
@@ -258,7 +258,7 @@ func TestLangServer_codeAction_no_code_action_requested(t *testing.T) {
 				"result": [
 					{
 						"title": "Format Document",
-						"kind": "source.formatAll.terraform",
+						"kind": "source.formatAll.tofu",
 						"edit": {
 							"changes": {
 								"%s/main.tf": [

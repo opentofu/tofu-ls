@@ -52,9 +52,9 @@ type Options struct {
 	XLegacyModulePaths          []string `mapstructure:"rootModulePaths"`
 	XLegacyExcludeModulePaths   []string `mapstructure:"excludeModulePaths"`
 	XLegacyIgnoreDirectoryNames []string `mapstructure:"ignoreDirectoryNames"`
-	XLegacyTofuExecPath         string   `mapstructure:"terraformExecPath"`
-	XLegacyTofuExecTimeout      string   `mapstructure:"terraformExecTimeout"`
-	XLegacyTofuExecLogFilePath  string   `mapstructure:"terraformExecLogFilePath"`
+	XLegacyTofuExecPath         string   `mapstructure:"tofuExecPath"`
+	XLegacyTofuExecTimeout      string   `mapstructure:"tofuExecTimeout"`
+	XLegacyTofuExecLogFilePath  string   `mapstructure:"tofuExecLogFilePath"`
 }
 
 func (o *Options) Validate() error {

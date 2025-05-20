@@ -15,7 +15,7 @@ import (
 func TofuExecutorForModule(ctx context.Context, modPath string) (exec.TofuExecutor, error) {
 	newExecutor, ok := exec.ExecutorFactoryFromContext(ctx)
 	if !ok {
-		return nil, fmt.Errorf("no terraform executor provided")
+		return nil, fmt.Errorf("no tofu executor provided")
 	}
 
 	execPath, err := TofuExecPath(ctx)

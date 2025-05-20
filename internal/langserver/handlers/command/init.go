@@ -39,7 +39,7 @@ func (h *CmdHandler) TofuInitHandler(ctx context.Context, args cmd.CommandArgs) 
 		progress.End(ctx, "Finished")
 	}()
 
-	progress.Report(ctx, "Running terraform init ...")
+	progress.Report(ctx, "Running tofu init ...")
 	err = tfExec.Init(ctx)
 	if err != nil {
 		return nil, err

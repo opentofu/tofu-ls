@@ -18,9 +18,9 @@ type UnsupportedTofuVersion struct {
 }
 
 func (utv *UnsupportedTofuVersion) Error() string {
-	msg := "terraform version is not supported"
+	msg := "OpenTofu version is not supported"
 	if utv.Version != "" {
-		msg = fmt.Sprintf("terraform version %s is not supported", utv.Version)
+		msg = fmt.Sprintf("OpenTofu version %s is not supported", utv.Version)
 	}
 
 	if utv.Component != "" {

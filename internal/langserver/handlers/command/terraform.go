@@ -48,7 +48,7 @@ func (h *CmdHandler) TofuVersionRequestHandler(ctx context.Context, args cmd.Com
 		return response, err
 	}
 
-	progress.Report(ctx, "Recording terraform version info ...")
+	progress.Report(ctx, "Recording OpenTofu version info ...")
 
 	tofuVersion := h.RootModulesFeature.TofuVersion(modPath)
 	if tofuVersion != nil {

@@ -68,5 +68,5 @@ func TestLangServer_workspaceExecuteCommand_validate_argumentError(t *testing.T)
 		Method: "workspace/executeCommand",
 		ReqParams: fmt.Sprintf(`{
 		"command": %q
-	}`, cmd.Name("terraform.validate"))}, jrpc2.InvalidParams.Err())
+	}`, cmd.Name("tofu.validate"))}, jrpc2.InvalidParams.Err())
 }

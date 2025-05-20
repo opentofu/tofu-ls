@@ -116,7 +116,7 @@ func (e *Executor) Init(ctx context.Context, opts ...tfexec.InitOption) error {
 	if err != nil {
 		return err
 	}
-	ctx, span := otel.Tracer(tracerName).Start(ctx, "terraform-exec:Init")
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "tofu-exec:Init")
 	defer span.End()
 
 	err = e.tf.Init(ctx, opts...)
@@ -132,7 +132,7 @@ func (e *Executor) Get(ctx context.Context, opts ...tfexec.GetCmdOption) error {
 	if err != nil {
 		return err
 	}
-	ctx, span := otel.Tracer(tracerName).Start(ctx, "terraform-exec:Get")
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "tofu-exec:Get")
 	defer span.End()
 
 	err = e.tf.Get(ctx, opts...)
@@ -149,7 +149,7 @@ func (e *Executor) Format(ctx context.Context, input []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	ctx, span := otel.Tracer(tracerName).Start(ctx, "terraform-exec:Format",
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "tofu-exec:Format",
 		trace.WithAttributes(attribute.KeyValue{
 			Key:   attribute.Key("stdinLength"),
 			Value: attribute.IntValue(len(input)),
@@ -173,7 +173,7 @@ func (e *Executor) Validate(ctx context.Context) ([]tfjson.Diagnostic, error) {
 		return []tfjson.Diagnostic{}, err
 	}
 
-	ctx, span := otel.Tracer(tracerName).Start(ctx, "terraform-exec:Validate")
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "tofu-exec:Validate")
 	defer span.End()
 
 	validation, err := e.tf.Validate(ctx)
@@ -193,7 +193,7 @@ func (e *Executor) Version(ctx context.Context) (*version.Version, map[string]*v
 		return nil, nil, err
 	}
 
-	ctx, span := otel.Tracer(tracerName).Start(ctx, "terraform-exec:Version")
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "tofu-exec:Version")
 	defer span.End()
 
 	ver, pv, err := e.tf.Version(ctx, true)
@@ -210,7 +210,7 @@ func (e *Executor) ProviderSchemas(ctx context.Context) (*tfjson.ProviderSchemas
 		return nil, err
 	}
 
-	ctx, span := otel.Tracer(tracerName).Start(ctx, "terraform-exec:ProviderSchemas")
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "tofu-exec:ProviderSchemas")
 	defer span.End()
 
 	ps, err := e.tf.ProvidersSchema(ctx)
