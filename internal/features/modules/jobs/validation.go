@@ -58,7 +58,7 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 
 	moduleDecoder, err := d.Path(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 	})
 	if err != nil {
 		return err
@@ -66,7 +66,7 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 
 	var rErr error
 	rpcContext := lsctx.DocumentContext(ctx)
-	if rpcContext.Method == "textDocument/didChange" && rpcContext.LanguageID == ilsp.Terraform.String() {
+	if rpcContext.Method == "textDocument/didChange" && rpcContext.LanguageID == ilsp.OpenTofu.String() {
 		filename := path.Base(rpcContext.URI)
 		// We only revalidate a single file that changed
 		var fileDiags hcl.Diagnostics
@@ -123,7 +123,7 @@ func ReferenceValidation(ctx context.Context, modStore *state.ModuleStore, rootF
 	}
 	pathCtx, err := pathReader.PathContext(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 	})
 	if err != nil {
 		return err

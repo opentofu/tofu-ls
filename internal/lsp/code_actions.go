@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	// SourceFormatAllTerraform is a Terraform specific format code action.
+	// SourceFormatAllTerraform is a OpenTofu specific format code action.
 	SourceFormatAllTerraform = "source.formatAll.terraform"
 )
 

@@ -58,7 +58,7 @@ func (pr *PathReader) Paths(ctx context.Context) []lang.Path {
 	for _, record := range moduleRecords {
 		paths = append(paths, lang.Path{
 			Path:       record.Path(),
-			LanguageID: ilsp.Terraform.String(),
+			LanguageID: ilsp.OpenTofu.String(),
 		})
 	}
 

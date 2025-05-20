@@ -59,7 +59,7 @@ func TestSchemaModuleValidation_FullModule(t *testing.T) {
 	fs := filesystem.NewFilesystem(gs.DocumentStore)
 	ctx = lsctx.WithDocumentContext(ctx, lsctx.Document{
 		Method:     "textDocument/didOpen",
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 		URI:        "file:///test/variables.tf",
 	})
 	err = ParseModuleConfiguration(ctx, fs, ms, modPath)
@@ -108,7 +108,7 @@ func TestSchemaModuleValidation_SingleFile(t *testing.T) {
 	fs := filesystem.NewFilesystem(gs.DocumentStore)
 	ctx = lsctx.WithDocumentContext(ctx, lsctx.Document{
 		Method:     "textDocument/didChange",
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 		URI:        "file:///test/variables.tf",
 	})
 	err = ParseModuleConfiguration(ctx, fs, ms, modPath)

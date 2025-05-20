@@ -65,7 +65,7 @@ func TestParseModuleConfiguration(t *testing.T) {
 	}
 	x := lsctx.Document{
 		Method:     "textDocument/didChange",
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 		URI:        uri.FromPath(fooURI),
 	}
 	ctx = lsctx.WithDocumentContext(ctx, x)

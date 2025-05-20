@@ -53,7 +53,7 @@ func DecodeReferenceTargets(ctx context.Context, modStore *state.ModuleStore, ro
 
 	pd, err := d.Path(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 	})
 	if err != nil {
 		return err
@@ -104,7 +104,7 @@ func DecodeReferenceOrigins(ctx context.Context, modStore *state.ModuleStore, ro
 
 	moduleDecoder, err := d.Path(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 	})
 	if err != nil {
 		return err
