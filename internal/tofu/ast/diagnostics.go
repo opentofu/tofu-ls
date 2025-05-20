@@ -16,7 +16,7 @@ const (
 	HCLParsingSource DiagnosticSource = iota
 	SchemaValidationSource
 	ReferenceValidationSource
-	TerraformValidateSource
+	TofuValidateSource
 )
 
 func (d DiagnosticSource) String() string {

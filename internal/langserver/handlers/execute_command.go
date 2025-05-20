@@ -29,7 +29,7 @@ func cmdHandlers(svc *service) cmd.Handlers {
 		cmd.Name("rootmodules"):        removedHandler("use module.callers instead"),
 		cmd.Name("module.callers"):     cmdHandler.ModuleCallersHandler,
 		cmd.Name("terraform.init"):     cmdHandler.TerraformInitHandler,
-		cmd.Name("terraform.validate"): cmdHandler.TerraformValidateHandler,
+		cmd.Name("terraform.validate"): cmdHandler.TofuValidateHandler,
 		cmd.Name("module.calls"):       cmdHandler.ModuleCallsHandler,
 		cmd.Name("module.providers"):   cmdHandler.ModuleProvidersHandler,
 		cmd.Name("module.terraform"):   cmdHandler.TerraformVersionRequestHandler,

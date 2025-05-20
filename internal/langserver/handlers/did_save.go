@@ -29,7 +29,7 @@ func (svc *service) TextDocumentDidSave(ctx context.Context, params lsp.DidSaveT
 	cmdHandler := &command.CmdHandler{
 		StateStore: svc.stateStore,
 	}
-	_, err = cmdHandler.TerraformValidateHandler(ctx, cmd.CommandArgs{
+	_, err = cmdHandler.TofuValidateHandler(ctx, cmd.CommandArgs{
 		"uri": dh.Dir.URI,
 	})
 

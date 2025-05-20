@@ -36,5 +36,5 @@ const (
 	OpTypeSchemaModuleValidation
 	OpTypeSchemaVarsValidation
 	OpTypeReferenceValidation
-	OpTypeTerraformValidate
+	OpTypeTofuValidate
 )

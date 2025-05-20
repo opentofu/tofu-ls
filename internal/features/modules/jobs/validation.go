@@ -133,21 +133,21 @@ func ReferenceValidation(ctx context.Context, modStore *state.ModuleStore, rootF
 	return modStore.UpdateModuleDiagnostics(modPath, globalAst.ReferenceValidationSource, ast.ModDiagsFromMap(diags))
 }
 
-// TerraformValidate uses Terraform CLI to run validate subcommand
+// TofuValidate uses Terraform CLI to run validate subcommand
 // and turn the provided (JSON) output into diagnostics associated
 // with "invalid" parts of code.
-func TerraformValidate(ctx context.Context, modStore *state.ModuleStore, modPath string) error {
+func TofuValidate(ctx context.Context, modStore *state.ModuleStore, modPath string) error {
 	mod, err := modStore.ModuleRecordByPath(modPath)
 	if err != nil {
 		return err
 	}
 
 	// Avoid validation if it is already in progress or already finished
-	if mod.ModuleDiagnosticsState[globalAst.TerraformValidateSource] != op.OpStateUnknown && !job.IgnoreState(ctx) {
+	if mod.ModuleDiagnosticsState[globalAst.TofuValidateSource] != op.OpStateUnknown && !job.IgnoreState(ctx) {
 		return job.StateNotChangedErr{Dir: document.DirHandleFromPath(modPath)}
 	}
 
-	err = modStore.SetModuleDiagnosticsState(modPath, globalAst.TerraformValidateSource, op.OpStateLoading)
+	err = modStore.SetModuleDiagnosticsState(modPath, globalAst.TofuValidateSource, op.OpStateLoading)
 	if err != nil {
 		return err
 	}
@@ -163,5 +163,5 @@ func TerraformValidate(ctx context.Context, modStore *state.ModuleStore, modPath
 	}
 	validateDiags := diagnostics.HCLDiagsFromJSON(jsonDiags)
 
-	return modStore.UpdateModuleDiagnostics(modPath, globalAst.TerraformValidateSource, ast.ModDiagsFromMap(validateDiags))
+	return modStore.UpdateModuleDiagnostics(modPath, globalAst.TofuValidateSource, ast.ModDiagsFromMap(validateDiags))
 }
