@@ -18,7 +18,7 @@ func TofuExecutorForModule(ctx context.Context, modPath string) (exec.TofuExecut
 		return nil, fmt.Errorf("no terraform executor provided")
 	}
 
-	execPath, err := TerraformExecPath(ctx)
+	execPath, err := TofuExecPath(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -39,11 +39,11 @@ func TofuExecutorForModule(ctx context.Context, modPath string) (exec.TofuExecut
 	return tfExec, nil
 }
 
-func TerraformExecPath(ctx context.Context) (string, error) {
+func TofuExecPath(ctx context.Context) (string, error) {
 	opts, ok := exec.ExecutorOptsFromContext(ctx)
 	if ok && opts.ExecPath != "" {
 		return opts.ExecPath, nil
 	} else {
-		return "", NoTerraformExecPathErr{}
+		return "", NoTofuExecPathErr{}
 	}
 }

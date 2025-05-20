@@ -178,13 +178,13 @@ func gen() error {
 	go func() {
 		for _, p := range providers {
 			providerChan <- Inputs{
-				TerraformExecPath: execPath,
-				WorkspacePath:     workspacePath,
-				DataDirPath:       dataDirPath,
-				CacheDirPath:      cacheDirPath,
-				CoreVersion:       coreVersion,
-				Provider:          p,
-				ProviderVersion:   p.Version,
+				TofuExecPath:    execPath,
+				WorkspacePath:   workspacePath,
+				DataDirPath:     dataDirPath,
+				CacheDirPath:    cacheDirPath,
+				CoreVersion:     coreVersion,
+				Provider:        p,
+				ProviderVersion: p.Version,
 			}
 		}
 		close(providerChan)
@@ -220,13 +220,13 @@ func gen() error {
 }
 
 type Inputs struct {
-	TerraformExecPath string
-	WorkspacePath     string
-	DataDirPath       string
-	CacheDirPath      string
-	CoreVersion       *version.Version
-	Provider          Provider
-	ProviderVersion   *version.Version
+	TofuExecPath    string
+	WorkspacePath   string
+	DataDirPath     string
+	CacheDirPath    string
+	CoreVersion     *version.Version
+	Provider        Provider
+	ProviderVersion *version.Version
 }
 
 type Outputs struct {
@@ -297,7 +297,7 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	}
 	configFile.Close()
 
-	tf, err := tfexec.NewTofu(wd, input.TerraformExecPath)
+	tf, err := tfexec.NewTofu(wd, input.TofuExecPath)
 	if err != nil {
 		return nil, err
 	}

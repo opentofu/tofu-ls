@@ -256,7 +256,7 @@ func TestModuleStore_List(t *testing.T) {
 	}
 }
 
-func TestModuleStore_UpdateTerraformAndProviderVersions(t *testing.T) {
+func TestModuleStore_UpdateTofuAndProviderVersions(t *testing.T) {
 	globalStore, err := globalState.NewStateStore()
 	if err != nil {
 		t.Fatal(err)

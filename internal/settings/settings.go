@@ -49,12 +49,12 @@ type Options struct {
 
 	OpenTofu OpenTofu `mapstructure:"openTofu"`
 
-	XLegacyModulePaths              []string `mapstructure:"rootModulePaths"`
-	XLegacyExcludeModulePaths       []string `mapstructure:"excludeModulePaths"`
-	XLegacyIgnoreDirectoryNames     []string `mapstructure:"ignoreDirectoryNames"`
-	XLegacyTerraformExecPath        string   `mapstructure:"terraformExecPath"`
-	XLegacyTerraformExecTimeout     string   `mapstructure:"terraformExecTimeout"`
-	XLegacyTerraformExecLogFilePath string   `mapstructure:"terraformExecLogFilePath"`
+	XLegacyModulePaths          []string `mapstructure:"rootModulePaths"`
+	XLegacyExcludeModulePaths   []string `mapstructure:"excludeModulePaths"`
+	XLegacyIgnoreDirectoryNames []string `mapstructure:"ignoreDirectoryNames"`
+	XLegacyTofuExecPath         string   `mapstructure:"terraformExecPath"`
+	XLegacyTofuExecTimeout      string   `mapstructure:"terraformExecTimeout"`
+	XLegacyTofuExecLogFilePath  string   `mapstructure:"terraformExecLogFilePath"`
 }
 
 func (o *Options) Validate() error {

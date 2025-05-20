@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	// SourceFormatAllTerraform is a OpenTofu specific format code action.
-	SourceFormatAllTerraform = "source.formatAll.terraform"
+	// SourceFormatAllTofu is a OpenTofu specific format code action.
+	SourceFormatAllTofu = "source.formatAll.terraform"
 )
 
 type CodeActions map[lsp.CodeActionKind]bool
@@ -36,7 +36,7 @@ var (
 	// A user should be able to set `source.formatAll` to true, and source.formatAll.terraform to false to allow all
 	// files to be formatted, but not terraform files (or vice versa).
 	SupportedCodeActions = CodeActions{
-		SourceFormatAllTerraform: true,
+		SourceFormatAllTofu: true,
 	}
 )
 

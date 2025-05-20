@@ -17,7 +17,7 @@ import (
 
 const tofuVersionRequestVersion = 0
 
-type terraformInfoResponse struct {
+type tofuInfoResponse struct {
 	FormatVersion     int    `json:"v"`
 	RequiredVersion   string `json:"required_version,omitempty"`
 	DiscoveredVersion string `json:"discovered_version,omitempty"`
@@ -29,7 +29,7 @@ func (h *CmdHandler) TofuVersionRequestHandler(ctx context.Context, args cmd.Com
 		progress.End(ctx, "Finished")
 	}()
 
-	response := terraformInfoResponse{
+	response := tofuInfoResponse{
 		FormatVersion: tofuVersionRequestVersion,
 	}
 

@@ -413,21 +413,21 @@ func (svc *service) Assigner() (jrpc2.Assigner, error) {
 
 func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *settings.Options) error {
 	// Raise warnings for deprecated options
-	if cfgOpts.XLegacyTerraformExecPath != "" {
+	if cfgOpts.XLegacyTofuExecPath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
 			Message: fmt.Sprintf("terraformExecPath (%q) is deprecated (no-op), use terraform.path instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
-	if cfgOpts.XLegacyTerraformExecTimeout != "" {
+	if cfgOpts.XLegacyTofuExecTimeout != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
 			Message: fmt.Sprintf("terraformExecTimeout (%q) is deprecated (no-op), use terraform.timeout instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
-	if cfgOpts.XLegacyTerraformExecLogFilePath != "" {
+	if cfgOpts.XLegacyTofuExecLogFilePath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
 			Message: fmt.Sprintf("terraformExecLogFilePath (%q) is deprecated (no-op), use terraform.logFilePath instead",
@@ -445,7 +445,7 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 			execOpts.ExecPath = path
 		}
 	}
-	svc.srvCtx = lsctx.WithTerraformExecPath(svc.srvCtx, execOpts.ExecPath)
+	svc.srvCtx = lsctx.WithTofuExecPath(svc.srvCtx, execOpts.ExecPath)
 
 	if len(cfgOpts.OpenTofu.LogFilePath) > 0 {
 		execOpts.ExecLogPath = cfgOpts.OpenTofu.LogFilePath
