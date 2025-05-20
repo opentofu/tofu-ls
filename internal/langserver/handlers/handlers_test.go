@@ -80,7 +80,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 					"referenceCountCodeLens": false,
 					"refreshModuleProviders": false,
 					"refreshModuleCalls": false,
-					"refreshTerraformVersion": false
+					"refreshTofuVersion": false
 				}
 			},
 			"serverInfo": {

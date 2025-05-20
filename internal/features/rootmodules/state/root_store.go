@@ -276,7 +276,7 @@ func (s *RootStore) UpdateModManifest(path string, manifest *datadir.ModuleManif
 	return nil
 }
 
-func (s *RootStore) SetTerraformVersionState(path string, state op.OpState) error {
+func (s *RootStore) SetTofuVersionState(path string, state op.OpState) error {
 	txn := s.db.Txn(true)
 	defer txn.Abort()
 
@@ -303,7 +303,7 @@ func (s *RootStore) SetTerraformVersionState(path string, state op.OpState) erro
 func (s *RootStore) UpdateTerraformAndProviderVersions(path string, tfVer *version.Version, pv map[tfaddr.Provider]*version.Version, vErr error) error {
 	txn := s.db.Txn(true)
 	txn.Defer(func() {
-		s.SetTerraformVersionState(path, op.OpStateLoaded)
+		s.SetTofuVersionState(path, op.OpStateLoaded)
 	})
 	defer txn.Abort()
 

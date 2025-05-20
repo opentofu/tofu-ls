@@ -18,7 +18,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
-func (h *CmdHandler) TerraformInitHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
+func (h *CmdHandler) TofuInitHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
 	dirUri, ok := args.GetString("uri")
 	if !ok || dirUri == "" {
 		return nil, fmt.Errorf("%w: expected module uri argument to be set", jrpc2.InvalidParams.Err())

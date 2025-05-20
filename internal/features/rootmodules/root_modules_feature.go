@@ -117,7 +117,7 @@ func (f *RootModulesFeature) InstalledModuleCalls(modPath string) (map[string]tf
 	return f.Store.InstalledModuleCalls(modPath)
 }
 
-// TerraformVersion tries to find a modules Terraform version on a best effort basis.
+// TofuVersion tries to find a modules Terraform version on a best effort basis.
 // If a root module exists at the given path, it will return the Terraform
 // version of that root module. If not, it will return the version of any
 // of the other root modules.

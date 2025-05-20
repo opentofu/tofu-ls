@@ -34,7 +34,7 @@ import (
 	"github.com/opentofu/tofudl"
 )
 
-var terraformVersion = version.MustConstraints(version.NewConstraint("~> 1.0"))
+var tofuVersion = version.MustConstraints(version.NewConstraint("~> 1.0"))
 
 type Provider struct {
 	ID      string
@@ -261,10 +261,10 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	}
 
 	type templateData struct {
-		TerraformVersion string
-		LocalName        string
-		Source           string
-		Version          string
+		TofuVersion string
+		LocalName   string
+		Source      string
+		Version     string
 	}
 	tmpl, err := template.New("providers").Parse(`terraform {
   required_version = "{{ .TofuVersion }}"
@@ -287,10 +287,10 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	}
 
 	err = tmpl.Execute(configFile, templateData{
-		TerraformVersion: terraformVersion.String(),
-		LocalName:        input.Provider.Addr.Type,
-		Source:           input.Provider.Addr.ForDisplay(),
-		Version:          input.ProviderVersion.String(),
+		TofuVersion: tofuVersion.String(),
+		LocalName:   input.Provider.Addr.Type,
+		Source:      input.Provider.Addr.ForDisplay(),
+		Version:     input.ProviderVersion.String(),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)

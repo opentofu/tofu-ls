@@ -9,7 +9,7 @@ type ExperimentalServerCapabilities struct {
 	ReferenceCountCodeLens bool `json:"referenceCountCodeLens"`
 	RefreshModuleProviders bool `json:"refreshModuleProviders"`
 	RefreshModuleCalls     bool `json:"refreshModuleCalls"`
-	RefreshTofuVersion     bool `json:"refreshTerraformVersion"`
+	RefreshTofuVersion     bool `json:"refreshTofuVersion"`
 }
 
 type ExpClientCapabilities map[string]interface{}
@@ -48,11 +48,11 @@ func (cc ExpClientCapabilities) RefreshModuleCallsCommandId() (string, bool) {
 	return cmdId, ok
 }
 
-func (cc ExpClientCapabilities) RefreshTerraformVersionCommandId() (string, bool) {
+func (cc ExpClientCapabilities) RefreshTofuVersionCommandId() (string, bool) {
 	if cc == nil {
 		return "", false
 	}
 
-	cmdId, ok := cc["refreshTerraformVersionCommandId"].(string)
+	cmdId, ok := cc["refreshTofuVersionCommandId"].(string)
 	return cmdId, ok
 }

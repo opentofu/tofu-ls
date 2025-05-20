@@ -57,8 +57,8 @@ func (svc *service) Initialize(ctx context.Context, params lsp.InitializeParams)
 	if _, ok := expClientCaps.RefreshModuleCallsCommandId(); ok {
 		expServerCaps.RefreshModuleCalls = true
 	}
-	if _, ok := expClientCaps.RefreshTerraformVersionCommandId(); ok {
-		expServerCaps.RefreshTerraformVersion = true
+	if _, ok := expClientCaps.RefreshTofuVersionCommandId(); ok {
+		expServerCaps.RefreshTofuVersion = true
 	}
 
 	serverCaps.Capabilities.Experimental = expServerCaps

@@ -33,11 +33,11 @@ func GetTofuVersion(ctx context.Context, rootStore *state.RootStore, modPath str
 		return job.StateNotChangedErr{Dir: document.DirHandleFromPath(modPath)}
 	}
 
-	err = rootStore.SetTerraformVersionState(modPath, op.OpStateLoading)
+	err = rootStore.SetTofuVersionState(modPath, op.OpStateLoading)
 	if err != nil {
 		return err
 	}
-	defer rootStore.SetTerraformVersionState(modPath, op.OpStateLoaded)
+	defer rootStore.SetTofuVersionState(modPath, op.OpStateLoaded)
 
 	tfExec, err := module.TofuExecutorForModule(ctx, mod.Path())
 	if err != nil {

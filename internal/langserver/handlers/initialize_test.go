@@ -61,7 +61,7 @@ func TestInitialize_twice(t *testing.T) {
 	}`, tmpDir.URI)}, jrpc2.SystemError.Err())
 }
 
-func TestInitialize_withIncompatibleTerraformVersion(t *testing.T) {
+func TestInitialize_withIncompatibleTofuVersion(t *testing.T) {
 	tmpDir := TempDir(t)
 
 	ss, err := state.NewStateStore()

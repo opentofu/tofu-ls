@@ -32,7 +32,7 @@ import (
 // associated with any "invalid" parts of code.
 //
 // It relies on previously parsed AST (via [ParseModuleConfiguration]),
-// core schema of appropriate version (as obtained via [GetTerraformVersion])
+// core schema of appropriate version (as obtained via [GetTofuVersion])
 // and provider schemas ([PreloadEmbeddedSchema] or [ObtainSchema]).
 func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, rootFeature fdecoder.RootReader, modPath string) error {
 	mod, err := modStore.ModuleRecordByPath(modPath)

@@ -21,7 +21,7 @@ import (
 
 // DecodeReferenceTargets collects reference targets,
 // using previously parsed AST (via [ParseModuleConfiguration]),
-// core schema of appropriate version (as obtained via [GetTerraformVersion])
+// core schema of appropriate version (as obtained via [GetTofuVersion])
 // and provider schemas ([PreloadEmbeddedSchema] or [ObtainSchema]).
 //
 // For example it tells us that variable block between certain LOC
@@ -72,7 +72,7 @@ func DecodeReferenceTargets(ctx context.Context, modStore *state.ModuleStore, ro
 
 // DecodeReferenceOrigins collects reference origins,
 // using previously parsed AST (via [ParseModuleConfiguration]),
-// core schema of appropriate version (as obtained via [GetTerraformVersion])
+// core schema of appropriate version (as obtained via [GetTofuVersion])
 // and provider schemas ([PreloadEmbeddedSchema] or [ObtainSchema]).
 //
 // For example it tells us that there is a reference address var.foobar

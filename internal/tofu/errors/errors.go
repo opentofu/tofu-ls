@@ -11,13 +11,13 @@ import (
 	"github.com/hashicorp/go-version"
 )
 
-type UnsupportedTerraformVersion struct {
+type UnsupportedTofuVersion struct {
 	Component   string
 	Version     string
 	Constraints version.Constraints
 }
 
-func (utv *UnsupportedTerraformVersion) Error() string {
+func (utv *UnsupportedTofuVersion) Error() string {
 	msg := "terraform version is not supported"
 	if utv.Version != "" {
 		msg = fmt.Sprintf("terraform version %s is not supported", utv.Version)
@@ -34,8 +34,8 @@ func (utv *UnsupportedTerraformVersion) Error() string {
 	return msg
 }
 
-func (utv *UnsupportedTerraformVersion) Is(err error) bool {
-	te, ok := err.(*UnsupportedTerraformVersion)
+func (utv *UnsupportedTofuVersion) Is(err error) bool {
+	te, ok := err.(*UnsupportedTofuVersion)
 	if !ok {
 		return false
 	}

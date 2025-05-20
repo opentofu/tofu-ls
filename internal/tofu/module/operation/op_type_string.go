@@ -9,8 +9,8 @@ func _() {
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
 	_ = x[OpTypeUnknown-0]
-	_ = x[OpTypeGetTerraformVersion-1]
-	_ = x[OpTypeGetInstalledTerraformVersion-2]
+	_ = x[OpTypeGetTofuVersion-1]
+	_ = x[OpTypeGetInstalledTofuVersion-2]
 	_ = x[OpTypeObtainSchema-3]
 	_ = x[OpTypeParseModuleConfiguration-4]
 	_ = x[OpTypeParseVariables-5]
@@ -28,7 +28,7 @@ func _() {
 	_ = x[OpTypeTofuValidate-17]
 }
 
-const _OpType_name = "OpTypeUnknownOpTypeGetTerraformVersionOpTypeGetInstalledTerraformVersionOpTypeObtainSchemaOpTypeParseModuleConfigurationOpTypeParseVariablesOpTypeParseModuleManifestOpTypeLoadModuleMetadataOpTypeDecodeReferenceTargetsOpTypeDecodeReferenceOriginsOpTypeDecodeVarsReferencesOpTypeGetModuleDataFromRegistryOpTypeParseProviderVersionsOpTypePreloadEmbeddedSchemaOpTypeSchemaModuleValidationOpTypeSchemaVarsValidationOpTypeReferenceValidationOpTypeTofuValidate"
+const _OpType_name = "OpTypeUnknownOpTypeGetTofuVersionOpTypeGetInstalledTofuVersionOpTypeObtainSchemaOpTypeParseModuleConfigurationOpTypeParseVariablesOpTypeParseModuleManifestOpTypeLoadModuleMetadataOpTypeDecodeReferenceTargetsOpTypeDecodeReferenceOriginsOpTypeDecodeVarsReferencesOpTypeGetModuleDataFromRegistryOpTypeParseProviderVersionsOpTypePreloadEmbeddedSchemaOpTypeSchemaModuleValidationOpTypeSchemaVarsValidationOpTypeReferenceValidationOpTypeTofuValidate"
 
 var _OpType_index = [...]uint16{0, 13, 38, 72, 90, 120, 140, 165, 189, 217, 245, 271, 302, 329, 356, 384, 410, 435, 458}
 
