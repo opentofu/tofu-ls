@@ -20,7 +20,7 @@ import (
 
 // LoadModuleMetadata loads data about the module in a version-independent
 // way that enables us to decode the rest of the configuration,
-// e.g. by knowing provider versions, Terraform Core constraint etc.
+// e.g. by knowing provider versions, OpenTofu Core constraint etc.
 func LoadModuleMetadata(ctx context.Context, modStore *state.ModuleStore, modPath string) error {
 	mod, err := modStore.ModuleRecordByPath(modPath)
 	if err != nil {

@@ -61,14 +61,14 @@ func (o *Options) Validate() error {
 	if o.OpenTofu.Path != "" {
 		path := o.OpenTofu.Path
 		if !filepath.IsAbs(path) {
-			return fmt.Errorf("Expected absolute path for Terraform binary, got %q", path)
+			return fmt.Errorf("expected absolute path for tofu binary, got %q", path)
 		}
 		stat, err := os.Stat(path)
 		if err != nil {
-			return fmt.Errorf("Unable to find Terraform binary: %s", err)
+			return fmt.Errorf("unable to find tofu binary: %s", err)
 		}
 		if stat.IsDir() {
-			return fmt.Errorf("Expected a Terraform binary, got a directory: %q", path)
+			return fmt.Errorf("expected a tofu binary, got a directory: %q", path)
 		}
 	}
 

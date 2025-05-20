@@ -10,7 +10,6 @@ import (
 	"io"
 	"log"
 	"net"
-	"net/http"
 	"strings"
 	"testing"
 	"time"
@@ -22,59 +21,6 @@ import (
 	globalState "github.com/opentofu/tofu-ls/internal/state"
 	"github.com/zclconf/go-cty/cty"
 )
-
-const responseAWS = `{
-	"hits": [
-		{
-			"full-name": "terraform-aws-modules/vpc/aws",
-			"description": "Terraform module which creates VPC resources on AWS",
-			"objectID": "modules:23"
-		},
-		{
-			"full-name": "terraform-aws-modules/eks/aws",
-			"description": "Terraform module to create an Elastic Kubernetes (EKS) cluster and associated resources",
-			"objectID": "modules:1143"
-		}
-	],
-	"nbHits": 10200,
-	"page": 0,
-	"nbPages": 100,
-	"hitsPerPage": 2,
-	"exhaustiveNbHits": true,
-	"exhaustiveTypo": true,
-	"query": "aws",
-	"params": "attributesToRetrieve=%5B%22full-name%22%2C%22description%22%5D&hitsPerPage=2&query=aws",
-	"renderingContent": {},
-	"processingTimeMS": 1,
-	"processingTimingsMS": {}
-}`
-
-const responseEmpty = `{
-	"hits": [],
-	"nbHits": 0,
-	"page": 0,
-	"nbPages": 0,
-	"hitsPerPage": 2,
-	"exhaustiveNbHits": true,
-	"exhaustiveTypo": true,
-	"query": "foo",
-	"params": "attributesToRetrieve=%5B%22full-name%22%2C%22description%22%5D&hitsPerPage=2&query=foo",
-	"renderingContent": {},
-	"processingTimeMS": 1
-}`
-
-const responseErr = `{
-	"message": "Invalid Application-ID or API key",
-	"status": 403
-}`
-
-type testRequester struct {
-	client *http.Client
-}
-
-func (r *testRequester) Request(req *http.Request) (*http.Response, error) {
-	return r.client.Do(req)
-}
 
 func TestHooks_RegistryModuleSources(t *testing.T) {
 	t.Skip("Skipping because currently we don't support modules auto completion")

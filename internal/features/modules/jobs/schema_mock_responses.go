@@ -167,7 +167,7 @@ var puppetModuleDataMockResponse = `{
   "root": {
     "path": "",
     "name": "deployment",
-    "readme": "# EC project Terraform module\n\nTerraform module which creates a Elastic Cloud project.\n\n## Usage\n\nDetails coming soon\n",
+    "readme": "# EC project Tofu module\n\nTofu module which creates a Elastic Cloud project.\n\n## Usage\n\nDetails coming soon\n",
     "empty": false,
     "inputs": [
       {
@@ -352,7 +352,7 @@ var labelNullModuleDataOldMockResponse = `{
   "version": "0.25.0",
   "provider": "null",
   "provider_logo_url": "/images/providers/generic.svg?2",
-  "description": "Terraform Module to define a consistent naming convention by (namespace, stage, name, [attributes])",
+  "description": "Tofu Module to define a consistent naming convention by (namespace, stage, name, [attributes])",
   "source": "https://github.com/cloudposse/terraform-null-label",
   "tag": "0.25.0",
   "published_at": "2021-08-25T17:47:04.039843Z",
@@ -415,7 +415,7 @@ var labelNullModuleDataNewMockResponse = `{
   "version": "0.26.0",
   "provider": "null",
   "provider_logo_url": "/images/providers/generic.svg?2",
-  "description": "Terraform Module to define a consistent naming convention by (namespace, stage, name, [attributes])",
+  "description": "Tofu Module to define a consistent naming convention by (namespace, stage, name, [attributes])",
   "source": "https://github.com/cloudposse/terraform-null-label",
   "tag": "0.26.0",
   "published_at": "2023-10-11T10:47:04.039843Z",

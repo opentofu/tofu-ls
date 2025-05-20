@@ -133,7 +133,7 @@ func ReferenceValidation(ctx context.Context, modStore *state.ModuleStore, rootF
 	return modStore.UpdateModuleDiagnostics(modPath, globalAst.ReferenceValidationSource, ast.ModDiagsFromMap(diags))
 }
 
-// TofuValidate uses Terraform CLI to run validate subcommand
+// TofuValidate uses Tofu CLI to run validate subcommand
 // and turn the provided (JSON) output into diagnostics associated
 // with "invalid" parts of code.
 func TofuValidate(ctx context.Context, modStore *state.ModuleStore, modPath string) error {

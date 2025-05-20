@@ -168,12 +168,6 @@ var tfSchemaJSON = `{
 								"description": "An object containing every root-level output in the remote state.",
 								"description_kind": "markdown",
 								"computed": true
-							},
-							"workspace": {
-								"type": "string",
-								"description": "The Terraform workspace to use, if the backend supports workspaces.",
-								"description_kind": "markdown",
-								"optional": true
 							}
 						},
 						"description_kind": "plain"

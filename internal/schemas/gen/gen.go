@@ -132,7 +132,7 @@ func gen() error {
 	if err != nil {
 		return err
 	}
-	log.Printf("using Terraform %s (%s)", coreVersion, execPath)
+	log.Printf("using OpenTofu %s (%s)", coreVersion, execPath)
 
 	workspacePath, err := filepath.Abs("gen-workspace")
 	if err != nil {
@@ -171,7 +171,7 @@ func gen() error {
 	if err != nil {
 		return err
 	}
-	log.Printf("Terraform plugin cache will be stored at %s", cacheDirPath)
+	log.Printf("OpenTofu plugin cache will be stored at %s", cacheDirPath)
 
 	// install each provider and obtain schema for it
 	providerChan := make(chan Inputs)

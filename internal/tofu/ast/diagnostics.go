@@ -20,7 +20,7 @@ const (
 )
 
 func (d DiagnosticSource) String() string {
-	return "Terraform"
+	return "OpenTofu"
 }
 
 type DiagnosticSourceState map[DiagnosticSource]op.OpState
