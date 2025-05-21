@@ -20,8 +20,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/features/modules/ast"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 type ModuleStore struct {

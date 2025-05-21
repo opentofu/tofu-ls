@@ -14,8 +14,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver/errors"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
 )
 
 func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.DocumentFormattingParams) ([]lsp.TextEdit, error) {

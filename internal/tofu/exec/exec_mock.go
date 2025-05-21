@@ -9,7 +9,7 @@ import (
 	"context"
 	"fmt"
 
-	exec_mock "github.com/opentofu/tofu-ls/internal/terraform/exec/mock"
+	exec_mock "github.com/opentofu/tofu-ls/internal/tofu/exec/mock"
 	"github.com/stretchr/testify/mock"
 )
 

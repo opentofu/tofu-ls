@@ -13,7 +13,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/tofu-ls/internal/terraform/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/ast"
 )
 
 var discardLogger = log.New(io.Discard, "", 0)

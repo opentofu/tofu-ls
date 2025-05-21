@@ -22,9 +22,9 @@ import (
 	"github.com/opentofu/tofu-ls/internal/job"
 	"github.com/opentofu/tofu-ls/internal/langserver/diagnostics"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // SchemaModuleValidation does schema-based validation

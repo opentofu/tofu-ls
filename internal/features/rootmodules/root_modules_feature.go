@@ -17,7 +17,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/jobs"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 )
 
 // RootModulesFeature groups everything related to root modules. Its internal

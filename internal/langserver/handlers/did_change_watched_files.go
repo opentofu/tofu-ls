@@ -14,7 +14,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/eventbus"
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 

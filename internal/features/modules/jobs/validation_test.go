@@ -17,7 +17,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/filesystem"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/ast"
 )
 
 type RootReaderMock struct{}
