@@ -82,7 +82,7 @@ func getProviderDocumentationLink(ctx context.Context, provider tfaddr.Provider)
 		return "", nil
 	}
 
-	rawURL := fmt.Sprintf(`https://registry.opentofu.org/provider/%s/latest`, provider.ForDisplay())
+	rawURL := fmt.Sprintf(`https://search.opentofu.org/provider/%s/latest`, provider.ForDisplay())
 
 	u, err := docsURL(ctx, rawURL, "workspace/executeCommand/module.providers")
 	if err != nil {

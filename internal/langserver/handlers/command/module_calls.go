@@ -129,7 +129,7 @@ func getModuleDocumentationLink(ctx context.Context, sourceAddr tfmod.ModuleSour
 	if !ok || registryAddr.Package.Host != "registry.opentofu.org" {
 		return "", nil
 	}
-	rawURL := fmt.Sprintf(`https://registry.opentofu.org/module/%s/latest`, registryAddr.Package.ForRegistryProtocol())
+	rawURL := fmt.Sprintf(`https://search.opentofu.org/module/%s/latest`, registryAddr.Package.ForRegistryProtocol())
 
 	u, err := docsURL(ctx, rawURL, "workspace/executeCommand/module.calls")
 	if err != nil {
