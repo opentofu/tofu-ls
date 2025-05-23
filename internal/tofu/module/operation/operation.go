@@ -20,8 +20,8 @@ type OpType uint
 
 const (
 	OpTypeUnknown OpType = iota
-	OpTypeGetTerraformVersion
-	OpTypeGetInstalledTerraformVersion
+	OpTypeGetTofuVersion
+	OpTypeGetInstalledTofuVersion
 	OpTypeObtainSchema
 	OpTypeParseModuleConfiguration
 	OpTypeParseVariables
@@ -36,5 +36,5 @@ const (
 	OpTypeSchemaModuleValidation
 	OpTypeSchemaVarsValidation
 	OpTypeReferenceValidation
-	OpTypeTerraformValidate
+	OpTypeTofuValidate
 )

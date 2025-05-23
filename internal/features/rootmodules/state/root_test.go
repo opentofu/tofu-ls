@@ -80,7 +80,7 @@ func TestModuleStore_ModuleByPath(t *testing.T) {
 	}
 
 	tfVersion := version.Must(version.NewVersion("1.0.0"))
-	err = s.UpdateTerraformAndProviderVersions(modPath, tfVersion, nil, nil)
+	err = s.UpdateTofuAndProviderVersions(modPath, tfVersion, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -91,9 +91,9 @@ func TestModuleStore_ModuleByPath(t *testing.T) {
 	}
 
 	expectedModule := &RootRecord{
-		path:                  modPath,
-		TerraformVersion:      tfVersion,
-		TerraformVersionState: operation.OpStateLoaded,
+		path:             modPath,
+		TofuVersion:      tfVersion,
+		TofuVersionState: operation.OpStateLoaded,
 	}
 	if diff := cmp.Diff(expectedModule, mod, cmpOpts); diff != "" {
 		t.Fatalf("unexpected module: %s", diff)
@@ -256,7 +256,7 @@ func TestModuleStore_List(t *testing.T) {
 	}
 }
 
-func TestModuleStore_UpdateTerraformAndProviderVersions(t *testing.T) {
+func TestModuleStore_UpdateTofuAndProviderVersions(t *testing.T) {
 	globalStore, err := globalState.NewStateStore()
 	if err != nil {
 		t.Fatal(err)
@@ -274,7 +274,7 @@ func TestModuleStore_UpdateTerraformAndProviderVersions(t *testing.T) {
 
 	vErr := customErr{}
 
-	err = s.UpdateTerraformAndProviderVersions(tmpDir, testVersion(t, "0.12.4"), nil, vErr)
+	err = s.UpdateTofuAndProviderVersions(tmpDir, testVersion(t, "0.12.4"), nil, vErr)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -285,10 +285,10 @@ func TestModuleStore_UpdateTerraformAndProviderVersions(t *testing.T) {
 	}
 
 	expectedModule := &RootRecord{
-		path:                  tmpDir,
-		TerraformVersion:      testVersion(t, "0.12.4"),
-		TerraformVersionState: operation.OpStateLoaded,
-		TerraformVersionErr:   vErr,
+		path:             tmpDir,
+		TofuVersion:      testVersion(t, "0.12.4"),
+		TofuVersionState: operation.OpStateLoaded,
+		TofuVersionErr:   vErr,
 	}
 	if diff := cmp.Diff(expectedModule, mod, cmpOpts); diff != "" {
 		t.Fatalf("unexpected module data: %s", diff)

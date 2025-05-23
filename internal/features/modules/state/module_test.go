@@ -95,7 +95,7 @@ func TestModuleStore_ModuleByPath(t *testing.T) {
 			globalAst.HCLParsingSource:          operation.OpStateUnknown,
 			globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 			globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-			globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+			globalAst.TofuValidateSource:        operation.OpStateUnknown,
 		},
 	}
 	if diff := cmp.Diff(expectedModule, mod, cmpOpts); diff != "" {
@@ -139,7 +139,7 @@ func TestModuleStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 		{
@@ -148,7 +148,7 @@ func TestModuleStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 		{
@@ -157,7 +157,7 @@ func TestModuleStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 	}
@@ -225,7 +225,7 @@ func TestModuleStore_UpdateMetadata(t *testing.T) {
 			globalAst.HCLParsingSource:          operation.OpStateUnknown,
 			globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 			globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-			globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+			globalAst.TofuValidateSource:        operation.OpStateUnknown,
 		},
 	}
 

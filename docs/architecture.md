@@ -74,7 +74,8 @@ The `jobs` package of each feature contains all the different indexing jobs need
 - `GetModuleDataFromRegistry` - obtains data about any modules (inputs & outputs) from the Registry API based on module calls
 - `SchemaModuleValidation` - does schema-based validation of module files (`*.tf`) and produces diagnostics associated with any "invalid" parts of code
 - `ReferenceValidation` - does validation based on (mis)matched reference origins and targets, to flag up "orphaned" references
-- `TerraformValidate` - uses Terraform CLI to run the validate subcommand and turn the provided (JSON) output into diagnostics
+- `TofuValidate` - uses OpenTofu CLI to run the validate subcommand and turn the provided (JSON) output into
+  diagnostics
 
 ### Variables Feature Jobs
 

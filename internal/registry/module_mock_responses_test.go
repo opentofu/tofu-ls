@@ -160,7 +160,7 @@ var moduleDataMockResponse = `{
   "root": {
     "path": "",
     "name": "deployment",
-    "readme": "# EC project Terraform module\n\nTerraform module which creates a Elastic Cloud project.\n\n## Usage\n\nDetails coming soon\n",
+    "readme": "# EC project OpenTofu module\n\nTofu module which creates a Elastic Cloud project.\n\n## Usage\n\nDetails coming soon\n",
     "empty": false,
     "inputs": [
       {

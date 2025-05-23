@@ -35,7 +35,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_argumentError(t *tes
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				rootDir.Path(): validTfMockCalls(),
 			},
@@ -87,7 +87,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_basic(t *testing.T) 
 	}
 
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			modDir: validTfMockCalls(),
 		},
@@ -137,7 +137,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_basic(t *testing.T) 
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      s,
 		WalkerCollector: wc,
 		Features:        features,

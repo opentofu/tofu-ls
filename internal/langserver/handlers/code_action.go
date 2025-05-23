@@ -56,8 +56,8 @@ func (svc *service) textDocumentCodeAction(ctx context.Context, params lsp.CodeA
 
 	for action := range wantedCodeActions {
 		switch action {
-		case ilsp.SourceFormatAllTerraform:
-			tfExec, err := module.TerraformExecutorForModule(ctx, dh.Dir.Path())
+		case ilsp.SourceFormatAllTofu:
+			tfExec, err := module.TofuExecutorForModule(ctx, dh.Dir.Path())
 			if err != nil {
 				return ca, errors.EnrichTfExecError(err)
 			}

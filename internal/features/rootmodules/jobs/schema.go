@@ -36,7 +36,7 @@ func ObtainSchema(ctx context.Context, rootStore *state.RootStore, schemaStore *
 	// 1. it will run whenever we open a root module for the first time
 	// 2. it will run when we detect changes to a lockfile
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, modPath)
+	tfExec, err := module.TofuExecutorForModule(ctx, modPath)
 	if err != nil {
 		sErr := rootStore.FinishProviderSchemaLoading(modPath, err)
 		if sErr != nil {

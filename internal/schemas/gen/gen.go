@@ -34,7 +34,7 @@ import (
 	"github.com/opentofu/tofudl"
 )
 
-var terraformVersion = version.MustConstraints(version.NewConstraint("~> 1.0"))
+var tofuVersion = version.MustConstraints(version.NewConstraint("~> 1.0"))
 
 type Provider struct {
 	ID      string
@@ -132,7 +132,7 @@ func gen() error {
 	if err != nil {
 		return err
 	}
-	log.Printf("using Terraform %s (%s)", coreVersion, execPath)
+	log.Printf("using OpenTofu %s (%s)", coreVersion, execPath)
 
 	workspacePath, err := filepath.Abs("gen-workspace")
 	if err != nil {
@@ -171,20 +171,20 @@ func gen() error {
 	if err != nil {
 		return err
 	}
-	log.Printf("Terraform plugin cache will be stored at %s", cacheDirPath)
+	log.Printf("OpenTofu plugin cache will be stored at %s", cacheDirPath)
 
 	// install each provider and obtain schema for it
 	providerChan := make(chan Inputs)
 	go func() {
 		for _, p := range providers {
 			providerChan <- Inputs{
-				TerraformExecPath: execPath,
-				WorkspacePath:     workspacePath,
-				DataDirPath:       dataDirPath,
-				CacheDirPath:      cacheDirPath,
-				CoreVersion:       coreVersion,
-				Provider:          p,
-				ProviderVersion:   p.Version,
+				TofuExecPath:    execPath,
+				WorkspacePath:   workspacePath,
+				DataDirPath:     dataDirPath,
+				CacheDirPath:    cacheDirPath,
+				CoreVersion:     coreVersion,
+				Provider:        p,
+				ProviderVersion: p.Version,
 			}
 		}
 		close(providerChan)
@@ -220,13 +220,13 @@ func gen() error {
 }
 
 type Inputs struct {
-	TerraformExecPath string
-	WorkspacePath     string
-	DataDirPath       string
-	CacheDirPath      string
-	CoreVersion       *version.Version
-	Provider          Provider
-	ProviderVersion   *version.Version
+	TofuExecPath    string
+	WorkspacePath   string
+	DataDirPath     string
+	CacheDirPath    string
+	CoreVersion     *version.Version
+	Provider        Provider
+	ProviderVersion *version.Version
 }
 
 type Outputs struct {
@@ -261,13 +261,13 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	}
 
 	type templateData struct {
-		TerraformVersion string
-		LocalName        string
-		Source           string
-		Version          string
+		TofuVersion string
+		LocalName   string
+		Source      string
+		Version     string
 	}
 	tmpl, err := template.New("providers").Parse(`terraform {
-  required_version = "{{ .TerraformVersion }}"
+  required_version = "{{ .TofuVersion }}"
   required_providers {
     {{ .LocalName }} = {
       source  = "{{ .Source }}"
@@ -287,17 +287,17 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	}
 
 	err = tmpl.Execute(configFile, templateData{
-		TerraformVersion: terraformVersion.String(),
-		LocalName:        input.Provider.Addr.Type,
-		Source:           input.Provider.Addr.ForDisplay(),
-		Version:          input.ProviderVersion.String(),
+		TofuVersion: tofuVersion.String(),
+		LocalName:   input.Provider.Addr.Type,
+		Source:      input.Provider.Addr.ForDisplay(),
+		Version:     input.ProviderVersion.String(),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
 	}
 	configFile.Close()
 
-	tf, err := tfexec.NewTofu(wd, input.TerraformExecPath)
+	tf, err := tfexec.NewTofu(wd, input.TofuExecPath)
 	if err != nil {
 		return nil, err
 	}

@@ -24,7 +24,7 @@ func (svc *service) TextDocumentLink(ctx context.Context, params lsp.DocumentLin
 		return nil, err
 	}
 
-	if doc.LanguageID != ilsp.Terraform.String() {
+	if doc.LanguageID != ilsp.OpenTofu.String() {
 		return nil, nil
 	}
 

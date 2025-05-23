@@ -49,8 +49,8 @@ func TestPublish_DoesNotSendAfterClose(t *testing.T) {
 	n := NewNotifier(noopNotifier{}, discardLogger)
 
 	diags := NewDiagnostics()
-	diags.Append(ast.TerraformValidateSource, map[string]hcl.Diagnostics{
-		ast.TerraformValidateSource.String(): {
+	diags.Append(ast.TofuValidateSource, map[string]hcl.Diagnostics{
+		ast.TofuValidateSource.String(): {
 			{
 				Severity: hcl.DiagError,
 			},

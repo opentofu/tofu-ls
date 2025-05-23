@@ -31,7 +31,7 @@ type StateReader interface {
 
 type RootReader interface {
 	InstalledModuleCalls(modPath string) (map[string]tfmod.InstalledModuleCall, error)
-	TerraformVersion(modPath string) *version.Version
+	TofuVersion(modPath string) *version.Version
 	InstalledModulePath(rootPath string, normalizedSource string) (string, bool)
 }
 
@@ -58,7 +58,7 @@ func (pr *PathReader) Paths(ctx context.Context) []lang.Path {
 	for _, record := range moduleRecords {
 		paths = append(paths, lang.Path{
 			Path:       record.Path(),
-			LanguageID: ilsp.Terraform.String(),
+			LanguageID: ilsp.OpenTofu.String(),
 		})
 	}
 

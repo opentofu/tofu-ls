@@ -29,9 +29,9 @@ type RootRecord struct {
 	// manifest to the path of the local directory where the module is installed
 	InstalledModules InstalledModules
 
-	TerraformVersion      *version.Version
-	TerraformVersionErr   error
-	TerraformVersionState op.OpState
+	TofuVersion      *version.Version
+	TofuVersionErr   error
+	TofuVersionState op.OpState
 
 	InstalledProviders      InstalledProviders
 	InstalledProvidersErr   error
@@ -53,9 +53,9 @@ func (m *RootRecord) Copy() *RootRecord {
 		ModManifestState: m.ModManifestState,
 
 		// version.Version is practically immutable once parsed
-		TerraformVersion:      m.TerraformVersion,
-		TerraformVersionErr:   m.TerraformVersionErr,
-		TerraformVersionState: m.TerraformVersionState,
+		TofuVersion:      m.TofuVersion,
+		TofuVersionErr:   m.TofuVersionErr,
+		TofuVersionState: m.TofuVersionState,
 
 		InstalledProvidersErr:   m.InstalledProvidersErr,
 		InstalledProvidersState: m.InstalledProvidersState,
@@ -88,7 +88,7 @@ func newRootRecord(path string) *RootRecord {
 		path:                    path,
 		ProviderSchemaState:     op.OpStateUnknown,
 		ModManifestState:        op.OpStateUnknown,
-		TerraformVersionState:   op.OpStateUnknown,
+		TofuVersionState:        op.OpStateUnknown,
 		InstalledProvidersState: op.OpStateUnknown,
 	}
 }

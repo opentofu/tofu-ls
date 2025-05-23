@@ -13,13 +13,13 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
-type TerraformMockCalls struct {
+type TofuMockCalls struct {
 	PerWorkDir map[string][]*mock.Call
 	AnyWorkDir []*mock.Call
 }
 
-func NewMockExecutor(calls *TerraformMockCalls) ExecutorFactory {
-	return func(workDir string, execPath string) (TerraformExecutor, error) {
+func NewMockExecutor(calls *TofuMockCalls) ExecutorFactory {
+	return func(workDir string, execPath string) (TofuExecutor, error) {
 		if calls == nil {
 			return nil, fmt.Errorf("%s: no mock calls defined", workDir)
 		}

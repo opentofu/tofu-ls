@@ -18,7 +18,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
-func (h *CmdHandler) TerraformValidateHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
+func (h *CmdHandler) TofuValidateHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
 	dirUri, ok := args.GetString("uri")
 	if !ok || dirUri == "" {
 		return nil, fmt.Errorf("%w: expected module uri argument to be set", jrpc2.InvalidParams.Err())
@@ -35,13 +35,13 @@ func (h *CmdHandler) TerraformValidateHandler(ctx context.Context, args cmd.Comm
 		progress.End(ctx, "Finished")
 	}()
 
-	progress.Report(ctx, "Running terraform validate ...")
+	progress.Report(ctx, "Running tofu validate ...")
 	id, err := h.StateStore.JobStore.EnqueueJob(ctx, job.Job{
 		Dir: dirHandle,
 		Func: func(ctx context.Context) error {
-			return nil //module.TerraformValidate(ctx, h.StateStore.Modules, dirHandle.Path())
+			return nil //module.TofuValidate(ctx, h.StateStore.Modules, dirHandle.Path())
 		},
-		Type:        op.OpTypeTerraformValidate.String(),
+		Type:        op.OpTypeTofuValidate.String(),
 		IgnoreState: true,
 	})
 	if err != nil {

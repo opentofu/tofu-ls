@@ -35,7 +35,7 @@ func (r RootReaderMock) InstalledModuleCalls(modPath string) (map[string]tfmod.I
 	return nil, nil
 }
 
-func (r RootReaderMock) TerraformVersion(modPath string) *version.Version {
+func (r RootReaderMock) TofuVersion(modPath string) *version.Version {
 	return nil
 }
 
@@ -69,12 +69,12 @@ func TestDecoder_CodeLensesForFile_concurrencyBug(t *testing.T) {
 
 	dataDir := "data"
 	schemasFs := fstest.MapFS{
-		dataDir:                                           &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/terraform.io":                         &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/terraform.io/builtin":                 &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/terraform.io/builtin/terraform":       &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/terraform.io/builtin/terraform/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
-		dataDir + "/terraform.io/builtin/terraform/1.0.0/schema.json.gz": &fstest.MapFile{
+		dataDir:                            &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/builtin":                 &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/builtin/terraform":       &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/builtin/terraform/1.0.0": &fstest.MapFile{Mode: fs.ModeDir},
+		dataDir + "/registry.opentofu.org/builtin/terraform/1.0.0/schema.json.gz": &fstest.MapFile{
 			Data: gzipCompressBytes(t, []byte(tfSchemaJSON)),
 		},
 	}
@@ -139,7 +139,7 @@ func gzipCompressBytes(t *testing.T, b []byte) []byte {
 var tfSchemaJSON = `{
 	"format_version": "1.0",
 	"provider_schemas": {
-		"terraform.io/builtin/terraform": {
+		"registry.opentofu.org/builtin/terraform": {
 			"data_source_schemas": {
 				"terraform_remote_state": {
 					"version": 0,
@@ -168,12 +168,6 @@ var tfSchemaJSON = `{
 								"description": "An object containing every root-level output in the remote state.",
 								"description_kind": "markdown",
 								"computed": true
-							},
-							"workspace": {
-								"type": "string",
-								"description": "The Terraform workspace to use, if the backend supports workspaces.",
-								"description_kind": "markdown",
-								"optional": true
 							}
 						},
 						"description_kind": "plain"

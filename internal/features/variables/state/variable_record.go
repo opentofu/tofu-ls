@@ -80,7 +80,7 @@ func newVariableRecord(modPath string) *VariableRecord {
 			globalAst.HCLParsingSource:          op.OpStateUnknown,
 			globalAst.SchemaValidationSource:    op.OpStateUnknown,
 			globalAst.ReferenceValidationSource: op.OpStateUnknown,
-			globalAst.TerraformValidateSource:   op.OpStateUnknown,
+			globalAst.TofuValidateSource:        op.OpStateUnknown,
 		},
 	}
 }

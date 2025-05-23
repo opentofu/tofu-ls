@@ -95,7 +95,7 @@ func TestVariableStore_VariableRecordByPath(t *testing.T) {
 			globalAst.HCLParsingSource:          operation.OpStateUnknown,
 			globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 			globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-			globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+			globalAst.TofuValidateSource:        operation.OpStateUnknown,
 		},
 	}
 	if diff := cmp.Diff(expectedVariable, record, cmpOpts); diff != "" {
@@ -139,7 +139,7 @@ func TestVariableStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 		{
@@ -148,7 +148,7 @@ func TestVariableStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 		{
@@ -157,7 +157,7 @@ func TestVariableStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 	}

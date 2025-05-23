@@ -38,7 +38,7 @@ type Changes struct {
 	Backend              bool
 	Cloud                bool
 	ProviderRequirements bool
-	TerraformVersion     bool
+	TofuVersion          bool
 	InstalledProviders   bool
 	Diagnostics          bool
 	ReferenceOrigins     bool
@@ -69,7 +69,7 @@ func (s *ChangeStore) QueueChange(dir document.DirHandle, changes Changes) error
 			Backend:              cb.Changes.Backend || changes.Backend,
 			Cloud:                cb.Changes.Cloud || changes.Cloud,
 			ProviderRequirements: cb.Changes.ProviderRequirements || changes.ProviderRequirements,
-			TerraformVersion:     cb.Changes.TerraformVersion || changes.TerraformVersion,
+			TofuVersion:          cb.Changes.TofuVersion || changes.TofuVersion,
 			InstalledProviders:   cb.Changes.InstalledProviders || changes.InstalledProviders,
 			Diagnostics:          cb.Changes.Diagnostics || changes.Diagnostics,
 			ReferenceOrigins:     cb.Changes.ReferenceOrigins || changes.ReferenceOrigins,

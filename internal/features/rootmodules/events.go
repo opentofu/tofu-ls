@@ -66,9 +66,9 @@ func (f *RootModulesFeature) didOpen(ctx context.Context, dir document.DirHandle
 		Dir: dir,
 		Func: func(ctx context.Context) error {
 			ctx = exec.WithExecutorFactory(ctx, f.tfExecFactory)
-			return jobs.GetTerraformVersion(ctx, f.Store, path)
+			return jobs.GetTofuVersion(ctx, f.Store, path)
 		},
-		Type: op.OpTypeGetTerraformVersion.String(),
+		Type: op.OpTypeGetTofuVersion.String(),
 	})
 	if err != nil {
 		return ids, nil
