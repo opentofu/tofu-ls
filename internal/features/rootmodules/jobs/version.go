@@ -17,7 +17,7 @@ import (
 	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
-// GetTofuVersion obtains "installed" Terraform version
+// GetTofuVersion obtains "installed" Tofu version
 // which can inform what version of core schema to pick.
 // Knowing the version is not required though as we can rely on
 // the constraint in `required_version` (as parsed via
