@@ -252,27 +252,34 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			continue
 		}
 
-		registryInputs := metaData.Root.Inputs
-		registryOutputs := metaData.Root.Outputs
+		registryInputs := metaData.Inputs
+		registryOutputs := metaData.Outputs
+
+		fmt.Println("called registryInputs", len(registryInputs))
+		fmt.Println("called registryOutputs", len(registryOutputs))
 
 		// Check if the source address contains a submodule
 		// If we can find the submodule in the API response, we will use its inputs and outputs instead
-		if sourceAddr.Subdir != "" {
-			for _, mod := range metaData.Submodules {
-				if mod.Path == sourceAddr.Subdir {
-					registryInputs = mod.Inputs
-					registryOutputs = mod.Outputs
+		// TODO: Uncomment
+		// if sourceAddr.Subdir != "" {
+		// 	for _, mod := range metaData.Submodules {
+		// 		if mod.Path == sourceAddr.Subdir {
+		// 			registryInputs = mod.Inputs
+		// 			registryOutputs = mod.Outputs
 
-					break
-				}
-			}
-		}
+		// 			break
+		// 		}
+		// 	}
+		// }
+
+		fmt.Println("called part2")
 
 		inputs := make([]tfregistry.Input, len(registryInputs))
-		for i, input := range registryInputs {
+		i := 0
+		for name, input := range registryInputs {
 			isRequired := isRegistryModuleInputRequired(metaData.PublishedAt, input)
 			inputs[i] = tfregistry.Input{
-				Name:        input.Name,
+				Name:        name,
 				Description: lang.Markdown(input.Description),
 				Required:    isRequired,
 			}
@@ -290,29 +297,38 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			}
 			inputs[i].Type = inputType
 
-			if input.Default != "" {
-				// Registry API unfortunately doesn't marshal values using
-				// cty marshalers, making it lossy, so we just try to decode
-				// on best-effort basis.
-				val, err := ctyjson.Unmarshal([]byte(input.Default), inputType)
-				if err == nil {
-					inputs[i].Default = val
-				}
-			}
+			// TODO: Uncomment that
+			// if input.Default != "" {
+			// 	// Registry API unfortunately doesn't marshal values using
+			// 	// cty marshalers, making it lossy, so we just try to decode
+			// 	// on best-effort basis.
+			// 	val, err := ctyjson.Unmarshal([]byte(input.Default), inputType)
+			// 	if err == nil {
+			// 		inputs[i].Default = val
+			// 	}
+			// }
+			i++
 		}
+
+		i = 0
 		outputs := make([]tfregistry.Output, len(registryOutputs))
-		for i, output := range registryOutputs {
+		for name, output := range registryOutputs {
 			outputs[i] = tfregistry.Output{
-				Name:        output.Name,
+				Name:        name,
 				Description: lang.Markdown(output.Description),
 			}
 		}
+
+		fmt.Println("called metada.Version", metaData.Version)
 
 		modVersion, err := version.NewVersion(metaData.Version)
 		if err != nil {
 			errs = multierror.Append(errs, err)
 			continue
 		}
+
+		fmt.Println("called inputs2", inputs)
+		fmt.Println("called outputs2", outputs)
 
 		// if not, cache it
 		err = modRegStore.Cache(sourceAddr, modVersion, inputs, outputs)
@@ -337,15 +353,17 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 // may have used `default = null` (implying optional variable) which
 // the Registry wasn't able to recognise until ~ 19th August 2022.
 func isRegistryModuleInputRequired(publishTime time.Time, input registry.Input) bool {
-	fixTime := time.Date(2022, time.August, 20, 0, 0, 0, 0, time.UTC)
+	// TODO: Uncomment
+	// fixTime := time.Date(2022, time.August, 20, 0, 0, 0, 0, time.UTC)
 	// Modules published after the date have "nullable" inputs
 	// (default = null) ingested as Required=false and Default="null".
 	//
 	// The same inputs ingested prior to the date make it impossible
 	// to distinguish variable with `default = null` and missing default.
-	if input.Required && input.Default == "" && publishTime.Before(fixTime) {
-		// To avoid false diagnostics, we safely assume the input is optional
-		return false
-	}
+	// TODO: Uncomment that
+	// if input.Required && input.Default == "" && publishTime.Before(fixTime) {
+	// 	// To avoid false diagnostics, we safely assume the input is optional
+	// 	return false
+	// }
 	return input.Required
 }

@@ -24,29 +24,25 @@ import (
 )
 
 type ModuleResponse struct {
-	Version     string      `json:"version"`
-	PublishedAt time.Time   `json:"published_at"`
-	Root        ModuleRoot  `json:"root"`
-	Submodules  []Submodule `json:"submodules"`
-}
-
-type ModuleRoot struct {
-	Inputs  []Input  `json:"inputs"`
-	Outputs []Output `json:"outputs"`
+	Version     string               `json:"id"`
+	PublishedAt time.Time            `json:"published_at"`
+	Inputs      map[string]Input     `json:"variables"`
+	Outputs     map[string]Output    `json:"outputs"`
+	Submodules  map[string]Submodule `json:"submodules"`
 }
 
 type Submodule struct {
-	Path    string   `json:"path"`
-	Inputs  []Input  `json:"inputs"`
-	Outputs []Output `json:"outputs"`
+	Path    string            `json:"path"`
+	Inputs  map[string]Input  `json:"variables"`
+	Outputs map[string]Output `json:"outputs"`
 }
 
 type Input struct {
 	Name        string `json:"name"`
 	Type        string `json:"type"`
 	Description string `json:"description"`
-	Default     string `json:"default"`
-	Required    bool   `json:"required"`
+	// Default     any    `json:"default"`
+	Required bool `json:"required"`
 }
 
 type Output struct {
@@ -192,8 +188,6 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 		}))
 
 	sort.Sort(sort.Reverse(foundVersions))
-
-	fmt.Println("called foundVersions", foundVersions)
 
 	return foundVersions, nil
 }

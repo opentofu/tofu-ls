@@ -1410,32 +1410,3 @@ var labelNullExpectedOldModuleData = &tfregistry.ModuleData{
 		},
 	},
 }
-
-var labelNullExpectedNewModuleData = &tfregistry.ModuleData{
-	Version: version.Must(version.NewVersion("0.26.0")),
-	Inputs: []tfregistry.Input{
-		{
-			Name:        "environment",
-			Type:        cty.String,
-			Description: lang.Markdown(""),
-			Required:    true,
-		},
-		{
-			Name:        "label_order",
-			Type:        cty.DynamicPseudoType,
-			Description: lang.Markdown(""),
-			Default:     cty.NullVal(cty.DynamicPseudoType),
-		},
-		{
-			Name:        "descriptor_formats",
-			Type:        cty.DynamicPseudoType,
-			Description: lang.Markdown(""),
-		},
-	},
-	Outputs: []tfregistry.Output{
-		{
-			Name:        "id",
-			Description: lang.Markdown(""),
-		},
-	},
-}
