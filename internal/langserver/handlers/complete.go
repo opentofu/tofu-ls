@@ -22,6 +22,7 @@ func (svc *service) TextDocumentComplete(ctx context.Context, params lsp.Complet
 	}
 
 	dh := ilsp.HandleFromDocumentURI(params.TextDocument.URI)
+
 	doc, err := svc.stateStore.DocumentStore.GetDocument(dh)
 	if err != nil {
 		return list, err

@@ -84,6 +84,7 @@ func (c Client) GetModuleData(ctx context.Context, addr tfaddr.Module, cons vers
 		addr.Package.TargetSystem,
 		v.String())
 
+	fmt.Println("called GetModuleData", url)
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -161,7 +162,7 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	}
 
 	_, decodeSpan := otel.Tracer(tracerName).Start(ctx, "registry:GetModuleVersions:decodeJson")
-	var response ModuleVersionsResponse
+	var response ModuleVersionsEntry
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
 		return nil, err
@@ -182,6 +183,8 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 		}))
 
 	sort.Sort(sort.Reverse(foundVersions))
+
+	fmt.Println("called foundVersions", foundVersions)
 
 	return foundVersions, nil
 }

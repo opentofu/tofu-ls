@@ -48,6 +48,7 @@ func (s *RegistryModuleStore) Exists(sourceAddr tfaddr.Module, constraint versio
 
 func (s *RegistryModuleStore) Cache(sourceAddr tfaddr.Module, modVer *version.Version,
 	inputs []registry.Input, outputs []registry.Output) error {
+	fmt.Println("called Cache", sourceAddr, modVer, inputs, outputs)
 
 	txn := s.db.Txn(true)
 	defer txn.Abort()
