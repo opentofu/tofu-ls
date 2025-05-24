@@ -69,7 +69,7 @@ func TestHooks_RegistryModuleVersions(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/terraform-aws-modules/vpc/aws/versions" {
+		if r.RequestURI == "/registry/docs/modules/terraform-aws-modules/vpc/aws/index.json" {
 			w.Write([]byte(moduleVersionsMockResponse))
 			return
 		}
