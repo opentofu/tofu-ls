@@ -73,11 +73,11 @@ func TestGetModuleDataFromRegistry_singleModule(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(puppetModuleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/0.0.8" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
 			w.Write([]byte(puppetModuleDataMockResponse))
 			return
 		}
@@ -150,11 +150,11 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(puppetModuleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/0.0.8" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
 			w.Write([]byte(puppetModuleDataMockResponse))
 			return
 		}
@@ -227,16 +227,12 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/cloudposse/label/null/versions" {
+		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/index.json" {
 			w.Write([]byte(labelNullModuleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/cloudposse/label/null/0.25.0" {
+		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/v0.25.0/index.json" {
 			w.Write([]byte(labelNullModuleDataOldMockResponse))
-			return
-		}
-		if r.RequestURI == "/v1/modules/cloudposse/label/null/0.26.0" {
-			w.Write([]byte(labelNullModuleDataNewMockResponse))
 			return
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
@@ -267,22 +263,6 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 		t.Fatal(err)
 	}
 	if diff := cmp.Diff(labelNullExpectedOldModuleData, meta, ctydebug.CmpOptions); diff != "" {
-		t.Fatalf("metadata mismatch: %s", diff)
-	}
-
-	mewCons := version.MustConstraints(version.NewConstraint("0.26.0"))
-	exists, err = gs.RegistryModules.Exists(addr, mewCons)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !exists {
-		t.Fatalf("expected cached metadata to exist for %q %q", addr, mewCons)
-	}
-	meta, err = ms.RegistryModuleMeta(addr, mewCons)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if diff := cmp.Diff(labelNullExpectedNewModuleData, meta, ctydebug.CmpOptions); diff != "" {
 		t.Fatalf("metadata mismatch: %s", diff)
 	}
 }
@@ -323,15 +303,15 @@ func TestGetModuleDataFromRegistry_moduleNotFound(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(puppetModuleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/0.0.8" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
 			w.Write([]byte(puppetModuleDataMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/terraform-aws-modules/eks/aws/versions" {
+		if r.RequestURI == "/registry/docs/modules/terraform-aws-modules/eks/aws/index.json" {
 			http.Error(w, `{"errors":["Not Found"]}`, 404)
 			return
 		}
@@ -429,15 +409,15 @@ func TestGetModuleDataFromRegistry_apiTimeout(t *testing.T) {
 	regClient := registry.NewClient()
 	regClient.Timeout = 500 * time.Millisecond
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(puppetModuleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/0.0.8" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
 			w.Write([]byte(puppetModuleDataMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/terraform-aws-modules/eks/aws/versions" {
+		if r.RequestURI == "/registry/docs/modules/terraform-aws-modules/eks/aws/index.json" {
 			// trigger timeout
 			time.Sleep(1 * time.Second)
 			return

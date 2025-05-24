@@ -63,7 +63,7 @@ type ModuleVersionsEntry struct {
 }
 
 type ModuleVersion struct {
-	Version string `json:"version"`
+	Version string `json:"id"`
 }
 
 type ClientError struct {
@@ -87,12 +87,13 @@ func (c Client) GetModuleData(ctx context.Context, addr tfaddr.Module, cons vers
 
 	ctx = httptrace.WithClientTrace(ctx, otelhttptrace.NewClientTrace(ctx, otelhttptrace.WithoutSubSpans()))
 
-	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/%s", c.BaseAPIURL,
+	url := fmt.Sprintf("%s/registry/docs/modules/%s/%s/%s/v%s/index.json", c.BaseAPIURL,
 		addr.Package.Namespace,
 		addr.Package.Name,
 		addr.Package.TargetSystem,
 		v.String())
 
+	fmt.Println("called GetModuleData", url)
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -142,7 +143,7 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "registry:GetModuleVersions")
 	defer span.End()
 
-	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/versions", c.BaseAPIURL,
+	url := fmt.Sprintf("%s/registry/docs/modules/%s/%s/%s/index.json", c.BaseAPIURL,
 		addr.Package.Namespace,
 		addr.Package.Name,
 		addr.Package.TargetSystem)
@@ -170,7 +171,7 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	}
 
 	_, decodeSpan := otel.Tracer(tracerName).Start(ctx, "registry:GetModuleVersions:decodeJson")
-	var response ModuleVersionsResponse
+	var response ModuleVersionsEntry
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
 		return nil, err
@@ -178,12 +179,10 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	decodeSpan.End()
 
 	var foundVersions version.Collection
-	for _, module := range response.Modules {
-		for _, entry := range module.Versions {
-			ver, err := version.NewVersion(entry.Version)
-			if err == nil {
-				foundVersions = append(foundVersions, ver)
-			}
+	for _, entry := range response.Versions {
+		ver, err := version.NewVersion(entry.Version)
+		if err == nil {
+			foundVersions = append(foundVersions, ver)
 		}
 	}
 	span.AddEvent("registry:foundModuleVersions",
@@ -193,6 +192,8 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 		}))
 
 	sort.Sort(sort.Reverse(foundVersions))
+
+	fmt.Println("called foundVersions", foundVersions)
 
 	return foundVersions, nil
 }
