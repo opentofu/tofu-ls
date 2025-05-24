@@ -31,11 +31,11 @@ func TestGetModuleData(t *testing.T) {
 	client := NewClient()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(moduleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/0.0.8" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
 			w.Write([]byte(moduleDataMockResponse))
 			return
 		}
@@ -140,7 +140,7 @@ func TestGetMatchingModuleVersion(t *testing.T) {
 	client := NewClient()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(moduleVersionsMockResponse))
 			return
 		}
@@ -174,7 +174,7 @@ func TestCancellationThroughContext(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(500 * time.Millisecond)
-		if r.RequestURI == "/v1/modules/puppetlabs/deployment/ec/versions" {
+		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
 			w.Write([]byte(moduleVersionsMockResponse))
 			return
 		}
