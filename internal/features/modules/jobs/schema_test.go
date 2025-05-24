@@ -236,6 +236,10 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 			w.Write([]byte(labelNullModuleDataMockResponse))
 			return
 		}
+		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/v0.24.0/index.json" {
+			w.Write([]byte(labelNullModuleDataOldMockResponse))
+			return
+		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
 	}))
 	regClient.BaseAPIURL = srv.URL

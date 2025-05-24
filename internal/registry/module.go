@@ -184,7 +184,5 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 
 	sort.Sort(sort.Reverse(foundVersions))
 
-	fmt.Println("called foundVersions", foundVersions)
-
 	return foundVersions, nil
 }

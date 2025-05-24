@@ -259,16 +259,19 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 
 		// Check if the source address contains a submodule
 		// If we can find the submodule in the API response, we will use its inputs and outputs instead
-		if sourceAddr.Subdir != "" {
-			for _, mod := range metaData.Submodules {
-				if mod.Path == sourceAddr.Subdir {
-					registryInputs = mod.Inputs
-					registryOutputs = mod.Outputs
+		// TODO: Uncomment
+		// if sourceAddr.Subdir != "" {
+		// 	for _, mod := range metaData.Submodules {
+		// 		if mod.Path == sourceAddr.Subdir {
+		// 			registryInputs = mod.Inputs
+		// 			registryOutputs = mod.Outputs
 
-					break
-				}
-			}
-		}
+		// 			break
+		// 		}
+		// 	}
+		// }
+
+		fmt.Println("called part2")
 
 		inputs := make([]tfregistry.Input, len(registryInputs))
 		// We need to transform the map since opentofu-schema uses a list of Inputs and Outputs
@@ -323,11 +326,16 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			}
 		}
 
+		fmt.Println("called metada.Version", metaData.Version)
+
 		modVersion, err := version.NewVersion(metaData.Version)
 		if err != nil {
 			errs = multierror.Append(errs, err)
 			continue
 		}
+
+		fmt.Println("called inputs2", inputs)
+		fmt.Println("called outputs2", outputs)
 
 		// if not, cache it
 		err = modRegStore.Cache(sourceAddr, modVersion, inputs, outputs)
@@ -352,15 +360,17 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 // may have used `default = null` (implying optional variable) which
 // the Registry wasn't able to recognise until ~ 19th August 2022.
 func isRegistryModuleInputRequired(publishTime time.Time, input registry.Input) bool {
-	fixTime := time.Date(2022, time.August, 20, 0, 0, 0, 0, time.UTC)
+	// TODO: Uncomment
+	// fixTime := time.Date(2022, time.August, 20, 0, 0, 0, 0, time.UTC)
 	// Modules published after the date have "nullable" inputs
 	// (default = null) ingested as Required=false and Default="null".
 	//
 	// The same inputs ingested prior to the date make it impossible
 	// to distinguish variable with `default = null` and missing default.
-	if input.Required && input.Default == "" && publishTime.Before(fixTime) {
-		// To avoid false diagnostics, we safely assume the input is optional
-		return false
-	}
+	// TODO: Uncomment that
+	// if input.Required && input.Default == "" && publishTime.Before(fixTime) {
+	// 	// To avoid false diagnostics, we safely assume the input is optional
+	// 	return false
+	// }
 	return input.Required
 }
