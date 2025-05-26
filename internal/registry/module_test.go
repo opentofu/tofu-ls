@@ -49,81 +49,67 @@ func TestGetModuleData(t *testing.T) {
 		t.Fatal(err)
 	}
 	expectedData := &ModuleResponse{
-		Version:     "0.0.8",
-		PublishedAt: time.Date(2021, time.August, 5, 0, 26, 33, 501756000, time.UTC),
-		Root: ModuleRoot{
-			Inputs: []Input{
-				{
-					Name:        "autoscale",
-					Type:        "string",
-					Description: "Enable autoscaling of elasticsearch",
-					Default:     "\"true\"",
-					Required:    false,
-				},
-				{
-					Name:        "ec_stack_version",
-					Type:        "string",
-					Description: "Version of Elastic Cloud stack to deploy",
-					Default:     "\"\"",
-					Required:    false,
-				},
-				{
-					Name:        "name",
-					Type:        "string",
-					Description: "Name of resources",
-					Default:     "\"ecproject\"",
-					Required:    false,
-				},
-				{
-					Name:        "traffic_filter_sourceip",
-					Type:        "string",
-					Description: "traffic filter source IP",
-					Default:     "\"\"",
-					Required:    false,
-				},
-				{
-					Name:        "ec_region",
-					Type:        "string",
-					Description: "cloud provider region",
-					Default:     "\"gcp-us-west1\"",
-					Required:    false,
-				},
-				{
-					Name:        "deployment_templateid",
-					Type:        "string",
-					Description: "ID of Elastic Cloud deployment type",
-					Default:     "\"gcp-io-optimized\"",
-					Required:    false,
-				},
+		Version:     "v0.0.8",
+		PublishedAt: time.Date(2021, time.August, 5, 0, 26, 01, 0, time.UTC),
+		Inputs: map[string]Input{
+			"autoscale": {
+				Type:        "string",
+				Description: "Enable autoscaling of elasticsearch",
+				Default:     "\"true\"",
+				Required:    false,
 			},
-			Outputs: []Output{
-				{
-					Name:        "elasticsearch_password",
-					Description: "elasticsearch password",
-				},
-				{
-					Name:        "deployment_id",
-					Description: "Elastic Cloud deployment ID",
-				},
-				{
-					Name:        "elasticsearch_version",
-					Description: "Stack version deployed",
-				},
-				{
-					Name:        "elasticsearch_cloud_id",
-					Description: "Elastic Cloud project deployment ID",
-				},
-				{
-					Name:        "elasticsearch_https_endpoint",
-					Description: "elasticsearch https endpoint",
-				},
-				{
-					Name:        "elasticsearch_username",
-					Description: "elasticsearch username",
-				},
+			"ec_stack_version": {
+				Type:        "string",
+				Description: "Version of Elastic Cloud stack to deploy",
+				Default:     "\"\"",
+				Required:    false,
+			},
+			"name": {
+				Type:        "string",
+				Description: "Name of resources",
+				Default:     "\"ecproject\"",
+				Required:    false,
+			},
+			"traffic_filter_sourceip": {
+				Type:        "string",
+				Description: "traffic filter source IP",
+				Default:     "\"\"",
+				Required:    false,
+			},
+			"ec_region": {
+				Type:        "string",
+				Description: "cloud provider region",
+				Default:     "\"gcp-us-west1\"",
+				Required:    false,
+			},
+			"deployment_templateid": {
+				Type:        "string",
+				Description: "ID of Elastic Cloud deployment type",
+				Default:     "\"gcp-io-optimized\"",
+				Required:    false,
 			},
 		},
-		Submodules: []Submodule{},
+		Outputs: map[string]Output{
+			"elasticsearch_password": {
+				Description: "elasticsearch password",
+			},
+			"deployment_id": {
+				Description: "Elastic Cloud deployment ID",
+			},
+			"elasticsearch_version": {
+				Description: "Stack version deployed",
+			},
+			"elasticsearch_cloud_id": {
+				Description: "Elastic Cloud project deployment ID",
+			},
+			"elasticsearch_https_endpoint": {
+				Description: "elasticsearch https endpoint",
+			},
+			"elasticsearch_username": {
+				Description: "elasticsearch username",
+			},
+		},
+		Submodules: map[string]Submodule{},
 	}
 	if diff := cmp.Diff(expectedData, data); diff != "" {
 		t.Fatalf("mismatched data: %s", diff)

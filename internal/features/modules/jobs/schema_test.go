@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"path/filepath"
+	"strings"
 	"sync"
 	"testing"
 	"testing/fstest"
@@ -227,16 +228,13 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// fmt.Println("url", r.RequestURI)
 		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/index.json" {
 			w.Write([]byte(labelNullModuleVersionsMockResponse))
 			return
 		}
-		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/v0.25.0/index.json" {
-			w.Write([]byte(labelNullModuleDataOldMockResponse))
-			return
-		}
-		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/v0.26.0/index.json" {
-			w.Write([]byte(labelNullModuleDataNewMockResponse))
+		if strings.HasPrefix(r.RequestURI, "/registry/docs/modules/cloudposse/label/null") {
+			w.Write([]byte(labelNullModuleDataMockResponse))
 			return
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
@@ -489,6 +487,20 @@ var puppetExpectedModuleData = &tfregistry.ModuleData{
 			Required:    false,
 		},
 		{
+			Name:        "deployment_templateid",
+			Type:        cty.String,
+			Default:     cty.StringVal("gcp-io-optimized"),
+			Description: lang.Markdown("ID of Elastic Cloud deployment type"),
+			Required:    false,
+		},
+		{
+			Name:        "ec_region",
+			Type:        cty.String,
+			Default:     cty.StringVal("gcp-us-west1"),
+			Description: lang.Markdown("cloud provider region"),
+			Required:    false,
+		},
+		{
 			Name:        "ec_stack_version",
 			Type:        cty.String,
 			Default:     cty.StringVal(""),
@@ -509,33 +521,11 @@ var puppetExpectedModuleData = &tfregistry.ModuleData{
 			Description: lang.Markdown("traffic filter source IP"),
 			Required:    false,
 		},
-		{
-			Name:        "ec_region",
-			Type:        cty.String,
-			Default:     cty.StringVal("gcp-us-west1"),
-			Description: lang.Markdown("cloud provider region"),
-			Required:    false,
-		},
-		{
-			Name:        "deployment_templateid",
-			Type:        cty.String,
-			Default:     cty.StringVal("gcp-io-optimized"),
-			Description: lang.Markdown("ID of Elastic Cloud deployment type"),
-			Required:    false,
-		},
 	},
 	Outputs: []tfregistry.Output{
 		{
-			Name:        "elasticsearch_password",
-			Description: lang.Markdown("elasticsearch password"),
-		},
-		{
 			Name:        "deployment_id",
 			Description: lang.Markdown("Elastic Cloud deployment ID"),
-		},
-		{
-			Name:        "elasticsearch_version",
-			Description: lang.Markdown("Stack version deployed"),
 		},
 		{
 			Name:        "elasticsearch_cloud_id",
@@ -546,8 +536,16 @@ var puppetExpectedModuleData = &tfregistry.ModuleData{
 			Description: lang.Markdown("elasticsearch https endpoint"),
 		},
 		{
+			Name:        "elasticsearch_password",
+			Description: lang.Markdown("elasticsearch password"),
+		},
+		{
 			Name:        "elasticsearch_username",
 			Description: lang.Markdown("elasticsearch username"),
+		},
+		{
+			Name:        "elasticsearch_version",
+			Description: lang.Markdown("Stack version deployed"),
 		},
 	},
 }
@@ -556,28 +554,72 @@ var puppetExpectedSubmoduleData = &tfregistry.ModuleData{
 	Version: version.Must(version.NewVersion("0.0.8")),
 	Inputs: []tfregistry.Input{
 		{
-			Name:        "sub_autoscale",
+			Name:        "autoscale",
 			Type:        cty.String,
 			Default:     cty.StringVal("true"),
 			Description: lang.Markdown("Enable autoscaling of elasticsearch"),
 			Required:    false,
 		},
 		{
-			Name:        "sub_ec_stack_version",
+			Name:        "deployment_templateid",
+			Type:        cty.String,
+			Default:     cty.StringVal("gcp-io-optimized"),
+			Description: lang.Markdown("ID of Elastic Cloud deployment type"),
+			Required:    false,
+		},
+		{
+			Name:        "ec_region",
+			Type:        cty.String,
+			Default:     cty.StringVal("gcp-us-west1"),
+			Description: lang.Markdown("cloud provider region"),
+			Required:    false,
+		},
+		{
+			Name:        "ec_stack_version",
 			Type:        cty.String,
 			Default:     cty.StringVal(""),
 			Description: lang.Markdown("Version of Elastic Cloud stack to deploy"),
 			Required:    false,
 		},
+		{
+			Name:        "name",
+			Type:        cty.String,
+			Default:     cty.StringVal("ecproject"),
+			Description: lang.Markdown("Name of resources"),
+			Required:    false,
+		},
+		{
+			Name:        "traffic_filter_sourceip",
+			Type:        cty.String,
+			Default:     cty.StringVal(""),
+			Description: lang.Markdown("traffic filter source IP"),
+			Required:    false,
+		},
 	},
 	Outputs: []tfregistry.Output{
 		{
-			Name:        "sub_elasticsearch_password",
+			Name:        "deployment_id",
+			Description: lang.Markdown("Elastic Cloud deployment ID"),
+		},
+		{
+			Name:        "elasticsearch_cloud_id",
+			Description: lang.Markdown("Elastic Cloud project deployment ID"),
+		},
+		{
+			Name:        "elasticsearch_https_endpoint",
+			Description: lang.Markdown("elasticsearch https endpoint"),
+		},
+		{
+			Name:        "elasticsearch_password",
 			Description: lang.Markdown("elasticsearch password"),
 		},
 		{
-			Name:        "sub_deployment_id",
-			Description: lang.Markdown("Elastic Cloud deployment ID"),
+			Name:        "elasticsearch_username",
+			Description: lang.Markdown("elasticsearch username"),
+		},
+		{
+			Name:        "elasticsearch_version",
+			Description: lang.Markdown("Stack version deployed"),
 		},
 	},
 }

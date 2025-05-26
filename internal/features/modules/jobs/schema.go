@@ -13,6 +13,8 @@ import (
 	"io"
 	"io/fs"
 	"log"
+	"maps"
+	"slices"
 	"time"
 
 	"github.com/hashicorp/go-multierror"
@@ -252,8 +254,8 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			continue
 		}
 
-		registryInputs := metaData.Root.Inputs
-		registryOutputs := metaData.Root.Outputs
+		registryInputs := metaData.Inputs
+		registryOutputs := metaData.Outputs
 
 		// Check if the source address contains a submodule
 		// If we can find the submodule in the API response, we will use its inputs and outputs instead
@@ -269,10 +271,13 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 		}
 
 		inputs := make([]tfregistry.Input, len(registryInputs))
-		for i, input := range registryInputs {
+		// We need to transform the map since opentofu-schema uses a list of Inputs and Outputs
+		// See https://github.com/opentofu/opentofu-schema/blob/main/registry/registry.go#L16
+		for i, name := range slices.Sorted(maps.Keys(registryInputs)) {
+			input := registryInputs[name]
 			isRequired := isRegistryModuleInputRequired(metaData.PublishedAt, input)
 			inputs[i] = tfregistry.Input{
-				Name:        input.Name,
+				Name:        name,
 				Description: lang.Markdown(input.Description),
 				Required:    isRequired,
 			}
@@ -294,16 +299,23 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 				// Registry API unfortunately doesn't marshal values using
 				// cty marshalers, making it lossy, so we just try to decode
 				// on best-effort basis.
-				val, err := ctyjson.Unmarshal([]byte(input.Default), inputType)
+				var marshalDefault []byte
+				switch defaultVal := input.Default.(type) {
+				case string:
+					marshalDefault = []byte(defaultVal)
+				}
+				val, err := ctyjson.Unmarshal([]byte(marshalDefault), inputType)
 				if err == nil {
 					inputs[i].Default = val
 				}
 			}
 		}
+
 		outputs := make([]tfregistry.Output, len(registryOutputs))
-		for i, output := range registryOutputs {
+		for i, name := range slices.Sorted(maps.Keys(registryOutputs)) {
+			output := registryOutputs[name]
 			outputs[i] = tfregistry.Output{
-				Name:        output.Name,
+				Name:        name,
 				Description: lang.Markdown(output.Description),
 			}
 		}
