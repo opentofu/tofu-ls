@@ -50,15 +50,11 @@ type Output struct {
 }
 
 type ModuleVersionsResponse struct {
-	Modules []ModuleVersionsEntry `json:"modules"`
-}
-
-type ModuleVersionsEntry struct {
 	Versions []ModuleVersion `json:"versions"`
 }
 
 type ModuleVersion struct {
-	Version string `json:"version"`
+	Version string `json:"id"`
 }
 
 type ClientError struct {
@@ -173,12 +169,10 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	decodeSpan.End()
 
 	var foundVersions version.Collection
-	for _, module := range response.Modules {
-		for _, entry := range module.Versions {
-			ver, err := version.NewVersion(entry.Version)
-			if err == nil {
-				foundVersions = append(foundVersions, ver)
-			}
+	for _, entry := range response.Versions {
+		ver, err := version.NewVersion(entry.Version)
+		if err == nil {
+			foundVersions = append(foundVersions, ver)
 		}
 	}
 	span.AddEvent("registry:foundModuleVersions",

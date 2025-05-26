@@ -5,141 +5,60 @@
 
 package registry
 
-// moduleVersionsMockResponse represents response from https://registry.terraform.io/v1/modules/puppetlabs/deployment/ec/versions
+// moduleVersionsMockResponse represents response from https://api.opentofu.org/registry/docs/modules/puppetlabs/deployment/ec/index.json
 var moduleVersionsMockResponse = `{
-  "modules": [
+  "addr": {
+    "display": "puppetlabs/deployment/ec",
+    "namespace": "puppetlabs",
+    "name": "deployment",
+    "target": "ec"
+  },
+  "description": "",
+  "versions": [
     {
-      "source": "puppetlabs/deployment/ec",
-      "versions": [
-        {
-          "version": "0.0.5",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.6",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.8",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.2",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.1",
-          "root": {
-            "providers": [],
-            "dependencies": []
-          },
-          "submodules": [
-            {
-              "path": "modules/ec-deployment",
-              "providers": [
-                {
-                  "name": "ec",
-                  "namespace": "",
-                  "source": "elastic/ec",
-                  "version": "0.2.1"
-                }
-              ],
-              "dependencies": []
-            }
-          ]
-        },
-        {
-          "version": "0.0.4",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.3",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.7",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        }
-      ]
+      "id": "v0.0.8",
+      "published": "2021-08-05T00:26:01Z"
+    },
+    {
+      "id": "v0.0.7",
+      "published": "2021-08-03T19:57:07Z"
+    },
+    {
+      "id": "v0.0.6",
+      "published": "2021-08-03T19:47:41Z"
+    },
+    {
+      "id": "v0.0.5",
+      "published": "2021-08-03T18:56:01Z"
+    },
+    {
+      "id": "v0.0.4",
+      "published": "2021-08-03T18:39:44Z"
+    },
+    {
+      "id": "v0.0.3",
+      "published": "2021-08-02T21:54:06Z"
+    },
+    {
+      "id": "v0.0.2",
+      "published": "2021-08-02T21:48:35Z"
+    },
+    {
+      "id": "v0.0.1",
+      "published": "2021-08-02T21:18:58Z"
     }
-  ]
+  ],
+  "is_blocked": false,
+  "popularity": 0,
+  "fork_count": 0,
+  "fork_of": {
+    "display": "//",
+    "namespace": "",
+    "name": "",
+    "target": ""
+  },
+  "upstream_popularity": 0,
+  "upstream_fork_count": 0
 }`
 
 // moduleDataMockResponse represents response from https://api.opentofu.org/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json

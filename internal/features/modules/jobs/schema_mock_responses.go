@@ -12,141 +12,60 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
-// puppetModuleVersionsMockResponse represents response from https://registry.terraform.io/v1/modules/puppetlabs/deployment/ec/versions
+// puppetModuleVersionsMockResponse represents the response from https://api.opentofu.org/registry/docs/modules/puppetlabs/deployment/ec/index.json
 var puppetModuleVersionsMockResponse = `{
-  "modules": [
+  "addr": {
+    "display": "puppetlabs/deployment/ec",
+    "namespace": "puppetlabs",
+    "name": "deployment",
+    "target": "ec"
+  },
+  "description": "",
+  "versions": [
     {
-      "source": "puppetlabs/deployment/ec",
-      "versions": [
-        {
-          "version": "0.0.5",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.6",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.8",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.2",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.1",
-          "root": {
-            "providers": [],
-            "dependencies": []
-          },
-          "submodules": [
-            {
-              "path": "modules/ec-deployment",
-              "providers": [
-                {
-                  "name": "ec",
-                  "namespace": "",
-                  "source": "elastic/ec",
-                  "version": "0.2.1"
-                }
-              ],
-              "dependencies": []
-            }
-          ]
-        },
-        {
-          "version": "0.0.4",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.3",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.0.7",
-          "root": {
-            "providers": [
-              {
-                "name": "ec",
-                "namespace": "",
-                "source": "elastic/ec",
-                "version": "0.2.1"
-              }
-            ],
-            "dependencies": []
-          },
-          "submodules": []
-        }
-      ]
+      "id": "v0.0.8",
+      "published": "2021-08-05T00:26:01Z"
+    },
+    {
+      "id": "v0.0.7",
+      "published": "2021-08-03T19:57:07Z"
+    },
+    {
+      "id": "v0.0.6",
+      "published": "2021-08-03T19:47:41Z"
+    },
+    {
+      "id": "v0.0.5",
+      "published": "2021-08-03T18:56:01Z"
+    },
+    {
+      "id": "v0.0.4",
+      "published": "2021-08-03T18:39:44Z"
+    },
+    {
+      "id": "v0.0.3",
+      "published": "2021-08-02T21:54:06Z"
+    },
+    {
+      "id": "v0.0.2",
+      "published": "2021-08-02T21:48:35Z"
+    },
+    {
+      "id": "v0.0.1",
+      "published": "2021-08-02T21:18:58Z"
     }
-  ]
+  ],
+  "is_blocked": false,
+  "popularity": 0,
+  "fork_count": 0,
+  "fork_of": {
+    "display": "//",
+    "namespace": "",
+    "name": "",
+    "target": ""
+  },
+  "upstream_popularity": 0,
+  "upstream_fork_count": 0
 }`
 
 // puppetModuleDataMockResponse represents response from https://api.opentofu.org/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json
@@ -273,31 +192,36 @@ var puppetModuleDataMockResponse = `{
 // labelNullModuleVersionsMockResponse represents response for
 // versions of module that suffers from "unreliable" input data, as described in
 // https://github.com/hashicorp/vscode-terraform/issues/1582
-// It is a shortened response from https://registry.terraform.io/v1/modules/cloudposse/label/null/versions
+// It is a shortened response from https://api.opentofu.org/registry/docs/modules/cloudposse/label/null/index.json
 var labelNullModuleVersionsMockResponse = `{
-  "modules": [
+  "addr": {
+    "display": "cloudposse/label/null",
+    "namespace": "cloudposse",
+    "name": "label",
+    "target": "null"
+  },
+  "description": "",
+  "versions": [
     {
-      "source": "cloudposse/label/null",
-      "versions": [
-        {
-          "version": "0.25.0",
-          "root": {
-            "providers": [],
-            "dependencies": []
-          },
-          "submodules": []
-        },
-        {
-          "version": "0.24.0",
-          "root": {
-            "providers": [],
-            "dependencies": []
-          },
-          "submodules": []
-        }
-      ]
+      "id": "v0.25.0",
+      "published": "2021-08-25T17:45:16Z"
+    },
+    {
+      "id": "v0.24.0",
+      "published": "2021-02-04T08:11:56Z"
     }
-  ]
+  ],
+  "is_blocked": false,
+  "popularity": 0,
+  "fork_count": 0,
+  "fork_of": {
+    "display": "//",
+    "namespace": "",
+    "name": "",
+    "target": ""
+  },
+  "upstream_popularity": 0,
+  "upstream_fork_count": 0
 }`
 
 // labelNullModuleDataMockResponse represents response for
