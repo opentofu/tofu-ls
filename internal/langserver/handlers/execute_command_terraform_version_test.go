@@ -105,7 +105,7 @@ func TestLangServer_workspaceExecuteCommand_tofuVersion_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
 		"arguments": ["uri=%s"]
-	}`, cmd.Name("module.tofu"), modUri)}, `{
+	}`, cmd.Name("module.opentofu"), modUri)}, `{
 		"jsonrpc": "2.0",
 		"id": 2,
 		"result": {

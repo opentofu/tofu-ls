@@ -26,13 +26,13 @@ func cmdHandlers(svc *service) cmd.Handlers {
 		cmdHandler.RootModulesFeature = svc.features.RootModules
 	}
 	return cmd.Handlers{
-		cmd.Name("rootmodules"):         removedHandler("use module.callers instead"),
-		cmd.Name("module.callers"):      cmdHandler.ModuleCallersHandler,
-		cmd.Name("opentofu.init"):       cmdHandler.TofuInitHandler,
-		cmd.Name("opentotofu.validate"): cmdHandler.TofuValidateHandler,
-		cmd.Name("module.calls"):        cmdHandler.ModuleCallsHandler,
-		cmd.Name("module.providers"):    cmdHandler.ModuleProvidersHandler,
-		cmd.Name("module.opentofu"):     cmdHandler.TofuVersionRequestHandler,
+		cmd.Name("rootmodules"):       removedHandler("use module.callers instead"),
+		cmd.Name("module.callers"):    cmdHandler.ModuleCallersHandler,
+		cmd.Name("opentofu.init"):     cmdHandler.TofuInitHandler,
+		cmd.Name("opentofu.validate"): cmdHandler.TofuValidateHandler,
+		cmd.Name("module.calls"):      cmdHandler.ModuleCallsHandler,
+		cmd.Name("module.providers"):  cmdHandler.ModuleProvidersHandler,
+		cmd.Name("module.opentofu"):   cmdHandler.TofuVersionRequestHandler,
 	}
 }
 
