@@ -295,19 +295,22 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			}
 			inputs[i].Type = inputType
 
-			if input.Default != "" {
-				// Registry API unfortunately doesn't marshal values using
-				// cty marshalers, making it lossy, so we just try to decode
-				// on best-effort basis.
-				var marshalDefault []byte
-				switch defaultVal := input.Default.(type) {
-				case string:
-					marshalDefault = []byte(defaultVal)
+			// Registry API unfortunately doesn't marshal values using
+			// cty marshalers, making it lossy, so we just try to decode
+			// on best-effort basis.
+			if input.Default != nil {
+				var ctyVal cty.Value
+				switch inputType {
+				case cty.String:
+					ctyVal = cty.StringVal(input.Default.(string))
+				case cty.Bool:
+					ctyVal = cty.BoolVal(input.Default.(bool))
+				default:
+					// TODO: Implement other types other than string
+					return fmt.Errorf("need to implement default support for type %s on field %s", inputType.FriendlyName(), name)
 				}
-				val, err := ctyjson.Unmarshal([]byte(marshalDefault), inputType)
-				if err == nil {
-					inputs[i].Default = val
-				}
+
+				inputs[i].Default = ctyVal
 			}
 		}
 

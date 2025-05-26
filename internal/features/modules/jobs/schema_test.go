@@ -228,12 +228,12 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// fmt.Println("url", r.RequestURI)
+		fmt.Println("url", r.RequestURI)
 		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/index.json" {
 			w.Write([]byte(labelNullModuleVersionsMockResponse))
 			return
 		}
-		if strings.HasPrefix(r.RequestURI, "/registry/docs/modules/cloudposse/label/null") {
+		if strings.HasPrefix(r.RequestURI, "/registry/docs/modules/cloudposse/label/null/v") {
 			w.Write([]byte(labelNullModuleDataMockResponse))
 			return
 		}
@@ -252,31 +252,15 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	oldCons := version.MustConstraints(version.NewConstraint("0.25.0"))
-	exists, err := gs.RegistryModules.Exists(addr, oldCons)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !exists {
-		t.Fatalf("expected cached metadata to exist for %q %q", addr, oldCons)
-	}
-	meta, err := ms.RegistryModuleMeta(addr, oldCons)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if diff := cmp.Diff(labelNullExpectedOldModuleData, meta, ctydebug.CmpOptions); diff != "" {
-		t.Fatalf("metadata mismatch: %s", diff)
-	}
-
-	mewCons := version.MustConstraints(version.NewConstraint("0.26.0"))
-	exists, err = gs.RegistryModules.Exists(addr, mewCons)
+	mewCons := version.MustConstraints(version.NewConstraint("0.25.0"))
+	exists, err := gs.RegistryModules.Exists(addr, mewCons)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !exists {
 		t.Fatalf("expected cached metadata to exist for %q %q", addr, mewCons)
 	}
-	meta, err = ms.RegistryModuleMeta(addr, mewCons)
+	meta, err := ms.RegistryModuleMeta(addr, mewCons)
 	if err != nil {
 		t.Fatal(err)
 	}

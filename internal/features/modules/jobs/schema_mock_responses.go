@@ -288,7 +288,7 @@ var labelNullModuleVersionsMockResponse = `{
           "submodules": []
         },
         {
-          "version": "0.26.0",
+          "version": "0.24.0",
           "root": {
             "providers": [],
             "dependencies": []
@@ -300,94 +300,209 @@ var labelNullModuleVersionsMockResponse = `{
   ]
 }`
 
-// labelNullModuleDataOldMockResponse represents response for
+// labelNullModuleDataMockResponse represents response for
 // a module that does NOT suffer from "unreliable" input data,
 // as described in https://github.com/hashicorp/vscode-terraform/issues/1582
 // This is for comparison with the unreliable input data.
-// It is a shortened response from https://api.opentofu.org/registry/docs/modules/cloudposse/label/null/index.json
+// It is a shortened response from https://api.opentofu.org/registry/docs/modules/cloudposse/label/null/v0.25.0/index.json
 var labelNullModuleDataMockResponse = `{
-  "addr": {
-    "display": "cloudposse/label/null",
-    "namespace": "cloudposse",
-    "name": "label",
-    "target": "null"
-  },
-  "description": "",
-  "versions": [
-    {
-      "id": "v0.25.0",
-      "published": "2021-08-25T17:45:16Z"
+  "id": "v0.25.0",
+  "published": "2021-08-25T17:45:16Z",
+  "readme": true,
+  "edit_link": "https://github.com/cloudposse/terraform-null-label/blob/0.25.0/README.md",
+  "variables": {
+    "enabled": {
+      "type": "bool",
+      "default": null,
+      "description": "Set to false to prevent the module from creating any resources",
+      "sensitive": false,
+      "required": false
     },
+    "environment": {
+      "type": "string",
+      "default": null,
+      "description": "ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'",
+      "sensitive": false,
+      "required": false
+    }
+  },
+  "outputs": {
+    "additional_tag_map": {
+      "sensitive": false,
+      "description": "The merged additional_tag_map"
+    },
+    "attributes": {
+      "sensitive": false,
+      "description": "List of attributes"
+    }
+  },
+  "schema_error": "",
+  "providers": [],
+  "dependencies": [],
+  "resources": [],
+  "link": "https://github.com/cloudposse/terraform-null-label/tree/0.25.0",
+  "vcs_repository": "",
+  "licenses": [
     {
-      "id": "v0.24.0",
-      "published": "2021-02-04T08:11:56Z"
+      "spdx": "Apache-2.0",
+      "confidence": 0.98704666,
+      "is_compatible": true,
+      "file": "LICENSE",
+      "link": "https://github.com/cloudposse/terraform-null-label/blob/0.25.0/LICENSE"
     }
   ],
-  "is_blocked": false,
-  "popularity": 0,
-  "fork_count": 0,
-  "fork_of": {
-    "display": "//",
-    "namespace": "",
-    "name": "",
-    "target": ""
+  "incompatible_license": false,
+  "examples": {
+    "autoscalinggroup": {
+      "readme": false,
+      "edit_link": "",
+      "variables": {
+        "enabled": {
+          "type": "bool",
+          "default": null,
+          "description": "Set to false to prevent the module from creating any resources",
+          "sensitive": false,
+          "required": false
+        },
+        "environment": {
+          "type": "string",
+          "default": null,
+          "description": "Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT'",
+          "sensitive": false,
+          "required": false
+        },
+        "label_order": {
+          "type": "list of string",
+          "default": null,
+          "description": "The naming order of the id output and Name tag.\nDefaults to [\"namespace\", \"environment\", \"stage\", \"name\", \"attributes\"].\nYou can omit any of the 5 elements, but at least one must be present.\n",
+          "sensitive": false,
+          "required": false
+        },
+        "name": {
+          "type": "string",
+          "default": null,
+          "description": "Solution name, e.g. 'app' or 'jenkins'",
+          "sensitive": false,
+          "required": false
+        },
+        "namespace": {
+          "type": "string",
+          "default": null,
+          "description": "Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp'",
+          "sensitive": false,
+          "required": false
+        }
+      },
+      "outputs": {
+        "id": {
+          "sensitive": false,
+          "description": ""
+        },
+        "tags": {
+          "sensitive": false,
+          "description": ""
+        },
+        "tags_as_list_of_maps": {
+          "sensitive": false,
+          "description": ""
+        }
+      },
+      "schema_error": ""
+    },
+    "complete": {
+      "readme": false,
+      "edit_link": "",
+      "variables": {
+        "enabled": {
+          "type": "bool",
+          "default": null,
+          "description": "Set to false to prevent the module from creating any resources",
+          "sensitive": false,
+          "required": false
+        },
+        "environment": {
+          "type": "string",
+          "default": null,
+          "description": "ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'",
+          "sensitive": false,
+          "required": false
+        },
+        "namespace": {
+          "type": "string",
+          "default": null,
+          "description": "ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique",
+          "sensitive": false,
+          "required": false
+        },
+        "stage": {
+          "type": "string",
+          "default": null,
+          "description": "ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release'",
+          "sensitive": false,
+          "required": false
+        },
+        "tenant": {
+          "type": "string",
+          "default": null,
+          "description": "ID element _(Rarely used, not included by default)_. A customer identifier, indicating who this instance of a resource is for",
+          "sensitive": false,
+          "required": false
+        }
+      },
+      "outputs": {
+        "chained_descriptor_account_name": {
+          "sensitive": false,
+          "description": ""
+        },
+        "chained_descriptor_stack": {
+          "sensitive": false,
+          "description": ""
+        },
+        "compatible": {
+          "sensitive": false,
+          "description": ""
+        },
+        "descriptor_account_name": {
+          "sensitive": false,
+          "description": ""
+        },
+        "descriptor_stack": {
+          "sensitive": false,
+          "description": ""
+        }
+      },
+      "schema_error": ""
+    }
   },
-  "upstream_popularity": 0,
-  "upstream_fork_count": 0
+  "submodules": {
+
+  }
 }`
 
-var labelNullExpectedOldModuleData = &tfregistry.ModuleData{
+var labelNullExpectedNewModuleData = &tfregistry.ModuleData{
 	Version: version.Must(version.NewVersion("0.25.0")),
 	Inputs: []tfregistry.Input{
 		{
+			Name:        "enabled",
+			Type:        cty.Bool,
+			Description: lang.Markdown("Set to false to prevent the module from creating any resources"),
+			Required:    false,
+		},
+		{
 			Name:        "environment",
 			Type:        cty.String,
-			Description: lang.Markdown(""),
-		},
-		{
-			Name:        "label_order",
-			Type:        cty.DynamicPseudoType,
-			Description: lang.Markdown(""),
-		},
-		{
-			Name:        "descriptor_formats",
-			Type:        cty.DynamicPseudoType,
-			Description: lang.Markdown(""),
+			Description: lang.Markdown("ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'"),
+			Required:    false,
 		},
 	},
 	Outputs: []tfregistry.Output{
 		{
-			Name:        "id",
-			Description: lang.Markdown(""),
-		},
-	},
-}
-
-var labelNullExpectedNewModuleData = &tfregistry.ModuleData{
-	Version: version.Must(version.NewVersion("0.26.0")),
-	Inputs: []tfregistry.Input{
-		{
-			Name:        "environment",
-			Type:        cty.String,
-			Description: lang.Markdown(""),
-			Required:    true,
+			Name:        "additional_tag_map",
+			Description: lang.Markdown("The merged additional_tag_map"),
 		},
 		{
-			Name:        "label_order",
-			Type:        cty.DynamicPseudoType,
-			Description: lang.Markdown(""),
-			Default:     cty.NullVal(cty.DynamicPseudoType),
-		},
-		{
-			Name:        "descriptor_formats",
-			Type:        cty.DynamicPseudoType,
-			Description: lang.Markdown(""),
-		},
-	},
-	Outputs: []tfregistry.Output{
-		{
-			Name:        "id",
-			Description: lang.Markdown(""),
+			Name:        "attributes",
+			Description: lang.Markdown("List of attributes"),
 		},
 	},
 }

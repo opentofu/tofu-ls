@@ -144,7 +144,6 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 		addr.Package.Name,
 		addr.Package.TargetSystem)
 
-	fmt.Println("url", url)
 	ctx = httptrace.WithClientTrace(ctx, otelhttptrace.NewClientTrace(ctx, otelhttptrace.WithoutSubSpans()))
 
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
