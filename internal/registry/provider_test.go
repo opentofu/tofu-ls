@@ -33,7 +33,7 @@ func TestListPopularProvidersFiltered(t *testing.T) {
 			]`))
 			return
 		}
-		if strings.HasPrefix(r.RequestURI, "/v1/providers/") && !strings.Contains(r.RequestURI, "unsupported") {
+		if strings.HasPrefix(r.RequestURI, "/registry/docs/providers/") && !strings.Contains(r.RequestURI, "unsupported") {
 			w.Write([]byte(fmt.Sprintf(`{
 				"versions": [
 					{
@@ -132,7 +132,7 @@ func TestGetLatestProviderVersion(t *testing.T) {
 	client := NewClient()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/providers/hashicorp/aws/versions" {
+		if r.RequestURI == "/registry/docs/providers/hashicorp/aws/index.json" {
 			w.Write([]byte(`{
 			"versions": [
 			{

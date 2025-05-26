@@ -8,14 +8,15 @@ package registry
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
 	"io"
 	"log"
 	"net/http"
 	"runtime"
 	"sync"
 	"sync/atomic"
+
+	"github.com/hashicorp/go-version"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 type Provider struct {
@@ -138,7 +139,7 @@ func (c Client) filterUnsupportedProviders(providers []Provider) ([]Provider, er
 }
 
 func (c Client) checkProviderVersionSupported(pAddr tfaddr.Provider) (*providerVersionResponse, error) {
-	url := fmt.Sprintf("%s/v1/providers/%s/%s/versions", c.BaseRegistryURL, pAddr.Namespace, pAddr.Type)
+	url := fmt.Sprintf("%s/registry/docs/providers/%s/%s/index.json", c.BaseRegistryURL, pAddr.Namespace, pAddr.Type)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
