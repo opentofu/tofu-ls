@@ -32,6 +32,7 @@ import (
 	globalState "github.com/opentofu/tofu-ls/internal/state"
 	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/zclconf/go-cty/cty"
+	"github.com/zclconf/go-cty/cty/gocty"
 	ctyjson "github.com/zclconf/go-cty/cty/json"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -299,15 +300,13 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			// cty marshalers, making it lossy, so we just try to decode
 			// on best-effort basis.
 			if input.Default != nil {
-				var ctyVal cty.Value
-				switch inputType {
-				case cty.String:
-					ctyVal = cty.StringVal(input.Default.(string))
-				case cty.Bool:
-					ctyVal = cty.BoolVal(input.Default.(bool))
-				default:
-					// TODO: Implement other types other than string
-					return fmt.Errorf("need to implement default support for type %s on field %s", inputType.FriendlyName(), name)
+				// gocty.ToCtyValue is not able to parse DynamicPseudoType
+				if inputType == cty.DynamicPseudoType {
+					continue
+				}
+				ctyVal, err := gocty.ToCtyValue(input.Default, inputType)
+				if err != nil {
+					return fmt.Errorf("error converting ToCtyValue: %s", name)
 				}
 
 				inputs[i].Default = ctyVal
