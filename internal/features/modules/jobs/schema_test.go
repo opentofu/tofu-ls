@@ -228,7 +228,6 @@ func TestGetModuleDataFromRegistry_unreliableInputs(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("url", r.RequestURI)
 		if r.RequestURI == "/registry/docs/modules/cloudposse/label/null/index.json" {
 			w.Write([]byte(labelNullModuleVersionsMockResponse))
 			return

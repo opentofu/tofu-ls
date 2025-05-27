@@ -130,8 +130,6 @@ func (c Client) GetMatchingModuleVersion(ctx context.Context, addr tfaddr.Module
 		}
 	}
 
-	fmt.Println("Found Versions", foundVersions)
-
 	return nil, fmt.Errorf("no suitable version found for %q %q", addr, con)
 }
 
