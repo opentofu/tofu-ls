@@ -142,133 +142,123 @@ var moduleVersionsMockResponse = `{
   ]
 }`
 
-// moduleDataMockResponse represents response from https://registry.terraform.io/v1/modules/puppetlabs/deployment/ec/0.0.8
+// moduleDataMockResponse represents response from https://api.opentofu.org/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json
 var moduleDataMockResponse = `{
-  "id": "puppetlabs/deployment/ec/0.0.8",
-  "owner": "mattkirby",
-  "namespace": "puppetlabs",
-  "name": "deployment",
-  "version": "0.0.8",
-  "provider": "ec",
-  "provider_logo_url": "/images/providers/generic.svg?2",
-  "description": "",
-  "source": "https://github.com/puppetlabs/terraform-ec-deployment",
-  "tag": "v0.0.8",
-  "published_at": "2021-08-05T00:26:33.501756Z",
-  "downloads": 3059237,
-  "verified": false,
-  "root": {
-    "path": "",
-    "name": "deployment",
-    "readme": "# EC project OpenTofu module\n\nTofu module which creates a Elastic Cloud project.\n\n## Usage\n\nDetails coming soon\n",
-    "empty": false,
-    "inputs": [
-      {
-        "name": "autoscale",
-        "type": "string",
-        "description": "Enable autoscaling of elasticsearch",
-        "default": "\"true\"",
-        "required": false
-      },
-      {
-        "name": "ec_stack_version",
-        "type": "string",
-        "description": "Version of Elastic Cloud stack to deploy",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "description": "Name of resources",
-        "default": "\"ecproject\"",
-        "required": false
-      },
-      {
-        "name": "traffic_filter_sourceip",
-        "type": "string",
-        "description": "traffic filter source IP",
-        "default": "\"\"",
-        "required": false
-      },
-      {
-        "name": "ec_region",
-        "type": "string",
-        "description": "cloud provider region",
-        "default": "\"gcp-us-west1\"",
-        "required": false
-      },
-      {
-        "name": "deployment_templateid",
-        "type": "string",
-        "description": "ID of Elastic Cloud deployment type",
-        "default": "\"gcp-io-optimized\"",
-        "required": false
-      }
-    ],
-    "outputs": [
-      {
-        "name": "elasticsearch_password",
-        "description": "elasticsearch password"
-      },
-      {
-        "name": "deployment_id",
-        "description": "Elastic Cloud deployment ID"
-      },
-      {
-        "name": "elasticsearch_version",
-        "description": "Stack version deployed"
-      },
-      {
-        "name": "elasticsearch_cloud_id",
-        "description": "Elastic Cloud project deployment ID"
-      },
-      {
-        "name": "elasticsearch_https_endpoint",
-        "description": "elasticsearch https endpoint"
-      },
-      {
-        "name": "elasticsearch_username",
-        "description": "elasticsearch username"
-      }
-    ],
-    "dependencies": [],
-    "provider_dependencies": [
-      {
-        "name": "ec",
-        "namespace": "elastic",
-        "source": "elastic/ec",
-        "version": "0.2.1"
-      }
-    ],
-    "resources": [
-      {
-        "name": "ecproject",
-        "type": "ec_deployment"
-      },
-      {
-        "name": "gcp_vpc_nat",
-        "type": "ec_deployment_traffic_filter"
-      },
-      {
-        "name": "ec_tf_association",
-        "type": "ec_deployment_traffic_filter_association"
-      }
-    ]
+  "id": "v0.0.8",
+  "published": "2021-08-05T00:26:01Z",
+  "readme": true,
+  "edit_link": "https://github.com/puppetlabs/terraform-ec-deployment/blob/v0.0.8/README.md",
+  "variables": {
+    "autoscale": {
+      "type": "string",
+      "default": "true",
+      "description": "Enable autoscaling of elasticsearch",
+      "sensitive": false,
+      "required": false
+    },
+    "deployment_templateid": {
+      "type": "string",
+      "default": "gcp-io-optimized",
+      "description": "ID of Elastic Cloud deployment type",
+      "sensitive": false,
+      "required": false
+    },
+    "ec_region": {
+      "type": "string",
+      "default": "gcp-us-west1",
+      "description": "cloud provider region",
+      "sensitive": false,
+      "required": false
+    },
+    "ec_stack_version": {
+      "type": "string",
+      "default": "",
+      "description": "Version of Elastic Cloud stack to deploy",
+      "sensitive": false,
+      "required": false
+    },
+    "name": {
+      "type": "string",
+      "default": "ecproject",
+      "description": "Name of resources",
+      "sensitive": false,
+      "required": false
+    },
+    "traffic_filter_sourceip": {
+      "type": "string",
+      "default": "",
+      "description": "traffic filter source IP",
+      "sensitive": false,
+      "required": false
+    }
   },
-  "submodules": [],
-  "examples": [],
-  "providers": [
-    "ec"
+  "outputs": {
+    "deployment_id": {
+      "sensitive": false,
+      "description": "Elastic Cloud deployment ID"
+    },
+    "elasticsearch_cloud_id": {
+      "sensitive": false,
+      "description": "Elastic Cloud project deployment ID"
+    },
+    "elasticsearch_https_endpoint": {
+      "sensitive": false,
+      "description": "elasticsearch https endpoint"
+    },
+    "elasticsearch_password": {
+      "sensitive": true,
+      "description": "elasticsearch password"
+    },
+    "elasticsearch_username": {
+      "sensitive": false,
+      "description": "elasticsearch username"
+    },
+    "elasticsearch_version": {
+      "sensitive": false,
+      "description": "Stack version deployed"
+    }
+  },
+  "schema_error": "",
+  "providers": [],
+  "dependencies": [],
+  "resources": [
+    {
+      "address": "ec_deployment.ecproject",
+      "type": "ec_deployment",
+      "name": "ecproject"
+    },
+    {
+      "address": "ec_deployment_traffic_filter.gcp_vpc_nat",
+      "type": "ec_deployment_traffic_filter",
+      "name": "gcp_vpc_nat"
+    },
+    {
+      "address": "ec_deployment_traffic_filter_association.ec_tf_association",
+      "type": "ec_deployment_traffic_filter_association",
+      "name": "ec_tf_association"
+    },
+    {
+      "address": "data.ec_stack.latest",
+      "type": "ec_stack",
+      "name": "latest"
+    }
   ],
-  "versions": [
-    "0.0.1",
-    "0.0.2",
-    "0.0.3",
-    "0.0.4",
-    "0.0.5",
-    "0.0.6",
-    "0.0.7",
-    "0.0.8"
-  ]
+  "link": "https://github.com/puppetlabs/terraform-ec-deployment/tree/v0.0.8",
+  "vcs_repository": "",
+  "licenses": [
+    {
+      "spdx": "Apache-2.0",
+      "confidence": 0.9876943,
+      "is_compatible": true,
+      "file": "LICENSE",
+      "link": "https://github.com/puppetlabs/terraform-ec-deployment/blob/v0.0.8/LICENSE"
+    }
+  ],
+  "incompatible_license": false,
+  "examples": {
+
+  },
+  "submodules": {
+
+  }
 }`

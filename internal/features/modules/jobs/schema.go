@@ -13,6 +13,8 @@ import (
 	"io"
 	"io/fs"
 	"log"
+	"maps"
+	"slices"
 	"time"
 
 	"github.com/hashicorp/go-multierror"
@@ -252,8 +254,8 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			continue
 		}
 
-		registryInputs := metaData.Root.Inputs
-		registryOutputs := metaData.Root.Outputs
+		registryInputs := metaData.Inputs
+		registryOutputs := metaData.Outputs
 
 		// Check if the source address contains a submodule
 		// If we can find the submodule in the API response, we will use its inputs and outputs instead
@@ -269,10 +271,13 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 		}
 
 		inputs := make([]tfregistry.Input, len(registryInputs))
-		for i, input := range registryInputs {
+		// We need to transform the map since opentofu-schema uses a list of Inputs and Outputs
+		// See https://github.com/opentofu/opentofu-schema/blob/main/registry/registry.go#L16
+		for i, name := range slices.Sorted(maps.Keys(registryInputs)) {
+			input := registryInputs[name]
 			isRequired := isRegistryModuleInputRequired(metaData.PublishedAt, input)
 			inputs[i] = tfregistry.Input{
-				Name:        input.Name,
+				Name:        name,
 				Description: lang.Markdown(input.Description),
 				Required:    isRequired,
 			}
@@ -290,20 +295,30 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 			}
 			inputs[i].Type = inputType
 
-			if input.Default != "" {
-				// Registry API unfortunately doesn't marshal values using
-				// cty marshalers, making it lossy, so we just try to decode
-				// on best-effort basis.
-				val, err := ctyjson.Unmarshal([]byte(input.Default), inputType)
-				if err == nil {
-					inputs[i].Default = val
+			// Registry API unfortunately doesn't marshal values using
+			// cty marshalers, making it lossy, so we just try to decode
+			// on best-effort basis.
+			if input.Default != nil {
+				var ctyVal cty.Value
+				switch inputType {
+				case cty.String:
+					ctyVal = cty.StringVal(input.Default.(string))
+				case cty.Bool:
+					ctyVal = cty.BoolVal(input.Default.(bool))
+				default:
+					// TODO: Implement other types other than string
+					return fmt.Errorf("need to implement default support for type %s on field %s", inputType.FriendlyName(), name)
 				}
+
+				inputs[i].Default = ctyVal
 			}
 		}
+
 		outputs := make([]tfregistry.Output, len(registryOutputs))
-		for i, output := range registryOutputs {
+		for i, name := range slices.Sorted(maps.Keys(registryOutputs)) {
+			output := registryOutputs[name]
 			outputs[i] = tfregistry.Output{
-				Name:        output.Name,
+				Name:        name,
 				Description: lang.Markdown(output.Description),
 			}
 		}
