@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"runtime"
+	"strings"
 	"sync"
 	"sync/atomic"
 
@@ -139,7 +140,7 @@ func (c Client) filterUnsupportedProviders(providers []Provider) ([]Provider, er
 }
 
 func (c Client) checkProviderVersionSupported(pAddr tfaddr.Provider) (*providerVersionResponse, error) {
-	url := fmt.Sprintf("%s/registry/docs/providers/%s/%s/index.json", c.BaseRegistryURL, pAddr.Namespace, pAddr.Type)
+	url := fmt.Sprintf("%s/v1/providers/%s/%s/versions", c.BaseRegistryURL, pAddr.Namespace, pAddr.Type)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -165,12 +166,12 @@ func (c Client) checkProviderVersionSupported(pAddr tfaddr.Provider) (*providerV
 
 func ProviderVersionSupportsOsAndArch(pVersion version.Version, providerVersions []ProviderVersion, os, arch string) bool {
 	for _, version := range providerVersions {
-		if version.Version != pVersion.String() {
+		if !strings.Contains(version.Version, pVersion.String()) {
 			continue
 		}
+
 		for _, platform := range version.Platforms {
-			if platform.OS == os &&
-				platform.Arch == arch {
+			if platform.OS == os && platform.Arch == arch {
 				return true
 			}
 		}
