@@ -32,8 +32,7 @@ func TestListPopularProvidersFiltered(t *testing.T) {
 				{"addr":"hashicorp/unsupported","version":"v1.0.0","popularity":100}
 			]`))
 			return
-		}
-		if strings.HasPrefix(r.RequestURI, "/registry/docs/providers/") && !strings.Contains(r.RequestURI, "unsupported") {
+		} else if !strings.Contains(r.RequestURI, "unsupported") {
 			w.Write([]byte(fmt.Sprintf(`{
 				"versions": [
 					{
@@ -70,6 +69,7 @@ func TestListPopularProvidersFiltered(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	expectedProviders := []Provider{
 		{Addr: "hashicorp/aws", Version: "v1.0.0"},
 		{Addr: "hashicorp/azurerm", Version: "v1.0.0"},
@@ -132,7 +132,7 @@ func TestGetLatestProviderVersion(t *testing.T) {
 	client := NewClient()
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/registry/docs/providers/hashicorp/aws/index.json" {
+		if r.RequestURI == "/v1/providers/hashicorp/aws/versions" {
 			w.Write([]byte(`{
 			"versions": [
 			{
