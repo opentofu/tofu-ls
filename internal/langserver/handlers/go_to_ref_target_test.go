@@ -23,91 +23,95 @@ import (
 )
 
 func TestDefinition_basic(t *testing.T) {
-	tmpDir := TempDir(t)
+	t.Parallel()
 
-	ss, err := state.NewStateStore()
-	if err != nil {
-		t.Fatal(err)
-	}
-	wc := walker.NewWalkerCollector()
+	extensions := []string{".tf", ".tofu"}
+	for _, ext := range extensions {
+		t.Run(ext, func(t *testing.T) {
+			tmpDir := TempDir(t)
 
-	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TofuCalls: &exec.TofuMockCalls{
-			PerWorkDir: map[string][]*mock.Call{
-				tmpDir.Path(): {
-					{
-						Method:        "Version",
-						Repeatability: 1,
-						Arguments: []interface{}{
-							mock.AnythingOfType(""),
-						},
-						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.12.0")),
-							nil,
-							nil,
-						},
-					},
-					{
-						Method:        "GetExecPath",
-						Repeatability: 1,
-						ReturnArguments: []interface{}{
-							"",
+			ss, err := state.NewStateStore()
+			if err != nil {
+				t.Fatal(err)
+			}
+			wc := walker.NewWalkerCollector()
+
+			ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
+				TofuCalls: &exec.TofuMockCalls{
+					PerWorkDir: map[string][]*mock.Call{
+						tmpDir.Path(): {
+							{
+								Method:        "Version",
+								Repeatability: 1,
+								Arguments: []interface{}{
+									mock.AnythingOfType(""),
+								},
+								ReturnArguments: []interface{}{
+									version.Must(version.NewVersion("0.12.0")),
+									nil,
+									nil,
+								},
+							},
+							{
+								Method:        "GetExecPath",
+								Repeatability: 1,
+								ReturnArguments: []interface{}{
+									"",
+								},
+							},
 						},
 					},
 				},
-			},
-		},
-		StateStore:      ss,
-		WalkerCollector: wc,
-	}))
-	stop := ls.Start(t)
-	defer stop()
-
-	ls.Call(t, &langserver.CallRequest{
-		Method: "initialize",
-		ReqParams: fmt.Sprintf(`{
+				StateStore:      ss,
+				WalkerCollector: wc,
+			}))
+			stop := ls.Start(t)
+			defer stop()
+			ls.Call(t, &langserver.CallRequest{
+				Method: "initialize",
+				ReqParams: fmt.Sprintf(`{
 			"capabilities": {},
 			"rootUri": %q,
 			"processId": 12345
 	}`, tmpDir.URI)})
-	waitForWalkerPath(t, ss, wc, tmpDir)
-	ls.Notify(t, &langserver.CallRequest{
-		Method:    "initialized",
-		ReqParams: "{}",
-	})
-	ls.Call(t, &langserver.CallRequest{
-		Method: "textDocument/didOpen",
-		ReqParams: fmt.Sprintf(`{
+			waitForWalkerPath(t, ss, wc, tmpDir)
+			ls.Notify(t, &langserver.CallRequest{
+				Method:    "initialized",
+				ReqParams: "{}",
+			})
+			ls.Call(t, &langserver.CallRequest{
+				Method: "textDocument/didOpen",
+				ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
 			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
-			`variable "test" {
+					`variable "test" {
 }
 
 output "foo" {
 	value = var.test
 }`)+`,
-			"uri": "%s/main.tf"
+			"uri": "%s/main.%s"
 		}
-	}`, tmpDir.URI)})
-	waitForAllJobs(t, ss)
+	}`, tmpDir.URI, ext)})
+			waitForAllJobs(t, ss)
 
-	ls.CallAndExpectResponse(t, &langserver.CallRequest{
-		Method: "textDocument/definition",
-		ReqParams: fmt.Sprintf(`{
+			ls.CallAndExpectResponse(t, &langserver.CallRequest{
+				Method: "textDocument/definition",
+				ReqParams: fmt.Sprintf(`{
 			"textDocument": {
-				"uri": "%s/main.tf"
+				"uri": "%s/main.%s"
 			},
 			"position": {
 				"line": 4,
 				"character": 13
 			}
-		}`, tmpDir.URI)}, fmt.Sprintf(`{
+		}`, tmpDir.URI, ext)}, fmt.Sprintf(`{
 			"jsonrpc": "2.0",
 			"id": 3,
 			"result": [{
-				"uri":"%s/main.tf",
+				"uri":"%s/main.%s",
 				"range": {
 					"start": {
 						"line": 0,
@@ -119,7 +123,9 @@ output "foo" {
 					}
 				}
 			}]
-		}`, tmpDir.URI))
+		}`, tmpDir.URI, ext))
+		})
+	}
 }
 
 func TestDefinition_withLinkToDefLessBlock(t *testing.T) {
