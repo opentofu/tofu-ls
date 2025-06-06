@@ -28,6 +28,7 @@ func (mf ModFilename) IsIgnored() bool {
 
 func IsModuleFilename(name string) bool {
 	return strings.HasSuffix(name, ".tf") ||
+		strings.HasSuffix(name, ".tofu") ||
 		strings.HasSuffix(name, ".tf.json")
 }
 
