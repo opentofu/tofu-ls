@@ -12,8 +12,6 @@ HCL2-based language server may reuse should be contributed there, not into `tofu
 
 The decoder essentially takes in directories of parsed HCL files + schemas and uses both to walk the AST to provide completion candidates, hover data and other relevant data.
 
-![decoder-flow](./images/decoder-flow.png)
-
 ```mermaid
 flowchart LR
    Input1["Parsed Files\nmap[string]*hcl.File"] --> Decoder
@@ -41,7 +39,56 @@ schema (such as `terraform`, `resource` or `variable` blocks) + helpers to combi
 that [Core schema](https://github.com/opentofu/opentofu-schema/tree/main/internal/schema) with provider schemas (such as
 inner parts of `resource` or `data` blocks) and help assemble schemas for modules.
 
-![schema-merging](./images/schema-merging.png)
+
+```mermaid
+flowchart LR
+ subgraph TLI["tofu-ls (indexer)"]
+    direction TB
+        TPS["tofu providers schema -json"]
+        SBS1["hcl-lang/schema.BodySchema"]
+        SBS2["hcl-lang/schema.BodySchema"]
+        TVJ["tofu version -json"]
+  end
+ subgraph TLLSP["tofu-ls (LSP/RPC)"]
+    direction TB
+        TDC["textDocument/completion"]
+        TDH["textDocument/hover"]
+        TDS["textDocument/symbols"]
+        TDO["..."]
+  end
+ subgraph TS["opentofu-schema"]
+    direction TB
+        PSJ["ProviderSchemaFromJson(...)"]
+        SSR["SetStateReader(...)"]
+        NSM["NewSchemaMerger(...)"]
+        CMS["CoreModuleSchemaForVersion(...)"]
+        SFM["SchemaForModule(...)"]
+        SM["SchemaMerger"]
+  end
+    TLI ~~~ TLLSP & TS
+    TLLSP ~~~ TS
+    TPS -- JSON --> PSJ
+    TVJ -- JSON --> CMS
+    PSJ --> SBS1
+    SBS1 -- provider schema --> SSR
+    CMS --> SBS2
+    SBS2 -- core schema --> NSM
+    SSR -. <br> .-> SM
+    NSM -. <br> .-> SM
+    SFM -. <br> .-> SM
+    TDC -- "path + meta..." --> SFM
+    TDH -- "path + meta..." --> SFM
+    TDS -- "path + meta..." --> SFM
+    TDO -- "path + meta..." --> SFM
+
+     TDO:::dashed
+     SM:::merger
+    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
+    classDef merger fill:#ffffff,stroke:#666,stroke-width:3px,font-weight:bold
+    classDef dashed stroke-dasharray: 5 5
+    classDef schema fill:#ffffff,stroke:#999,stroke-width:1px
+```
+
 
 ## Global State
 
@@ -75,7 +122,34 @@ Each document also maintains line-separated version, to enable line-based diffin
 `filesystem` package provides an `io/fs` compatible interface primarily for any jobs which need to operate on the whole
 directory (OpenTofu module) regardless of where the file contents comes from (virtual document or OS filesystem).
 
-![filesystem-decision-logic](./images/filesystem-decision-logic.png)
+```mermaid
+flowchart TD
+ subgraph filesystem["filesystem"]
+        FS["Filesystem"]
+        DS["DocumentStore"]
+        OS["'os' (OS FS)"]
+        RD["ReadDir(name)"]
+        RF["ReadFile(name)"]
+        OP["Open(name)"]
+        ST["Stat(name)"]
+        Decision@{ label: "Does 'name' exist in DocumentStore?" }
+        ReadDS["Read<br>from DocumentStore"]
+        ReadOS["Read<br>from OS FS"]
+  end
+    DS --> FS
+    OS --> FS
+    FS -.-> RD & RF & OP & ST
+    RD --> Decision
+    RF --> Decision
+    OP --> Decision
+    ST --> Decision
+    Decision -- YES --> ReadDS
+    Decision -- NO --> ReadOS
+
+    Decision@{ shape: diamond}
+    linkStyle 10 stroke:#00C853
+    linkStyle 11 stroke:#D50000,fill:none
+```
 
 ## LSP/RPC Layer
 
@@ -165,7 +239,72 @@ request.
 
 The overall flow of jobs is illustrated in the diagram below.
 
-![job-scheduler-flow](./images/job-scheduler-flow.png)
+```mermaid
+---
+config:
+  layout: elk
+---
+flowchart LR
+ subgraph LC["Language Client"]
+    direction LR
+        VSCode["VS Code"]
+        Sublime["Sublime Text"]
+        Vim["Vim"]
+  end
+ subgraph LS["Language Server (RPC layer)"]
+    direction TB
+        WS["workspace/didChangeWorkspaceFolders"]
+        TDO["textDocument/didOpen"]
+        TDC["textDocument/didChange"]
+  end
+ subgraph P["Producers"]
+    direction LR
+        MF["Modules Feature<br>internal/features/modules/events.go"]
+        VF["Variables Feature<br>internal/features/variables/events.go"]
+        RF["Root Modules Feature<br>internal/features/rootmodules/..."]
+  end
+ subgraph C["Consumers"]
+    direction LR
+        CDI["**Closed-Dir Indexer**"]
+        ODI["**Open-Dir Indexer**"]
+  end
+ subgraph state["state (go-memdb)"]
+    direction LR
+        JOBS["jobs"]
+        DOCUMENTS("Documents")
+  end
+    WS --> P
+    TDO --> P
+    TDC --> P
+    MF --> state
+    VF --> state
+    RF --> state
+    Sublime --> LS
+    Vim --> LS
+    VSCode --> LS
+    state --> C
+     VSCode:::client
+     Sublime:::client
+     Vim:::client
+     WS:::server
+     TDO:::server
+     TDC:::server
+     MF:::producer
+     VF:::producer
+     RF:::producer
+     CDI:::indexer
+     ODI:::indexer
+     LC:::dashed
+    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
+    classDef client fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef server fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef producer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef consumer fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef state fill:#5c6bc0,color:#ffffff,stroke:#3f51b5,stroke-width:2px
+    classDef indexer fill:#ffffff,stroke:#666,stroke-width:2px,font-weight:bold
+    classDef dashed stroke-dasharray: 5 5
+    style state fill:#BBDEFB
+```
 
 The mentioned `documents` memdb table is consulted for whether a directory has any open files - i.e. whether server has received `textDocument/didOpen` and _not_ `textDocument/didClose` concerning a particular directory. Using two separate schedulers loosely reflects the fact that data for files which the user is editing at the moment are more critical, unlike additional data about other directories/modules which would only _enrich_ editing of the open files (such as by adding cross-module context, providing go-to-definition etc.).
 
@@ -173,7 +312,113 @@ Jobs also depend on each other. These dependencies are illustrated in the diagra
 
 ### didOpen Job Flow
 
-![didOpen-job-flow](./images/didopen-job-flow.png)
+
+```mermaid
+---
+config:
+  layout: dagre
+  theme: mc
+  look: neo
+---
+flowchart TD
+ subgraph FileEvent["File Event"]
+        Event["open /my-module/main.tf<br>didOpen Event"]
+  end
+ subgraph Loop8["for every module call"]
+    direction TB
+        AfterSub8["after all submodule<br>jobs are done"]
+  end
+ subgraph Job8Content["module"]
+    direction LR
+        PMC8["ParseModuleConfiguration (*.tf, *.json)<br>(bytes → AST)"]
+        LMM8["LoadModuleMetadata"]
+        Loop8
+        PES8["PreloadEmbeddedSchema"]
+        DRT8["DecodeReferenceTargets"]
+        DRO8["DecodeReferenceOrigins"]
+        SMV8["SchemaModuleValidation"]
+        RV8["ReferenceValidation"]
+        GMDFR8["GetModuleDataFromRegistry"]
+        n1(["After all submodule jobs are resolved"])
+  end
+ subgraph Job3Content["Variables Jobs"]
+    direction TB
+        PV3["ParseVariables (*.tfvars,<br>*.tfvars.json)<br>(bytes → AST)"]
+        DVR3["DecodeVarsReferences"]
+        SVV3["SchemaVariablesValidation"]
+  end
+ subgraph Job4Content["Root Modules Jobs"]
+    direction TB
+        GTV4@{ label: "GetTofuVersion<br>('tofu version -json')" }
+        PMM4["ParseModuleManifest"]
+        PPV4["ParseProviderVersions"]
+        OS4@{ label: "ObtainSchema<br>('tofu providers<br>schema -json')" }
+  end
+ subgraph Job5Content["submodule"]
+    direction TB
+        PMC5["ParseModuleConfiguration (*.tf, *.json)<br>(bytes → AST)"]
+        LMM5["LoadModuleMetadata<br>(AST → vars, outputs, etc.)<br>(via tfschema/earlydecoder)"]
+        PES5["PreloadEmbeddedSchema"]
+        DRT5["DecodeReferenceTargets"]
+        DRO5["DecodeReferenceOrigins"]
+  end
+    Event --> ModulesF["Modules Feature"] & VariablesF["Variables Feature"] & RootModulesF["Root Modules Feature"]
+    PMC8 --> LMM8
+    LMM8 --> Loop8
+    Loop8 --> n1
+    Loop8 -. 5 jobs per submodule .-> Job5Content
+    PV3 --> DVR3
+    DVR3 --> SVV3
+    GTV4 --> PMM4
+    PMM4 --> PPV4
+    PPV4 --> OS4
+    PMC5 --> LMM5
+    LMM5 -.-> PES5
+    PES5 -.-> DRT5
+    DRT5 -.-> DRO5
+    ModulesF -- "if contains '*.tf' (8 jobs)" --> Job8Content
+    VariablesF -- "if contains *.tfvars (3 jobs)" --> Job3Content
+    RootModulesF -- "if contains .terraform (4 jobs)" --> Job4Content
+    n1 --> GMDFR8 & RV8 & SMV8 & DRT8 & DRO8 & PES8
+    GTV4@{ shape: rect}
+    OS4@{ shape: rect}
+     Event:::file
+     AfterSub8:::dashed
+     PMC8:::job8
+     LMM8:::job8
+     Loop8:::job8
+     PES8:::job8
+     DRT8:::job8
+     DRO8:::job8
+     SMV8:::job8
+     RV8:::job8
+     GMDFR8:::job8
+     PV3:::job3
+     DVR3:::job3
+     SVV3:::job3
+     GTV4:::job4
+     PMM4:::job4
+     PPV4:::job4
+     OS4:::job4
+     PMC5:::job5
+     LMM5:::job5
+     PES5:::job5
+     DRT5:::job5
+     DRO5:::job5
+     ModulesF:::feature
+     VariablesF:::feature
+     RootModulesF:::feature
+    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
+    classDef feature fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef jobHeader fill:#bbdefb,stroke:#1565c0,stroke-width:2px,font-weight:bold
+    classDef job8 fill:#e8f5e8,stroke:#4caf50,stroke-width:1px
+    classDef job3 fill:#fff3e0,stroke:#ff9800,stroke-width:1px
+    classDef job4 fill:#fce4ec,stroke:#e91e63,stroke-width:1px
+    classDef job5 fill:#f3e5f5,stroke:#9c27b0,stroke-width:1px
+    classDef file fill:#fff8e1,stroke:#fbc02d,stroke-width:2px
+    classDef dashed stroke-dasharray: 5 5
+    style n1 fill:#FFF9C4
+```
 
 ## Event Bus
 
@@ -184,7 +429,43 @@ primarily used to distribute LSP document synchronization events.
 
 ### Event Sources
 
-![event-bus-triggers](./images/event-bus-triggers.png)
+
+```mermaid
+flowchart LR
+ subgraph subGraph0["Event Bus Event Triggers"]
+    direction LR
+        EDO["eventbus.DidOpen(event)"]
+        TDO["textDocument/didOpen"]
+        EDC["eventbus.DidChange(event)"]
+        TDC["textDocument/didChange"]
+        EDCW["eventbus.DidChangeWatched(event)"]
+        TDCWF["textDocument/didChangeWatchedFiles"]
+        EMC["eventbus.ManifestChange(event)"]
+        EPLC["eventbus.PluginLockChange(event)"]
+        ED["eventbus.Discover(event)"]
+        WW["walker ... walk"]
+  end
+    TDO --> EDO
+    TDC --> EDC
+    TDCWF --> EDCW & EMC & EPLC
+    WW --> ED
+
+     EDO:::event
+     TDO:::trigger
+     EDC:::event
+     TDC:::trigger
+     EDCW:::event
+     TDCWF:::trigger
+     EMC:::event
+     EPLC:::event
+     ED:::event
+     WW:::trigger
+    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
+    classDef trigger fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef event fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef title fill:#ffffff,stroke:#333,stroke-width:2px,font-weight:bold,font-size:16px
+```
+
 
 ## Walker
 
