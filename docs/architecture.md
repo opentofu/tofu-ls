@@ -29,6 +29,11 @@ flowchart LR
 Decoder needs schema to produce relevant completion candidates, hover data etc. [`opentofu/opentofu-schema`](https://pkg.go.dev/github.com/opentofu/opentofu-schema) houses most of the OpenTofu Core schema (such as `terraform`, `resource` or `variable` blocks) + helpers to combine that [Core schema](https://github.com/opentofu/opentofu-schema/tree/main/internal/schema) with provider schemas (such as inner parts of `resource` or `data` blocks) and help assemble schemas for modules.
 
 ```mermaid
+---
+config:
+  theme: mc
+  look: neo
+---
 flowchart LR
  subgraph TLI["tofu-ls (indexer)"]
     direction TB
@@ -71,10 +76,6 @@ flowchart LR
 
      TDO:::dashed
      SM:::merger
-    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
-    classDef merger fill:#ffffff,stroke:#666,stroke-width:3px,font-weight:bold
-    classDef dashed stroke-dasharray: 5 5
-    classDef schema fill:#ffffff,stroke:#999,stroke-width:1px
 ```
 
 
@@ -103,6 +104,11 @@ Each document also maintains line-separated version, to enable line-based diffin
 `filesystem` package provides an `io/fs` compatible interface primarily for any jobs which need to operate on the whole directory (OpenTofu module) regardless of where the file contents comes from (virtual document or OS filesystem).
 
 ```mermaid
+---
+config:
+  theme: mc
+  look: neo
+---
 flowchart TD
  subgraph filesystem["filesystem"]
         FS["Filesystem"]
@@ -207,6 +213,8 @@ The overall flow of jobs is illustrated in the diagram below.
 ```mermaid
 ---
 config:
+  theme: mc
+  look: neo
   layout: elk
 ---
 flowchart LR
@@ -260,7 +268,6 @@ flowchart LR
      CDI:::indexer
      ODI:::indexer
      LC:::dashed
-    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
     classDef client fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     classDef server fill:#fff3e0,stroke:#f57c00,stroke-width:2px
     classDef producer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
@@ -373,7 +380,6 @@ flowchart TD
      ModulesF:::feature
      VariablesF:::feature
      RootModulesF:::feature
-    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
     classDef feature fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     classDef jobHeader fill:#bbdefb,stroke:#1565c0,stroke-width:2px,font-weight:bold
     classDef job8 fill:#e8f5e8,stroke:#4caf50,stroke-width:1px
@@ -393,6 +399,11 @@ The [`eventbus`](https://github.com/opentofu/tofu-ls/blob/main/internal/eventbus
 
 
 ```mermaid
+---
+config:
+  theme: mc
+  look: neo
+---
 flowchart LR
  subgraph subGraph0["Event Bus Event Triggers"]
     direction LR
@@ -422,7 +433,6 @@ flowchart LR
      EPLC:::event
      ED:::event
      WW:::trigger
-    classDef default fill:#f9f9f9,stroke:#666,stroke-width:1px
     classDef trigger fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     classDef event fill:#fff3e0,stroke:#f57c00,stroke-width:2px
     classDef title fill:#ffffff,stroke:#333,stroke-width:2px,font-weight:bold,font-size:16px
