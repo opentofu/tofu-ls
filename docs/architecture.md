@@ -9,23 +9,20 @@ Majority of the language server functionality such as completion, hover, documen
 The decoder essentially takes in directories of parsed HCL files + schemas and uses both to walk the AST to provide completion candidates, hover data and other relevant data.
 
 ```mermaid
+---
+config:
+  theme: mc
+  look: neo
+---
 flowchart LR
-   Input1["Parsed Files\nmap[string]*hcl.File"] --> Decoder
-   Input2["Schema\n*schema.BodySchema"] --> Decoder
-   Decoder["Decoder"] --> Out1["CandidatesAtPos"]
-   Decoder --> Out2["HoverAtPos"]
-   Decoder --> Out3["SymbolsInFile"]
-   Decoder -.-> Out4["..."]
-   Out1 --> Result1["lang.Candidates"]
-   Out2 --> Result2["*lang.HoverData"]
-   Out3 --> Result3["[]lang.Symbol"]
-   Out4 -.-> Result4["..."]
-%% Styling
-   classDef default fill: #f9f9f9, stroke: #666, stroke-width: 1px, rx: 4, ry: 4
-   classDef decoder fill: #ffffff, stroke: #666, stroke-width: 1px, rx: 4, ry: 4, font-weight: bold
-   classDef dashed fill: #f9f9f9, stroke-dasharray: 5 5, stroke: #666, stroke-width: 1px, rx: 4, ry: 4
-   class Decoder decoder
-   class Out4, Result4 dashed
+    Input1["Parsed Files <br>map[string]*hcl.File"] --> Decoder["Decoder"]
+    Input2["Schema <br> *schema.BodySchema"] --> Decoder
+    Decoder --> Out1["CandidatesAtPos"] & Out2["HoverAtPos"] & Out3["SymbolsInFile"]
+    Decoder -.-> Out4["..."]
+    Out1 --> Result1["lang.Candidates"]
+    Out2 --> Result2["*lang.HoverData"]
+    Out3 --> Result3["[]lang.Symbol"]
+    Out4 -.-> Result4["..."]
 ```
 ## Schema
 
