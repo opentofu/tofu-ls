@@ -275,7 +275,20 @@ flowchart LR
     classDef state fill:#5c6bc0,color:#ffffff,stroke:#3f51b5,stroke-width:2px
     classDef indexer fill:#ffffff,stroke:#666,stroke-width:2px,font-weight:bold
     classDef dashed stroke-dasharray: 5 5
-    style state fill:#BBDEFB
+    style VSCode color:#424242
+    style Sublime color:#424242
+    style Vim color:#424242
+    style WS color:#424242
+    style TDO color:#424242
+    style TDC color:#424242
+    style MF color:#424242
+    style VF color:#424242
+    style RF color:#424242
+    style CDI color:#424242
+    style ODI color:#424242
+    style JOBS color:#424242
+    style DOCUMENTS color:#424242
+    style state color:#424242
 ```
 
 The mentioned `documents` memdb table is consulted for whether a directory has any open files - i.e. whether server has received `textDocument/didOpen` and _not_ `textDocument/didClose` concerning a particular directory. Using two separate schedulers loosely reflects the fact that data for files which the user is editing at the moment are more critical, unlike additional data about other directories/modules which would only _enrich_ editing of the open files (such as by adding cross-module context, providing go-to-definition etc.).
