@@ -27,6 +27,7 @@ flowchart LR
     Out2 --> Result2["*lang.HoverData"]
     Out3 --> Result3["[]lang.Symbol"]
     Out4 -.-> Result4["..."]
+    linkStyle default stroke:#FF6D00
 ```
 ## Schema
 
@@ -84,6 +85,7 @@ flowchart LR
 
      TDO:::dashed
      SM:::merger
+    linkStyle default stroke:#FF6D00
 ```
 
 
@@ -147,6 +149,7 @@ flowchart TD
     Decision@{ shape: diamond}
     linkStyle 10 stroke:#00C853
     linkStyle 11 stroke:#D50000,fill:none
+    linkStyle default stroke:#FF6D00
 ```
 
 ## LSP/RPC Layer
@@ -402,6 +405,7 @@ flowchart TD
     classDef file fill:#fff8e1,stroke:#fbc02d,stroke-width:2px
     classDef dashed stroke-dasharray: 5 5
     style n1 fill:#FFF9C4
+    linkStyle default stroke:#FF6D00
 ```
 
 ## Event Bus
@@ -454,6 +458,7 @@ flowchart LR
     classDef trigger fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
     classDef event fill:#fff3e0,stroke:#f57c00,stroke-width:2px
     classDef title fill:#ffffff,stroke:#333,stroke-width:2px,font-weight:bold,font-size:16px
+    linkStyle default stroke:#FF6D00
 ```
 
 
