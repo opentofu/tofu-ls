@@ -9,17 +9,17 @@ import (
 	"context"
 	"fmt"
 
-	exec_mock "github.com/opentofu/tofu-ls/internal/terraform/exec/mock"
+	exec_mock "github.com/opentofu/tofu-ls/internal/tofu/exec/mock"
 	"github.com/stretchr/testify/mock"
 )
 
-type TerraformMockCalls struct {
+type TofuMockCalls struct {
 	PerWorkDir map[string][]*mock.Call
 	AnyWorkDir []*mock.Call
 }
 
-func NewMockExecutor(calls *TerraformMockCalls) ExecutorFactory {
-	return func(workDir string, execPath string) (TerraformExecutor, error) {
+func NewMockExecutor(calls *TofuMockCalls) ExecutorFactory {
+	return func(workDir string, execPath string) (TofuExecutor, error) {
 		if calls == nil {
 			return nil, fmt.Errorf("%s: no mock calls defined", workDir)
 		}

@@ -8,13 +8,13 @@ package errors
 import (
 	e "errors"
 
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
 )
 
 func EnrichTfExecError(err error) error {
-	if module.IsTerraformNotFound(err) {
-		return e.New("Terraform (CLI) is required. " +
-			"Please install Terraform or make it available in $PATH")
+	if module.IsTofuNotFound(err) {
+		return e.New("Tofu (CLI) is required. " +
+			"Please install Tofu or make it available in $PATH")
 	}
 	return err
 }

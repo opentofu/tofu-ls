@@ -22,9 +22,9 @@ import (
 	"github.com/opentofu/tofu-ls/internal/job"
 	"github.com/opentofu/tofu-ls/internal/langserver/diagnostics"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // SchemaModuleValidation does schema-based validation
@@ -32,7 +32,7 @@ import (
 // associated with any "invalid" parts of code.
 //
 // It relies on previously parsed AST (via [ParseModuleConfiguration]),
-// core schema of appropriate version (as obtained via [GetTerraformVersion])
+// core schema of appropriate version (as obtained via [GetTofuVersion])
 // and provider schemas ([PreloadEmbeddedSchema] or [ObtainSchema]).
 func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, rootFeature fdecoder.RootReader, modPath string) error {
 	mod, err := modStore.ModuleRecordByPath(modPath)
@@ -58,7 +58,7 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 
 	moduleDecoder, err := d.Path(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 	})
 	if err != nil {
 		return err
@@ -66,7 +66,7 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 
 	var rErr error
 	rpcContext := lsctx.DocumentContext(ctx)
-	if rpcContext.Method == "textDocument/didChange" && rpcContext.LanguageID == ilsp.Terraform.String() {
+	if rpcContext.Method == "textDocument/didChange" && rpcContext.LanguageID == ilsp.OpenTofu.String() {
 		filename := path.Base(rpcContext.URI)
 		// We only revalidate a single file that changed
 		var fileDiags hcl.Diagnostics
@@ -123,7 +123,7 @@ func ReferenceValidation(ctx context.Context, modStore *state.ModuleStore, rootF
 	}
 	pathCtx, err := pathReader.PathContext(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Terraform.String(),
+		LanguageID: ilsp.OpenTofu.String(),
 	})
 	if err != nil {
 		return err
@@ -133,26 +133,26 @@ func ReferenceValidation(ctx context.Context, modStore *state.ModuleStore, rootF
 	return modStore.UpdateModuleDiagnostics(modPath, globalAst.ReferenceValidationSource, ast.ModDiagsFromMap(diags))
 }
 
-// TerraformValidate uses Terraform CLI to run validate subcommand
+// TofuValidate uses Tofu CLI to run validate subcommand
 // and turn the provided (JSON) output into diagnostics associated
 // with "invalid" parts of code.
-func TerraformValidate(ctx context.Context, modStore *state.ModuleStore, modPath string) error {
+func TofuValidate(ctx context.Context, modStore *state.ModuleStore, modPath string) error {
 	mod, err := modStore.ModuleRecordByPath(modPath)
 	if err != nil {
 		return err
 	}
 
 	// Avoid validation if it is already in progress or already finished
-	if mod.ModuleDiagnosticsState[globalAst.TerraformValidateSource] != op.OpStateUnknown && !job.IgnoreState(ctx) {
+	if mod.ModuleDiagnosticsState[globalAst.TofuValidateSource] != op.OpStateUnknown && !job.IgnoreState(ctx) {
 		return job.StateNotChangedErr{Dir: document.DirHandleFromPath(modPath)}
 	}
 
-	err = modStore.SetModuleDiagnosticsState(modPath, globalAst.TerraformValidateSource, op.OpStateLoading)
+	err = modStore.SetModuleDiagnosticsState(modPath, globalAst.TofuValidateSource, op.OpStateLoading)
 	if err != nil {
 		return err
 	}
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, mod.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, mod.Path())
 	if err != nil {
 		return err
 	}
@@ -163,5 +163,5 @@ func TerraformValidate(ctx context.Context, modStore *state.ModuleStore, modPath
 	}
 	validateDiags := diagnostics.HCLDiagsFromJSON(jsonDiags)
 
-	return modStore.UpdateModuleDiagnostics(modPath, globalAst.TerraformValidateSource, ast.ModDiagsFromMap(validateDiags))
+	return modStore.UpdateModuleDiagnostics(modPath, globalAst.TofuValidateSource, ast.ModDiagsFromMap(validateDiags))
 }

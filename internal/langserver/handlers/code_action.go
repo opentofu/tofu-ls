@@ -12,7 +12,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver/errors"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
 )
 
 func (svc *service) TextDocumentCodeAction(ctx context.Context, params lsp.CodeActionParams) []lsp.CodeAction {
@@ -56,8 +56,8 @@ func (svc *service) textDocumentCodeAction(ctx context.Context, params lsp.CodeA
 
 	for action := range wantedCodeActions {
 		switch action {
-		case ilsp.SourceFormatAllTerraform:
-			tfExec, err := module.TerraformExecutorForModule(ctx, dh.Dir.Path())
+		case ilsp.SourceFormatAllTofu:
+			tfExec, err := module.TofuExecutorForModule(ctx, dh.Dir.Path())
 			if err != nil {
 				return ca, errors.EnrichTfExecError(err)
 			}

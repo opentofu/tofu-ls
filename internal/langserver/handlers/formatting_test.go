@@ -15,7 +15,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -49,7 +49,7 @@ func TestLangServer_formatting_basic(t *testing.T) {
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore:      ss,
 		WalkerCollector: wc,
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -147,7 +147,7 @@ func TestLangServer_formatting_oldVersion(t *testing.T) {
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore:      ss,
 		WalkerCollector: wc,
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -234,7 +234,7 @@ func TestLangServer_formatting_variables(t *testing.T) {
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore:      ss,
 		WalkerCollector: wc,
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -350,7 +350,7 @@ func TestLangServer_formatting_diffBug(t *testing.T) {
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
 		StateStore:      ss,
 		WalkerCollector: wc,
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{

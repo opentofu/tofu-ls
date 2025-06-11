@@ -14,7 +14,7 @@ import (
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -36,7 +36,7 @@ func TestSemanticTokensFull(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -155,7 +155,7 @@ func TestSemanticTokensFull_clientSupportsDelta(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -276,7 +276,7 @@ func TestVarsSemanticTokensFull(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -404,7 +404,7 @@ func TestVarsSemanticTokensFull_functionToken(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{

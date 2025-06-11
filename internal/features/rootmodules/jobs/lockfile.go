@@ -11,8 +11,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	"github.com/opentofu/tofu-ls/internal/job"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // ParseProviderVersions is a job complimentary to [ObtainSchema]

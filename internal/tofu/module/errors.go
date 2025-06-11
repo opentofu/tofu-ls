@@ -28,16 +28,16 @@ func IsModuleNotFound(err error) bool {
 	return ok
 }
 
-type NoTerraformExecPathErr struct{}
+type NoTofuExecPathErr struct{}
 
-func (NoTerraformExecPathErr) Error() string {
-	return "No exec path provided for terraform"
+func (NoTofuExecPathErr) Error() string {
+	return "No exec path provided for tofu"
 }
 
-func IsTerraformNotFound(err error) bool {
+func IsTofuNotFound(err error) bool {
 	if err == nil {
 		return false
 	}
-	_, ok := err.(NoTerraformExecPathErr)
+	_, ok := err.(NoTofuExecPathErr)
 	return ok
 }

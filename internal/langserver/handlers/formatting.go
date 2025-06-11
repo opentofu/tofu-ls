@@ -14,8 +14,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver/errors"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
 )
 
 func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.DocumentFormattingParams) ([]lsp.TextEdit, error) {
@@ -23,7 +23,7 @@ func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.Docum
 
 	dh := ilsp.HandleFromDocumentURI(params.TextDocument.URI)
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, dh.Dir.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, dh.Dir.Path())
 	if err != nil {
 		return edits, errors.EnrichTfExecError(err)
 	}
@@ -41,7 +41,7 @@ func (svc *service) TextDocumentFormatting(ctx context.Context, params lsp.Docum
 	return edits, nil
 }
 
-func (svc *service) formatDocument(ctx context.Context, tfExec exec.TerraformExecutor, original []byte, dh document.Handle) ([]lsp.TextEdit, error) {
+func (svc *service) formatDocument(ctx context.Context, tfExec exec.TofuExecutor, original []byte, dh document.Handle) ([]lsp.TextEdit, error) {
 	var edits []lsp.TextEdit
 
 	svc.logger.Printf("formatting document via %q", tfExec.GetExecPath())
@@ -49,10 +49,10 @@ func (svc *service) formatDocument(ctx context.Context, tfExec exec.TerraformExe
 	startTime := time.Now()
 	formatted, err := tfExec.Format(ctx, original)
 	if err != nil {
-		svc.logger.Printf("Failed 'terraform fmt' in %s", time.Since(startTime))
+		svc.logger.Printf("Failed 'tofu fmt' in %s", time.Since(startTime))
 		return edits, err
 	}
-	svc.logger.Printf("Finished 'terraform fmt' in %s", time.Since(startTime))
+	svc.logger.Printf("Finished 'tofu fmt' in %s", time.Since(startTime))
 
 	changes := hcl.Diff(dh, original, formatted)
 

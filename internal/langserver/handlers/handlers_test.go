@@ -19,7 +19,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -53,7 +53,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 				"referencesProvider": true,
 				"documentSymbolProvider": true,
 				"codeActionProvider": {
-					"codeActionKinds": ["source.formatAll.terraform"]
+					"codeActionKinds": ["source.formatAll.tofu"]
 				},
 				"codeLensProvider": {},
 				"documentLinkProvider": {},
@@ -80,7 +80,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 					"referenceCountCodeLens": false,
 					"refreshModuleProviders": false,
 					"refreshModuleCalls": false,
-					"refreshTerraformVersion": false
+					"refreshTofuVersion": false
 				}
 			},
 			"serverInfo": {
@@ -128,7 +128,7 @@ func TestInitializeAndShutdown(t *testing.T) {
 	tmpDir := TempDir(t)
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -157,7 +157,7 @@ func TestInitializeWithCommandPrefix(t *testing.T) {
 	tmpDir := TempDir(t)
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -182,7 +182,7 @@ func TestEOF(t *testing.T) {
 	tmpDir := TempDir(t)
 
 	ms := newMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},

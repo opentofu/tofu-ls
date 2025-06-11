@@ -143,7 +143,7 @@ The data is sourced from the declared modules inside the files of the module.
       "source_addr": "terraform-aws-modules/vpc/aws",
       "version": "3.11.0",
       "source_type": "tfregistry",
-      "docs_link": "https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/3.11.0",
+      "docs_link": "https://search.opentofu.org/module/terraform-aws-modules/vpc/aws/v3.11.0",
       "dependent_modules": []
     }
   ]
@@ -175,7 +175,7 @@ installed version.
     "registry.opentofu.org/hashicorp/aws": {
       "display_name": "hashicorp/aws",
       "version_constraint": "~> 3.64.0",
-      "docs_link": "https://registry.opentofu.org/providers/hashicorp/aws/latest"
+      "docs_link": "https://search.opentofu.org/provider/hashicorp/aws/latest"
     }
   },
   "installed_providers": {

@@ -37,9 +37,9 @@ func (rpcc Document) Copy() Document {
 }
 
 var (
-	ctxTfExecPath           = &contextKey{"terraform executable path"}
-	ctxTfExecLogPath        = &contextKey{"terraform executor log path"}
-	ctxTfExecTimeout        = &contextKey{"terraform execution timeout"}
+	ctxTfExecPath           = &contextKey{"tofu executable path"}
+	ctxTfExecLogPath        = &contextKey{"tofu executor log path"}
+	ctxTfExecTimeout        = &contextKey{"tofu execution timeout"}
 	ctxRootDir              = &contextKey{"root directory"}
 	ctxCommandPrefix        = &contextKey{"command prefix"}
 	ctxDiagsNotifier        = &contextKey{"diagnostics notifier"}
@@ -54,29 +54,29 @@ func missingContextErr(ctxKey *contextKey) *MissingContextErr {
 	return &MissingContextErr{ctxKey}
 }
 
-func WithTerraformExecLogPath(ctx context.Context, path string) context.Context {
+func WithTofuExecLogPath(ctx context.Context, path string) context.Context {
 	return context.WithValue(ctx, ctxTfExecLogPath, path)
 }
 
-func TerraformExecLogPath(ctx context.Context) (string, bool) {
+func TofuExecLogPath(ctx context.Context) (string, bool) {
 	path, ok := ctx.Value(ctxTfExecLogPath).(string)
 	return path, ok
 }
 
-func WithTerraformExecTimeout(ctx context.Context, timeout time.Duration) context.Context {
+func WithTofuExecTimeout(ctx context.Context, timeout time.Duration) context.Context {
 	return context.WithValue(ctx, ctxTfExecTimeout, timeout)
 }
 
-func TerraformExecTimeout(ctx context.Context) (time.Duration, bool) {
+func TofuExecTimeout(ctx context.Context) (time.Duration, bool) {
 	path, ok := ctx.Value(ctxTfExecTimeout).(time.Duration)
 	return path, ok
 }
 
-func WithTerraformExecPath(ctx context.Context, path string) context.Context {
+func WithTofuExecPath(ctx context.Context, path string) context.Context {
 	return context.WithValue(ctx, ctxTfExecPath, path)
 }
 
-func TerraformExecPath(ctx context.Context) (string, bool) {
+func TofuExecPath(ctx context.Context) (string, bool) {
 	path, ok := ctx.Value(ctxTfExecPath).(string)
 	return path, ok
 }

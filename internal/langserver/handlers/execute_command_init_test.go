@@ -15,7 +15,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -31,7 +31,7 @@ func TestLangServer_workspaceExecuteCommand_init_argumentError(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -71,7 +71,7 @@ func TestLangServer_workspaceExecuteCommand_init_argumentError(t *testing.T) {
 		Method: "workspace/executeCommand",
 		ReqParams: fmt.Sprintf(`{
 		"command": %q
-	}`, cmd.Name("terraform.init"))}, jrpc2.InvalidParams.Err())
+	}`, cmd.Name("tofu.init"))}, jrpc2.InvalidParams.Err())
 }
 
 func TestLangServer_workspaceExecuteCommand_init_basic(t *testing.T) {
@@ -117,7 +117,7 @@ func TestLangServer_workspaceExecuteCommand_init_basic(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): tfMockCalls,
 			},
@@ -157,7 +157,7 @@ func TestLangServer_workspaceExecuteCommand_init_basic(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
 		"arguments": ["uri=%s"]
-	}`, cmd.Name("terraform.init"), tmpDir.URI)}, `{
+	}`, cmd.Name("tofu.init"), tmpDir.URI)}, `{
 		"jsonrpc": "2.0",
 		"id": 3,
 		"result": null
@@ -207,7 +207,7 @@ func TestLangServer_workspaceExecuteCommand_init_error(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): tfMockCalls,
 			},
@@ -247,5 +247,5 @@ func TestLangServer_workspaceExecuteCommand_init_error(t *testing.T) {
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
 		"arguments": ["uri=%s"]
-	}`, cmd.Name("terraform.init"), testFileURI)}, jrpc2.SystemError.Err())
+	}`, cmd.Name("tofu.init"), testFileURI)}, jrpc2.SystemError.Err())
 }

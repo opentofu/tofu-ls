@@ -20,7 +20,7 @@ import (
 	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 )
 
@@ -69,7 +69,7 @@ func TestStateStore_IncompleteSchema_legacyLookup(t *testing.T) {
 	// obtaining versions typically takes less time than schema itself
 	// so we test that "incomplete" state is handled correctly too
 
-	err = rs.UpdateTerraformAndProviderVersions(modPath, testVersion(t, "0.13.0"), pvs, nil)
+	err = rs.UpdateTofuAndProviderVersions(modPath, testVersion(t, "0.13.0"), pvs, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -131,7 +131,7 @@ func TestStateStore_AddLocalSchema_duplicateWithVersion(t *testing.T) {
 	pv := map[tfaddr.Provider]*version.Version{
 		addr: testVersion(t, "1.2.0"),
 	}
-	err = rs.UpdateTerraformAndProviderVersions(modPath, testVersion(t, "0.12.0"), pv, nil)
+	err = rs.UpdateTofuAndProviderVersions(modPath, testVersion(t, "0.12.0"), pv, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -191,7 +191,7 @@ func TestStateStore_AddLocalSchema_duplicateWithVersion(t *testing.T) {
 	pv = map[tfaddr.Provider]*version.Version{
 		addr: testVersion(t, "1.5.0"),
 	}
-	err = rs.UpdateTerraformAndProviderVersions(modPath, testVersion(t, "0.12.0"), pv, nil)
+	err = rs.UpdateTofuAndProviderVersions(modPath, testVersion(t, "0.12.0"), pv, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -243,7 +243,7 @@ func TestStateStore_AddLocalSchema_versionFirst(t *testing.T) {
 	pv := map[tfaddr.Provider]*version.Version{
 		addr: testVersion(t, "1.2.0"),
 	}
-	err = rs.UpdateTerraformAndProviderVersions(modPath, testVersion(t, "0.12.0"), pv, nil)
+	err = rs.UpdateTofuAndProviderVersions(modPath, testVersion(t, "0.12.0"), pv, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -891,7 +891,7 @@ func addAnySchema(t testOrBench, ss *globalState.ProviderSchemaStore, rs *state.
 		pVersions := map[tfaddr.Provider]*version.Version{
 			ps.Address: ps.Version,
 		}
-		err = rs.UpdateTerraformAndProviderVersions(s.ModulePath, testVersion(t, "0.14.0"), pVersions, nil)
+		err = rs.UpdateTofuAndProviderVersions(s.ModulePath, testVersion(t, "0.14.0"), pVersions, nil)
 		if err != nil {
 			t.Fatal(err)
 		}

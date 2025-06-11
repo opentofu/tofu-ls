@@ -9,8 +9,8 @@ func _() {
 	// Re-run the stringer command to generate them again.
 	var x [1]struct{}
 	_ = x[OpTypeUnknown-0]
-	_ = x[OpTypeGetTerraformVersion-1]
-	_ = x[OpTypeGetInstalledTerraformVersion-2]
+	_ = x[OpTypeGetTofuVersion-1]
+	_ = x[OpTypeGetInstalledTofuVersion-2]
 	_ = x[OpTypeObtainSchema-3]
 	_ = x[OpTypeParseModuleConfiguration-4]
 	_ = x[OpTypeParseVariables-5]
@@ -25,12 +25,12 @@ func _() {
 	_ = x[OpTypeSchemaModuleValidation-14]
 	_ = x[OpTypeSchemaVarsValidation-15]
 	_ = x[OpTypeReferenceValidation-16]
-	_ = x[OpTypeTerraformValidate-17]
+	_ = x[OpTypeTofuValidate-17]
 }
 
-const _OpType_name = "OpTypeUnknownOpTypeGetTerraformVersionOpTypeGetInstalledTerraformVersionOpTypeObtainSchemaOpTypeParseModuleConfigurationOpTypeParseVariablesOpTypeParseModuleManifestOpTypeLoadModuleMetadataOpTypeDecodeReferenceTargetsOpTypeDecodeReferenceOriginsOpTypeDecodeVarsReferencesOpTypeGetModuleDataFromRegistryOpTypeParseProviderVersionsOpTypePreloadEmbeddedSchemaOpTypeSchemaModuleValidationOpTypeSchemaVarsValidationOpTypeReferenceValidationOpTypeTerraformValidate"
+const _OpType_name = "OpTypeUnknownOpTypeGetTofuVersionOpTypeGetInstalledTofuVersionOpTypeObtainSchemaOpTypeParseModuleConfigurationOpTypeParseVariablesOpTypeParseModuleManifestOpTypeLoadModuleMetadataOpTypeDecodeReferenceTargetsOpTypeDecodeReferenceOriginsOpTypeDecodeVarsReferencesOpTypeGetModuleDataFromRegistryOpTypeParseProviderVersionsOpTypePreloadEmbeddedSchemaOpTypeSchemaModuleValidationOpTypeSchemaVarsValidationOpTypeReferenceValidationOpTypeTofuValidate"
 
-var _OpType_index = [...]uint16{0, 13, 38, 72, 90, 120, 140, 165, 189, 217, 245, 271, 302, 329, 356, 384, 410, 435, 458}
+var _OpType_index = [...]uint16{0, 13, 33, 62, 80, 110, 130, 155, 179, 207, 235, 261, 292, 319, 346, 374, 400, 425, 443}
 
 func (i OpType) String() string {
 	if i >= OpType(len(_OpType_index)-1) {

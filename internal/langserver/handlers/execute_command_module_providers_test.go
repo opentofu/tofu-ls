@@ -19,7 +19,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/uri"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
@@ -35,7 +35,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_argumentError(t *tes
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				rootDir.Path(): validTfMockCalls(),
 			},
@@ -87,7 +87,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_basic(t *testing.T) 
 	}
 
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			modDir: validTfMockCalls(),
 		},
@@ -137,7 +137,7 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_basic(t *testing.T) 
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      s,
 		WalkerCollector: wc,
 		Features:        features,
@@ -174,12 +174,12 @@ func TestLangServer_workspaceExecuteCommand_moduleProviders_basic(t *testing.T) 
 				"registry.opentofu.org/hashicorp/aws": {
 					"display_name": "hashicorp/aws",
 					"version_constraint":"1.2.3",
-					"docs_link": "https://registry.opentofu.org/provider/hashicorp/aws/latest"
+					"docs_link": "https://search.opentofu.org/provider/hashicorp/aws/latest"
 				},
 				"registry.opentofu.org/hashicorp/google": {
 					"display_name": "hashicorp/google",
 					"version_constraint": "\u003e= 2.0.0",
-					"docs_link": "https://registry.opentofu.org/provider/hashicorp/google/latest"
+					"docs_link": "https://search.opentofu.org/provider/hashicorp/google/latest"
 				}
 			},
 			"installed_providers":{

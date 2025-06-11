@@ -13,35 +13,35 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	"github.com/opentofu/tofu-ls/internal/job"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
-// GetTerraformVersion obtains "installed" Terraform version
+// GetTofuVersion obtains "installed" Tofu version
 // which can inform what version of core schema to pick.
 // Knowing the version is not required though as we can rely on
 // the constraint in `required_version` (as parsed via
 // [LoadModuleMetadata] and compare it against known released versions.
-func GetTerraformVersion(ctx context.Context, rootStore *state.RootStore, modPath string) error {
+func GetTofuVersion(ctx context.Context, rootStore *state.RootStore, modPath string) error {
 	mod, err := rootStore.RootRecordByPath(modPath)
 	if err != nil {
 		return err
 	}
 
 	// Avoid getting version if getting is already in progress or already known
-	if mod.TerraformVersionState != op.OpStateUnknown && !job.IgnoreState(ctx) {
+	if mod.TofuVersionState != op.OpStateUnknown && !job.IgnoreState(ctx) {
 		return job.StateNotChangedErr{Dir: document.DirHandleFromPath(modPath)}
 	}
 
-	err = rootStore.SetTerraformVersionState(modPath, op.OpStateLoading)
+	err = rootStore.SetTofuVersionState(modPath, op.OpStateLoading)
 	if err != nil {
 		return err
 	}
-	defer rootStore.SetTerraformVersionState(modPath, op.OpStateLoaded)
+	defer rootStore.SetTofuVersionState(modPath, op.OpStateLoaded)
 
-	tfExec, err := module.TerraformExecutorForModule(ctx, mod.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, mod.Path())
 	if err != nil {
-		sErr := rootStore.UpdateTerraformAndProviderVersions(modPath, nil, nil, err)
+		sErr := rootStore.UpdateTofuAndProviderVersions(modPath, nil, nil, err)
 		if sErr != nil {
 			return sErr
 		}
@@ -58,7 +58,7 @@ func GetTerraformVersion(ctx context.Context, rootStore *state.RootStore, modPat
 	// See https://github.com/hashicorp/terraform-ls/issues/24
 	pVersions := providerVersionsFromTfVersion(pv)
 
-	sErr := rootStore.UpdateTerraformAndProviderVersions(modPath, v, pVersions, err)
+	sErr := rootStore.UpdateTofuAndProviderVersions(modPath, v, pVersions, err)
 	if sErr != nil {
 		return sErr
 	}

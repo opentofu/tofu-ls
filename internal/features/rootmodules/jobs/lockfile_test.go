@@ -20,8 +20,8 @@ import (
 	lsctx "github.com/opentofu/tofu-ls/internal/context"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
-	"github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/stretchr/testify/mock"
 	"github.com/zclconf/go-cty/cty"
 )
@@ -228,7 +228,7 @@ func TestParseProviderVersions_multipleVersions(t *testing.T) {
 	ctx = exec.WithExecutorOpts(ctx, &exec.ExecutorOpts{
 		ExecPath: "mock",
 	})
-	ctx = exec.WithExecutorFactory(ctx, exec.NewMockExecutor(&exec.TerraformMockCalls{
+	ctx = exec.WithExecutorFactory(ctx, exec.NewMockExecutor(&exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			"first": {
 				{

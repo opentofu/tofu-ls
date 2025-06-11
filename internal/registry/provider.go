@@ -8,14 +8,16 @@ package registry
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/go-version"
-	tfaddr "github.com/opentofu/registry-address"
 	"io"
 	"log"
 	"net/http"
 	"runtime"
+	"strings"
 	"sync"
 	"sync/atomic"
+
+	"github.com/hashicorp/go-version"
+	tfaddr "github.com/opentofu/registry-address"
 )
 
 type Provider struct {
@@ -164,12 +166,12 @@ func (c Client) checkProviderVersionSupported(pAddr tfaddr.Provider) (*providerV
 
 func ProviderVersionSupportsOsAndArch(pVersion version.Version, providerVersions []ProviderVersion, os, arch string) bool {
 	for _, version := range providerVersions {
-		if version.Version != pVersion.String() {
+		if !strings.Contains(version.Version, pVersion.String()) {
 			continue
 		}
+
 		for _, platform := range version.Platforms {
-			if platform.OS == os &&
-				platform.Arch == arch {
+			if platform.OS == os && platform.Arch == arch {
 				return true
 			}
 		}

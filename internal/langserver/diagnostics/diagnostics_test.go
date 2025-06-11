@@ -13,7 +13,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/tofu-ls/internal/terraform/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/ast"
 )
 
 var discardLogger = log.New(io.Discard, "", 0)
@@ -49,8 +49,8 @@ func TestPublish_DoesNotSendAfterClose(t *testing.T) {
 	n := NewNotifier(noopNotifier{}, discardLogger)
 
 	diags := NewDiagnostics()
-	diags.Append(ast.TerraformValidateSource, map[string]hcl.Diagnostics{
-		ast.TerraformValidateSource.String(): {
+	diags.Append(ast.TofuValidateSource, map[string]hcl.Diagnostics{
+		ast.TofuValidateSource.String(): {
 			{
 				Severity: hcl.DiagError,
 			},

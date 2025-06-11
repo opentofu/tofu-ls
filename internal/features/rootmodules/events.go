@@ -13,9 +13,9 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/jobs"
 	"github.com/opentofu/tofu-ls/internal/job"
 	"github.com/opentofu/tofu-ls/internal/protocol"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
@@ -66,9 +66,9 @@ func (f *RootModulesFeature) didOpen(ctx context.Context, dir document.DirHandle
 		Dir: dir,
 		Func: func(ctx context.Context) error {
 			ctx = exec.WithExecutorFactory(ctx, f.tfExecFactory)
-			return jobs.GetTerraformVersion(ctx, f.Store, path)
+			return jobs.GetTofuVersion(ctx, f.Store, path)
 		},
-		Type: op.OpTypeGetTerraformVersion.String(),
+		Type: op.OpTypeGetTofuVersion.String(),
 	})
 	if err != nil {
 		return ids, nil

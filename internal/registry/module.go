@@ -24,29 +24,24 @@ import (
 )
 
 type ModuleResponse struct {
-	Version     string      `json:"version"`
-	PublishedAt time.Time   `json:"published_at"`
-	Root        ModuleRoot  `json:"root"`
-	Submodules  []Submodule `json:"submodules"`
-}
-
-type ModuleRoot struct {
-	Inputs  []Input  `json:"inputs"`
-	Outputs []Output `json:"outputs"`
+	Version     string               `json:"id"`
+	PublishedAt time.Time            `json:"published"`
+	Inputs      map[string]Input     `json:"variables"`
+	Outputs     map[string]Output    `json:"outputs"`
+	Submodules  map[string]Submodule `json:"submodules"`
 }
 
 type Submodule struct {
-	Path    string   `json:"path"`
-	Inputs  []Input  `json:"inputs"`
-	Outputs []Output `json:"outputs"`
+	Path    string            `json:"path"`
+	Inputs  map[string]Input  `json:"inputs"`
+	Outputs map[string]Output `json:"outputs"`
 }
-
 type Input struct {
 	Name        string `json:"name"`
 	Type        string `json:"type"`
 	Description string `json:"description"`
-	Default     string `json:"default"`
 	Required    bool   `json:"required"`
+	Default     any    `json:"default"`
 }
 
 type Output struct {
@@ -55,15 +50,11 @@ type Output struct {
 }
 
 type ModuleVersionsResponse struct {
-	Modules []ModuleVersionsEntry `json:"modules"`
-}
-
-type ModuleVersionsEntry struct {
 	Versions []ModuleVersion `json:"versions"`
 }
 
 type ModuleVersion struct {
-	Version string `json:"version"`
+	Version string `json:"id"`
 }
 
 type ClientError struct {
@@ -87,7 +78,7 @@ func (c Client) GetModuleData(ctx context.Context, addr tfaddr.Module, cons vers
 
 	ctx = httptrace.WithClientTrace(ctx, otelhttptrace.NewClientTrace(ctx, otelhttptrace.WithoutSubSpans()))
 
-	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/%s", c.BaseAPIURL,
+	url := fmt.Sprintf("%s/registry/docs/modules/%s/%s/%s/v%s/index.json", c.BaseAPIURL,
 		addr.Package.Namespace,
 		addr.Package.Name,
 		addr.Package.TargetSystem,
@@ -142,7 +133,7 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "registry:GetModuleVersions")
 	defer span.End()
 
-	url := fmt.Sprintf("%s/v1/modules/%s/%s/%s/versions", c.BaseAPIURL,
+	url := fmt.Sprintf("%s/registry/docs/modules/%s/%s/%s/index.json", c.BaseAPIURL,
 		addr.Package.Namespace,
 		addr.Package.Name,
 		addr.Package.TargetSystem)
@@ -178,12 +169,10 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	decodeSpan.End()
 
 	var foundVersions version.Collection
-	for _, module := range response.Modules {
-		for _, entry := range module.Versions {
-			ver, err := version.NewVersion(entry.Version)
-			if err == nil {
-				foundVersions = append(foundVersions, ver)
-			}
+	for _, entry := range response.Versions {
+		ver, err := version.NewVersion(entry.Version)
+		if err == nil {
+			foundVersions = append(foundVersions, ver)
 		}
 	}
 	span.AddEvent("registry:foundModuleVersions",

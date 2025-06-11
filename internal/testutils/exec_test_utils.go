@@ -12,11 +12,11 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofudl"
 )
 
-func NewTestingExecutor(t *testing.T, workDir string) exec.TerraformExecutor {
+func NewTestingExecutor(t *testing.T, workDir string) exec.TofuExecutor {
 	dl, err := tofudl.New()
 	if err != nil {
 		log.Fatalf("error when instantiating tofudl %s", err)

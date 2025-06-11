@@ -35,8 +35,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/scheduler"
 	"github.com/opentofu/tofu-ls/internal/settings"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/discovery"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/discovery"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -413,24 +413,24 @@ func (svc *service) Assigner() (jrpc2.Assigner, error) {
 
 func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *settings.Options) error {
 	// Raise warnings for deprecated options
-	if cfgOpts.XLegacyTerraformExecPath != "" {
+	if cfgOpts.XLegacyTofuExecPath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("terraformExecPath (%q) is deprecated (no-op), use terraform.path instead",
+			Message: fmt.Sprintf("tofuExecPath (%q) is deprecated (no-op), use tofu.path instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
-	if cfgOpts.XLegacyTerraformExecTimeout != "" {
+	if cfgOpts.XLegacyTofuExecTimeout != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("terraformExecTimeout (%q) is deprecated (no-op), use terraform.timeout instead",
+			Message: fmt.Sprintf("tofuExecTimeout (%q) is deprecated (no-op), use tofu.timeout instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
-	if cfgOpts.XLegacyTerraformExecLogFilePath != "" {
+	if cfgOpts.XLegacyTofuExecLogFilePath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("terraformExecLogFilePath (%q) is deprecated (no-op), use terraform.logFilePath instead",
+			Message: fmt.Sprintf("tofuExecLogFilePath (%q) is deprecated (no-op), use tofu.logFilePath instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
@@ -445,7 +445,7 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 			execOpts.ExecPath = path
 		}
 	}
-	svc.srvCtx = lsctx.WithTerraformExecPath(svc.srvCtx, execOpts.ExecPath)
+	svc.srvCtx = lsctx.WithTofuExecPath(svc.srvCtx, execOpts.ExecPath)
 
 	if len(cfgOpts.OpenTofu.LogFilePath) > 0 {
 		execOpts.ExecLogPath = cfgOpts.OpenTofu.LogFilePath
@@ -566,7 +566,7 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 			moduleHooks = append(moduleHooks, callRefreshClientCommand(svc.server, commandId))
 		}
 
-		if commandId, ok := lsp.ExperimentalClientCapabilities(cc.Experimental).RefreshTerraformVersionCommandId(); ok {
+		if commandId, ok := lsp.ExperimentalClientCapabilities(cc.Experimental).RefreshTofuVersionCommandId(); ok {
 			moduleHooks = append(moduleHooks, callRefreshClientCommand(svc.server, commandId))
 		}
 

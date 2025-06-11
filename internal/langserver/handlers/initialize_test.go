@@ -18,7 +18,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/filesystem"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -33,7 +33,7 @@ func TestInitialize_twice(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -61,7 +61,7 @@ func TestInitialize_twice(t *testing.T) {
 	}`, tmpDir.URI)}, jrpc2.SystemError.Err())
 }
 
-func TestInitialize_withIncompatibleTerraformVersion(t *testing.T) {
+func TestInitialize_withIncompatibleTofuVersion(t *testing.T) {
 	tmpDir := TempDir(t)
 
 	ss, err := state.NewStateStore()
@@ -71,7 +71,7 @@ func TestInitialize_withIncompatibleTerraformVersion(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -107,7 +107,7 @@ func TestInitialize_withIncompatibleTerraformVersion(t *testing.T) {
 func TestInitialize_withInvalidRootURI(t *testing.T) {
 	tmpDir := TempDir(t)
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): validTfMockCalls(),
 			},
@@ -135,7 +135,7 @@ func TestInitialize_multipleFolders(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				rootDir.Path(): validTfMockCalls(),
 			},
@@ -177,7 +177,7 @@ func TestInitialize_ignoreDirectoryNames(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				pluginDir: validTfMockCalls(),
 				emptyDir: {
@@ -510,7 +510,7 @@ func TestInitialize_differentWorkspaceLayouts(t *testing.T) {
 				t.Fatal(err)
 			}
 			eventBus := eventbus.NewEventBus()
-			mockCalls := &exec.TerraformMockCalls{
+			mockCalls := &exec.TofuMockCalls{
 				PerWorkDir: map[string][]*mock.Call{
 					dir.Path(): validTfMockCalls(),
 				},
@@ -530,7 +530,7 @@ func TestInitialize_differentWorkspaceLayouts(t *testing.T) {
 			wc := walker.NewWalkerCollector()
 
 			ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-				TerraformCalls:  mockCalls,
+				TofuCalls:       mockCalls,
 				StateStore:      ss,
 				WalkerCollector: wc,
 				Features:        features,

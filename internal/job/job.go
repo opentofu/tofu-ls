@@ -20,7 +20,7 @@ type Job struct {
 	// and prioritization
 	Dir document.DirHandle
 
-	// Type describes type of the job (e.g. GetTerraformVersion),
+	// Type describes type of the job (e.g. GetTofuVersion),
 	// which is used for deduplication of queued jobs along with Dir.
 	Type string
 

@@ -13,7 +13,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/hcl-lang/decoder"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
 	"github.com/zclconf/go-cty/cty"
 )
 
@@ -43,7 +43,7 @@ func (h *Hooks) LocalModuleSources(ctx context.Context, value cty.Value) ([]deco
 			continue
 		}
 		if !strings.HasPrefix(relPath, "..") {
-			// filepath.Rel will return the cleaned relative path, but Terraform
+			// filepath.Rel will return the cleaned relative path, but OpenTofu
 			// expects local module sources to start with ./
 			relPath = "./" + relPath
 		}

@@ -16,8 +16,8 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/modules/state"
 	"github.com/opentofu/tofu-ls/internal/job"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
@@ -40,7 +40,7 @@ func ParseModuleConfiguration(ctx context.Context, fs ReadOnlyFS, modStore *stat
 	var diags ast.ModDiags
 	rpcContext := lsctx.DocumentContext(ctx)
 	// Only parse the file that's being changed/opened, unless this is 1st-time parsing
-	if mod.ModuleDiagnosticsState[globalAst.HCLParsingSource] == op.OpStateLoaded && rpcContext.IsDidChangeRequest() && rpcContext.LanguageID == ilsp.Terraform.String() {
+	if mod.ModuleDiagnosticsState[globalAst.HCLParsingSource] == op.OpStateLoaded && rpcContext.IsDidChangeRequest() && rpcContext.LanguageID == ilsp.OpenTofu.String() {
 		// the file has already been parsed, so only examine this file and not the whole module
 		err = modStore.SetModuleDiagnosticsState(modPath, globalAst.HCLParsingSource, op.OpStateLoading)
 		if err != nil {

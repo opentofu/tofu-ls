@@ -13,7 +13,7 @@ import (
 
 	"github.com/mcuadros/go-defaults"
 	"github.com/mitchellh/mapstructure"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
 )
 
 type ExperimentalFeatures struct {
@@ -49,26 +49,26 @@ type Options struct {
 
 	OpenTofu OpenTofu `mapstructure:"openTofu"`
 
-	XLegacyModulePaths              []string `mapstructure:"rootModulePaths"`
-	XLegacyExcludeModulePaths       []string `mapstructure:"excludeModulePaths"`
-	XLegacyIgnoreDirectoryNames     []string `mapstructure:"ignoreDirectoryNames"`
-	XLegacyTerraformExecPath        string   `mapstructure:"terraformExecPath"`
-	XLegacyTerraformExecTimeout     string   `mapstructure:"terraformExecTimeout"`
-	XLegacyTerraformExecLogFilePath string   `mapstructure:"terraformExecLogFilePath"`
+	XLegacyModulePaths          []string `mapstructure:"rootModulePaths"`
+	XLegacyExcludeModulePaths   []string `mapstructure:"excludeModulePaths"`
+	XLegacyIgnoreDirectoryNames []string `mapstructure:"ignoreDirectoryNames"`
+	XLegacyTofuExecPath         string   `mapstructure:"tofuExecPath"`
+	XLegacyTofuExecTimeout      string   `mapstructure:"tofuExecTimeout"`
+	XLegacyTofuExecLogFilePath  string   `mapstructure:"tofuExecLogFilePath"`
 }
 
 func (o *Options) Validate() error {
 	if o.OpenTofu.Path != "" {
 		path := o.OpenTofu.Path
 		if !filepath.IsAbs(path) {
-			return fmt.Errorf("Expected absolute path for Terraform binary, got %q", path)
+			return fmt.Errorf("expected absolute path for tofu binary, got %q", path)
 		}
 		stat, err := os.Stat(path)
 		if err != nil {
-			return fmt.Errorf("Unable to find Terraform binary: %s", err)
+			return fmt.Errorf("unable to find tofu binary: %s", err)
 		}
 		if stat.IsDir() {
-			return fmt.Errorf("Expected a Terraform binary, got a directory: %q", path)
+			return fmt.Errorf("expected a tofu binary, got a directory: %q", path)
 		}
 	}
 

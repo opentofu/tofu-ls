@@ -16,7 +16,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/variables/state"
 	"github.com/opentofu/tofu-ls/internal/job"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // DecodeVarsReferences collects reference origins within

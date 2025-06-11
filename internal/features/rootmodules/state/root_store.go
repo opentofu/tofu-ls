@@ -15,8 +15,8 @@ import (
 	tfaddr "github.com/opentofu/registry-address"
 	"github.com/opentofu/tofu-ls/internal/document"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 type RootStore struct {
@@ -276,7 +276,7 @@ func (s *RootStore) UpdateModManifest(path string, manifest *datadir.ModuleManif
 	return nil
 }
 
-func (s *RootStore) SetTerraformVersionState(path string, state op.OpState) error {
+func (s *RootStore) SetTofuVersionState(path string, state op.OpState) error {
 	txn := s.db.Txn(true)
 	defer txn.Abort()
 
@@ -285,7 +285,7 @@ func (s *RootStore) SetTerraformVersionState(path string, state op.OpState) erro
 		return err
 	}
 
-	record.TerraformVersionState = state
+	record.TofuVersionState = state
 	err = txn.Insert(s.tableName, record)
 	if err != nil {
 		return err
@@ -300,10 +300,10 @@ func (s *RootStore) SetTerraformVersionState(path string, state op.OpState) erro
 	return nil
 }
 
-func (s *RootStore) UpdateTerraformAndProviderVersions(path string, tfVer *version.Version, pv map[tfaddr.Provider]*version.Version, vErr error) error {
+func (s *RootStore) UpdateTofuAndProviderVersions(path string, tfVer *version.Version, pv map[tfaddr.Provider]*version.Version, vErr error) error {
 	txn := s.db.Txn(true)
 	txn.Defer(func() {
-		s.SetTerraformVersionState(path, op.OpStateLoaded)
+		s.SetTofuVersionState(path, op.OpStateLoaded)
 	})
 	defer txn.Abort()
 
@@ -313,8 +313,8 @@ func (s *RootStore) UpdateTerraformAndProviderVersions(path string, tfVer *versi
 	}
 
 	record := oldRecord.Copy()
-	record.TerraformVersion = tfVer
-	record.TerraformVersionErr = vErr
+	record.TofuVersion = tfVer
+	record.TofuVersionErr = vErr
 
 	err = txn.Insert(s.tableName, record)
 	if err != nil {
@@ -387,8 +387,8 @@ func (s *RootStore) queueRecordChange(oldRecord, newRecord *RootRecord) error {
 	switch {
 	// new record added
 	case oldRecord == nil && newRecord != nil:
-		if newRecord.TerraformVersion != nil {
-			changes.TerraformVersion = true
+		if newRecord.TofuVersion != nil {
+			changes.TofuVersion = true
 		}
 		if len(newRecord.InstalledProviders) > 0 {
 			changes.InstalledProviders = true
@@ -397,16 +397,16 @@ func (s *RootStore) queueRecordChange(oldRecord, newRecord *RootRecord) error {
 	case oldRecord != nil && newRecord == nil:
 		changes.IsRemoval = true
 
-		if oldRecord.TerraformVersion != nil {
-			changes.TerraformVersion = true
+		if oldRecord.TofuVersion != nil {
+			changes.TofuVersion = true
 		}
 		if len(oldRecord.InstalledProviders) > 0 {
 			changes.InstalledProviders = true
 		}
 	// record changed
 	default:
-		if !oldRecord.TerraformVersion.Equal(newRecord.TerraformVersion) {
-			changes.TerraformVersion = true
+		if !oldRecord.TofuVersion.Equal(newRecord.TofuVersion) {
+			changes.TofuVersion = true
 		}
 		if !oldRecord.InstalledProviders.Equals(newRecord.InstalledProviders) {
 			changes.InstalledProviders = true
@@ -482,7 +482,7 @@ func (s *RootStore) RecordWithVersion() (*RootRecord, error) {
 
 	for item := it.Next(); item != nil; item = it.Next() {
 		record := item.(*RootRecord)
-		if record.TerraformVersion != nil {
+		if record.TofuVersion != nil {
 			return record, nil
 		}
 	}

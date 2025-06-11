@@ -17,7 +17,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/jobs"
 	"github.com/opentofu/tofu-ls/internal/features/rootmodules/state"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 )
 
 // RootModulesFeature groups everything related to root modules. Its internal
@@ -117,11 +117,11 @@ func (f *RootModulesFeature) InstalledModuleCalls(modPath string) (map[string]tf
 	return f.Store.InstalledModuleCalls(modPath)
 }
 
-// TerraformVersion tries to find a modules Terraform version on a best effort basis.
+// TofuVersion tries to find a modules Tofu version on a best effort basis.
 // If a root module exists at the given path, it will return the Terraform
 // version of that root module. If not, it will return the version of any
 // of the other root modules.
-func (f *RootModulesFeature) TerraformVersion(modPath string) *version.Version {
+func (f *RootModulesFeature) TofuVersion(modPath string) *version.Version {
 	record, err := f.Store.RootRecordByPath(modPath)
 	if err != nil {
 		if globalState.IsRecordNotFound(err) {
@@ -131,13 +131,13 @@ func (f *RootModulesFeature) TerraformVersion(modPath string) *version.Version {
 				return nil
 			}
 
-			return record.TerraformVersion
+			return record.TofuVersion
 		}
 
 		return nil
 	}
 
-	return record.TerraformVersion
+	return record.TofuVersion
 }
 
 // InstalledProviders returns the installed providers for the given module path

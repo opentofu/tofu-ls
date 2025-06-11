@@ -17,7 +17,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
@@ -115,7 +115,7 @@ func TestCodeLens_referenceCount(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -256,7 +256,7 @@ func TestCodeLens_referenceCount_crossModule(t *testing.T) {
 	}
 	wc := walker.NewWalkerCollector()
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				submodPath:  validTfMockCalls(),
 				rootModPath: validTfMockCalls(),

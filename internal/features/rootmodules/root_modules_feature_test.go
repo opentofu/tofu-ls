@@ -14,10 +14,10 @@ import (
 	"github.com/opentofu/tofu-ls/internal/eventbus"
 	"github.com/opentofu/tofu-ls/internal/filesystem"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 )
 
-func TestRootModulesFeature_TerraformVersion(t *testing.T) {
+func TestRootModulesFeature_TofuVersion(t *testing.T) {
 	ss, err := globalState.NewStateStore()
 	if err != nil {
 		t.Fatal(err)
@@ -113,10 +113,10 @@ func TestRootModulesFeature_TerraformVersion(t *testing.T) {
 
 			for _, record := range tc.records {
 				feature.Store.Add(record.path)
-				feature.Store.UpdateTerraformAndProviderVersions(record.path, record.version, nil, nil)
+				feature.Store.UpdateTofuAndProviderVersions(record.path, record.version, nil, nil)
 			}
 
-			version := feature.TerraformVersion(tc.path)
+			version := feature.TofuVersion(tc.path)
 
 			if diff := cmp.Diff(version, tc.version); diff != "" {
 				t.Fatalf("version mismatch for %q: %s", tc.path, diff)

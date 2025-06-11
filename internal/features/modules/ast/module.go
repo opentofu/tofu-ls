@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/hcl/v2"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
 )
 
 type ModFilename string
@@ -28,6 +28,7 @@ func (mf ModFilename) IsIgnored() bool {
 
 func IsModuleFilename(name string) bool {
 	return strings.HasSuffix(name, ".tf") ||
+		strings.HasSuffix(name, ".tofu") ||
 		strings.HasSuffix(name, ".tf.json")
 }
 

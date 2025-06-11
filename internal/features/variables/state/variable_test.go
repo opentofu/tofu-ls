@@ -19,9 +19,9 @@ import (
 	"github.com/hashicorp/hcl/v2/hclsyntax"
 	"github.com/opentofu/tofu-ls/internal/features/variables/ast"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	"github.com/opentofu/tofu-ls/internal/terraform/datadir"
-	"github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	"github.com/opentofu/tofu-ls/internal/tofu/datadir"
+	"github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 	"github.com/zclconf/go-cty-debug/ctydebug"
 	"github.com/zclconf/go-cty/cty"
 )
@@ -95,7 +95,7 @@ func TestVariableStore_VariableRecordByPath(t *testing.T) {
 			globalAst.HCLParsingSource:          operation.OpStateUnknown,
 			globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 			globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-			globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+			globalAst.TofuValidateSource:        operation.OpStateUnknown,
 		},
 	}
 	if diff := cmp.Diff(expectedVariable, record, cmpOpts); diff != "" {
@@ -139,7 +139,7 @@ func TestVariableStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 		{
@@ -148,7 +148,7 @@ func TestVariableStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 		{
@@ -157,7 +157,7 @@ func TestVariableStore_List(t *testing.T) {
 				globalAst.HCLParsingSource:          operation.OpStateUnknown,
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
-				globalAst.TerraformValidateSource:   operation.OpStateUnknown,
+				globalAst.TofuValidateSource:        operation.OpStateUnknown,
 			},
 		},
 	}

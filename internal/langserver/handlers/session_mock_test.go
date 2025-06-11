@@ -24,13 +24,13 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/registry"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/discovery"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/discovery"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 )
 
 type MockSessionInput struct {
-	TerraformCalls     *exec.TerraformMockCalls
+	TofuCalls          *exec.TofuMockCalls
 	AdditionalHandlers map[string]handler.Func
 	StateStore         *state.StateStore
 	WalkerCollector    *walker.WalkerCollector
@@ -69,9 +69,9 @@ func (ms *mockSession) new(srvCtx context.Context) session.Session {
 		eventBus = ms.mockInput.EventBus
 	}
 
-	var tfCalls *exec.TerraformMockCalls
-	if ms.mockInput != nil && ms.mockInput.TerraformCalls != nil {
-		tfCalls = ms.mockInput.TerraformCalls
+	var tfCalls *exec.TofuMockCalls
+	if ms.mockInput != nil && ms.mockInput.TofuCalls != nil {
+		tfCalls = ms.mockInput.TofuCalls
 	}
 
 	d := &discovery.MockDiscovery{
@@ -147,7 +147,7 @@ func NewMockSession(input *MockSessionInput) session.SessionFactory {
 	return newMockSession(input).new
 }
 
-func NewTestFeatures(eventBus *eventbus.EventBus, s *state.StateStore, fs *filesystem.Filesystem, tfCalls *exec.TerraformMockCalls) (*Features, error) {
+func NewTestFeatures(eventBus *eventbus.EventBus, s *state.StateStore, fs *filesystem.Filesystem, tfCalls *exec.TofuMockCalls) (*Features, error) {
 	rootModulesFeature, err := frootmodules.NewRootModulesFeature(eventBus, s, fs, exec.NewMockExecutor(tfCalls))
 	if err != nil {
 		return nil, err

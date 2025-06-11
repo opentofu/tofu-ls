@@ -17,97 +17,101 @@ import (
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
 
 func TestDefinition_basic(t *testing.T) {
-	tmpDir := TempDir(t)
+	t.Parallel()
 
-	ss, err := state.NewStateStore()
-	if err != nil {
-		t.Fatal(err)
-	}
-	wc := walker.NewWalkerCollector()
+	extensions := []string{".tf", ".tofu"}
+	for _, ext := range extensions {
+		t.Run(ext, func(t *testing.T) {
+			tmpDir := TempDir(t)
 
-	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
-			PerWorkDir: map[string][]*mock.Call{
-				tmpDir.Path(): {
-					{
-						Method:        "Version",
-						Repeatability: 1,
-						Arguments: []interface{}{
-							mock.AnythingOfType(""),
-						},
-						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.12.0")),
-							nil,
-							nil,
-						},
-					},
-					{
-						Method:        "GetExecPath",
-						Repeatability: 1,
-						ReturnArguments: []interface{}{
-							"",
+			ss, err := state.NewStateStore()
+			if err != nil {
+				t.Fatal(err)
+			}
+			wc := walker.NewWalkerCollector()
+
+			ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
+				TofuCalls: &exec.TofuMockCalls{
+					PerWorkDir: map[string][]*mock.Call{
+						tmpDir.Path(): {
+							{
+								Method:        "Version",
+								Repeatability: 1,
+								Arguments: []interface{}{
+									mock.AnythingOfType(""),
+								},
+								ReturnArguments: []interface{}{
+									version.Must(version.NewVersion("0.12.0")),
+									nil,
+									nil,
+								},
+							},
+							{
+								Method:        "GetExecPath",
+								Repeatability: 1,
+								ReturnArguments: []interface{}{
+									"",
+								},
+							},
 						},
 					},
 				},
-			},
-		},
-		StateStore:      ss,
-		WalkerCollector: wc,
-	}))
-	stop := ls.Start(t)
-	defer stop()
-
-	ls.Call(t, &langserver.CallRequest{
-		Method: "initialize",
-		ReqParams: fmt.Sprintf(`{
+				StateStore:      ss,
+				WalkerCollector: wc,
+			}))
+			stop := ls.Start(t)
+			defer stop()
+			ls.Call(t, &langserver.CallRequest{
+				Method: "initialize",
+				ReqParams: fmt.Sprintf(`{
 			"capabilities": {},
 			"rootUri": %q,
 			"processId": 12345
 	}`, tmpDir.URI)})
-	waitForWalkerPath(t, ss, wc, tmpDir)
-	ls.Notify(t, &langserver.CallRequest{
-		Method:    "initialized",
-		ReqParams: "{}",
-	})
-	ls.Call(t, &langserver.CallRequest{
-		Method: "textDocument/didOpen",
-		ReqParams: fmt.Sprintf(`{
+			waitForWalkerPath(t, ss, wc, tmpDir)
+			ls.Notify(t, &langserver.CallRequest{
+				Method:    "initialized",
+				ReqParams: "{}",
+			})
+			ls.Call(t, &langserver.CallRequest{
+				Method: "textDocument/didOpen",
+				ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
 			"languageId": "opentofu",
 			"text": `+fmt.Sprintf("%q",
-			`variable "test" {
+					`variable "test" {
 }
 
 output "foo" {
 	value = var.test
 }`)+`,
-			"uri": "%s/main.tf"
+			"uri": "%s/main.%s"
 		}
-	}`, tmpDir.URI)})
-	waitForAllJobs(t, ss)
+	}`, tmpDir.URI, ext)})
+			waitForAllJobs(t, ss)
 
-	ls.CallAndExpectResponse(t, &langserver.CallRequest{
-		Method: "textDocument/definition",
-		ReqParams: fmt.Sprintf(`{
+			ls.CallAndExpectResponse(t, &langserver.CallRequest{
+				Method: "textDocument/definition",
+				ReqParams: fmt.Sprintf(`{
 			"textDocument": {
-				"uri": "%s/main.tf"
+				"uri": "%s/main.%s"
 			},
 			"position": {
 				"line": 4,
 				"character": 13
 			}
-		}`, tmpDir.URI)}, fmt.Sprintf(`{
+		}`, tmpDir.URI, ext)}, fmt.Sprintf(`{
 			"jsonrpc": "2.0",
 			"id": 3,
 			"result": [{
-				"uri":"%s/main.tf",
+				"uri":"%s/main.%s",
 				"range": {
 					"start": {
 						"line": 0,
@@ -119,7 +123,9 @@ output "foo" {
 					}
 				}
 			}]
-		}`, tmpDir.URI))
+		}`, tmpDir.URI, ext))
+		})
+	}
 }
 
 func TestDefinition_withLinkToDefLessBlock(t *testing.T) {
@@ -144,7 +150,7 @@ func TestDefinition_withLinkToDefLessBlock(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -299,7 +305,7 @@ func TestDefinition_withLinkToDefBlock(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -446,7 +452,7 @@ func TestDefinition_moduleInputToVariable(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				modPath: validTfMockCalls(),
 			},
@@ -529,7 +535,7 @@ func TestDeclaration_basic(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{
@@ -641,7 +647,7 @@ func TestDeclaration_withLinkSupport(t *testing.T) {
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls: &exec.TerraformMockCalls{
+		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
 				tmpDir.Path(): {
 					{

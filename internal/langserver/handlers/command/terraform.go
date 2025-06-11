@@ -15,22 +15,22 @@ import (
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
-const terraformVersionRequestVersion = 0
+const tofuVersionRequestVersion = 0
 
-type terraformInfoResponse struct {
+type tofuInfoResponse struct {
 	FormatVersion     int    `json:"v"`
 	RequiredVersion   string `json:"required_version,omitempty"`
 	DiscoveredVersion string `json:"discovered_version,omitempty"`
 }
 
-func (h *CmdHandler) TerraformVersionRequestHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
+func (h *CmdHandler) TofuVersionRequestHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
 	progress.Begin(ctx, "Initializing")
 	defer func() {
 		progress.End(ctx, "Finished")
 	}()
 
-	response := terraformInfoResponse{
-		FormatVersion: terraformVersionRequestVersion,
+	response := tofuInfoResponse{
+		FormatVersion: tofuVersionRequestVersion,
 	}
 
 	progress.Report(ctx, "Finding current module info ...")
@@ -48,11 +48,11 @@ func (h *CmdHandler) TerraformVersionRequestHandler(ctx context.Context, args cm
 		return response, err
 	}
 
-	progress.Report(ctx, "Recording terraform version info ...")
+	progress.Report(ctx, "Recording OpenTofu version info ...")
 
-	terraformVersion := h.RootModulesFeature.TerraformVersion(modPath)
-	if terraformVersion != nil {
-		response.DiscoveredVersion = terraformVersion.String()
+	tofuVersion := h.RootModulesFeature.TofuVersion(modPath)
+	if tofuVersion != nil {
+		response.DiscoveredVersion = tofuVersion.String()
 	}
 
 	coreRequirements, err := h.ModulesFeature.CoreRequirements(modPath)

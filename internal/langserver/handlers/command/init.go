@@ -14,11 +14,11 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/tofu-ls/internal/langserver/errors"
 	"github.com/opentofu/tofu-ls/internal/langserver/progress"
-	"github.com/opentofu/tofu-ls/internal/terraform/module"
+	"github.com/opentofu/tofu-ls/internal/tofu/module"
 	"github.com/opentofu/tofu-ls/internal/uri"
 )
 
-func (h *CmdHandler) TerraformInitHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
+func (h *CmdHandler) TofuInitHandler(ctx context.Context, args cmd.CommandArgs) (interface{}, error) {
 	dirUri, ok := args.GetString("uri")
 	if !ok || dirUri == "" {
 		return nil, fmt.Errorf("%w: expected module uri argument to be set", jrpc2.InvalidParams.Err())
@@ -29,7 +29,7 @@ func (h *CmdHandler) TerraformInitHandler(ctx context.Context, args cmd.CommandA
 	}
 
 	dirHandle := document.DirHandleFromURI(dirUri)
-	tfExec, err := module.TerraformExecutorForModule(ctx, dirHandle.Path())
+	tfExec, err := module.TofuExecutorForModule(ctx, dirHandle.Path())
 	if err != nil {
 		return nil, errors.EnrichTfExecError(err)
 	}
@@ -39,7 +39,7 @@ func (h *CmdHandler) TerraformInitHandler(ctx context.Context, args cmd.CommandA
 		progress.End(ctx, "Finished")
 	}()
 
-	progress.Report(ctx, "Running terraform init ...")
+	progress.Report(ctx, "Running tofu init ...")
 	err = tfExec.Init(ctx)
 	if err != nil {
 		return nil, err

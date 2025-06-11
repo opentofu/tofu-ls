@@ -24,24 +24,41 @@ import (
 	"github.com/zclconf/go-cty/cty"
 )
 
+// moduleVersionsMockResponse represents the shortened response from https://api.opentofu.org/registry/docs/modules/terraform-aws-modules/vpc/aws/index.json
 var moduleVersionsMockResponse = `{
-	"modules": [
-	  {
-		"source": "terraform-aws-modules/vpc/aws",
-		"versions": [
-		  {
-			"version": "0.0.1"
-		  },
-		  {
-			"version": "2.0.24"
-		  },
-		  {
-			"version": "1.33.7"
-		  }
-		]
-	  }
-	]
-  }`
+  "addr": {
+    "display": "terraform-aws-modules/vpc/aws",
+    "namespace": "terraform-aws-modules",
+    "name": "vpc",
+    "target": "aws"
+  },
+  "description": "Terraform module to create AWS VPC resources 🇺🇦",
+  "versions": [
+    {
+      "id": "v5.21.0",
+      "published": "2025-04-21T23:55:13Z"
+    },
+    {
+      "id": "v2.72.0",
+      "published": "2021-02-22T19:00:52Z"
+    },
+    {
+      "id": "v1.0.0",
+      "published": "2017-09-12T15:53:29Z"
+    }
+  ],
+  "is_blocked": false,
+  "popularity": 3080,
+  "fork_count": 4525,
+  "fork_of": {
+    "display": "//",
+    "namespace": "",
+    "name": "",
+    "target": ""
+  },
+  "upstream_popularity": 0,
+  "upstream_fork_count": 0
+}`
 
 func TestHooks_RegistryModuleVersions(t *testing.T) {
 	ctx := context.Background()
@@ -69,7 +86,7 @@ func TestHooks_RegistryModuleVersions(t *testing.T) {
 
 	regClient := registry.NewClient()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/v1/modules/terraform-aws-modules/vpc/aws/versions" {
+		if r.RequestURI == "/registry/docs/modules/terraform-aws-modules/vpc/aws/index.json" {
 			w.Write([]byte(moduleVersionsMockResponse))
 			return
 		}
@@ -108,21 +125,21 @@ func TestHooks_RegistryModuleVersions(t *testing.T) {
 
 	expectedCandidates := []decoder.Candidate{
 		{
-			Label:         `"2.0.24"`,
+			Label:         `"5.21.0"`,
 			Kind:          lang.StringCandidateKind,
-			RawInsertText: `"2.0.24"`,
+			RawInsertText: `"5.21.0"`,
 			SortText:      "  0",
 		},
 		{
-			Label:         `"1.33.7"`,
+			Label:         `"2.72.0"`,
 			Kind:          lang.StringCandidateKind,
-			RawInsertText: `"1.33.7"`,
+			RawInsertText: `"2.72.0"`,
 			SortText:      "  1",
 		},
 		{
-			Label:         `"0.0.1"`,
+			Label:         `"1.0.0"`,
 			Kind:          lang.StringCandidateKind,
-			RawInsertText: `"0.0.1"`,
+			RawInsertText: `"1.0.0"`,
 			SortText:      "  2",
 		},
 	}

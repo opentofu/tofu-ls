@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/hcl/v2"
 
 	"github.com/opentofu/tofu-ls/internal/features/modules/ast"
-	globalAst "github.com/opentofu/tofu-ls/internal/terraform/ast"
-	op "github.com/opentofu/tofu-ls/internal/terraform/module/operation"
+	globalAst "github.com/opentofu/tofu-ls/internal/tofu/ast"
+	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
 
 // ModuleRecord contains all information about module files
@@ -107,7 +107,7 @@ func newModule(modPath string) *ModuleRecord {
 			globalAst.HCLParsingSource:          op.OpStateUnknown,
 			globalAst.SchemaValidationSource:    op.OpStateUnknown,
 			globalAst.ReferenceValidationSource: op.OpStateUnknown,
-			globalAst.TerraformValidateSource:   op.OpStateUnknown,
+			globalAst.TofuValidateSource:        op.OpStateUnknown,
 		},
 	}
 }

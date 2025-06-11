@@ -18,13 +18,13 @@ import (
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/tofu-ls/internal/state"
-	"github.com/opentofu/tofu-ls/internal/terraform/exec"
+	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/uri"
 	"github.com/opentofu/tofu-ls/internal/walker"
 	"github.com/stretchr/testify/mock"
 )
 
-func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T) {
+func TestLangServer_workspaceExecuteCommand_tofuVersion_basic(t *testing.T) {
 	modDir := t.TempDir()
 	modUri := uri.FromPath(modDir)
 
@@ -34,7 +34,7 @@ func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T)
 	}
 
 	eventBus := eventbus.NewEventBus()
-	mockCalls := &exec.TerraformMockCalls{
+	mockCalls := &exec.TofuMockCalls{
 		PerWorkDir: map[string][]*mock.Call{
 			modDir: validTfMockCalls(),
 		},
@@ -69,7 +69,7 @@ func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T)
 		t.Fatal(err)
 	}
 
-	err = features.RootModules.Store.UpdateTerraformAndProviderVersions(modDir, ver, map[tfaddr.Provider]*version.Version{}, nil)
+	err = features.RootModules.Store.UpdateTofuAndProviderVersions(modDir, ver, map[tfaddr.Provider]*version.Version{}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -77,7 +77,7 @@ func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T)
 	wc := walker.NewWalkerCollector()
 
 	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		TerraformCalls:  mockCalls,
+		TofuCalls:       mockCalls,
 		StateStore:      s,
 		WalkerCollector: wc,
 		Features:        features,
@@ -105,7 +105,7 @@ func TestLangServer_workspaceExecuteCommand_terraformVersion_basic(t *testing.T)
 		ReqParams: fmt.Sprintf(`{
 		"command": %q,
 		"arguments": ["uri=%s"]
-	}`, cmd.Name("module.terraform"), modUri)}, `{
+	}`, cmd.Name("module.tofu"), modUri)}, `{
 		"jsonrpc": "2.0",
 		"id": 2,
 		"result": {
