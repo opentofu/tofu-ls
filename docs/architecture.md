@@ -11,8 +11,12 @@ The decoder essentially takes in directories of parsed HCL files + schemas and u
 ```mermaid
 ---
 config:
-  theme: mc
+  theme: forest
   look: neo
+  themeVariables:
+    darkMode: true
+  flowchart:
+    curve: basis
 ---
 flowchart LR
     Input1["Parsed Files <br>map[string]*hcl.File"] --> Decoder["Decoder"]
@@ -31,8 +35,12 @@ Decoder needs schema to produce relevant completion candidates, hover data etc. 
 ```mermaid
 ---
 config:
-  theme: mc
+  theme: forest
   look: neo
+  themeVariables:
+    darkMode: true
+  flowchart:
+    curve: basis
 ---
 flowchart LR
  subgraph TLI["tofu-ls (indexer)"]
@@ -106,8 +114,12 @@ Each document also maintains line-separated version, to enable line-based diffin
 ```mermaid
 ---
 config:
-  theme: mc
+  theme: forest
   look: neo
+  themeVariables:
+    darkMode: true
+  flowchart:
+    curve: basis
 ---
 flowchart TD
  subgraph filesystem["filesystem"]
@@ -213,9 +225,13 @@ The overall flow of jobs is illustrated in the diagram below.
 ```mermaid
 ---
 config:
-  theme: mc
+  theme: forest
   look: neo
   layout: elk
+  themeVariables:
+    darkMode: true
+  flowchart:
+    curve: basis
 ---
 flowchart LR
  subgraph LC["Language Client"]
@@ -268,27 +284,7 @@ flowchart LR
      CDI:::indexer
      ODI:::indexer
      LC:::dashed
-    classDef client fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    classDef server fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef producer fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    classDef consumer fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
-    classDef state fill:#5c6bc0,color:#ffffff,stroke:#3f51b5,stroke-width:2px
-    classDef indexer fill:#ffffff,stroke:#666,stroke-width:2px,font-weight:bold
-    classDef dashed stroke-dasharray: 5 5
-    style VSCode color:#424242
-    style Sublime color:#424242
-    style Vim color:#424242
-    style WS color:#424242
-    style TDO color:#424242
-    style TDC color:#424242
-    style MF color:#424242
-    style VF color:#424242
-    style RF color:#424242
-    style CDI color:#424242
-    style ODI color:#424242
-    style JOBS color:#424242
-    style DOCUMENTS color:#424242
-    style state color:#424242
+    linkStyle default stroke:#FF6D00
 ```
 
 The mentioned `documents` memdb table is consulted for whether a directory has any open files - i.e. whether server has received `textDocument/didOpen` and _not_ `textDocument/didClose` concerning a particular directory. Using two separate schedulers loosely reflects the fact that data for files which the user is editing at the moment are more critical, unlike additional data about other directories/modules which would only _enrich_ editing of the open files (such as by adding cross-module context, providing go-to-definition etc.).
@@ -301,9 +297,13 @@ Jobs also depend on each other. These dependencies are illustrated in the diagra
 ```mermaid
 ---
 config:
-  layout: dagre
-  theme: mc
+  theme: forest
   look: neo
+  layout: elk
+  themeVariables:
+    darkMode: true
+  flowchart:
+    curve: basis
 ---
 flowchart TD
  subgraph FileEvent["File Event"]
@@ -414,8 +414,13 @@ The [`eventbus`](https://github.com/opentofu/tofu-ls/blob/main/internal/eventbus
 ```mermaid
 ---
 config:
-  theme: mc
+  theme: forest
   look: neo
+  layout: elk
+  themeVariables:
+    darkMode: true
+  flowchart:
+    curve: basis
 ---
 flowchart LR
  subgraph subGraph0["Event Bus Event Triggers"]
