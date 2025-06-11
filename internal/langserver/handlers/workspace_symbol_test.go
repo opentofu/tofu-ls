@@ -19,6 +19,8 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+// This function is used to fix flaky tests on Mac OS. This code is based
+// on https://github.com/hashicorp/terraform-ls/pull/1880
 func initializeFiles(t *testing.T, tmpDir document.DirHandle) {
 	t.Helper()
 
