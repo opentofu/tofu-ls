@@ -1,33 +1,20 @@
 name: build
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
       - pre-release
 
 permissions:
-  actions: write
+  contents: read
+  statuses: write
 
 env:
-  PKG_NAME: "terraform-ls"
+  PKG_NAME: "tofu-ls"
 
 jobs:
-  get-go-version:
-    name: "Determine Go toolchain version"
-    runs-on: ubuntu-latest
-    outputs:
-      go-version: ${{ steps.get-go-version.outputs.go-version }}
-    steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Determine Go version
-        id: get-go-version
-        # We use .go-version as our source of truth for current Go
-        # version, because "goenv" can react to it automatically.
-        run: |
-          echo "Building with Go $(cat .go-version)"
-          echo "go-version=$(cat .go-version)" >> $GITHUB_OUTPUT
-
   set-product-version:
     runs-on: ubuntu-latest
     outputs:
@@ -38,27 +25,7 @@ jobs:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Set Product version
         id: set-product-version
-        uses: hashicorp/actions-set-product-version@v2
-
-  generate-metadata-file:
-    needs: set-product-version
-    runs-on: ubuntu-latest
-    outputs:
-      filepath: ${{ steps.generate-metadata-file.outputs.filepath }}
-    steps:
-      - name: "Checkout directory"
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Generate metadata file
-        id: generate-metadata-file
-        uses: hashicorp/actions-generate-metadata@v1
-        with:
-          version: ${{ needs.set-product-version.outputs.product-version }}
-          product: ${{ env.PKG_NAME }}
-          repositoryOwner: "hashicorp"
-      - uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
-        with:
-          name: metadata.json
-          path: ${{ steps.generate-metadata-file.outputs.filepath }}
+        uses: hashicorp/actions-set-product-version@b426ea77cad0389738a8a81d89e933146a3ba97f # unreleased, untagged (upgrade of actions/checkout)
 
   generate-provider-schemas:
     runs-on: ubuntu-latest
@@ -134,8 +101,6 @@ jobs:
               -buildvcs=false \
               -ldflags "
                 -s -w
-                -X 'main.algoliaAppID=${{ secrets.ALGOLIA_APP_ID }}'
-                -X 'main.algoliaAPIKey=${{ secrets.ALGOLIA_API_KEY }}'
               "
             cp LICENSE "$TARGET_DIR/LICENSE.txt"
       - name: Copy license file to config_dir # for Linux packages
@@ -174,11 +139,3 @@ jobs:
         with:
           name: ${{ env.DEB_PACKAGE }}
           path: out/${{ env.DEB_PACKAGE }}
-
-  delete-provider-schemas:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: geekyeggo/delete-artifact@24928e75e6e6590170563b8ddae9fac674508aa1 # v5.0.0
-        with:
-          name: provider-schema-data
