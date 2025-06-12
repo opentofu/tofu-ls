@@ -7,8 +7,11 @@ package handlers
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
 	"testing"
 
+	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/state"
 	"github.com/opentofu/tofu-ls/internal/tofu/exec"
@@ -16,9 +19,22 @@ import (
 	"github.com/stretchr/testify/mock"
 )
 
+// This function is used to fix flaky tests on Mac OS. This code is based
+// on https://github.com/hashicorp/terraform-ls/pull/1880
+func initializeFiles(t *testing.T, tmpDir document.DirHandle) {
+	t.Helper()
+
+	err := os.WriteFile(filepath.Join(tmpDir.Path(), "second.tf"), []byte("provider \"google\" {}\n"), 0o644)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestLangServer_workspace_symbol_basic(t *testing.T) {
 	tmpDir := TempDir(t)
 	InitPluginCache(t, tmpDir.Path())
+
+	initializeFiles(t, tmpDir)
 
 	ss, err := state.NewStateStore()
 	if err != nil {
@@ -167,6 +183,8 @@ func TestLangServer_workspace_symbol_basic(t *testing.T) {
 func TestLangServer_workspace_symbol_missing(t *testing.T) {
 	tmpDir := TempDir(t)
 	InitPluginCache(t, tmpDir.Path())
+
+	initializeFiles(t, tmpDir)
 
 	ss, err := state.NewStateStore()
 	if err != nil {
