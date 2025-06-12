@@ -15,19 +15,31 @@ env:
   PKG_NAME: "tofu-ls"
 
 jobs:
-  set-product-version:
+  get-go-version:
+    name: "Determine Go toolchain version"
     runs-on: ubuntu-latest
     outputs:
-      product-version: ${{ steps.set-product-version.outputs.product-version }}
-      product-base-version: ${{ steps.set-product-version.outputs.base-product-version }}
-      product-prerelease-version: ${{ steps.set-product-version.outputs.prerelease-product-version }}
+      go-version: ${{ steps.get-go-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Determine Go version
+        id: get-go-version
+        uses: ./.github/actions/go-version
+
+  get-product-version:
+    runs-on: ubuntu-latest
+    outputs:
+      product-version: ${{ steps.get-product-version.outputs.product-version }}
+      product-base-version: ${{ steps.get-product-version.outputs.base-product-version }}
+      product-prerelease-version: ${{ steps.get-product-version.outputs.prerelease-product-version }}
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Set Product version
-        id: set-product-version
+      - name: Get Product version
+        id: get-product-version
         uses: hashicorp/actions-set-product-version@b426ea77cad0389738a8a81d89e933146a3ba97f # unreleased, untagged (upgrade of actions/checkout)
 
   generate-provider-schemas:
+    needs: get-go-version
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout directory"
@@ -35,7 +47,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
-          go-version-file: ".go-version"
+          go-version: ${{ needs.get-go-version.outputs.go-version }}
       - name: Generate provider schemas
         run: |
           go generate ./internal/schemas
@@ -49,7 +61,7 @@ jobs:
   build:
     needs:
       - get-go-version
-      - set-product-version
+      - get-product-version
       - generate-provider-schemas
     runs-on: ubuntu-latest
     strategy:
@@ -81,15 +93,14 @@ jobs:
           path: ./internal/schemas/data
       - name: Check provider schemas
         run: du -h -s ./internal/schemas/data
-      - uses: hashicorp/actions-go-build@v1
+      - uses: hashicorp/actions-go-build@37358f6098ef21b09542d84a9814ebb843aa4e3e # v1.0.0
         env:
-          BASE_VERSION: ${{ needs.set-product-version.outputs.product-base-version }}
-          PRERELEASE_VERSION: ${{ needs.set-product-version.outputs.product-prerelease-version}}
-          METADATA_VERSION: ${{ env.METADATA }}
+          BASE_VERSION: ${{ needs.get-product-version.outputs.product-base-version }}
+          PRERELEASE_VERSION: ${{ needs.get-product-version.outputs.product-prerelease-version}}
           CGO_ENABLED: 0
         with:
           product_name: ${{ env.PKG_NAME }}
-          product_version: ${{ needs.set-product-version.outputs.product-version }}
+          product_version: ${{ needs.get-product-version.outputs.product-version }}
           go_version: ${{ needs.get-go-version.outputs.go-version }}
           os: ${{ matrix.goos }}
           arch: ${{ matrix.goarch }}
@@ -111,14 +122,14 @@ jobs:
           mkdir -p "$LICENSE_DIR" && cp LICENSE "$LICENSE_DIR/LICENSE.txt"
       - name: Package
         if: ${{ matrix.goos == 'linux' }}
-        uses: hashicorp/actions-packaging-linux@v1
+        uses: hashicorp/actions-packaging-linux@514d75d0961adeddf1f928fb93b82f41735fc488 # v1.6.0
         with:
           name: ${{ github.event.repository.name }}
-          description: "Terraform Language Server"
+          description: "OpenTofu Language Server"
           arch: ${{ matrix.goarch }}
-          version: ${{ needs.set-product-version.outputs.product-version }}
-          maintainer: "HashiCorp"
-          homepage: "https://github.com/hashicorp/terraform-ls"
+          version: ${{ needs.get-product-version.outputs.product-version }}
+          maintainer: "OpenTofu"
+          homepage: "https://github.com/opentofu/tofu-ls"
           license: "MPL-2.0"
           binary: "dist/${{ env.PKG_NAME }}"
           deb_depends: "openssl"
