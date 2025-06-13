@@ -52,9 +52,11 @@ file to install `lsp-mode`:
 There are various other ways to install `lsp-mode` and they are
 documented [here.](https://emacs-lsp.github.io/lsp-mode/page/installation/#installation)
 
+<!-- 
+TODO: We don't have an Emacs LSP yet
 The `lsp-mode` language client for OpenTofu supports various features
 like semantic tokens, code lens for references etc. There is more
-detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/).
+detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/). -->
 
 ## IntelliJ IDE
 
@@ -63,7 +65,7 @@ detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terr
  - Go to `Languages & Frameworks → Language Server Protocol → Server Definitions`
    - Pick `Executable`
    - set `Extension` to `tf`
-   - set `Path` to `terraform-ls`
+   - set `Path` to `tofu-ls`
    - set `Args` to `serve`
  - Confirm by clicking `Apply`
 
@@ -87,7 +89,7 @@ such as duplicate completion candidates.
 {
 	"languageserver": {
 		"terraform": {
-			"command": "terraform-ls",
+			"command": "tofu-ls",
 			"args": ["serve"],
 			"filetypes": [
 				"terraform",
@@ -117,11 +119,11 @@ inoremap <silent><expr> <c-space> coc#refresh()
  - Add the following to your `.vimrc`:
 
 ```vim
-if executable('terraform-ls')
+if executable('tofu-ls')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'terraform-ls',
-        \ 'cmd': {server_info->['terraform-ls', 'serve']},
-        \ 'whitelist': ['terraform'],
+        \ 'name': 'tofu-ls',
+        \ 'cmd': {server_info->['tofu-ls', 'serve']},
+        \ 'whitelist': ['tofu'],
         \ })
 endif
 ```
@@ -135,12 +137,12 @@ endif
 " Remove this line if additional custom language servers are set elsewhere
 let g:ycm_language_server = []
 
-if executable('terraform-ls')
+if executable('tofu-ls')
     let g:ycm_language_server += [
         \   {
-        \     'name': 'terraform',
-        \     'cmdline': [ 'terraform-ls', 'serve' ],
-        \     'filetypes': [ 'terraform' ],
+        \     'name': 'tofu',
+        \     'cmdline': [ 'tofu-ls', 'serve' ],
+        \     'filetypes': [ 'tofu', 'terraform' ],
         \     'project_root_files': [ '*.tf', '*.tfvars' ],
         \   },
         \ ]
@@ -154,7 +156,7 @@ endif
 
 ```vim
 let g:LanguageClient_serverCommands = {
-    \ 'terraform': ['terraform-ls', 'serve'],
+    \ 'terraform': ['tofu-ls', 'serve'],
     \ }
 ```
 
@@ -224,7 +226,7 @@ Make sure to read through to [server_configurations.md#terraformls](https://gith
 
 KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurable.
 
-- Install the `terraform-ls` package (or the equivalent package name appropriate to your distro)
+- Install the `tofu-ls` package (or the equivalent package name appropriate to your distro)
 - Open Kate configuration (Settings Menu -> `Configure` Kate or Kate -> `Preferences` on macOS)
 - Select *LSP Client* in the left pane
 - Select *User Server Settings* tab

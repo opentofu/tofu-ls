@@ -95,26 +95,26 @@ Deprecated in favour of `indexing.ignoreDirectoryNames`
 ## `commandPrefix`
 
 Some clients such as VS Code keep a global registry of commands published by language
-servers, and the names must be unique, even between terraform-ls instances. Setting
+servers, and the names must be unique, even between tofu-ls instances. Setting
 this allows multiple servers to run side by side, albeit the client is now responsible
 for routing commands to the correct server. Users should not need to worry about
 this, the frontend client extension should manage it.
 
 The prefix will be applied to the front of the command name, which already contains
-a `terraform-ls` prefix.
+a `tofu-ls` prefix.
 
-`commandPrefix.terraform-ls.commandName`
+`commandPrefix.tofu-ls.commandName`
 
 Or if left empty
 
-`terraform-ls.commandName`
+`tofu-ls.commandName`
 
 This setting should be deprecated once the language server supports multiple workspaces,
 as this arises in VS code because a server instance is started per VS Code workspace.
 
 ## `ignoreSingleFileWarning` (`bool`)
 
-This setting controls whether terraform-ls sends a warning about opening up a single OpenTofu file instead of a OpenTofu folder. Setting this to `true` will prevent the message being sent. The default value is `false`.
+This setting controls whether tofu-ls sends a warning about opening up a single OpenTofu file instead of a OpenTofu folder. Setting this to `true` will prevent the message being sent. The default value is `false`.
 
 ## `experimentalFeatures` (object)
 
@@ -178,11 +178,11 @@ or
 
 ### VS Code
 
-Use `terraform-ls`, e.g.
+Use `tofu-ls`, e.g.
 
 ```json
 {
-	"terraform-ls": {
+	"tofu-ls": {
 		"rootModulePaths": ["/any/path"]
 	}
 }
@@ -190,7 +190,7 @@ Use `terraform-ls`, e.g.
 or
 ```json
 {
-	"terraform-ls": {
+	"tofu-ls": {
 		"excludeRootModules": ["/any/path"]
 	}
 }

@@ -128,7 +128,7 @@ Log paths support template syntax. This allows for separation of logs while acco
   - `lsPpid` - parent process ID of the language server (typically editor's or editor plugin's PID)
 - `method` - [`tofu-exec`](https://pkg.go.dev/github.com/opentofu/tofu-exec) method (e.g. `Format` or `Version`)
 
-The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/terraform-ls-{{timestamp}}.log`.
+The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/tofu-ls-{{timestamp}}.log`.
 
 ## CPU Profiling
 
@@ -138,8 +138,8 @@ to collect and share CPU profile which can be done via `cpuprofile` flag.
 For example you can modify the launch arguments in your editor to:
 
 ```sh
-$ terraform-ls serve \
-	-cpuprofile=/tmp/terraform-ls-cpu.prof
+$ tofu-ls serve \
+	-cpuprofile=/tmp/tofu-ls-cpu.prof
 ```
 
 Clients which manage LS installation typically allow passing extra arguments.
@@ -157,7 +157,7 @@ Path supports template syntax. This allows for separation of logs while accounti
  - `pid` - process ID of the language server
  - `ppid` - parent process ID (typically editor's or editor plugin's PID)
 
-The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/terraform-ls-cpuprofile-{{timestamp}}.log`.
+The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/tofu-ls-cpuprofile-{{timestamp}}.log`.
 
 ## Memory Profiling
 
@@ -167,8 +167,8 @@ to collect and share memory profile which can be done via `memprofile` flag.
 For example you can modify the launch arguments in your editor to:
 
 ```sh
-$ terraform-ls serve \
-	-memprofile=/tmp/terraform-ls-mem.prof
+$ tofu-ls serve \
+	-memprofile=/tmp/tofu-ls-mem.prof
 ```
 
 Clients which manage LS installation typically allow passing extra arguments.
@@ -186,4 +186,4 @@ Path supports template syntax. This allows for separation of logs while accounti
  - `pid` - process ID of the language server
  - `ppid` - parent process ID (typically editor's or editor plugin's PID)
 
-The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/terraform-ls-memprofile-{{timestamp}}.log`.
+The path is interpreted as [Go template](https://golang.org/pkg/text/template/), e.g. `/tmp/tofu-ls-memprofile-{{timestamp}}.log`.
