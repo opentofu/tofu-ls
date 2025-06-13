@@ -2,7 +2,7 @@
 
 ## LSP methods
 
-The LSP is a relatively extensive protocol with many features/methods, not all of which are implemented and not all of which are relevant for Terraform. The following matrix should provide some visibility into the current and future state.
+The LSP is a relatively extensive protocol with many features/methods, not all of which are implemented and not all of which are relevant for OpenTofu. The following matrix should provide some visibility into the current and future state.
 
 It's important to note that ✅ does **not** imply the functionality is _fully_ implemented (some features have various opt-in capabilities), just that the method is in use by the server. You can filter any known open issues by the relevant label, e.g. [`textDocument/completion` issues](https://github.com/hashicorp/terraform-ls/issues?q=is%3Aopen+is%3Aissue+label%3AtextDocument%2Fcompletion) and open new issues for any method which you would like to be implemented.
 
