@@ -14,7 +14,7 @@ that they check whether a command is actually supported or not
 
 ## Command Prefix
 
-All commands use `terraform-ls.` prefix to avoid any conflicts
+All commands use `tofu-ls.` prefix to avoid any conflicts
 with commands registered by any other language servers user
 may be using at the same time.
 

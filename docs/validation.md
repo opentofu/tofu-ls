@@ -23,7 +23,7 @@ This validation is enabled by default but can be controlled via
 All validation rules currently implemented are considered _universally applicable_
 and _not opinionated_. If you believe a diagnostic is incorrect, this may be caused by
 mis-identified version of OpenTofu or provider version. You can temporarily disable
-validation in such a case and let us know by [filing a new issue](https://github.com/hashicorp/terraform-ls/issues/new/choose).
+validation in such a case and let us know by [filing a new issue](https://github.com/opentofu/tofu-ls/issues/new/choose).
 
 See supported rules below.
 

@@ -36,5 +36,5 @@ Please follow the [relevant guide for your IDE](./docs/USAGE.md).
 Please refer to [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) for more information on how to contribute to this project.
 
 ## Credits
-Hashicorp Terraform - creating the [terraform-ls language server](https://github.com/hashicorp/terraform-ls), which was used as a starting point and inspiration for this language server.
+Hashicorp Terraform - creating the [terraform-ls language server](https://github.com/opentofu/tofu-ls), which was used as a starting point and inspiration for this language server.
 
