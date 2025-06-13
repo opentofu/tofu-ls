@@ -12,6 +12,8 @@ import (
 	"github.com/hashicorp/go-version"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/stretchr/testify/mock"
+
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/eventbus"
 	"github.com/opentofu/tofu-ls/internal/filesystem"
@@ -21,7 +23,6 @@ import (
 	"github.com/opentofu/tofu-ls/internal/tofu/exec"
 	"github.com/opentofu/tofu-ls/internal/uri"
 	"github.com/opentofu/tofu-ls/internal/walker"
-	"github.com/stretchr/testify/mock"
 )
 
 func TestLangServer_workspaceExecuteCommand_tofuVersion_basic(t *testing.T) {
