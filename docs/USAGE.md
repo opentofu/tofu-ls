@@ -1,10 +1,10 @@
-# Usage of Terraform Language Server
+# Usage of OpenTofu Language Server
 
 This guide assumes you have installed the server by following instructions
 in the [README.md](../README.md) if that is applicable to your client
 (i.e. if the client doesn't download the server itself).
 
-The following filetypes are supported by the Terraform Language Server:
+The following filetypes are supported by the OpenTofu Language Server:
 
 - `terraform` - standard `*.tf` config files
 - `terraform-vars` - variable files (`*.tfvars`)
@@ -14,7 +14,7 @@ and do **not** send `*.tf.json`, `*.tfvars.json` nor Packer HCL config
 nor any other HCL config files as the server is not
 equipped to handle these file types.
 
-In most clients with a dedicated Terraform extension/plugin this is
+In most clients with a dedicated OpenTofu extension/plugin this is
 already the default configuration, so you should not need to worry about it.
 
 Instructions for popular IDEs are below and pull requests
@@ -52,9 +52,11 @@ file to install `lsp-mode`:
 There are various other ways to install `lsp-mode` and they are
 documented [here.](https://emacs-lsp.github.io/lsp-mode/page/installation/#installation)
 
-The `lsp-mode` language client for Terraform supports various features
+<!-- 
+TODO: We don't have an Emacs LSP yet
+The `lsp-mode` language client for OpenTofu supports various features
 like semantic tokens, code lens for references etc. There is more
-detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/).
+detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/). -->
 
 ## IntelliJ IDE
 
@@ -63,7 +65,7 @@ detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terr
  - Go to `Languages & Frameworks → Language Server Protocol → Server Definitions`
    - Pick `Executable`
    - set `Extension` to `tf`
-   - set `Path` to `terraform-ls`
+   - set `Path` to `tofu-ls`
    - set `Args` to `serve`
  - Confirm by clicking `Apply`
 
@@ -87,7 +89,7 @@ such as duplicate completion candidates.
 {
 	"languageserver": {
 		"terraform": {
-			"command": "terraform-ls",
+			"command": "tofu-ls",
 			"args": ["serve"],
 			"filetypes": [
 				"terraform",
@@ -117,11 +119,11 @@ inoremap <silent><expr> <c-space> coc#refresh()
  - Add the following to your `.vimrc`:
 
 ```vim
-if executable('terraform-ls')
+if executable('tofu-ls')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'terraform-ls',
-        \ 'cmd': {server_info->['terraform-ls', 'serve']},
-        \ 'whitelist': ['terraform'],
+        \ 'name': 'tofu-ls',
+        \ 'cmd': {server_info->['tofu-ls', 'serve']},
+        \ 'whitelist': ['tofu'],
         \ })
 endif
 ```
@@ -135,12 +137,12 @@ endif
 " Remove this line if additional custom language servers are set elsewhere
 let g:ycm_language_server = []
 
-if executable('terraform-ls')
+if executable('tofu-ls')
     let g:ycm_language_server += [
         \   {
-        \     'name': 'terraform',
-        \     'cmdline': [ 'terraform-ls', 'serve' ],
-        \     'filetypes': [ 'terraform' ],
+        \     'name': 'tofu',
+        \     'cmdline': [ 'tofu-ls', 'serve' ],
+        \     'filetypes': [ 'tofu', 'terraform' ],
         \     'project_root_files': [ '*.tf', '*.tfvars' ],
         \   },
         \ ]
@@ -154,7 +156,7 @@ endif
 
 ```vim
 let g:LanguageClient_serverCommands = {
-    \ 'terraform': ['terraform-ls', 'serve'],
+    \ 'terraform': ['tofu-ls', 'serve'],
     \ }
 ```
 
@@ -206,7 +208,7 @@ Make sure to read through to [server_configurations.md#terraformls](https://gith
 
 ## VS Code
 
- - Install [Terraform VS Code Extension](https://marketplace.visualstudio.com/items?itemName=hashicorp.terraform) `>=2.24.0`
+ - Install [OpenTofu VS Code Extension](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu) `>=2.24.0`
  - Latest compatible version of the language server is bundled with the extension
  - See [Configuration](https://github.com/hashicorp/vscode-terraform/blob/main/README.md#configuration) in case you need to tweak anything. Default settings should work for majority of users though.
 
@@ -215,16 +217,16 @@ Make sure to read through to [server_configurations.md#terraformls](https://gith
 *BBEdit 14 [added support](https://www.barebones.com/support/bbedit/lsp-notes.html) for the Language Server Protocol so you'll need to upgrade to version 14 to use; this won't work for older versions of BBEdit*.
 
 - Open Preferences > Languages
-- In *Language-specific settings* section, add an entry for Terraform
-- In the Server tab, Set *Command* to `terraform-ls` and *Arguments* to `serve`
-- Once you've correctly installed `terraform-ls` and configured BBEdit, the status indicator on this settings panel will flip to green
+- In *Language-specific settings* section, add an entry for OpenTofu
+- In the Server tab, Set *Command* to `tofu-ls` and *Arguments* to `serve`
+- Once you've correctly installed `tofu-ls` and configured BBEdit, the status indicator on this settings panel will flip to green
 - If you'd like to pass any [settings](./SETTINGS.md) to the server you can do so via the *Arguments* field.
 
 ## Kate
 
 KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurable.
 
-- Install the `terraform-ls` package (or the equivalent package name appropriate to your distro)
+- Install the `tofu-ls` package (or the equivalent package name appropriate to your distro)
 - Open Kate configuration (Settings Menu -> `Configure` Kate or Kate -> `Preferences` on macOS)
 - Select *LSP Client* in the left pane
 - Select *User Server Settings* tab
@@ -233,8 +235,8 @@ KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurabl
 {
   "servers": {
     "terraform": {
-      "command": ["terraform-ls", "serve"],
-      "url": "https://github.com/hashicorp/terraform-ls",
+      "command": ["tofu-ls", "serve"],
+      "url": "https://github.com/hashicorp/tofu-ls",
       "highlightingModeRegex": "^Terraform$",
       "rootIndicationFileNames": ["*.tf", "*.tfvars"]
     }

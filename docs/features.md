@@ -2,9 +2,9 @@
 
 ## LSP methods
 
-The LSP is a relatively extensive protocol with many features/methods, not all of which are implemented and not all of which are relevant for Terraform. The following matrix should provide some visibility into the current and future state.
+The LSP is a relatively extensive protocol with many features/methods, not all of which are implemented and not all of which are relevant for OpenTofu. The following matrix should provide some visibility into the current and future state.
 
-It's important to note that ✅ does **not** imply the functionality is _fully_ implemented (some features have various opt-in capabilities), just that the method is in use by the server. You can filter any known open issues by the relevant label, e.g. [`textDocument/completion` issues](https://github.com/hashicorp/terraform-ls/issues?q=is%3Aopen+is%3Aissue+label%3AtextDocument%2Fcompletion) and open new issues for any method which you would like to be implemented.
+It's important to note that ✅ does **not** imply the functionality is _fully_ implemented (some features have various opt-in capabilities), just that the method is in use by the server. You can filter any known open issues by the relevant label, e.g. [`textDocument/completion` issues](https://github.com/opentofu/tofu-ls/issues?q=is%3Aopen+is%3Aissue+label%3AtextDocument%2Fcompletion) and open new issues for any method which you would like to be implemented.
 
 ### Requests
 
@@ -21,8 +21,8 @@ It's important to note that ✅ does **not** imply the functionality is _fully_ 
 | initialize | ✅ | |
 | inlayHint/resolve | ❌ | |
 | shutdown | ✅ | |
-| textDocument/codeAction | ✅ | See [code-actions.md](https://github.com/hashicorp/terraform-ls/blob/main/docs/code-actions.md) |
-| textDocument/codeLens | ✅ | See [Code Lens section](https://github.com/hashicorp/terraform-ls/blob/main/docs/language-clients.md#code-lens) |
+| textDocument/codeAction | ✅ | See [code-actions.md](https://github.com/opentofu/tofu-ls/blob/main/docs/code-actions.md) |
+| textDocument/codeLens | ✅ | See [Code Lens section](https://github.com/opentofu/tofu-ls/blob/main/docs/language-clients.md#code-lens) |
 | textDocument/colorPresentation | ❌ | Not relevant |
 | textDocument/completion | ✅ | |
 | textDocument/declaration | ✅ | |
@@ -48,7 +48,7 @@ It's important to note that ✅ does **not** imply the functionality is _fully_ 
 | textDocument/references | ✅ | |
 | textDocument/rename | ❌ | |
 | textDocument/selectionRange | ❌ | |
-| textDocument/semanticTokens/full | ✅ | See [syntax-highlighting.md](https://github.com/hashicorp/terraform-ls/blob/main/docs/syntax-highlighting.md#semantic-tokens) |
+| textDocument/semanticTokens/full | ✅ | See [syntax-highlighting.md](https://github.com/opentofu/tofu-ls/blob/main/docs/syntax-highlighting.md#semantic-tokens) |
 | textDocument/semanticTokens/full/delta | ❌ | |
 | textDocument/semanticTokens/range | ❌ | |
 | textDocument/signatureHelp | ✅ | |
@@ -64,10 +64,10 @@ It's important to note that ✅ does **not** imply the functionality is _fully_ 
 | workspace/configuration | ❌ | |
 | workspace/diagnostic | ❌ | |
 | workspace/diagnostic/refresh | ❌ | |
-| workspace/executeCommand | ✅ | See [commands.md](https://github.com/hashicorp/terraform-ls/blob/main/docs/commands.md) |
+| workspace/executeCommand | ✅ | See [commands.md](https://github.com/opentofu/tofu-ls/blob/main/docs/commands.md) |
 | workspace/inlayHint/refresh | ❌ | |
 | workspace/inlineValue/refresh | ❌ | |
-| workspace/semanticTokens/refresh | ✅ | See [syntax-highlighting.md](https://github.com/hashicorp/terraform-ls/blob/main/docs/syntax-highlighting.md#semantic-tokens) |
+| workspace/semanticTokens/refresh | ✅ | See [syntax-highlighting.md](https://github.com/opentofu/tofu-ls/blob/main/docs/syntax-highlighting.md#semantic-tokens) |
 | workspace/symbol | ✅ | |
 | workspace/willCreateFiles | ❌ | |
 | workspace/willDeleteFiles | ❌ | |
@@ -105,7 +105,7 @@ curl -s https://microsoft.github.io/language-server-protocol/specifications/lsp/
 | window/showMessage | ✅ | |
 | window/workDoneProgress/cancel | ❌ | |
 | workspace/didChangeConfiguration | ❌ | |
-| workspace/didChangeWatchedFiles | ✅ | See [Watched Files section](https://github.com/hashicorp/terraform-ls/blob/main/docs/language-clients.md#watched-files) |
+| workspace/didChangeWatchedFiles | ✅ | See [Watched Files section](https://github.com/opentofu/tofu-ls/blob/main/docs/language-clients.md#watched-files) |
 | workspace/didChangeWorkspaceFolders | ✅ | |
 | workspace/didCreateFiles | ❌ | |
 | workspace/didDeleteFiles | ❌ | |

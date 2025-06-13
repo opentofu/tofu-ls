@@ -14,7 +14,7 @@ that they check whether a command is actually supported or not
 
 ## Command Prefix
 
-All commands use `terraform-ls.` prefix to avoid any conflicts
+All commands use `tofu-ls.` prefix to avoid any conflicts
 with commands registered by any other language servers user
 may be using at the same time.
 
@@ -71,7 +71,7 @@ but no output is returned if `validate` successfully finishes.
 
 ### `module.callers`
 
-In Terraform module hierarchy "callers" are modules which _call_ another module
+In OpenTofu module hierarchy "callers" are modules which _call_ another module
 via `module "..." {` blocks.
 
 Language server will attempt to discover any module hierarchy within the workspace
@@ -123,8 +123,8 @@ The data is sourced from the declared modules inside the files of the module.
  - `module_calls` - array of modules which are called from the module in question
    - `name` - the reference name of this particular module (i.e. `network` from `module "network" { ...`)
    - `source_addr` - human-readable version of the source address given for this module call (e.g. `terraform-aws-modules/eks/aws`)
-   - `version` - version constraint of the module call; applicable to modules hosted by the Terraform Registry (e.g. `~> 1.0`
-   - `source_type` - source of the Terraform module, e.g. `github` or `tfregistry`
+   - `version` - version constraint of the module call; applicable to modules hosted by the OpenTofu Registry (e.g. `~> 1.0`
+   - `source_type` - source of the OpenTofu module, e.g. `github` or `tfregistry`
    - `docs_link` - a link to the module documentation; if available
    - `dependent_modules` - **DEPRECATED** (always empty in `v0.29+`) - array of dependent modules with the same structure as `module_calls`
 

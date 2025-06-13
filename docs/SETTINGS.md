@@ -12,22 +12,22 @@ The language server supports the following configuration options:
 
 ## `terraform` (object `{}`)
 
-Terraform CLI related settings (used e.g. in formatting code via `terraform fmt`).
+OpenTofu CLI related settings (used e.g. in formatting code via `tofu fmt`).
 
 ### `logFilePath` (`string`)
 
-Path to a file for Terraform executions to be logged into (`TF_LOG_PATH`)
+Path to a file for OpenTofu executions to be logged into (`TF_LOG_PATH`)
 with support for variables (e.g. Timestamp, Pid, Ppid) via Go template
 syntax `{{.VarName}}`
 
 ### `timeout` (`string`)
 
-Overrides Terraform execution timeout in [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration)
+Overrides OpenTofu execution timeout in [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration)
 compatible format (e.g. `30s`)
 
 ### `path` (`string`)
 
-Path to the Terraform binary.
+Path to the OpenTofu binary.
 
 This is usually looked up automatically from `$PATH` and should not need to be
 specified in majority of cases. Use this to override the automatic lookup.
@@ -95,26 +95,26 @@ Deprecated in favour of `indexing.ignoreDirectoryNames`
 ## `commandPrefix`
 
 Some clients such as VS Code keep a global registry of commands published by language
-servers, and the names must be unique, even between terraform-ls instances. Setting
+servers, and the names must be unique, even between tofu-ls instances. Setting
 this allows multiple servers to run side by side, albeit the client is now responsible
 for routing commands to the correct server. Users should not need to worry about
 this, the frontend client extension should manage it.
 
 The prefix will be applied to the front of the command name, which already contains
-a `terraform-ls` prefix.
+a `tofu-ls` prefix.
 
-`commandPrefix.terraform-ls.commandName`
+`commandPrefix.tofu-ls.commandName`
 
 Or if left empty
 
-`terraform-ls.commandName`
+`tofu-ls.commandName`
 
 This setting should be deprecated once the language server supports multiple workspaces,
 as this arises in VS code because a server instance is started per VS Code workspace.
 
 ## `ignoreSingleFileWarning` (`bool`)
 
-This setting controls whether terraform-ls sends a warning about opening up a single Terraform file instead of a Terraform folder. Setting this to `true` will prevent the message being sent. The default value is `false`.
+This setting controls whether tofu-ls sends a warning about opening up a single OpenTofu file instead of a OpenTofu folder. Setting this to `true` will prevent the message being sent. The default value is `false`.
 
 ## `experimentalFeatures` (object)
 
@@ -178,11 +178,11 @@ or
 
 ### VS Code
 
-Use `terraform-ls`, e.g.
+Use `tofu-ls`, e.g.
 
 ```json
 {
-	"terraform-ls": {
+	"tofu-ls": {
 		"rootModulePaths": ["/any/path"]
 	}
 }
@@ -190,7 +190,7 @@ Use `terraform-ls`, e.g.
 or
 ```json
 {
-	"terraform-ls": {
+	"tofu-ls": {
 		"excludeRootModules": ["/any/path"]
 	}
 }
