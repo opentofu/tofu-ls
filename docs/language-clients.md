@@ -19,7 +19,7 @@ equipped to handle these file types.
 ## Configuration
 
 Unless the client allows the end-user to pass arbitrary config options (e.g.
-generic Sublime Text LSP package without Terraform LSP package), the client
+generic Sublime Text LSP package without OpenTofu LSP package), the client
 should expose configuration as per [SETTINGS.md](./SETTINGS.md).
 
 Client should match the option names exactly, and if possible match the
@@ -50,7 +50,7 @@ Client should **not** send changes for any other files.
 
 ## Syntax Highlighting
 
-Read more about how we recommend Terraform files to be highlighted in [syntax-highlighting.md](./syntax-highlighting.md).
+Read more about how we recommend OpenTofu files to be highlighted in [syntax-highlighting.md](./syntax-highlighting.md).
 
 ### Internal parser
 
@@ -181,9 +181,6 @@ The client-side command is executed with 2 arguments (position, reference contex
 These arguments are to be passed by the client to a subsequent [`textDocument/references`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_references)
 request back to the server to obtain the list of references relevant to
 that position and finally display received references in the editor.
-
-See [example implementation in the Terraform VS Code extension](https://github.com/hashicorp/vscode-terraform/pull/686).
-
 
 ## Custom Commands
 

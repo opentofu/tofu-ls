@@ -13,11 +13,12 @@ Most clients provide a way of inspecting these logs when server is launched
 in the default "stdio" mode where stdout & stdin are used as communication
 channels for LSP. For example:
 
-[**Terraform VS Code Extension**](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform)
+<!-- TODO: Update this link when we get a better display and itemName. See https://github.com/opentofu/vscode-opentofu/issues/30 -->
+[**OpenTofu VS Code Extension**](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu)
 
 1. `View` -> `Output`\
    ![vscode-view-output-menu](./images/vscode-view-output-menu.png)
-2. `Output` -> `HashiCorp Terraform`\
+2. `Output` -> `OpenTofu`\
    ![vscode-output-pane](./images/vscode-output-pane.png)
 
 [**Sublime Text LSP-terraform**](https://github.com/sublimelsp/LSP-terraform)
@@ -34,13 +35,14 @@ Server logs can also be directed to files using **`-log-file=<filepath>`**
 of the `serve` command.
 
 ```sh
-$ terraform-ls serve -log-file='/tmp/terraform-ls-{{pid}}.log'
+$ tofu-ls serve -log-file='/tmp/tofu-ls-{{pid}}.log'
 ```
 
 Clients which manage LS installation typically allow passing extra arguments.
 For example:
 
-[**Terraform VS Code Extension**](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform)
+<!-- TODO: Update this link when we get a better display and itemName. See https://github.com/opentofu/vscode-opentofu/issues/30 -->
+[**OpenTofu VS Code Extension**](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu)
 
 1. Open the command palette via `⌘/Ctrl + Shift + P`
 2. ![vscode-open-settings-json](./images/vscode-open-settings-json.png)
@@ -52,9 +54,9 @@ For example:
 2. ![sublime-text-cmd-palette-settings](./images/sublime-text-cmd-palette-settings.png)
 3. ![sublime-text-settings](./images/sublime-text-settings.png)
 
-### Terraform CLI Execution Logs
+### OpenTofu CLI Execution Logs
 
-Given that the server may also execute Terraform itself, it may be useful
+Given that the server may also execute OpenTofu itself, it may be useful
 to collect logs from all these executions too. This is equivalent
 to setting [`TF_LOG_PATH` variable](https://www.terraform.io/internals/debugging).
 
@@ -63,13 +65,14 @@ This can be enabled via [`terraformLogFilePath` LSP settings](./SETTINGS.md#terr
 Clients which manage LS installation typically expose this as a dedicated setting option.
 For example:
 
-[**Terraform VS Code Extension**](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform)
+[**OpenTofu VS Code Extension**](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu)
 
 1. Open the command palette via `⌘/Ctrl + Shift + P`
 2. ![vscode-open-settings-json](./images/vscode-open-settings-json.png)
-3. Set `"terraform-ls.terraformLogFilePath"` to a file path, such as `/tmp/tf-exec-{{lsPid}}-{{method}}-{{timestamp}}.log`
+3. Set `"tofu-ls.terraformLogFilePath"` to a file path, such as `/tmp/tf-exec-{{lsPid}}-{{method}}-{{timestamp}}.log`
 
-[**Sublime Text LSP-terraform**](https://github.com/sublimelsp/LSP-terraform)
+<!-- TODO: We don't have a Sublime Text LSP yet -->
+<!-- [**Sublime Text LSP-terraform**](https://github.com/sublimelsp/LSP-terraform) -->
 
 1. Open the command palette via `⌘/Ctrl + Shift + P`
 2. ![sublime-text-cmd-palette-settings](./images/sublime-text-cmd-palette-settings.png)
@@ -110,7 +113,7 @@ Log paths support template syntax. This allows for separation of logs while acco
 
  - multiple server instances
  - multiple clients
- - multiple Terraform executions which may happen in parallel
+ - multiple OpenTofu executions which may happen in parallel
 
 **`-log-file`** flag supports the following functions:
 

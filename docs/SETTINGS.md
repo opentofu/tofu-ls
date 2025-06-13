@@ -12,22 +12,22 @@ The language server supports the following configuration options:
 
 ## `terraform` (object `{}`)
 
-Terraform CLI related settings (used e.g. in formatting code via `terraform fmt`).
+OpenTofu CLI related settings (used e.g. in formatting code via `tofu fmt`).
 
 ### `logFilePath` (`string`)
 
-Path to a file for Terraform executions to be logged into (`TF_LOG_PATH`)
+Path to a file for OpenTofu executions to be logged into (`TF_LOG_PATH`)
 with support for variables (e.g. Timestamp, Pid, Ppid) via Go template
 syntax `{{.VarName}}`
 
 ### `timeout` (`string`)
 
-Overrides Terraform execution timeout in [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration)
+Overrides OpenTofu execution timeout in [`time.ParseDuration`](https://pkg.go.dev/time#ParseDuration)
 compatible format (e.g. `30s`)
 
 ### `path` (`string`)
 
-Path to the Terraform binary.
+Path to the OpenTofu binary.
 
 This is usually looked up automatically from `$PATH` and should not need to be
 specified in majority of cases. Use this to override the automatic lookup.
@@ -114,7 +114,7 @@ as this arises in VS code because a server instance is started per VS Code works
 
 ## `ignoreSingleFileWarning` (`bool`)
 
-This setting controls whether terraform-ls sends a warning about opening up a single Terraform file instead of a Terraform folder. Setting this to `true` will prevent the message being sent. The default value is `false`.
+This setting controls whether terraform-ls sends a warning about opening up a single OpenTofu file instead of a OpenTofu folder. Setting this to `true` will prevent the message being sent. The default value is `false`.
 
 ## `experimentalFeatures` (object)
 

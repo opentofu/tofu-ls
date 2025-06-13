@@ -9,20 +9,20 @@ for example missing `}`, `"` or other "control characters" out of place.
 
 ![invalid HCL syntax](./images/validation-rule-hcl.png)
 
-HCL syntax alone does _not_ account for the Terraform language with all its (in)valid
-keywords, block or attribute names etc. nor differences between Terraform versions, that is handled elsewhere.
+HCL syntax alone does _not_ account for the OpenTofu language with all its (in)valid
+keywords, block or attribute names etc. nor differences between OpenTofu versions, that is handled elsewhere.
 
 ## Enhanced Validation
 
-Starting in `v0.32.0` we report additional diagnostics for selected invalid Terraform language constructs
-based on detected Terraform version and provider versions (if available).
+Starting in `v0.32.0` we report additional diagnostics for selected invalid OpenTofu language constructs
+based on detected OpenTofu version and provider versions (if available).
 
 This validation is enabled by default but can be controlled via
 [`validation.enableEnhancedValidation`](./SETTINGS.md#enableenhancedvalidation-bool-defaults-to-true).
 
 All validation rules currently implemented are considered _universally applicable_
 and _not opinionated_. If you believe a diagnostic is incorrect, this may be caused by
-mis-identified version of Terraform or provider version. You can temporarily disable
+mis-identified version of OpenTofu or provider version. You can temporarily disable
 validation in such a case and let us know by [filing a new issue](https://github.com/hashicorp/terraform-ls/issues/new/choose).
 
 See supported rules below.
