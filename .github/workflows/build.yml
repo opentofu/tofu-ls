@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - pre-release
+      - build-workflow
 
 permissions:
   contents: read
