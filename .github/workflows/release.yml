@@ -20,6 +20,20 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Check if tag matches version file
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          FILE_VERSION=$(cat version/VERSION)
+          if [ "$TAG_VERSION" != "$FILE_VERSION" ]; then
+            echo "Git tag version ($TAG_VERSION) does not match version/VERSION file content ($FILE_VERSION)"
+            exit 1
+          fi
+      - name: Check if version/VERSION file is updated
+        run: |
+          if [ -z "$(git diff --version/VERSION)" ]; then
+            echo "version/VERSION file is not updated"
+            exit 1
+          fi
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
