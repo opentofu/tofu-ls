@@ -9,13 +9,32 @@ permissions:
   contents: write
 
 jobs:
+  check-version-file:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get tag version
+        id: tag
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      - name: Get file version
+        id: file
+        run: echo "version=$(cat version/VERSION)" >> $GITHUB_OUTPUT
+      - name: Compare versions
+        run: |
+          if [ "${{ steps.tag.outputs.version }}" != "${{ steps.file.outputs.version }}" ]; then
+            echo "Tag version (${{ steps.tag.outputs.version }}) does not match file version (${{ steps.file.outputs.version }})"
+            exit 1
+          fi
+          echo "Version check passed: ${{ steps.tag.outputs.version }}"
+
   goreleaser:
+    needs: check-version-file
     runs-on: ubuntu-latest
     env:
       flags: ""
     steps:
-      - if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-        run: echo "flags=--snapshot" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
         with:
