@@ -32,7 +32,7 @@ func cmdHandlers(svc *service) cmd.Handlers {
 		cmd.Name("tofu.validate"):    cmdHandler.TofuValidateHandler,
 		cmd.Name("module.calls"):     cmdHandler.ModuleCallsHandler,
 		cmd.Name("module.providers"): cmdHandler.ModuleProvidersHandler,
-		cmd.Name("module.tofu"):      cmdHandler.TofuVersionRequestHandler,
+		cmd.Name("module.opentofu"):  cmdHandler.TofuVersionRequestHandler,
 	}
 }
 

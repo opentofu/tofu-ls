@@ -416,21 +416,21 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 	if cfgOpts.XLegacyTofuExecPath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("tofuExecPath (%q) is deprecated (no-op), use tofu.path instead",
+			Message: fmt.Sprintf("opentofuExecPath (%q) is deprecated (no-op), use opentofu.path instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
 	if cfgOpts.XLegacyTofuExecTimeout != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("tofuExecTimeout (%q) is deprecated (no-op), use tofu.timeout instead",
+			Message: fmt.Sprintf("opentofuExecTimeout (%q) is deprecated (no-op), use opentofu.timeout instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
 	if cfgOpts.XLegacyTofuExecLogFilePath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("tofuExecLogFilePath (%q) is deprecated (no-op), use tofu.logFilePath instead",
+			Message: fmt.Sprintf("opentofuExecLogFilePath (%q) is deprecated (no-op), use opentofu.logFilePath instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
@@ -454,7 +454,7 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 	if len(cfgOpts.OpenTofu.Timeout) > 0 {
 		d, err := time.ParseDuration(cfgOpts.OpenTofu.Timeout)
 		if err != nil {
-			return fmt.Errorf("failed to parse terraform.timeout LSP config option: %s", err)
+			return fmt.Errorf("failed to parse opentofu.timeout LSP config option: %s", err)
 		}
 		execOpts.Timeout = d
 	}
