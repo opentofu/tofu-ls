@@ -47,7 +47,7 @@ type Options struct {
 
 	IgnoreSingleFileWarning bool `mapstructure:"ignoreSingleFileWarning"`
 
-	OpenTofu OpenTofu `mapstructure:"openTofu"`
+	OpenTofu OpenTofu `mapstructure:"opentofu"`
 
 	XLegacyModulePaths          []string `mapstructure:"rootModulePaths"`
 	XLegacyExcludeModulePaths   []string `mapstructure:"excludeModulePaths"`
