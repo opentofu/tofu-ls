@@ -416,29 +416,29 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 	if cfgOpts.XLegacyTofuExecPath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("tofuExecPath (%q) is deprecated (no-op), use opentofu.path instead",
+			Message: fmt.Sprintf("tofuExecPath (%q) is deprecated (no-op), use tofu.path instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
 	if cfgOpts.XLegacyTofuExecTimeout != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("tofuExecTimeout (%q) is deprecated (no-op), use opentofu.timeout instead",
+			Message: fmt.Sprintf("tofuExecTimeout (%q) is deprecated (no-op), use tofu.timeout instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
 	if cfgOpts.XLegacyTofuExecLogFilePath != "" {
 		jrpc2.ServerFromContext(ctx).Notify(ctx, "window/showMessage", &lsp.ShowMessageParams{
 			Type: lsp.Warning,
-			Message: fmt.Sprintf("tofuExecLogFilePath (%q) is deprecated (no-op), use opentofu.logFilePath instead",
+			Message: fmt.Sprintf("tofuExecLogFilePath (%q) is deprecated (no-op), use tofu.logFilePath instead",
 				cfgOpts.XLegacyExcludeModulePaths),
 		})
 	}
 
 	// The following is set via CLI flags, hence available in the server context
 	execOpts := &exec.ExecutorOpts{}
-	if len(cfgOpts.OpenTofu.Path) > 0 {
-		execOpts.ExecPath = cfgOpts.OpenTofu.Path
+	if len(cfgOpts.TofuOptions.Path) > 0 {
+		execOpts.ExecPath = cfgOpts.TofuOptions.Path
 	} else {
 		path, err := svc.tfDiscoFunc()
 		if err == nil {
@@ -447,12 +447,12 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 	}
 	svc.srvCtx = lsctx.WithTofuExecPath(svc.srvCtx, execOpts.ExecPath)
 
-	if len(cfgOpts.OpenTofu.LogFilePath) > 0 {
-		execOpts.ExecLogPath = cfgOpts.OpenTofu.LogFilePath
+	if len(cfgOpts.TofuOptions.LogFilePath) > 0 {
+		execOpts.ExecLogPath = cfgOpts.TofuOptions.LogFilePath
 	}
 
-	if len(cfgOpts.OpenTofu.Timeout) > 0 {
-		d, err := time.ParseDuration(cfgOpts.OpenTofu.Timeout)
+	if len(cfgOpts.TofuOptions.Timeout) > 0 {
+		d, err := time.ParseDuration(cfgOpts.TofuOptions.Timeout)
 		if err != nil {
 			return fmt.Errorf("failed to parse opentofu.timeout LSP config option: %s", err)
 		}
