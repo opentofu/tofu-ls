@@ -75,7 +75,7 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 							mock.AnythingOfType(""),
 						},
 						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.12.0")),
+							version.Must(version.NewVersion("1.6.0")),
 							nil,
 							nil,
 						},
@@ -506,7 +506,7 @@ func TestModuleCompletion_withValidDataAndSnippets(t *testing.T) {
 							mock.AnythingOfType(""),
 						},
 						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.12.0")),
+							version.Must(version.NewVersion("1.6.0")),
 							nil,
 							nil,
 						},
@@ -965,7 +965,7 @@ output "test" {
 							mock.AnythingOfType(""),
 						},
 						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.12.0")),
+							version.Must(version.NewVersion("1.6.0")),
 							nil,
 							nil,
 						},
@@ -1242,7 +1242,7 @@ output "test" {
 							mock.AnythingOfType(""),
 						},
 						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("0.12.0")),
+							version.Must(version.NewVersion("1.6.0")),
 							nil,
 							nil,
 						},
