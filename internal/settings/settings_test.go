@@ -96,7 +96,7 @@ func TestValidate_IgnoreDirectoryNames_success(t *testing.T) {
 
 func TestValidate_relativePath(t *testing.T) {
 	out, err := DecodeOptions(map[string]interface{}{
-		"openTofu": map[string]interface{}{
+		"tofu": map[string]interface{}{
 			"path": "relative/path",
 		},
 	})

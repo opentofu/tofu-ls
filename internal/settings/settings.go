@@ -30,7 +30,7 @@ type Indexing struct {
 	IgnorePaths          []string `mapstructure:"ignorePaths"`
 }
 
-type OpenTofu struct {
+type Tofu struct {
 	Path        string `mapstructure:"path"`
 	Timeout     string `mapstructure:"timeout"`
 	LogFilePath string `mapstructure:"logFilePath"`
@@ -47,7 +47,7 @@ type Options struct {
 
 	IgnoreSingleFileWarning bool `mapstructure:"ignoreSingleFileWarning"`
 
-	OpenTofu OpenTofu `mapstructure:"openTofu"`
+	TofuOptions Tofu `mapstructure:"tofu"`
 
 	XLegacyModulePaths          []string `mapstructure:"rootModulePaths"`
 	XLegacyExcludeModulePaths   []string `mapstructure:"excludeModulePaths"`
@@ -58,8 +58,8 @@ type Options struct {
 }
 
 func (o *Options) Validate() error {
-	if o.OpenTofu.Path != "" {
-		path := o.OpenTofu.Path
+	if o.TofuOptions.Path != "" {
+		path := o.TofuOptions.Path
 		if !filepath.IsAbs(path) {
 			return fmt.Errorf("expected absolute path for tofu binary, got %q", path)
 		}
