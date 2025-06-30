@@ -74,6 +74,22 @@ provides overlapping functionality (and more features at the time of writing).
 As a result having both enabled at the same time may result in suboptimal UX,
 such as duplicate completion candidates.
 
+## Zed Editor
+
+ - Open `Extensions`
+ - Pick `Opentofu` and click on `Install`.
+
+ The extension is being developed by a [community member](https://github.com/ashpool37) at https://github.com/ashpool37/zed-extension-opentofu
+
+ If you are having file type conflicts with the Terraform extension, you can add this to your settings:
+
+ ```
+ "file_types": {
+  "OpenTofu": ["tf"],
+  "OpenTofu Vars": ["tfvars"]
+}
+ ```
+
 ## Sublime Text
 
  - Install the [LSP package](https://github.com/sublimelsp/LSP#installation)
