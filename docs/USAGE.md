@@ -74,22 +74,6 @@ provides overlapping functionality (and more features at the time of writing).
 As a result having both enabled at the same time may result in suboptimal UX,
 such as duplicate completion candidates.
 
-## Zed Editor
-
- - Open `Extensions`
- - Pick `Opentofu` and click on `Install`.
-
- The extension is being developed by a [community member](https://github.com/ashpool37) at https://github.com/ashpool37/zed-extension-opentofu
-
- If you are having file type conflicts with the Terraform extension, you can add this to your settings:
-
- ```
- "file_types": {
-  "OpenTofu": ["tf"],
-  "OpenTofu Vars": ["tfvars"]
-}
- ```
-
 ## Sublime Text
 
  - Install the [LSP package](https://github.com/sublimelsp/LSP#installation)
@@ -260,3 +244,14 @@ KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurabl
 }
 ```
 - Restart of the editor should *not* be necessary.
+
+
+## Other text editors
+
+> [!WARNING]
+> Be careful when installing on extensions outside the OpenTofu organization, always read the source code to make sure what you're installing is safe.
+
+There are two ways of finding extensions implementing `tofu-ls` for other text editors:
+
+1. There's a topic on Github called `tofu-ls`. You can find it at [here](https://github.com/topics/tofu-ls). The expectation is if you create an extension, you're going to add a topic on your project to be easily discoverable by other people on Github.
+1. There's a curated list at https://awesome-opentofu.com/#helpers.
