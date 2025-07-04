@@ -234,9 +234,9 @@ KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurabl
 ```json
 {
   "servers": {
-    "terraform": {
+    "opentofu": {
       "command": ["tofu-ls", "serve"],
-      "url": "https://github.com/hashicorp/tofu-ls",
+      "url": "https://github.com/opentofu/tofu-ls",
       "highlightingModeRegex": "^Terraform$",
       "rootIndicationFileNames": ["*.tf", "*.tfvars"]
     }
