@@ -238,13 +238,42 @@ KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurabl
       "command": ["tofu-ls", "serve"],
       "url": "https://github.com/opentofu/tofu-ls",
       "highlightingModeRegex": "^Terraform$",
-      "rootIndicationFileNames": ["*.tf", "*.tfvars"]
+      "rootIndicationFileNames": ["*.tf", "*.tofu", "*.tfvars"]
     }
   }
 }
 ```
 - Restart of the editor should *not* be necessary.
 
+## Helix Editor
+
+Add the following config to your defined `languages.toml`:
+
+```toml
+[language-server.tofu-ls]
+command = "tofu-ls"
+args = ["serve"]
+
+[[language]]
+name = "hcl"
+language-id = "opentofu"
+scope = "source.hcl"
+file-types = ["tf", "tofu", "tfvars"]
+auto-format = true
+comment-token = "#"
+block-comment-tokens = { start = "/*", end = "*/" }
+indent = { tab-width = 2, unit = "  " }
+language-servers = [ "tofu-ls" ]
+```
+
+Then, you need to rebuild your grammars with the following two commands:
+
+- hx -g fetch
+- hx -g build
+
+Check the health of the language with:
+
+- hx --health hcl
 
 ## Other text editors
 
