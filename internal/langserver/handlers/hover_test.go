@@ -8,6 +8,7 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/zclconf/go-cty/cty"
 	"testing"
 
 	"github.com/hashicorp/go-version"
@@ -261,6 +262,130 @@ func TestVarsHover_withValidData(t *testing.T) {
 				"range": {
 					"start": { "line":0, "character":0 },
 					"end": { "line":0, "character":12 }
+				}
+			}
+		}`)
+}
+func TestHoverDynamic_inProvider(t *testing.T) {
+	tmpDir := TempDir(t)
+	InitPluginCache(t, tmpDir.Path())
+
+	var testSchema tfjson.ProviderSchemas
+	err := json.Unmarshal([]byte(testModuleSchemaOutput), &testSchema)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	//Adding a configuration block to the schema to test dynamic blocks
+	if testSchema.Schemas["test/test"].ConfigSchema.Block.NestedBlocks == nil {
+		testSchema.Schemas["test/test"].ConfigSchema.Block.NestedBlocks = make(map[string]*tfjson.SchemaBlockType)
+	}
+	testSchema.Schemas["test/test"].ConfigSchema.Block.NestedBlocks["simple_block"] = &tfjson.SchemaBlockType{
+		NestingMode: "set",
+		Block: &tfjson.SchemaBlock{
+			Attributes: map[string]*tfjson.SchemaAttribute{
+				"name": {
+					AttributeType: cty.String,
+					Description:   "The name of the block",
+				},
+			},
+		},
+	}
+
+	ss, err := state.NewStateStore()
+	if err != nil {
+		t.Fatal(err)
+	}
+	wc := walker.NewWalkerCollector()
+
+	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
+		TofuCalls: &exec.TofuMockCalls{
+			PerWorkDir: map[string][]*mock.Call{
+				tmpDir.Path(): {
+					{
+						Method:        "Version",
+						Repeatability: 1,
+						Arguments: []interface{}{
+							mock.AnythingOfType(""),
+						},
+						ReturnArguments: []interface{}{
+							version.Must(version.NewVersion("1.9.0")),
+							nil,
+							nil,
+						},
+					},
+					{
+						Method:        "GetExecPath",
+						Repeatability: 1,
+						ReturnArguments: []interface{}{
+							"",
+						},
+					},
+					{
+						Method:        "ProviderSchemas",
+						Repeatability: 1,
+						Arguments: []interface{}{
+							mock.AnythingOfType(""),
+						},
+						ReturnArguments: []interface{}{
+							&testSchema,
+							nil,
+						},
+					},
+				},
+			},
+		},
+		StateStore:      ss,
+		WalkerCollector: wc,
+	}))
+	stop := ls.Start(t)
+	defer stop()
+
+	ls.Call(t, &langserver.CallRequest{
+		Method: "initialize",
+		ReqParams: fmt.Sprintf(`{
+		"capabilities": {},
+		"rootUri": %q,
+		"processId": 12345
+	}`, tmpDir.URI)})
+	waitForWalkerPath(t, ss, wc, tmpDir)
+	ls.Notify(t, &langserver.CallRequest{
+		Method:    "initialized",
+		ReqParams: "{}",
+	})
+	ls.Call(t, &langserver.CallRequest{
+		Method: "textDocument/didOpen",
+		ReqParams: fmt.Sprintf(`{
+		"textDocument": {
+			"version": 0,
+			"languageId": "opentofu",
+			"text": "provider \"test\" {\n dynamic \"test_dyn\" { \n }\n \n}\n",
+			"uri": "%s/main.tf"
+		}
+	}`, TempDir(t).URI)})
+	waitForAllJobs(t, ss)
+
+	ls.CallAndExpectResponse(t, &langserver.CallRequest{
+		Method: "textDocument/hover",
+		ReqParams: fmt.Sprintf(`{
+			"textDocument": {
+				"uri": "%s/main.tf"
+			},
+			"position": {
+				"character": 3,
+				"line": 1
+			}
+		}`, TempDir(t).URI)}, `{
+			"jsonrpc": "2.0",
+			"id": 3,
+			"result": {
+				"contents": {
+					"kind": "plaintext",
+					"value": "dynamic Block\n\nA dynamic block to produce blocks dynamically by iterating over a given complex value"
+				},
+				"range": {
+					"start": { "line":1, "character":1 },
+					"end": { "line":1, "character":8 }
 				}
 			}
 		}`)
