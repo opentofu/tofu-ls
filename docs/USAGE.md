@@ -225,7 +225,7 @@ Make sure to read through to [server_configurations.md#terraformls](https://gith
   ```
 
 - Latest compatible version of the language server will be installed with this extension, if the binary is not already installed.
-- For configurtion options, see the corresponding GitHub repo of the extension you installed.
+- For configuration options, see the corresponding GitHub repository of the extension you installed.
 
 ## BBEdit
 
