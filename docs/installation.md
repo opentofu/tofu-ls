@@ -5,7 +5,8 @@
 Some editors have built-in logic to install and update the language server automatically, so you typically shouldn't need to worry about installation or updating of the server in these editors, as long as you use the linked extension.
 <!-- TODO: Update this link when we get a better display and itemName. See https://github.com/opentofu/vscode-opentofu/issues/30 -->
  - OpenTofu VS Code extension [stable](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu)
- <!-- We don't have a Sublime Text version yet [Sublime Text LSP-terraform](https://packagecontrol.io/packages/LSP-terraform) -->
+ - OpenTofu Zed extension [stable](https://zed.dev/extensions?query=OpenTofu)
+<!-- We don't have a Sublime Text version yet [Sublime Text LSP-terraform](https://packagecontrol.io/packages/LSP-terraform) -->
 
 ## Manual Installation
 

@@ -212,6 +212,21 @@ Make sure to read through to [server_configurations.md#terraformls](https://gith
  - Latest compatible version of the language server is bundled with the extension
  - See [Configuration](https://github.com/hashicorp/vscode-terraform/blob/main/README.md#configuration) in case you need to tweak anything. Default settings should work for majority of users though.
 
+## Zed
+
+- Install the [OpenTofu Extension](https://zed.dev/extensions?query=OpenTofu) or add the following lines to your zed settings
+
+  ```json
+  {
+    "auto_install_extensions": {
+      "opentofu": true
+    }
+  }
+  ```
+
+- Latest compatible version of the language server will be installed with this extension, if the binary is not already installed.
+- For configuration options, see the corresponding GitHub repository of the extension you installed.
+
 ## BBEdit
 
 *BBEdit 14 [added support](https://www.barebones.com/support/bbedit/lsp-notes.html) for the Language Server Protocol so you'll need to upgrade to version 14 to use; this won't work for older versions of BBEdit*.
