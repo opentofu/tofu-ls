@@ -66,7 +66,7 @@ func TestParseVariables(t *testing.T) {
 	}
 	ctx = lsctx.WithDocumentContext(ctx, lsctx.Document{
 		Method:     "textDocument/didChange",
-		LanguageID: ilsp.Tfvars.String(),
+		LanguageID: ilsp.OpenTofuVars.String(),
 		URI:        uri.FromPath(filePath),
 	})
 	err = ParseVariables(ctx, testFs, vs, singleFileModulePath)

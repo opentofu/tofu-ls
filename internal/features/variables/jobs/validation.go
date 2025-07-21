@@ -75,7 +75,7 @@ func SchemaVariablesValidation(ctx context.Context, varStore *state.VariableStor
 
 	moduleDecoder, err := d.Path(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Tfvars.String(),
+		LanguageID: ilsp.OpenTofuVars.String(),
 	})
 	if err != nil {
 		return err
@@ -83,7 +83,7 @@ func SchemaVariablesValidation(ctx context.Context, varStore *state.VariableStor
 
 	var rErr error
 	rpcContext := lsctx.DocumentContext(ctx)
-	if rpcContext.Method == "textDocument/didChange" && rpcContext.LanguageID == ilsp.Tfvars.String() {
+	if rpcContext.Method == "textDocument/didChange" && ilsp.IsValidVarsLanguage(rpcContext.LanguageID) {
 		filename := path.Base(rpcContext.URI)
 		// We only revalidate a single file that changed
 		var fileDiags hcl.Diagnostics

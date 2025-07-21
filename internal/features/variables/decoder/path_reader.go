@@ -45,7 +45,7 @@ func (pr *PathReader) Paths(ctx context.Context) []lang.Path {
 	for _, record := range variableRecords {
 		paths = append(paths, lang.Path{
 			Path:       record.Path(),
-			LanguageID: ilsp.Tfvars.String(),
+			LanguageID: ilsp.OpenTofuVars.String(),
 		})
 	}
 

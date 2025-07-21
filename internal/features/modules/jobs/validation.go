@@ -66,7 +66,7 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 
 	var rErr error
 	rpcContext := lsctx.DocumentContext(ctx)
-	if rpcContext.Method == "textDocument/didChange" && rpcContext.LanguageID == ilsp.OpenTofu.String() {
+	if rpcContext.Method == "textDocument/didChange" && ilsp.IsValidConfigLanguage(rpcContext.LanguageID) {
 		filename := path.Base(rpcContext.URI)
 		// We only revalidate a single file that changed
 		var fileDiags hcl.Diagnostics

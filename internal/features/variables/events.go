@@ -15,6 +15,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/variables/ast"
 	"github.com/opentofu/tofu-ls/internal/features/variables/jobs"
 	"github.com/opentofu/tofu-ls/internal/job"
+	"github.com/opentofu/tofu-ls/internal/lsp"
 	"github.com/opentofu/tofu-ls/internal/protocol"
 	op "github.com/opentofu/tofu-ls/internal/tofu/module/operation"
 )
@@ -45,7 +46,7 @@ func (f *VariablesFeature) didOpen(ctx context.Context, dir document.DirHandle, 
 	// b) the opened file is a variable file
 	//
 	// Add to state if language ID matches
-	if languageID == "opentofu-vars" {
+	if lsp.IsValidVarsLanguage(languageID) {
 		err := f.store.AddIfNotExists(path)
 		if err != nil {
 			return ids, err

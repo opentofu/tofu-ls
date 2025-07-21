@@ -40,7 +40,7 @@ func ParseVariables(ctx context.Context, fs ReadOnlyFS, varStore *state.Variable
 	var diags ast.VarsDiags
 	rpcContext := lsctx.DocumentContext(ctx)
 	// Only parse the file that's being changed/opened, unless this is 1st-time parsing
-	if mod.VarsDiagnosticsState[globalAst.HCLParsingSource] == op.OpStateLoaded && rpcContext.IsDidChangeRequest() && rpcContext.LanguageID == ilsp.Tfvars.String() {
+	if mod.VarsDiagnosticsState[globalAst.HCLParsingSource] == op.OpStateLoaded && rpcContext.IsDidChangeRequest() && ilsp.IsValidVarsLanguage(rpcContext.LanguageID) {
 		// the file has already been parsed, so only examine this file and not the whole module
 		err = varStore.SetVarsDiagnosticsState(modPath, globalAst.HCLParsingSource, op.OpStateLoading)
 		if err != nil {
