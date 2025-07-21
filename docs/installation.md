@@ -12,28 +12,17 @@ Some editors have built-in logic to install and update the language server autom
 
 You can install the language server manually using one of the many package managers available or download an archive from the release page. After installation, follow the [install instructions for your IDE](./USAGE.md)
 
-<!--
-TODO: We don't support HomeBrew yet, but there's an open issue for it 
-https://github.com/opentofu/tofu-ls/issues/73
- ### Homebrew (macOS / Linux)
+### Homebrew (macOS / Linux)
 
 You can install via [Homebrew](https://brew.sh)
 
-```
-brew install hashicorp/tap/terraform-ls
+```shell
+brew install tofu-ls
 ```
 
 This tap only contains stable releases (i.e. no pre-releases). -->
 
-### Linux
-
-We support Debian & Ubuntu via apt and RHEL, CentOS, Fedora and Amazon Linux via RPM.
-
-You can follow the instructions in the [Official Packaging Guide](https://www.hashicorp.com/official-packaging-guide) to install the server from the official HashiCorp-maintained repositories. The package name is `terraform-ls` in all repositories.
-
-As documented in the Guide linked above, pre-releases are available through test repos.
-
-### Other platforms
+### All platforms
 
 1. [Download for the latest version](https://github.com/opentofu/tofu-ls/releases)
   of the language server relevant for your operating system and architecture.
