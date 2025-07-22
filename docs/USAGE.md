@@ -12,6 +12,9 @@ The following filetypes are supported by the OpenTofu Language Server:
 - `opentofu` - standard `*.tf` and `*.tofu` config files
 - `opentofu-vars` - variable files (`*.tfvars`)
 
+We also accept `terraform` and `terraform-vars` as language IDs, to support wider range of editors.
+For consistent behavior we encourage users to remap them to corresponding opentofu IDs.
+
 _NOTE_ Clients should be configured to follow the above language ID conventions
 and do **not** send `*.tf.json`, `*.tfvars.json` nor Packer HCL config
 nor any other HCL config files as the server is not
