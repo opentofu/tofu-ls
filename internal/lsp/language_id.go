@@ -12,15 +12,24 @@ type LanguageID string
 const (
 	OpenTofu     LanguageID = "opentofu"
 	OpenTofuVars LanguageID = "opentofu-vars"
-	// Some editors do not support language ID overrides which makes it difficult to use this language server
-	// We also need to accept language IDs of Terraform in order to circumvent this issue
+	// Terraform - Some editors do not support language ID overrides which makes it difficult to use this language server
+	// We also need to accept language IDs of Terraform to circumvent this issue
 	Terraform     LanguageID = "terraform"
 	TerraformVars LanguageID = "terraform-vars"
 )
 
-// LanguageIDsMatch checks if both IDs are of configuration language or vars language
-func LanguageIDsMatch(a, b string) bool {
-	return a == b || (a == OpenTofu.String() && b == Terraform.String()) || (a == Terraform.String() && b == OpenTofu.String())
+// ParseLanguageID parses a string into a LanguageID
+// We also remap Terraform to OpenTofu and TerraformVars to OpenTofuVars
+// We assume that the language ID is valid or the validation step has been done before parsing
+func ParseLanguageID(id string) LanguageID {
+	switch LanguageID(id) {
+	case Terraform:
+		return OpenTofu
+	case TerraformVars:
+		return OpenTofuVars
+	default:
+		return LanguageID(id)
+	}
 }
 
 func IsValidConfigLanguage(id string) bool {
