@@ -1,15 +1,18 @@
 # Usage of OpenTofu Language Server
 
 This guide assumes you have installed the server by following instructions
-in the [README.md](../README.md) if that is applicable to your client
-(i.e. if the client doesn't download the server itself).
+in the [installation.md](./installation.md) if the client doesn't download the server itself.
+And make sure `tofu-ls` command is accessible.
+
+_NOTE_ If you are unable to configure `tofu-ls` command to be directly accessible by the editor.
+You can enter the absolute path of the `tofu-ls` binary instead.
 
 The following filetypes are supported by the OpenTofu Language Server:
 
-- `terraform` - standard `*.tf` config files
-- `terraform-vars` - variable files (`*.tfvars`)
+- `opentofu` - standard `*.tf` and `*.tofu` config files
+- `opentofu-vars` - variable files (`*.tfvars`)
 
-*NOTE* Clients should be configured to follow the above language ID conventions
+_NOTE_ Clients should be configured to follow the above language ID conventions
 and do **not** send `*.tf.json`, `*.tfvars.json` nor Packer HCL config
 nor any other HCL config files as the server is not
 equipped to handle these file types.
@@ -40,65 +43,41 @@ initially opened in the editor.
 
 ## Emacs
 
-If you are using `use-package`, you can put this in the [init.el](https://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html)
-file to install `lsp-mode`:
+### Eglot
 
-```emacs-lisp
-(use-package lsp-mode
-  :ensure t
-  :hook ((terraform-mode . lsp-deferred)))
+```elisp
+;; if you have doom emacs:
+(set-eglot-client! '(terraform-mode :language-id "opentofu") '("tofu-ls" "serve"))
+
+;; or without it, after loading `eglot`:
+(add-to-list 'eglot-server-programs '((terraform-mode :language-id "opentofu") . ("tofu-ls" "serve")))
 ```
-
-There are various other ways to install `lsp-mode` and they are
-documented [here.](https://emacs-lsp.github.io/lsp-mode/page/installation/#installation)
-
-<!-- 
-TODO: We don't have an Emacs LSP yet
-The `lsp-mode` language client for OpenTofu supports various features
-like semantic tokens, code lens for references etc. There is more
-detailed documentation [here](https://emacs-lsp.github.io/lsp-mode/page/lsp-terraform-ls/). -->
 
 ## IntelliJ IDE
 
- - Install [LSP Support plugin](https://plugins.jetbrains.com/plugin/10209-lsp-support)
- - Open Settings
- - Go to `Languages & Frameworks → Language Server Protocol → Server Definitions`
-   - Pick `Executable`
-   - set `Extension` to `tf`
-   - set `Path` to `tofu-ls`
-   - set `Args` to `serve`
- - Confirm by clicking `Apply`
+_We do not have officially supported way to use `tofu-ls` with IntelliJ IDEs. If you must use `tofu-ls` you can try to find different ways to add generic language servers._
 
-Please note that the [Terraform plugin](https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support)
-provides overlapping functionality (and more features at the time of writing).
-As a result having both enabled at the same time may result in suboptimal UX,
-such as duplicate completion candidates.
-
-## Sublime Text
-
- - Install the [LSP package](https://github.com/sublimelsp/LSP#installation)
- - Install the [LSP-terraform package](https://github.com/sublimelsp/LSP-terraform#installation)
+We recommed using official [Terraform and HCL plugin.](https://plugins.jetbrains.com/plugin/7808-terraform-and-hcl)
+It provides overlapping functionality with this language server and in some way has more features.
 
 ## Vim / NeoVim
+
 ### coc.nvim
 
- - Install the [coc.nvim plugin](https://github.com/neoclide/coc.nvim)
- - Add the following snippet to the `coc-setting.json` file (editable via `:CocConfig` in NeoVim)
+- Install the [coc.nvim plugin](https://github.com/neoclide/coc.nvim)
+- Add the following snippet to the `coc-setting.json` file (editable via `:CocConfig` in NeoVim)
 
 ```json
 {
-	"languageserver": {
-		"terraform": {
-			"command": "tofu-ls",
-			"args": ["serve"],
-			"filetypes": [
-				"terraform",
-				"tf"
-			],
-			"initializationOptions": {},
-			"settings": {}
-		}
-	}
+  "languageserver": {
+    "opentofu": {
+      "command": "tofu-ls",
+      "args": ["serve"],
+      "filetypes": ["terraform", "tf"],
+      "initializationOptions": {},
+      "settings": {}
+    }
+  }
 }
 ```
 
@@ -109,14 +88,14 @@ Make sure to read through the [example vim configuration](https://github.com/neo
 inoremap <silent><expr> <c-space> coc#refresh()
 ```
 
-### vim-lsp
+### vim-lsp (Requires update)
 
- - [Install](https://opensource.com/article/20/2/how-install-vim-plugins) the following plugins:
-   * [async.vim plugin](https://github.com/prabirshrestha/async.vim)
-   * [vim-lsp plugin](https://github.com/prabirshrestha/vim-lsp)
-   * [asyncomplete.vim plugin](https://github.com/prabirshrestha/asyncomplete.vim)
-   * [asyncomplete-lsp.vim plugin](https://github.com/prabirshrestha/asyncomplete-lsp.vim)
- - Add the following to your `.vimrc`:
+- [Install](https://opensource.com/article/20/2/how-install-vim-plugins) the following plugins:
+  - [async.vim plugin](https://github.com/prabirshrestha/async.vim)
+  - [vim-lsp plugin](https://github.com/prabirshrestha/vim-lsp)
+  - [asyncomplete.vim plugin](https://github.com/prabirshrestha/asyncomplete.vim)
+  - [asyncomplete-lsp.vim plugin](https://github.com/prabirshrestha/asyncomplete-lsp.vim)
+- Add the following to your `.vimrc`:
 
 ```vim
 if executable('tofu-ls')
@@ -128,10 +107,11 @@ if executable('tofu-ls')
 endif
 ```
 
-### YouCompleteMe
- - [Install](https://opensource.com/article/20/2/how-install-vim-plugins) the following plugins:
-   * [YouCompleteMe plugin](https://github.com/ycm-core/YouCompleteMe)
- - Add the following to your `.vimrc`:
+### YouCompleteMe (Requires update)
+
+- [Install](https://opensource.com/article/20/2/how-install-vim-plugins) the following plugins:
+  - [YouCompleteMe plugin](https://github.com/ycm-core/YouCompleteMe)
+- Add the following to your `.vimrc`:
 
 ```vim
 " Remove this line if additional custom language servers are set elsewhere
@@ -140,77 +120,60 @@ let g:ycm_language_server = []
 if executable('tofu-ls')
     let g:ycm_language_server += [
         \   {
-        \     'name': 'tofu',
+        \     'name': 'opentofu',
         \     'cmdline': [ 'tofu-ls', 'serve' ],
-        \     'filetypes': [ 'tofu', 'terraform' ],
-        \     'project_root_files': [ '*.tf', '*.tfvars' ],
+        \     'filetypes': [ 'terraform' ],
+        \     'project_root_files': [ '.terraform', .git' ]
         \   },
         \ ]
 endif
 ```
 
-### LanguageClient-neovim
+### Neovim v0.11.0+
 
- - Install the [LanguageClient-neovim plugin](https://github.com/autozimu/LanguageClient-neovim)
- - Add the following to your `.vimrc`:
+We can natively configure LSP in Neovim (0.11.0+).
+The following is the lua configuration for `tofu-ls`:
 
-```vim
-let g:LanguageClient_serverCommands = {
-    \ 'terraform': ['tofu-ls', 'serve'],
-    \ }
-```
-
-### Neovim v0.5.0+
-
- - Install the [nvim-lspconfig plugin](https://github.com/neovim/nvim-lspconfig)
- - Add the following to your `.vimrc` or `init.vim`:
-
-```vim
-lua <<EOF
-  require'lspconfig'.terraformls.setup{}
-EOF
-autocmd BufWritePre *.tfvars lua vim.lsp.buf.formatting_sync()
-autocmd BufWritePre *.tf lua vim.lsp.buf.formatting_sync()
-```
- - If you are using `init.lua`:
 ```lua
-require'lspconfig'.terraformls.setup{}
-vim.api.nvim_create_autocmd({"BufWritePre"}, {
-  pattern = {"*.tf", "*.tfvars"},
-  callback = vim.lsp.buf.formatting_sync(),
-})
+-- tofu-ls lsp setup
+vim.lsp.config['tofuls'] = {
+  cmd = { 'tofu-ls', 'serve' },
+  -- Base filetypes
+  filetypes = { 'terraform', 'terraform-vars' },
+  root_markers = {'.terraform', '.git'},
+}
+
+vim.lsp.enable('tofuls')
 ```
 
-### Neovim v0.8.0+
+If you want to enable auto-formatting on save, add the following configuration
 
- - Install the [nvim-lspconfig plugin](https://github.com/neovim/nvim-lspconfig)
- - Add the following to your `.vimrc` or `init.vim`:
-
-```vim
-lua <<EOF
-  require'lspconfig'.terraformls.setup{}
-EOF
-autocmd BufWritePre *.tfvars lua vim.lsp.buf.format()
-autocmd BufWritePre *.tf lua vim.lsp.buf.format()
-```
- - If you are using `init.lua`:
 ```lua
-require'lspconfig'.terraformls.setup{}
-vim.api.nvim_create_autocmd({"BufWritePre"}, {
-  pattern = {"*.tf", "*.tfvars"},
-  callback = function()
-    vim.lsp.buf.format()
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+    -- Auto-format on save
+    if client:supports_method('textDocument/formatting') then
+      vim.api.nvim_create_autocmd('BufWritePre', {
+        group = vim.api.nvim_create_augroup('tofu-ls', {clear=false}),
+        buffer = args.buf,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+        end,
+      })
+    end
   end,
 })
+
 ```
 
-Make sure to read through to [server_configurations.md#terraformls](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#terraformls) if you need more detailed settings.
+Make sure to read through [Neovim LSP documentation](https://neovim.io/doc/user/lsp.html) if you need more detailed settings.
 
 ## VS Code
 
- - Install [OpenTofu VS Code Extension](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu) `>=2.24.0`
- - Latest compatible version of the language server is bundled with the extension
- - See [Configuration](https://github.com/hashicorp/vscode-terraform/blob/main/README.md#configuration) in case you need to tweak anything. Default settings should work for majority of users though.
+- Install [OpenTofu VS Code Extension](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu)
+- Latest compatible version of the language server is bundled with the extension
+- See [Configuration](https://github.com/opentofu/vscode-opentofu/blob/main/README.md#configuration) in case you need to tweak anything. Default settings should work for majority of users though.
 
 ## Zed
 
@@ -227,38 +190,43 @@ Make sure to read through to [server_configurations.md#terraformls](https://gith
 - Latest compatible version of the language server will be installed with this extension, if the binary is not already installed.
 - For configuration options, see the corresponding GitHub repository of the extension you installed.
 
-## BBEdit
+## BBEdit (Might require update)
 
-*BBEdit 14 [added support](https://www.barebones.com/support/bbedit/lsp-notes.html) for the Language Server Protocol so you'll need to upgrade to version 14 to use; this won't work for older versions of BBEdit*.
+_BBEdit 14 [added support](https://www.barebones.com/support/bbedit/lsp-notes.html) for the Language Server Protocol so you'll need to upgrade to version 14 to use; this won't work for older versions of BBEdit_.
 
 - Open Preferences > Languages
-- In *Language-specific settings* section, add an entry for OpenTofu
-- In the Server tab, Set *Command* to `tofu-ls` and *Arguments* to `serve`
+- In _Language-specific settings_ section, add an entry for OpenTofu
+- In the Server tab, Set _Command_ to `tofu-ls` and _Arguments_ to `serve`
 - Once you've correctly installed `tofu-ls` and configured BBEdit, the status indicator on this settings panel will flip to green
-- If you'd like to pass any [settings](./SETTINGS.md) to the server you can do so via the *Arguments* field.
+- If you'd like to pass any [settings](./SETTINGS.md) to the server you can do so via the _Arguments_ field.
 
 ## Kate
 
 KDE [Kate editor](https://kate-editor.org/) supports LSP and is user configurable.
 
-- Install the `tofu-ls` package (or the equivalent package name appropriate to your distro)
-- Open Kate configuration (Settings Menu -> `Configure` Kate or Kate -> `Preferences` on macOS)
-- Select *LSP Client* in the left pane
-- Select *User Server Settings* tab
-- Paste the following JSON and *Save*:
+- Open Kate configuration (`Settings` -> `Configure Kate` or Kate -> `Preferences` on macOS)
+- Select _LSP Client_ in the left pane
+- Select _User Server Settings_ tab
+- Paste the following JSON and _Save_:
+
 ```json
 {
   "servers": {
     "opentofu": {
-      "command": ["tofu-ls", "serve"],
+      "command": ["/path/to/tofu-ls", "serve"],
       "url": "https://github.com/opentofu/tofu-ls",
-      "highlightingModeRegex": "^Terraform$",
-      "rootIndicationFileNames": ["*.tf", "*.tofu", "*.tfvars"]
+      "highlightingModeRegex": "^(OpenTofu|OpenTofu-Vars|Terraform)$",
+      "rootIndicationFileNames": [".terraform", ".git"]
     }
   }
 }
 ```
-- Restart of the editor should *not* be necessary.
+
+- Restart of the editor should _not_ be necessary.
+
+At the time of writing this guide, Kate along with most other editors do not have a separate language mode for OpenTofu.
+Hence, this configuration will work on .tf and .tfvars files, in case you are using .tofu files, you will need to add `Sources/OpenTofu` as a new filetype with all appropriate extensions.
+New filetypes can be configured from `Settings` -> `Configure Kate` > `Open/Save` > `Modes & Filetypes`.
 
 ## Helix Editor
 
