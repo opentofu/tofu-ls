@@ -91,7 +91,7 @@ Make sure to read through the [example vim configuration](https://github.com/neo
 inoremap <silent><expr> <c-space> coc#refresh()
 ```
 
-### vim-lsp (Requires update)
+### vim-lsp
 
 - [Install](https://opensource.com/article/20/2/how-install-vim-plugins) the following plugins:
   - [async.vim plugin](https://github.com/prabirshrestha/async.vim)
@@ -105,12 +105,12 @@ if executable('tofu-ls')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'tofu-ls',
         \ 'cmd': {server_info->['tofu-ls', 'serve']},
-        \ 'whitelist': ['tofu'],
+        \ 'whitelist': ['terraform'],
         \ })
 endif
 ```
 
-### YouCompleteMe (Requires update)
+### YouCompleteMe
 
 - [Install](https://opensource.com/article/20/2/how-install-vim-plugins) the following plugins:
   - [YouCompleteMe plugin](https://github.com/ycm-core/YouCompleteMe)
