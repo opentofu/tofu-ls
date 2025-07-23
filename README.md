@@ -1,4 +1,6 @@
 # OpenTofu Language Server [WIP]
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopentofu%2Ftofu-ls.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopentofu%2Ftofu-ls?ref=badge_shield)
+
 
 The official [OpenTofu](https://opentofu.org/) language server (`tofu-ls`) maintained by the OpenTofu Core Team provides IDE features to any [LSP](https://microsoft.github.io/language-server-protocol/)-compatible editor.
 
@@ -38,3 +40,7 @@ Please refer to [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) for more info
 ## Credits
 Hashicorp Terraform - creating the [terraform-ls language server](https://github.com/hashicorp/terraform-ls), which was used as a starting point and inspiration for this language server.
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopentofu%2Ftofu-ls.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopentofu%2Ftofu-ls?ref=badge_large)
