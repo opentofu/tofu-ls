@@ -4,8 +4,9 @@ This guide assumes you have installed the server by following instructions
 in the [installation.md](./installation.md) if the client doesn't download the server itself.
 And make sure `tofu-ls` command is accessible.
 
-_NOTE_ If you are unable to configure `tofu-ls` command to be directly accessible by the editor.
-You can enter the absolute path of the `tofu-ls` binary instead.
+> [!NOTE]
+> If you are unable to configure `tofu-ls` command to be directly accessible by the editor.
+> You can enter the absolute path of the `tofu-ls` binary instead.
 
 The following filetypes are supported by the OpenTofu Language Server:
 
@@ -15,10 +16,10 @@ The following filetypes are supported by the OpenTofu Language Server:
 We also accept `terraform` and `terraform-vars` as language IDs, to support wider range of editors.
 For consistent behavior we encourage users to remap them to corresponding opentofu IDs.
 
-_NOTE_ Clients should be configured to follow the above language ID conventions
-and do **not** send `*.tf.json`, `*.tfvars.json` nor Packer HCL config
-nor any other HCL config files as the server is not
-equipped to handle these file types.
+> [!NOTE]
+> Clients should be configured to follow the above language ID conventions
+> and do **not** send `*.tf.json`, `*.tfvars.json` nor Packer HCL config
+> nor any other HCL config files as the server is not equipped to handle these file types.
 
 In most clients with a dedicated OpenTofu extension/plugin this is
 already the default configuration, so you should not need to worry about it.
