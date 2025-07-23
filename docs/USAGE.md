@@ -139,14 +139,14 @@ The following is the lua configuration for `tofu-ls`:
 
 ```lua
 -- tofu-ls lsp setup
-vim.lsp.config['tofuls'] = {
+vim.lsp.config['tofu_ls'] = {
   cmd = { 'tofu-ls', 'serve' },
   -- Base filetypes
   filetypes = { 'terraform', 'terraform-vars' },
   root_markers = {'.terraform', '.git'},
 }
 
-vim.lsp.enable('tofuls')
+vim.lsp.enable('tofu_ls')
 ```
 
 If you want to enable auto-formatting on save, add the following configuration
