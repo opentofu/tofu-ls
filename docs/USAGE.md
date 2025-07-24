@@ -61,7 +61,7 @@ initially opened in the editor.
 
 _We do not have officially supported way to use `tofu-ls` with IntelliJ IDEs. If you must use `tofu-ls` you can try to find different ways to add generic language servers._
 
-We recommed using official [Terraform and HCL plugin.](https://plugins.jetbrains.com/plugin/7808-terraform-and-hcl)
+We recommend using official [Terraform and HCL plugin.](https://plugins.jetbrains.com/plugin/7808-terraform-and-hcl)
 It provides overlapping functionality with this language server and in some way has more features.
 
 ## Vim / NeoVim
