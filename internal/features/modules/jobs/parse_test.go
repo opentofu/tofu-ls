@@ -146,7 +146,7 @@ func TestParseModuleConfiguration_ignore_tfvars(t *testing.T) {
 
 	ctx = lsctx.WithDocumentContext(ctx, lsctx.Document{
 		Method:     "textDocument/didChange",
-		LanguageID: ilsp.Tfvars.String(),
+		LanguageID: ilsp.OpenTofuVars.String(),
 		URI:        uri.FromPath(fooURI),
 	})
 	err = ParseModuleConfiguration(ctx, testFs, ms, singleFileModulePath)

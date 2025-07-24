@@ -8,14 +8,14 @@ package decoder
 import (
 	"context"
 	"fmt"
-
 	"github.com/hashicorp/hcl-lang/decoder"
 	"github.com/hashicorp/hcl-lang/lang"
+	"github.com/opentofu/tofu-ls/internal/lsp"
 )
 
 type PathReaderMap map[string]decoder.PathReader
 
-// GlobalPathReader is a PathReader that delegates language specific PathReaders
+// GlobalPathReader is a PathReader that delegates language-specific PathReaders
 // that usually come from features.
 type GlobalPathReader struct {
 	PathReaderMap PathReaderMap
@@ -34,7 +34,9 @@ func (mr *GlobalPathReader) Paths(ctx context.Context) []lang.Path {
 }
 
 func (mr *GlobalPathReader) PathContext(path lang.Path) (*decoder.PathContext, error) {
-	if feature, ok := mr.PathReaderMap[path.LanguageID]; ok {
+	// We need to ensure that we can also read language IDs of 'terraform' and 'terraform-vars' which simply map to 'opentofu' and 'opentofu-vars'
+	id := lsp.ParseLanguageID(path.LanguageID)
+	if feature, ok := mr.PathReaderMap[id.String()]; ok {
 		return feature.PathContext(path)
 	}
 

@@ -540,8 +540,8 @@ func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *s
 
 	svc.decoder = decoder.NewDecoder(&idecoder.GlobalPathReader{
 		PathReaderMap: idecoder.PathReaderMap{
-			"opentofu":      svc.features.Modules,
-			"opentofu-vars": svc.features.Variables,
+			ilsp.OpenTofu.String():     svc.features.Modules,
+			ilsp.OpenTofuVars.String(): svc.features.Variables,
 		},
 	})
 	decoderContext := idecoder.DecoderContext(ctx)

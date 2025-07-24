@@ -19,6 +19,7 @@ import (
 	"github.com/opentofu/tofu-ls/internal/features/modules/ast"
 	"github.com/opentofu/tofu-ls/internal/features/modules/jobs"
 	"github.com/opentofu/tofu-ls/internal/job"
+	"github.com/opentofu/tofu-ls/internal/lsp"
 	"github.com/opentofu/tofu-ls/internal/protocol"
 	"github.com/opentofu/tofu-ls/internal/schemas"
 	globalState "github.com/opentofu/tofu-ls/internal/state"
@@ -53,7 +54,7 @@ func (f *ModulesFeature) didOpen(ctx context.Context, dir document.DirHandle, la
 	// b) the opened file is a module file
 	//
 	// Add to state if language ID matches
-	if languageID == "opentofu" {
+	if lsp.IsValidConfigLanguage(languageID) {
 		err := f.Store.AddIfNotExists(path)
 		if err != nil {
 			return ids, err

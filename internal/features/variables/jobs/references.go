@@ -53,7 +53,7 @@ func DecodeVarsReferences(ctx context.Context, varStore *state.VariableStore, mo
 
 	varsDecoder, err := d.Path(lang.Path{
 		Path:       modPath,
-		LanguageID: ilsp.Tfvars.String(),
+		LanguageID: ilsp.OpenTofuVars.String(),
 	})
 	if err != nil {
 		return err

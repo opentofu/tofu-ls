@@ -42,85 +42,86 @@ func TestModuleCompletion_withoutInitialization(t *testing.T) {
 }
 
 func TestModuleCompletion_withValidData_basic(t *testing.T) {
-	tmpDir := TempDir(t)
-	InitPluginCache(t, tmpDir.Path())
+	test := func(t *testing.T, languageID string) {
+		tmpDir := TempDir(t)
+		InitPluginCache(t, tmpDir.Path())
 
-	err := os.WriteFile(filepath.Join(tmpDir.Path(), "main.tf"), []byte("provider \"test\" {\n\n}\n"), 0o755)
-	if err != nil {
-		t.Fatal(err)
-	}
+		err := os.WriteFile(filepath.Join(tmpDir.Path(), "main.tf"), []byte("provider \"test\" {\n\n}\n"), 0o755)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	var testSchema tfjson.ProviderSchemas
-	err = json.Unmarshal([]byte(testModuleSchemaOutput), &testSchema)
-	if err != nil {
-		t.Fatal(err)
-	}
+		var testSchema tfjson.ProviderSchemas
+		err = json.Unmarshal([]byte(testModuleSchemaOutput), &testSchema)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	ss, err := state.NewStateStore()
-	if err != nil {
-		t.Fatal(err)
-	}
+		ss, err := state.NewStateStore()
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	wc := walker.NewWalkerCollector()
+		wc := walker.NewWalkerCollector()
 
-	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
-		StateStore: ss,
-		TofuCalls: &exec.TofuMockCalls{
-			PerWorkDir: map[string][]*mock.Call{
-				tmpDir.Path(): {
-					{
-						Method:        "Version",
-						Repeatability: 1,
-						Arguments: []interface{}{
-							mock.AnythingOfType(""),
+		ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
+			StateStore: ss,
+			TofuCalls: &exec.TofuMockCalls{
+				PerWorkDir: map[string][]*mock.Call{
+					tmpDir.Path(): {
+						{
+							Method:        "Version",
+							Repeatability: 1,
+							Arguments: []interface{}{
+								mock.AnythingOfType(""),
+							},
+							ReturnArguments: []interface{}{
+								version.Must(version.NewVersion("1.6.0")),
+								nil,
+								nil,
+							},
 						},
-						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("1.6.0")),
-							nil,
-							nil,
+						{
+							Method:        "GetExecPath",
+							Repeatability: 1,
+							ReturnArguments: []interface{}{
+								"",
+							},
 						},
-					},
-					{
-						Method:        "GetExecPath",
-						Repeatability: 1,
-						ReturnArguments: []interface{}{
-							"",
-						},
-					},
-					{
-						Method:        "ProviderSchemas",
-						Repeatability: 1,
-						Arguments: []interface{}{
-							mock.AnythingOfType(""),
-						},
-						ReturnArguments: []interface{}{
-							&testSchema,
-							nil,
+						{
+							Method:        "ProviderSchemas",
+							Repeatability: 1,
+							Arguments: []interface{}{
+								mock.AnythingOfType(""),
+							},
+							ReturnArguments: []interface{}{
+								&testSchema,
+								nil,
+							},
 						},
 					},
 				},
 			},
-		},
-		WalkerCollector: wc,
-	}))
-	stop := ls.Start(t)
-	defer stop()
+			WalkerCollector: wc,
+		}))
+		stop := ls.Start(t)
+		defer stop()
 
-	ls.Call(t, &langserver.CallRequest{
-		Method: "initialize",
-		ReqParams: fmt.Sprintf(`{
+		ls.Call(t, &langserver.CallRequest{
+			Method: "initialize",
+			ReqParams: fmt.Sprintf(`{
 		"capabilities": {},
 		"rootUri": %q,
 		"processId": 12345
 	}`, tmpDir.URI)})
-	waitForWalkerPath(t, ss, wc, tmpDir)
-	ls.Notify(t, &langserver.CallRequest{
-		Method:    "initialized",
-		ReqParams: "{}",
-	})
-	ls.Call(t, &langserver.CallRequest{
-		Method: "textDocument/didOpen",
-		ReqParams: fmt.Sprintf(`{
+		waitForWalkerPath(t, ss, wc, tmpDir)
+		ls.Notify(t, &langserver.CallRequest{
+			Method:    "initialized",
+			ReqParams: "{}",
+		})
+		ls.Call(t, &langserver.CallRequest{
+			Method: "textDocument/didOpen",
+			ReqParams: fmt.Sprintf(`{
 		"textDocument": {
 			"version": 0,
 			"languageId": "opentofu",
@@ -128,11 +129,11 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 			"uri": "%s/main.tf"
 		}
 	}`, tmpDir.URI)})
-	waitForAllJobs(t, ss)
+		waitForAllJobs(t, ss)
 
-	ls.CallAndExpectResponse(t, &langserver.CallRequest{
-		Method: "textDocument/completion",
-		ReqParams: fmt.Sprintf(`{
+		ls.CallAndExpectResponse(t, &langserver.CallRequest{
+			Method: "textDocument/completion",
+			ReqParams: fmt.Sprintf(`{
 			"textDocument": {
 				"uri": "%s/main.tf"
 			},
@@ -249,6 +250,14 @@ func TestModuleCompletion_withValidData_basic(t *testing.T) {
 				]
 			}
 		}`)
+	}
+	t.Run("opentofu", func(t *testing.T) {
+		test(t, "opentofu")
+	})
+	//Checking that we can also complete in terraform language ID
+	t.Run("terraform", func(t *testing.T) {
+		test(t, "terraform")
+	})
 }
 
 // verify that for unknown new versions we serve latest available schema
