@@ -4,10 +4,13 @@ This document contains notes for language client developers.
 
 ## Language IDs
 
-The following file types are currently supported and language IDs expected:
+The following filetypes are supported by the OpenTofu Language Server:
 
- - `terraform` - standard `*.tf` config files
- - `terraform-vars` - variable files (`*.tfvars`)
+- `opentofu` - standard `*.tf` and `*.tofu` config files
+- `opentofu-vars` - variable files (`*.tfvars`)
+
+We also accept `terraform` and `terraform-vars` as language IDs, to support wider range of editors.
+For consistent behavior we encourage users to remap them to corresponding opentofu IDs.
 
 Client can choose to highlight other files locally, but such other files
 must **not** be send to the server as the server isn't equipped to handle those.
@@ -85,8 +88,8 @@ Language server supports multiple folders natively from version `0.19`.
 Client is expected to always launch a single instance of the server and check for
 [`workspace.workspaceFolders.supported`](https://microsoft.github.io/language-server-protocol/specifications/specification-3-17/#workspaceFoldersServerCapabilities) server capability, and then:
 
- - launch any more instances (_one instance per folder_) if multiple folders are _not supported_
- - avoid launching any more instances if multiple folders _are supported_
+- launch any more instances (_one instance per folder_) if multiple folders are _not supported_
+- avoid launching any more instances if multiple folders _are supported_
 
 It is assumed that paths to these folders will be provided as part of `workspaceFolders`
 in the `initialize` request per LSP.
@@ -105,7 +108,7 @@ A Code Action is an action that changes content in the active editor. Each Code 
 
 In VS Code, code action can be _invoked manually_ or _automatically_ based on the respective [CodeActionTriggerKind](https://code.visualstudio.com/api/references/vscode-api#CodeActionTriggerKind).
 
-**Manually invoked** actions come from the contextual in-line💡 icon inside the editor, and are chosen by the user. The user can choose which action is invoked and *then* invoke it. However, in order for the client to display the contextual actions, the client requests LS to "pre-calculate" any actions relevant to the cursor position. Then, when the user selects the action in the UI, the client applies the `edits` or executes the `command` as provided by the server.
+**Manually invoked** actions come from the contextual in-line💡 icon inside the editor, and are chosen by the user. The user can choose which action is invoked and _then_ invoke it. However, in order for the client to display the contextual actions, the client requests LS to "pre-calculate" any actions relevant to the cursor position. Then, when the user selects the action in the UI, the client applies the `edits` or executes the `command` as provided by the server.
 
 **Automatically triggered** actions come from events such as "on save", as configured via the `editor.codeActionsOnSave` setting. These usually do not give much choice to the user, they are either on or off, as they cannot accept user input. For example, formatting a document or removing simple style errors don't prompt for user action before or during execution.
 
@@ -121,7 +124,7 @@ Keeping to existing `kinds` also helps in registration of supported code actions
 
 A reason to add custom _kinds_ is if the action is sufficiently different from an existing base action. For example, formatting of the current file on save. The interpretation of `source.fixAll` is to _apply any/all actions that address an existing diagnostic and have a clear fix that does not require user input_. Formatting therefore doesn't fit the interpretation of `source.fixAll`.
 
-A custom kind `source.formatAll.terraform` may format code. A user can request both `source.fixAll` and `source.formatAll.terraform` via their editor/client settings and the server would run `source.formatAll.terraform` only. Other servers may run `source.fixAll` but not `source.formatAll.terraform`, assuming they do not support that custom code action kind.
+A custom kind `source.formatAll.opentofu` may format code. A user can request both `source.fixAll` and `source.formatAll.opentofu` via their editor/client settings and the server would run `source.formatAll.opentofu` only. Other servers may run `source.fixAll` but not `source.formatAll.opentofu`, assuming they do not support that custom code action kind.
 
 Unlike generic kinds, custom ones are only discoverable in server-specific documentation and only relevant to the server.
 
@@ -154,11 +157,11 @@ For example:
 
 ```json
 {
-    "capabilities": {
-        "experimental": {
-            "showReferencesCommandId": "client.showReferences"
-        }
+  "capabilities": {
+    "experimental": {
+      "showReferencesCommandId": "client.showReferences"
     }
+  }
 }
 ```
 
@@ -168,13 +171,13 @@ The client-side command is executed with 2 arguments (position, reference contex
 
 ```json
 [
-    {
-        "line": 0,
-        "character": 8
-    },
-    {
-        "includeDeclaration": false
-    }
+  {
+    "line": 0,
+    "character": 8
+  },
+  {
+    "includeDeclaration": false
+  }
 ]
 ```
 

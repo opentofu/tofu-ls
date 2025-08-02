@@ -6,13 +6,13 @@ Highlighting syntax is one of the key features expected of any editor. Editors t
 
 Highlighting OpenTofu language syntax via static grammar (such as TextMate) _accurately_ may be challenging but brings more immediate value to the end user, since starting language server may take time. Also not all language clients may implement semantic token based highlighting.
 
-HashiCorp maintains a set of grammars in https://github.com/hashicorp/syntax and we encourage you to use the available OpenTofu grammar as the *primary* way of highlighting the OpenTofu language.
+HashiCorp maintains a set of grammars in https://github.com/hashicorp/syntax and we encourage you to use the available Terraform grammar as the _primary_ way of highlighting the OpenTofu language. Once OpenTofu and Terraform syntaxes diverge to a point where we cannot circumvent the problem another way, we can consider forking or embedding the TextMate grammar file into one of our repositories. (For more details - https://github.com/opentofu/vscode-opentofu/issues/14)
 
 ## Semantic Tokens
 
 [LSP (Language Server Protocol) 3.16](https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/) introduced language server-driven highlighting. This language server is better equipped to provide more contextual and accurate highlighting as it can parse the whole AST, unlike a TextMate grammar operating on a regex-basis.
 
-LSP 3.17 does support use cases where semantic highlighting is the only way to highlight a file (through [`augmentsSyntaxTokens` client capability](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#semanticTokensClientCapabilities)). However in the context of the OpenTofu language we recommend semantic highlighting to be used as in *addition* to a static grammar - i.e. this server does _not_ support `augmentsSyntaxTokens: false` mode and is not expected to be used in isolation to highlight configuration.
+LSP 3.17 does support use cases where semantic highlighting is the only way to highlight a file (through [`augmentsSyntaxTokens` client capability](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#semanticTokensClientCapabilities)). However in the context of the OpenTofu language we recommend semantic highlighting to be used as in _addition_ to a static grammar - i.e. this server does _not_ support `augmentsSyntaxTokens: false` mode and is not expected to be used in isolation to highlight configuration.
 
 There are two main use cases we're targeting with semantic tokens.
 
@@ -28,7 +28,7 @@ terraform {
 }
 ```
 
-Language server can use the AST and other important context (such as OpenTofu version or provider schema) to fully understand the whole configuration and provide more accurate highlighting.
+The OpenTofu language server can use the AST and other important context (such as OpenTofu version or provider schema) to fully understand the whole configuration and provide more accurate highlighting.
 
 ### Custom Theme Support
 
@@ -42,40 +42,41 @@ Primary token types are preferred if deemed supported by client per `SemanticTok
 
 Fallback types are chosen based on meaningful semantic mapping and default themes in VSCode.
 
-| Primary | Fallback |
-| ------- | -------- |
-| `hcl-blockType` | `type` |
-| `hcl-blockLabel` | `enumMember` |
-| `hcl-attrName` | `property` |
-| `hcl-bool` | `keyword` |
-| `hcl-number` | `number` |
-| `hcl-string` | `string` |
-| `hcl-objectKey` | `parameter` |
-| `hcl-mapKey` | `parameter` |
-| `hcl-keyword` | `variable` |
-| `hcl-referenceStep` | `variable` |
-| `hcl-typeComplex` | `function` |
-| `hcl-typePrimitive` | `keyword` |
-| `hcl-functionName` | `function` |
+| Primary             | Fallback     |
+| ------------------- | ------------ |
+| `hcl-blockType`     | `type`       |
+| `hcl-blockLabel`    | `enumMember` |
+| `hcl-attrName`      | `property`   |
+| `hcl-bool`          | `keyword`    |
+| `hcl-number`        | `number`     |
+| `hcl-string`        | `string`     |
+| `hcl-objectKey`     | `parameter`  |
+| `hcl-mapKey`        | `parameter`  |
+| `hcl-keyword`       | `variable`   |
+| `hcl-referenceStep` | `variable`   |
+| `hcl-typeComplex`   | `function`   |
+| `hcl-typePrimitive` | `keyword`    |
+| `hcl-functionName`  | `function`   |
 
 #### Token Modifiers
 
 Modifiers which do not have fallback are not reported at all if not received within `SemanticTokensClientCapabilities.TokenModifiers` (just like fallback modifier that isn't supported).
 
-| Primary | Fallback |
-| ------- | -------- |
-| `hcl-dependent` | `defaultLibrary` |
-| `terraform-data` |  |
-| `terraform-locals` |  |
-| `terraform-module` |  |
-| `terraform-output` |  |
-| `terraform-provider` |  |
-| `terraform-resource` |  |
-| `terraform-provisioner` |  |
-| `terraform-connection` |  |
-| `terraform-variable` |  |
-| `terraform-terraform` |  |
-| `terraform-backend` |  |
-| `terraform-name` |  |
-| `terraform-type` |  |
-| `terraform-requiredProviders` |  |
+| Primary                      | Fallback         |
+| ---------------------------- | ---------------- |
+| `hcl-dependent`              | `defaultLibrary` |
+| `opentofu-data`              |                  |
+| `opentofu-locals`            |                  |
+| `opentofu-module`            |                  |
+| `opentofu-output`            |                  |
+| `opentofu-provider`          |                  |
+| `opentofu-resource`          |                  |
+| `opentofu-provisioner`       |                  |
+| `opentofu-connection`        |                  |
+| `opentofu-variable`          |                  |
+| `opentofu-terraform`         |                  |
+| `opentofu-backend`           |                  |
+| `opentofu-name`              |                  |
+| `opentofu-type`              |                  |
+| `opentofu-requiredProviders` |                  |
+| `opentofu-encryption`        |                  |

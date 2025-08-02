@@ -29,6 +29,7 @@ flowchart LR
     Out4 -.-> Result4["..."]
     linkStyle default stroke:#FF6D00
 ```
+
 ## Schema
 
 Decoder needs schema to produce relevant completion candidates, hover data etc. [`opentofu/opentofu-schema`](https://pkg.go.dev/github.com/opentofu/opentofu-schema) houses most of the OpenTofu Core schema (such as `terraform`, `resource` or `variable` blocks) + helpers to combine that [Core schema](https://github.com/opentofu/opentofu-schema/tree/main/internal/schema) with provider schemas (such as inner parts of `resource` or `data` blocks) and help assemble schemas for modules.
@@ -87,7 +88,6 @@ flowchart LR
      SM:::merger
     linkStyle default stroke:#FF6D00
 ```
-
 
 ## Global State
 
@@ -209,8 +209,8 @@ The existing `variables` feature is a good starting point when introducing a new
 1. Add a parsing job that gets triggered from an event
 1. Add a decoder that makes use of some kind of schema
 1. Register the new feature in `internal/langserver/handlers/service.go`
-    - Start the feature as part of `configureSessionDependencies()`
-    - Make sure to call the `Stop()` function in `shutdown()` as well
+   - Start the feature as part of `configureSessionDependencies()`
+   - Make sure to call the `Stop()` function in `shutdown()` as well
 1. If the feature reports diagnostics, add a call to collect them in `updateDiagnostics()` in `internal/langserver/handlers/hooks_module.go`
 
 ## Job Scheduler
@@ -295,7 +295,6 @@ The mentioned `documents` memdb table is consulted for whether a directory has a
 Jobs also depend on each other. These dependencies are illustrated in the diagrams below.
 
 ### didOpen Job Flow
-
 
 ```mermaid
 ---
@@ -414,7 +413,6 @@ The [`eventbus`](https://github.com/opentofu/tofu-ls/blob/main/internal/eventbus
 
 ### Event Sources
 
-
 ```mermaid
 ---
 config:
@@ -460,7 +458,6 @@ flowchart LR
     classDef title fill:#ffffff,stroke:#333,stroke-width:2px,font-weight:bold,font-size:16px
     linkStyle default stroke:#FF6D00
 ```
-
 
 ## Walker
 
