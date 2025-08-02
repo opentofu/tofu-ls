@@ -32,29 +32,29 @@ as a separator between key and value. i.e.
 
 ```json
 {
-	"command": "command-name",
-	"arguments": [ "key=value" ]
+  "command": "command-name",
+  "arguments": ["key=value"]
 }
 ```
 
 ## Supported Commands
 
-### `terraform.init`
+### `tofu.init`
 
-Runs [`terraform init`](https://www.terraform.io/docs/cli/commands/init.html) using available `terraform` installation from `$PATH`.
+Runs [`tofu init`](https://opentofu.org/docs/cli/commands/init/) using available `tofu` installation from `$PATH`.
 
 **Arguments:**
 
- - `uri` - URI of the directory in which to run `terraform init`
+- `uri` - URI of the directory in which to run `tofu init`
 
 **Outputs:**
 
-Error is returned e.g. when `terraform` is not installed, or when execution fails,
+Error is returned e.g. when `tofu` is not installed, or when execution fails,
 but no output is returned if `init` successfully finishes.
 
-### `terraform.validate`
+### `tofu.validate`
 
-Runs [`terraform validate`](https://www.terraform.io/docs/cli/commands/validate.html) using available `terraform` installation from `$PATH`.
+Runs [`tofu validate`](https://opentofu.org/docs/cli/commands/validate/) using available `tofu` installation from `$PATH`.
 
 Any violations are published back the the client via [`textDocument/publishDiagnostics` notification](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_publishDiagnostics).
 
@@ -62,11 +62,11 @@ Diagnostics are not persisted and any document change will cause them to be lost
 
 **Arguments:**
 
- - `uri` - URI of the directory in which to run `terraform validate`
+- `uri` - URI of the directory in which to run `tofu validate`
 
 **Outputs:**
 
-Error is returned e.g. when `terraform` is not installed, or when execution fails,
+Error is returned e.g. when `tofu` is not installed, or when execution fails,
 but no output is returned if `validate` successfully finishes.
 
 ### `module.callers`
@@ -80,25 +80,25 @@ can be used to hint the user e.g. where to run `init` or `validate` from.
 
 **Arguments:**
 
- - `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
+- `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
 
 **Outputs:**
 
- - `v` - describes version of the format; Will be used in the future to communicate format changes.
- - `callers` - array of any modules found in the workspace which call the module in question
-   - `uri` - URI of the directory (absolute path)
+- `v` - describes version of the format; Will be used in the future to communicate format changes.
+- `callers` - array of any modules found in the workspace which call the module in question
+  - `uri` - URI of the directory (absolute path)
 
 ```json
 {
-	"v": 0,
-	"callers": [
-		{
-			"uri": "file:///path/to/dev",
-		},
-		{
-			"uri": "file:///path/to/prod",
-		}
-	]
+  "v": 0,
+  "callers": [
+    {
+      "uri": "file:///path/to/dev"
+    },
+    {
+      "uri": "file:///path/to/prod"
+    }
+  ]
 }
 ```
 
@@ -107,26 +107,27 @@ can be used to hint the user e.g. where to run `init` or `validate` from.
 List of modules called by the module under the given URI.
 
 Empty array may be returned when e.g.
-  - the URI doesn't represent a module
-  - the configuration is invalid
-  - there are no module calls
+
+- the URI doesn't represent a module
+- the configuration is invalid
+- there are no module calls
 
 The data is sourced from the declared modules inside the files of the module.
 
 **Arguments:**
 
- - `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
+- `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
 
 **Outputs:**
 
- - `v` - describes version of the format; Will be used in the future to communicate format changes.
- - `module_calls` - array of modules which are called from the module in question
-   - `name` - the reference name of this particular module (i.e. `network` from `module "network" { ...`)
-   - `source_addr` - human-readable version of the source address given for this module call (e.g. `terraform-aws-modules/eks/aws`)
-   - `version` - version constraint of the module call; applicable to modules hosted by the OpenTofu Registry (e.g. `~> 1.0`
-   - `source_type` - source of the OpenTofu module, e.g. `github` or `tfregistry`
-   - `docs_link` - a link to the module documentation; if available
-   - `dependent_modules` - **DEPRECATED** (always empty in `v0.29+`) - array of dependent modules with the same structure as `module_calls`
+- `v` - describes version of the format; Will be used in the future to communicate format changes.
+- `module_calls` - array of modules which are called from the module in question
+  - `name` - the reference name of this particular module (i.e. `network` from `module "network" { ...`)
+  - `source_addr` - human-readable version of the source address given for this module call (e.g. `terraform-aws-modules/eks/aws`)
+  - `version` - version constraint of the module call; applicable to modules hosted by the OpenTofu Registry (e.g. `~> 1.0`
+  - `source_type` - source of the OpenTofu module, e.g. `github` or `tfregistry`
+  - `docs_link` - a link to the module documentation; if available
+  - `dependent_modules` - **DEPRECATED** (always empty in `v0.29+`) - array of dependent modules with the same structure as `module_calls`
 
 ```json
 {
@@ -157,16 +158,16 @@ installed version.
 
 **Arguments:**
 
- - `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
+- `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
 
 **Outputs:**
 
- - `v` - describes version of the format; Will be used in the future to communicate format changes.
- - `provider_requirements` - map of provider FQN string to requirements object
-   - `display_name` - a human-readable name of the provider (e.g. `hashicorp/aws`)
-   - `version_constraint` - a comma-separated list of version constraints (e.g. `>= 1.0, < 1.2`)
-   - `docs_link` - a link to the provider documentation; if available
- - `installed_providers` - map where _key_ is the provider FQN and _value_ is the installed version of the provider; can be empty if none are installed
+- `v` - describes version of the format; Will be used in the future to communicate format changes.
+- `provider_requirements` - map of provider FQN string to requirements object
+  - `display_name` - a human-readable name of the provider (e.g. `hashicorp/aws`)
+  - `version_constraint` - a comma-separated list of version constraints (e.g. `>= 1.0, < 1.2`)
+  - `docs_link` - a link to the provider documentation; if available
+- `installed_providers` - map where _key_ is the provider FQN and _value_ is the installed version of the provider; can be empty if none are installed
 
 ```json
 {
@@ -184,19 +185,19 @@ installed version.
 }
 ```
 
-### `module.terraform`
+### `module.tofu`
 
-Provides information about the terraform binary version for the current module.
+Provides information about the tofu binary version for the current module.
 
 **Arguments:**
 
- - `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
+- `uri` - URI of the directory of the module in question, e.g. `file:///path/to/network`
 
 **Outputs:**
 
- - `v` - describes version of the format; Will be used in the future to communicate format changes.
- - `required_version` - Version constraint specified in configuration
- - `discovered_version` - Version discovered from `terraform version --json` in the directory specified in `uri`
+- `v` - describes version of the format; Will be used in the future to communicate format changes.
+- `required_version` - Version constraint specified in configuration
+- `discovered_version` - Version discovered from `tofu version --json` in the directory specified in `uri`
 
 ```json
 {
