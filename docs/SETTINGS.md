@@ -10,7 +10,7 @@ Clients which expose these config options to the end-user are advised to match t
 
 The language server supports the following configuration options:
 
-## `terraform` (object `{}`)
+## `tofu` (object `{}`)
 
 OpenTofu CLI related settings (used e.g. in formatting code via `tofu fmt`).
 
@@ -32,17 +32,17 @@ Path to the OpenTofu binary.
 This is usually looked up automatically from `$PATH` and should not need to be
 specified in majority of cases. Use this to override the automatic lookup.
 
-## **DEPRECATED**: `terraformLogFilePath` (`string`)
+## **DEPRECATED**: `tofuExecLogFilePath` (`string`)
 
-Deprecated in favour of `terraform.logFilePath`
+Deprecated in favour of `tofu.logFilePath`
 
-## **DEPRECATED**: `terraformExecTimeout` (`string`)
+## **DEPRECATED**: `tofuExecTimeout` (`string`)
 
-Deprecated in favour of `terraform.timeout`
+Deprecated in favour of `tofu.timeout`
 
-## **DEPRECATED**: `terraformExecPath` (`string`)
+## **DEPRECATED**: `tofuExecPath` (`string`)
 
-Deprecated in favour of `terraform.path`
+Deprecated in favour of `tofu.path`
 
 ## **DEPRECATED**: `rootModulePaths` (`[]string`)
 
@@ -76,7 +76,7 @@ of the target platform (e.g. `\` on Windows, or `/` on Unix),
 symlinks are followed, trailing slashes automatically removed,
 and `~` is replaced with your home directory.
 
-## `ignoreDirectoryNames` (`[]string`)
+### `ignoreDirectoryNames` (`[]string`)
 
 This allows excluding directories from being indexed upon initialization by passing a list of directory names.
 
@@ -122,9 +122,10 @@ This object contains inner settings used to opt into experimental features not y
 
 ### `validateOnSave` (`bool`)
 
-Enabling this feature will run terraform validate within the folder of the file saved. This comes with some user experience caveats.
- - Validation is not run on file open, only once it's saved.
- - When editing a module file, validation is not run due to not knowing which "rootmodule" to run validation from (there could be multiple). This creates an awkward workflow where when saving a file in a rootmodule, a diagnostic is raised in a module file. Editing the module file will not clear the diagnostic for the reason mentioned above, it will only clear once a file is saved back in the original "rootmodule". We will continue to attempt improve this user experience.
+Enabling this feature will run `tofu validate` within the folder of the file saved. This comes with some user experience caveats.
+
+- Validation is not run on file open, only once it's saved.
+- When editing a module file, validation is not run due to not knowing which "rootmodule" to run validation from (there could be multiple). This creates an awkward workflow where when saving a file in a rootmodule, a diagnostic is raised in a module file. Editing the module file will not clear the diagnostic for the reason mentioned above, it will only clear once a file is saved back in the original "rootmodule". We will continue to attempt improve this user experience.
 
 ### `prefillRequiredFields` (`bool`)
 
@@ -148,49 +149,16 @@ Enables/disables enhanced validation, as documented under [`validation.md`](vali
 The server expects static settings to be passed as part of LSP `initialize` call,
 but how settings are requested from on the UI side depends on the client.
 
-### Sublime Text
-
-Use `initializationOptions` key under the `clients.terraform` section, e.g.
-
-```json
-{
-	"clients": {
-		"terraform": {
-			"initializationOptions": {
-				"rootModulePaths": ["/any/path"]
-			},
-		}
-	}
-}
-```
-or
-```json
-{
-	"clients": {
-		"terraform": {
-			"initializationOptions": {
-				"excludeModulePaths": ["/any/path"]
-			},
-		}
-	}
-}
-```
-
 ### VS Code
 
 Use `tofu-ls`, e.g.
 
 ```json
 {
-	"tofu-ls": {
-		"rootModulePaths": ["/any/path"]
-	}
+  "tofu-ls": {
+    "tofu": {
+      "path": "path/to/tofu/binary"
+    }
+  }
 }
 ```
-or
-```json
-{
-	"tofu-ls": {
-		"excludeRootModules": ["/any/path"]
-	}
-}
