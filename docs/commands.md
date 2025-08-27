@@ -185,7 +185,7 @@ installed version.
 }
 ```
 
-### `module.tofu`
+### `module.opentofu`
 
 Provides information about the tofu binary version for the current module.
 

@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"maps"
 	"time"
 
 	"github.com/creachadair/jrpc2"
@@ -81,7 +82,7 @@ type service struct {
 	features *Features
 
 	walkerCollector    *walker.WalkerCollector
-	additionalHandlers map[string]rpch.Func
+	additionalHandlers rpch.Map
 
 	singleFileMode bool
 }
@@ -127,7 +128,7 @@ func (svc *service) Assigner() (jrpc2.Assigner, error) {
 	var expFeatures settings.ExperimentalFeatures
 	var validationOptions settings.ValidationOptions
 
-	m := map[string]rpch.Func{
+	m := rpch.Map{
 		"initialize": func(ctx context.Context, req *jrpc2.Request) (interface{}, error) {
 			err := session.Initialize(req)
 			if err != nil {
@@ -402,13 +403,9 @@ func (svc *service) Assigner() (jrpc2.Assigner, error) {
 	}
 
 	// For use in tests, e.g. to test request cancellation
-	if len(svc.additionalHandlers) > 0 {
-		for methodName, handlerFunc := range svc.additionalHandlers {
-			m[methodName] = handlerFunc
-		}
-	}
+	maps.Copy(m, svc.additionalHandlers)
 
-	return convertMap(m), nil
+	return m, nil
 }
 
 func (svc *service) configureSessionDependencies(ctx context.Context, cfgOpts *settings.Options) error {
@@ -621,18 +618,6 @@ func (svc *service) shutdown() {
 			svc.features.Variables.Stop()
 		}
 	}
-}
-
-// convertMap is a helper function allowing us to omit the jrpc2.Func
-// signature from the method definitions
-func convertMap(m map[string]rpch.Func) rpch.Map {
-	hm := make(rpch.Map, len(m))
-
-	for method, fun := range m {
-		hm[method] = rpch.New(fun)
-	}
-
-	return hm
 }
 
 const requestCancelled jrpc2.Code = -32800
