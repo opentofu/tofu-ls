@@ -17,5 +17,6 @@ project {
     ".changes/**",
     "internal/schemas/gen-workspace/**",
     "internal/schemas/tf-plugin-cache/**",
+    "*.yml",
   ]
 }
