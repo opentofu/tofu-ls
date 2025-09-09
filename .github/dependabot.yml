@@ -4,11 +4,11 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    labels: ["dependencies"]
-  # Dependabot only updates hashicorp GHAs, external GHAs are managed by internal tooling (tsccr)
-  - package-ecosystem: "github-actions"
+    allow:
+      - dependency-name: "github.com/opentofu/*"
+  - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "daily"
-    allow:
-      - dependency-name: "hashicorp/*"
+      interval: "weekly"
+    ignore:
+      - dependency-name: "github.com/opentofu/*"
