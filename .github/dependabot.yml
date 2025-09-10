@@ -6,9 +6,3 @@ updates:
       interval: "daily"
     allow:
       - dependency-name: "github.com/opentofu/*"
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    ignore:
-      - dependency-name: "github.com/opentofu/*"
