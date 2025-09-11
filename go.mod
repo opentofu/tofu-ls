@@ -22,7 +22,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/opentofu/opentofu-schema v0.0.14
 	github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a
-	github.com/opentofu/tofu-exec v0.0.1
+	github.com/opentofu/tofu-exec v0.0.2
 	github.com/opentofu/tofudl v0.0.1
 	github.com/otiai10/copy v1.14.0
 	github.com/pmezard/go-difflib v1.0.0

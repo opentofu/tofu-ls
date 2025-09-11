@@ -478,8 +478,8 @@ github.com/opentofu/opentofu-schema v0.0.14 h1:NnuBIgmFc9VRIyRimhmks+fFv/K4N94Nm
 github.com/opentofu/opentofu-schema v0.0.14/go.mod h1:3G/KsYw9CRdZ3zx1JzRbg0aCgDAEGKxkv+UtHsB5bUo=
 github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a h1:NyM/PPbc+kxxv2d4OKfE32C5fLtVTLceyg4YKKCYO9Y=
 github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a/go.mod h1:HzQhpVo/NJnGmN+7FPECCVCA5ijU7AUcvf39enBKYOc=
-github.com/opentofu/tofu-exec v0.0.1 h1:QL77U8z0WA+RhfGhjnpktrcuuxnz017tDiildEILMnI=
-github.com/opentofu/tofu-exec v0.0.1/go.mod h1:hddc2RF2tgPfsIx3Pmo8O+dDT9K8SdY/y5J7aMer47o=
+github.com/opentofu/tofu-exec v0.0.2 h1:qpqaHfHVVqEPHfT/hLwRD3rClZNu2VTejrvfjIhGz9A=
+github.com/opentofu/tofu-exec v0.0.2/go.mod h1:hddc2RF2tgPfsIx3Pmo8O+dDT9K8SdY/y5J7aMer47o=
 github.com/opentofu/tofudl v0.0.1 h1:r2uD4nxMnq0Qkzhh/C9Ldxjt+piTJi0R0C40Kf4d+a8=
 github.com/opentofu/tofudl v0.0.1/go.mod h1:HeIabsnOzo0WMnIRqI13Ho6hEi6tu2nrQpzSddWL/9w=
 github.com/otiai10/copy v1.14.0 h1:dCI/t1iTdYGtkvCuBG2BgR6KZa83PTclw4U5n2wAllU=
