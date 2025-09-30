@@ -14,13 +14,13 @@ require (
 	github.com/hashicorp/go-version v1.7.0
 	github.com/hashicorp/hcl-lang v0.0.0-20240605150436-0e930f47b31b
 	github.com/hashicorp/hcl/v2 v2.21.0
-	github.com/hashicorp/terraform-json v0.22.1
+	github.com/hashicorp/terraform-json v0.27.2
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mh-cbon/go-fmt-fail v0.0.0-20160815164508-67765b3fbcb5
 	github.com/mitchellh/cli v1.1.5
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/opentofu/opentofu-schema v0.1.1
+	github.com/opentofu/opentofu-schema v0.1.2-0.20250930060056-86ad42cd626a
 	github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a
 	github.com/opentofu/tofu-exec v0.0.2
 	github.com/opentofu/tofudl v0.0.1
@@ -28,7 +28,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0
 	github.com/stretchr/testify v1.10.0
 	github.com/vektra/mockery/v2 v2.45.0
-	github.com/zclconf/go-cty v1.15.0
+	github.com/zclconf/go-cty v1.16.4
 	github.com/zclconf/go-cty-debug v0.0.0-20240509010212-0d6042c53940
 	go.bobheadxi.dev/gobenchdata v1.3.1
 	go.opentelemetry.io/otel/trace v1.29.0
