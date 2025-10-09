@@ -171,6 +171,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 ```
 
+In case you are using '.tofu' files, you also need to add the filetype during the initialization.
+At the time of writing this, Neovim doesn't support opentofu file extensions by default.
+
+```lua
+-- Add OpenTofu filetype
+vim.filetype.add({
+  extension = {
+    tofu = 'opentofu'
+  },
+})
+```
+
 Make sure to read through [Neovim LSP documentation](https://neovim.io/doc/user/lsp.html) if you need more detailed settings.
 
 ## VS Code
