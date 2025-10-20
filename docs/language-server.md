@@ -2,7 +2,7 @@
 
 ## How to add an Experimental Capability
 
-Add a new entry to the ExperimentalServerCapabilities struct in `internal/protocol/expertimental.go:6`:
+Add a new entry to the ExperimentalServerCapabilities struct in `internal/protocol/experimental.go:6`:
 
 ```go
 type ExperimentalServerCapabilities struct {
@@ -14,7 +14,7 @@ type ExperimentalServerCapabilities struct {
 
 > Note the casing in the mapstructure field compared to the field name.
 
-Add a new method to retrieve the client side command id in `internal/protocol/expertimental.go`:
+Add a new method to retrieve the client-side command ID in `internal/protocol/experimental.go`:
 
 ```go
 func (cc ExpClientCapabilities) NewItemHereCommandId() (string, bool) {
@@ -27,7 +27,7 @@ func (cc ExpClientCapabilities) NewItemHereCommandId() (string, bool) {
 }
 ```
 
-> Note that the command ID matches the experimental capabilities struct in expertimental.go`
+> Note that the command ID matches the experimental capabilities struct in experimental.go`
 
 Add a new stanza to `internal/langServer/handlers/initialize.go:63` to pull the command ID and register the capability:
 
@@ -38,7 +38,7 @@ if _, ok := expClientCaps.NewItemHereCommandId(); ok {
 }
 ```
 
-> Note the casing in the proprties hash.
+> Note the casing in the properties hash.
 
 Finally, register the command handler in `internal/langServer/handlers/service.go:454`:
 
