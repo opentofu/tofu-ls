@@ -36,7 +36,7 @@ type WalkerPath struct {
 type PathContext struct {
 }
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type=PathState -output=path_state_string.go
+//go:generate go tool golang.org/x/tools/cmd/stringer -type=PathState -output=path_state_string.go
 type PathState uint
 
 const (

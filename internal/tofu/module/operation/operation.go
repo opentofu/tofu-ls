@@ -5,7 +5,7 @@
 
 package operation
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type=OpState -output=op_state_string.go
+//go:generate go tool golang.org/x/tools/cmd/stringer -type=OpState -output=op_state_string.go
 type OpState uint
 
 const (
@@ -15,7 +15,7 @@ const (
 	OpStateLoaded
 )
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type=OpType -output=op_type_string.go
+//go:generate go tool golang.org/x/tools/cmd/stringer -type=OpType -output=op_type_string.go
 type OpType uint
 
 const (

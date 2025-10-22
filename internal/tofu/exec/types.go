@@ -21,7 +21,7 @@ type ExecutorFactory func(workDir, execPath string) (TofuExecutor, error)
 
 type Formatter func(ctx context.Context, input []byte) ([]byte, error)
 
-//go:generate go run github.com/vektra/mockery/v2 --name TofuExecutor --structname Executor --filename executor.go --outpkg mock --output ./mock
+//go:generate go tool github.com/vektra/mockery/v2 --name TofuExecutor --structname Executor --filename executor.go --outpkg mock --output ./mock
 
 type TofuExecutor interface {
 	SetLogger(logger *log.Logger)
