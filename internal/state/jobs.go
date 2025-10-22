@@ -75,7 +75,7 @@ func (sj *ScheduledJob) Copy() *ScheduledJob {
 	}
 }
 
-//go:generate go run golang.org/x/tools/cmd/stringer -type=State -output=jobs_state_string.go
+//go:generate go tool golang.org/x/tools/cmd/stringer -type=State -output=jobs_state_string.go
 type State uint
 
 const (
