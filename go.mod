@@ -1,6 +1,6 @@
 module github.com/opentofu/tofu-ls
 
-go 1.24
+go 1.25.3
 
 require (
 	github.com/apparentlymart/go-textseg v1.0.0
