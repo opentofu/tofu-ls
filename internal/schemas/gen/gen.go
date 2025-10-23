@@ -238,7 +238,7 @@ type Outputs struct {
 
 func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	var pVersion *version.Version
-	pVersion = input.CoreVersion
+	pVersion = input.ProviderVersion
 
 	wd := filepath.Join(input.WorkspacePath,
 		input.Provider.Addr.Hostname.String(),
