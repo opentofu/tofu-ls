@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/hashicorp/go-version"
@@ -48,6 +49,10 @@ func TestEphemeralCompletion_ephemeralTypes(t *testing.T) {
 		t.Fatal(err)
 	}
 	testDataURI := "file://" + testData
+	if runtime.GOOS == "windows" {
+		testData = filepath.ToSlash(testData)
+		testDataURI = "file:///" + testData
+	}
 	mainFileContent, err := os.ReadFile(testData + "/main.tf")
 	if err != nil {
 		t.Fatal(err)
