@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/go-version"
@@ -44,23 +45,33 @@ func TestModuleCompletion_withoutInitialization(t *testing.T) {
 }
 
 func TestEphemeralCompletion_ephemeralTypes(t *testing.T) {
-	testData, err := filepath.Abs("testdata/ephemeral-completions")
+	workDir, err := filepath.Abs("testdata/ephemeral-completions")
+
 	if err != nil {
 		t.Fatal(err)
 	}
-	testDataURI := "file://" + testData
+
+	testData := workDir
+	testDataURI := "file://" + workDir
 	if runtime.GOOS == "windows" {
-		testData = filepath.ToSlash(testData)
+		// workDir is used at the LanguageServer.TofuMockCalls. While Go works fine around
+		// volume name (for Windows they are the same), they are used as map keys in this test,
+		// so we need to have consistent casing for the volume name.
+		// The code above converts the volume name to uppercase.
+		workDir = fmt.Sprintf("%s%s", strings.ToUpper(string(workDir[0])), workDir[1:])
+		testData = filepath.ToSlash(workDir)
 		testDataURI = "file:///" + testData
 	}
 	mainFileContent, err := os.ReadFile(testData + "/main.tf")
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	marshalledContent, err := json.Marshal(string(mainFileContent))
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	var testSchema tfjson.ProviderSchemas
 	err = json.Unmarshal([]byte(testModuleSchemaOutput), &testSchema)
 	if err != nil {
@@ -78,7 +89,7 @@ func TestEphemeralCompletion_ephemeralTypes(t *testing.T) {
 		StateStore: ss,
 		TofuCalls: &exec.TofuMockCalls{
 			PerWorkDir: map[string][]*mock.Call{
-				testData: {
+				workDir: {
 					{
 						Method:        "Version",
 						Repeatability: 1,
