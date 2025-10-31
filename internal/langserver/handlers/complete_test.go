@@ -10,10 +10,13 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/go-version"
 	tfjson "github.com/hashicorp/terraform-json"
+	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/langserver"
 	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/state"
@@ -39,6 +42,155 @@ func TestModuleCompletion_withoutInitialization(t *testing.T) {
 				"line": 1
 			}
 		}`, TempDir(t).URI)}, session.SessionNotInitialized.Err())
+}
+
+func TestEphemeralCompletion_ephemeralTypes(t *testing.T) {
+	workDir, err := filepath.Abs("testdata/ephemeral-completions")
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	testData := workDir
+	testDataURI := "file://" + workDir
+	if runtime.GOOS == "windows" {
+		// workDir is used at the LanguageServer.TofuMockCalls. While Go works fine around
+		// volume name (for Windows they are the same), they are used as map keys in this test,
+		// so we need to have consistent casing for the volume name.
+		// The code above converts the volume name to uppercase.
+		workDir = fmt.Sprintf("%s%s", strings.ToUpper(string(workDir[0])), workDir[1:])
+		testData = filepath.ToSlash(workDir)
+		testDataURI = "file:///" + testData
+	}
+	mainFileContent, err := os.ReadFile(testData + "/main.tf")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	marshalledContent, err := json.Marshal(string(mainFileContent))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var testSchema tfjson.ProviderSchemas
+	err = json.Unmarshal([]byte(testModuleSchemaOutput), &testSchema)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ss, err := state.NewStateStore()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wc := walker.NewWalkerCollector()
+
+	ls := langserver.NewLangServerMock(t, NewMockSession(&MockSessionInput{
+		StateStore: ss,
+		TofuCalls: &exec.TofuMockCalls{
+			PerWorkDir: map[string][]*mock.Call{
+				workDir: {
+					{
+						Method:        "Version",
+						Repeatability: 1,
+						Arguments: []interface{}{
+							mock.AnythingOfType(""),
+						},
+						ReturnArguments: []interface{}{
+							version.Must(version.NewVersion("1.11.0-beta1")),
+							nil,
+							nil,
+						},
+					},
+					{
+						Method:        "GetExecPath",
+						Repeatability: 1,
+						ReturnArguments: []interface{}{
+							"",
+						},
+					},
+					{
+						Method:        "ProviderSchemas",
+						Repeatability: 1,
+						Arguments: []interface{}{
+							mock.AnythingOfType(""),
+						},
+						ReturnArguments: []interface{}{
+							&testSchema,
+							nil,
+						},
+					},
+				},
+			},
+		},
+		WalkerCollector: wc,
+	}))
+	stop := ls.Start(t)
+	defer stop()
+
+	ls.Call(t, &langserver.CallRequest{
+		Method: "initialize",
+		ReqParams: fmt.Sprintf(`{
+	"capabilities": {},
+	"rootUri": %q,
+	"processId": 12345
+}`, testDataURI)})
+	waitForWalkerPath(t, ss, wc, document.DirHandle{URI: testDataURI})
+	ls.Notify(t, &langserver.CallRequest{
+		Method:    "initialized",
+		ReqParams: "{}",
+	})
+	ls.Call(t, &langserver.CallRequest{
+		Method: "textDocument/didOpen",
+		ReqParams: fmt.Sprintf(`{
+	"textDocument": {
+		"version": 0,
+		"languageId": "opentofu",
+		"text": %s,
+		"uri": "%s/main.tf"
+	}
+}`, string(marshalledContent), testDataURI)})
+	waitForAllJobs(t, ss)
+	ls.CallAndExpectResponse(t, &langserver.CallRequest{
+		Method: "textDocument/completion",
+		ReqParams: fmt.Sprintf(`{
+			"textDocument": {
+				"uri": "%s/main.tf"
+			},
+			"position": {
+				"character": 11,
+				"line": 9
+			}
+		}`, testDataURI)}, `{
+			  "jsonrpc": "2.0",
+			  "id": 3,
+			  "result": {
+				"isIncomplete": false,
+				"items": [
+				  {
+					"label": "test_ephemeral_resource_1",
+					"kind": 5,
+					"detail": "test/test",
+					"documentation": "Ephemeral resource test",
+					"insertTextFormat": 1,
+					"textEdit": {
+					  "range": {
+						"start": {
+						  "line": 9,
+						  "character": 11
+						},
+						"end": {
+						  "line": 9,
+						  "character": 11
+						}
+					  },
+					  "newText": "test_ephemeral_resource_1"
+					}
+				  }
+				]
+			  }
+			}`)
+
 }
 
 func TestModuleCompletion_withValidData_basic(t *testing.T) {
@@ -785,6 +937,15 @@ var testModuleSchemaOutput = `{
 								}
 							}
 						}
+					}
+				}
+			},
+			"ephemeral_resource_schemas": {
+				"test_ephemeral_resource_1": {
+					"version": 0,
+					"block": {
+						"description": "Ephemeral resource test",
+						"description_kind": "markdown"
 					}
 				}
 			}
