@@ -73,6 +73,14 @@ func (svc *service) Initialize(ctx context.Context, params lsp.InitializeParams)
 		return serverCaps, err
 	}
 
+	// Rename capabilities - options set only when PrepareSupport is present
+	// Used to test the rename before it is performed
+	if clientCaps.TextDocument.Rename.PrepareSupport {
+		serverCaps.Capabilities.RenameProvider = lsp.RenameOptions{
+			PrepareProvider: true,
+		}
+	}
+
 	stCaps := clientCaps.TextDocument.SemanticTokens
 	caps := ilsp.SemanticTokensClientCapabilities{
 		SemanticTokensClientCapabilities: clientCaps.TextDocument.SemanticTokens,
@@ -191,6 +199,7 @@ func initializeResult(ctx context.Context) lsp.InitializeResult {
 			DocumentFormattingProvider: true,
 			DocumentSymbolProvider:     true,
 			WorkspaceSymbolProvider:    true,
+			RenameProvider:             true,
 			Workspace: lsp.Workspace6Gn{
 				WorkspaceFolders: lsp.WorkspaceFolders5Gn{
 					Supported:           true,
