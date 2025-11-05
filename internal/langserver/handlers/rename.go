@@ -89,7 +89,7 @@ func (svc *service) Rename(ctx context.Context, params lsp.RenameParams) (*lsp.W
 	// Build ranges to edit from declaration
 	if declaration != nil && declaration.DefRangePtr != nil {
 		rng := *declaration.DefRangePtr
-		svc.buildReferencesFromTarget(&decoder.ReferenceTarget{
+		err := svc.buildReferencesFromTarget(&decoder.ReferenceTarget{
 			OriginRange: rng,
 			Path: lang.Path{
 				Path:       doc.Dir.Path(),
@@ -98,6 +98,9 @@ func (svc *service) Rename(ctx context.Context, params lsp.RenameParams) (*lsp.W
 			Range:       rng,
 			DefRangePtr: &rng,
 		}, params.NewName, rangesToEditInDocs)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// In this case we have a reference as the starting point for rename
@@ -109,7 +112,10 @@ func (svc *service) Rename(ctx context.Context, params lsp.RenameParams) (*lsp.W
 			return nil, err
 		}
 		for _, target := range targets {
-			svc.buildReferencesFromTarget(target, params.NewName, rangesToEditInDocs)
+			err := svc.buildReferencesFromTarget(target, params.NewName, rangesToEditInDocs)
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -141,7 +147,7 @@ func (svc *service) Rename(ctx context.Context, params lsp.RenameParams) (*lsp.W
 	return workspaceEdit, nil
 }
 
-func (svc *service) buildReferencesFromTarget(refTarget *decoder.ReferenceTarget, newText string, toEdit map[string]map[hcl.Range]string) {
+func (svc *service) buildReferencesFromTarget(refTarget *decoder.ReferenceTarget, newText string, toEdit map[string]map[hcl.Range]string) error {
 	//TODO add handling for the target too
 	path := lang.Path{
 		Path:       refTarget.Path.Path,
@@ -159,14 +165,34 @@ func (svc *service) buildReferencesFromTarget(refTarget *decoder.ReferenceTarget
 
 	targetURI := refTarget.Path.Path + "/" + refTarget.Range.Filename
 	defRange := *refTarget.DefRangePtr
-	// TODO I was testing a specific case here for variable and I am shifting the end of the range to dodge the last "
-	// In case of locals for example this does not work. We need to get the address and treat different scopes of declaration differently
-	defRange.End.Column = defRange.End.Column - 1
-	defRange.Start.Column = defRange.Start.Column - 1
+	localCtx, err := svc.pathReader.PathContext(path)
+	if err != nil {
+		return err
+	}
+	var detailedTarget *reference.Target
+	// Get reference target for the declaration we have
+	if refTargets, ok := localCtx.ReferenceTargets.InnermostAtPos(defRange.Filename, defRange.Start); ok {
+		for _, ref := range refTargets {
+			//if !ref.DefRangePtr.ContainsPos(pos) {
+			//	continue
+			//}
+			detailedTarget = &ref
+			break
+			// TODO Is there something we need to do with other matches?
+		}
+	}
+	if detailedTarget == nil {
+		return fmt.Errorf("could not resolve reference")
+	}
+	// specific case here for variable-like declaration - shifting the end of the range to dodge the last "
+	if detailedTarget.ScopeId != "local" {
+		defRange.End.Column = defRange.End.Column - 1
+	}
 	if _, ok := toEdit[targetURI]; !ok {
 		toEdit[targetURI] = make(map[hcl.Range]string)
 	}
 	toEdit[targetURI][defRange] = newText
+	return nil
 }
 
 func (svc *service) PrepareRename(ctx context.Context, params lsp.PrepareRenameParams) (*lsp.PrepareRenameResult, error) {
