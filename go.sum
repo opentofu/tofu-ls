@@ -452,8 +452,8 @@ github.com/npillmayer/nestext v0.1.3/go.mod h1:h2lrijH8jpicr25dFY+oAJLyzlya6jhnu
 github.com/oklog/run v1.0.0/go.mod h1:dlhp/R75TPv97u0XWUtDeV/lRKWPKSdTuV0TZvrmrQA=
 github.com/oklog/ulid v1.3.1 h1:EGfNDEx6MqHz8B3uNV6QAib1UR2Lm97sHi3ocA6ESJ4=
 github.com/oklog/ulid v1.3.1/go.mod h1:CirwcVhetQ6Lv90oh/F+FBtV6XMibvdAFo93nm5qn4U=
-github.com/opentofu/opentofu-schema v0.2.0 h1:96dc1IGwl58sT7ih7gxcOJu3L0cRh4tNdXKKzbO1lPk=
-github.com/opentofu/opentofu-schema v0.2.0/go.mod h1:brkEqnz2GLUnJyKGMxYk8bKTfGmNIEmy+f6uJNOsUv0=
+github.com/opentofu/opentofu-schema v0.3.0 h1:E7zJJ78MymJAGg+UOikYLpV0PbRxGJ28Z5IddV1dpeg=
+github.com/opentofu/opentofu-schema v0.3.0/go.mod h1:brkEqnz2GLUnJyKGMxYk8bKTfGmNIEmy+f6uJNOsUv0=
 github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a h1:NyM/PPbc+kxxv2d4OKfE32C5fLtVTLceyg4YKKCYO9Y=
 github.com/opentofu/registry-address v0.0.0-20230922120653-901b9ae4061a/go.mod h1:HzQhpVo/NJnGmN+7FPECCVCA5ijU7AUcvf39enBKYOc=
 github.com/opentofu/tofu-exec v0.0.2 h1:qpqaHfHVVqEPHfT/hLwRD3rClZNu2VTejrvfjIhGz9A=
