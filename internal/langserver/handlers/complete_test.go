@@ -532,6 +532,26 @@ func TestModuleCompletion_withValidData_tooNewVersion(t *testing.T) {
 						}
 					},
 					{
+						"label": "deprecated",
+						"kind": 10,
+						"detail": "optional, string",
+						"documentation": "A message indicating why the variable is deprecated, and what to use instead.",
+						"insertTextFormat": 1,
+						"textEdit": {
+							"range": {
+								"start": {
+									"line": 1,
+									"character": 0
+								},
+								"end": {
+									"line": 1,
+									"character": 0
+								}
+							},
+							"newText": "deprecated"
+						}
+					},
+					{
 						"label": "description",
 						"kind": 10,
 						"detail": "optional, string",
