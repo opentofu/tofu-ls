@@ -30,7 +30,12 @@ type DiagnosticMetadata struct {
 	Unnecessary bool
 }
 
-func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string) []lsp.Diagnostic {
+type DiagnosticOptions struct {
+	Severity *lsp.DiagnosticSeverity
+	Tags     []lsp.DiagnosticTag
+}
+
+func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string, opts ...DiagnosticOptions) []lsp.Diagnostic {
 	diags := []lsp.Diagnostic{}
 
 	for _, hclDiag := range hclDiags {

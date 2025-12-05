@@ -17,6 +17,7 @@ const (
 	SchemaValidationSource
 	ReferenceValidationSource
 	TofuValidateSource
+	UnusedDeclarationSource
 )
 
 func (d DiagnosticSource) String() string {
