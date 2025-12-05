@@ -133,6 +133,40 @@ func ReferenceValidation(ctx context.Context, modStore *state.ModuleStore, rootF
 	return modStore.UpdateModuleDiagnostics(modPath, globalAst.ReferenceValidationSource, ast.ModDiagsFromMap(diags))
 }
 
+// UnusedDeclarationValidation checks unused variable and local declarations
+// It relies on [DecodeReferenceTargets] and [DecodeReferenceOrigins]
+// to supply both origins and targets to compare.
+func UnusedDeclarationValidation(ctx context.Context, modStore *state.ModuleStore, rootFeature fdecoder.RootReader, modPath string) error {
+	mod, err := modStore.ModuleRecordByPath(modPath)
+	if err != nil {
+		return err
+	}
+
+	// Avoid validation if it is already in progress or already finished
+	if mod.ModuleDiagnosticsState[globalAst.UnusedDeclarationSource] != op.OpStateUnknown && !job.IgnoreState(ctx) {
+		return job.StateNotChangedErr{Dir: document.DirHandleFromPath(modPath)}
+	}
+
+	err = modStore.SetModuleDiagnosticsState(modPath, globalAst.UnusedDeclarationSource, op.OpStateLoading)
+	if err != nil {
+		return err
+	}
+
+	pathReader := &fdecoder.PathReader{
+		StateReader: modStore,
+		RootReader:  rootFeature,
+	}
+	pathCtx, err := pathReader.PathContext(lang.Path{
+		Path:       modPath,
+		LanguageID: ilsp.OpenTofu.String(),
+	})
+	if err != nil {
+		return err
+	}
+	diags := validations.UnusedTargets(ctx, pathCtx)
+	return modStore.UpdateModuleDiagnostics(modPath, globalAst.UnusedDeclarationSource, ast.ModDiagsFromMap(diags))
+}
+
 // TofuValidate uses Tofu CLI to run validate subcommand
 // and turn the provided (JSON) output into diagnostics associated
 // with "invalid" parts of code.
