@@ -21,7 +21,14 @@ const (
 )
 
 func (d DiagnosticSource) String() string {
-	return "OpenTofu"
+	switch d {
+	case UnusedDeclarationSource:
+		// We want to be able to attach a friendly source here so that we can provide
+		// Quick fixes specific to unused declarations.
+		return "OpenTofu: Unused Declarations"
+	default:
+		return "OpenTofu"
+	}
 }
 
 type DiagnosticSourceState map[DiagnosticSource]op.OpState
