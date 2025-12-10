@@ -572,6 +572,20 @@ func TestModuleCompletion_withValidData_tooNewVersion(t *testing.T) {
 						}
 					},
 					{
+						"label":"ephemeral",
+						"kind":10,
+						"detail":"optional, bool",
+						"documentation":"Marks variable as ephemeral. OpenTofu will not store ephemeral variable in state at alland will store only their name in the plan. \n Ephemeral variables can only be used in the limited context where ephemerals are allowed. Read more about ephemeral variables.",
+						"insertTextFormat":1,
+						"textEdit":{
+							"range": {
+								"start":{"line":1,"character":0},
+								"end":{"line":1,"character":0}
+							},
+							"newText":"ephemeral"
+						}
+					},
+					{
 						"label": "nullable",
 						"kind": 10,
 						"detail": "optional, bool",
