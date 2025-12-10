@@ -4,7 +4,7 @@ terraform {
       source = "test/test"
     }
   }
-  required_version = "1.11.0-beta1"
+  required_version = "1.11.0"
 }
 
 ephemeral "" "eph1" {

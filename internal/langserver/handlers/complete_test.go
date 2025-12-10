@@ -97,7 +97,7 @@ func TestEphemeralCompletion_ephemeralTypes(t *testing.T) {
 							mock.AnythingOfType(""),
 						},
 						ReturnArguments: []interface{}{
-							version.Must(version.NewVersion("1.11.0-beta1")),
+							version.Must(version.NewVersion("1.11.0")),
 							nil,
 							nil,
 						},
