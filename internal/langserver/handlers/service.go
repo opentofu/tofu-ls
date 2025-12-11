@@ -620,8 +620,10 @@ func (svc *service) shutdown() {
 	}
 }
 
-const requestCancelled jrpc2.Code = -32800
-const tracerName = "github.com/opentofu/tofu-ls/internal/langserver/handlers"
+const (
+	requestCancelled jrpc2.Code = -32800
+	tracerName                  = "github.com/opentofu/tofu-ls/internal/langserver/handlers"
+)
 
 // handle calls a jrpc2.Func compatible function
 func handle(ctx context.Context, req *jrpc2.Request, fn interface{}) (interface{}, error) {
@@ -690,6 +692,6 @@ func handle(ctx context.Context, req *jrpc2.Request, fn interface{}) (interface{
 func (svc *service) decoderForDocument(_ context.Context, doc *document.Document) (*decoder.PathDecoder, error) {
 	return svc.decoder.Path(lang.Path{
 		Path:       doc.Dir.Path(),
-		LanguageID: doc.LanguageID,
+		LanguageID: string(ilsp.ParseLanguageID(doc.LanguageID)),
 	})
 }

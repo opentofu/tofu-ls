@@ -14,7 +14,7 @@ import (
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
-func (svc *service) GoToDefinition(ctx context.Context, params lsp.TextDocumentPositionParams) (interface{}, error) {
+func (svc *service) GoToDefinition(ctx context.Context, params lsp.TextDocumentPositionParams) (any, error) {
 	cc, err := ilsp.ClientCapabilities(ctx)
 	if err != nil {
 		return nil, err
@@ -28,7 +28,7 @@ func (svc *service) GoToDefinition(ctx context.Context, params lsp.TextDocumentP
 	return ilsp.RefTargetsToDefinitionLocationLinks(targets, cc.TextDocument.Definition), nil
 }
 
-func (svc *service) GoToDeclaration(ctx context.Context, params lsp.TextDocumentPositionParams) (interface{}, error) {
+func (svc *service) GoToDeclaration(ctx context.Context, params lsp.TextDocumentPositionParams) (any, error) {
 	cc, err := ilsp.ClientCapabilities(ctx)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (svc *service) goToReferenceTarget(ctx context.Context, params lsp.TextDocu
 
 	path := lang.Path{
 		Path:       doc.Dir.Path(),
-		LanguageID: doc.LanguageID,
+		LanguageID: string(ilsp.ParseLanguageID(doc.LanguageID)),
 	}
 
 	return svc.decoder.ReferenceTargetsForOriginAtPos(path, doc.Filename, pos)

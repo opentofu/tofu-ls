@@ -59,7 +59,7 @@ func (svc *service) TextDocumentDidChange(ctx context.Context, params lsp.DidCha
 	svc.eventBus.DidChange(eventbus.DidChangeEvent{
 		Context:    ctx, // We pass the context for data here
 		Dir:        dh.Dir,
-		LanguageID: doc.LanguageID,
+		LanguageID: string(ilsp.ParseLanguageID(doc.LanguageID)),
 	})
 
 	return nil

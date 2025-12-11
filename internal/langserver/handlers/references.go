@@ -35,7 +35,7 @@ func (svc *service) References(ctx context.Context, params lsp.ReferenceParams) 
 
 	path := lang.Path{
 		Path:       doc.Dir.Path(),
-		LanguageID: doc.LanguageID,
+		LanguageID: ilsp.ParseLanguageID(doc.LanguageID).String(),
 	}
 	// TODO? maybe kick off indexing of the whole workspace here
 	origins := svc.decoder.ReferenceOriginsTargetingPos(path, doc.Filename, pos)
