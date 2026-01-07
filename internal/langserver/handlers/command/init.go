@@ -25,7 +25,7 @@ func (h *CmdHandler) TofuInitHandler(ctx context.Context, args cmd.CommandArgs) 
 		return nil, err
 	}
 
-	dirHandle := document.DirHandleFromURI(*dirURI)
+	dirHandle := document.DirHandleFromURI(dirURI)
 	tfExec, err := module.TofuExecutorForModule(ctx, dirHandle.Path())
 	if err != nil {
 		return nil, errors.EnrichTfExecError(err)
@@ -58,15 +58,15 @@ func (h *CmdHandler) TofuInitHandler(ctx context.Context, args cmd.CommandArgs) 
 	return nil, nil
 }
 
-func validateURI(args cmd.CommandArgs) (*string, error) {
+func validateURI(args cmd.CommandArgs) (string, error) {
 	dirURI, ok := args.GetString("uri")
 	if !ok || dirURI == "" {
-		return nil, fmt.Errorf("%w: expected module uri argument to be set", jrpc2.InvalidParams.Err())
+		return "", fmt.Errorf("%w: expected module uri argument to be set", jrpc2.InvalidParams.Err())
 	}
 
 	if !uri.IsURIValid(dirURI) {
-		return nil, fmt.Errorf("URI %q is not valid", dirURI)
+		return "", fmt.Errorf("URI %q is not valid", dirURI)
 	}
 
-	return &dirURI, nil
+	return dirURI, nil
 }
