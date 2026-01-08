@@ -31,6 +31,25 @@ func (u UnusedDeclarationExtra) FullBlockRange() *hcl.Range {
 func UnusedTargets(ctx context.Context, pathCtx *decoder.PathContext) lang.DiagnosticsMap {
 	diagsMap := make(lang.DiagnosticsMap)
 
+	// getKey builds a lookup key from the first two address parts (e.g., "var.foo" or "local.bar")
+	getKey := func(addr lang.Address) string {
+		return addr[0].String() + "." + addr[1].String()
+	}
+
+	// Build a map of used origins for looking up later
+	usedOrigins := make(map[string]bool)
+	for _, origin := range pathCtx.ReferenceOrigins {
+		localOrigin, ok := origin.(reference.LocalOrigin)
+		if !ok {
+			continue
+		}
+
+		originAddr := localOrigin.Address()
+		if len(originAddr) >= 2 {
+			usedOrigins[getKey(originAddr)] = true
+		}
+	}
+
 	// Track seen targets to avoid duplicates (PathContext may contain duplicate targets)
 	seenTargets := make(map[string]bool)
 
@@ -52,23 +71,7 @@ func UnusedTargets(ctx context.Context, pathCtx *decoder.PathContext) lang.Diagn
 		}
 		seenTargets[targetKey] = true
 
-		isUsed := false
-		for _, origin := range pathCtx.ReferenceOrigins {
-			localOrigin, ok := origin.(reference.LocalOrigin)
-			if !ok {
-				continue
-			}
-
-			originAddr := localOrigin.Address()
-			if len(originAddr) >= 2 && len(target.Addr) >= 2 &&
-				originAddr[0].String() == target.Addr[0].String() &&
-				originAddr[1].String() == target.Addr[1].String() {
-				isUsed = true
-				break
-			}
-		}
-
-		if !isUsed {
+		if !usedOrigins[getKey(target.Addr)] {
 			file := target.RangePtr.Filename
 
 			d := &hcl.Diagnostic{
