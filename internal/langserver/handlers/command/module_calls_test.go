@@ -142,3 +142,44 @@ func Test_parseModuleRecords_v1_1(t *testing.T) {
 		})
 	}
 }
+
+func Test_getModuleDocumentationLink(t *testing.T) {
+	tests := []struct {
+		name       string
+		sourceAddr tfmod.ModuleSourceAddr
+		want       string
+	}{
+		{
+			name:       "registry module",
+			sourceAddr: tfaddr.MustParseModuleSource("terraform-aws-modules/ec2-instance/aws"),
+			want:       "https://search.opentofu.org/module/terraform-aws-modules/ec2-instance/aws/latest",
+		},
+		{
+			name:       "registry module with submodule path",
+			sourceAddr: tfaddr.MustParseModuleSource("terraform-aws-modules/vpc/aws//modules/vpc-endpoints"),
+			want:       "https://search.opentofu.org/module/terraform-aws-modules/vpc/aws/latest/submodule/vpc-endpoints",
+		},
+		{
+			name:       "non-registry module",
+			sourceAddr: tfmod.UnknownSourceAddr("github.com/terraform-aws-modules/terraform-aws-security-group"),
+			want:       "",
+		},
+		{
+			name:       "local module",
+			sourceAddr: tfmod.LocalSourceAddr("./beta"),
+			want:       "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx := context.Background()
+			got, err := getModuleDocumentationLink(ctx, tt.sourceAddr)
+			if err != nil {
+				t.Fatalf("getModuleDocumentationLink() error = %v", err)
+			}
+			if got != tt.want {
+				t.Errorf("getModuleDocumentationLink() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

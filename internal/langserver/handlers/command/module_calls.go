@@ -8,6 +8,7 @@ package command
 import (
 	"context"
 	"fmt"
+	"path"
 	"sort"
 	"strings"
 
@@ -130,6 +131,11 @@ func getModuleDocumentationLink(ctx context.Context, sourceAddr tfmod.ModuleSour
 		return "", nil
 	}
 	rawURL := fmt.Sprintf(`https://search.opentofu.org/module/%s/latest`, registryAddr.Package.ForRegistryProtocol())
+
+	if registryAddr.Subdir != "" {
+		submoduleName := path.Base(registryAddr.Subdir)
+		rawURL = fmt.Sprintf(`%s/submodule/%s`, rawURL, submoduleName)
+	}
 
 	u, err := docsURL(ctx, rawURL, "workspace/executeCommand/module.calls")
 	if err != nil {
