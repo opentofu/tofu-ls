@@ -177,7 +177,7 @@ func initializeResult(ctx context.Context) lsp.InitializeResult {
 			},
 			CompletionProvider: lsp.CompletionOptions{
 				ResolveProvider:   true,
-				TriggerCharacters: []string{".", "["},
+				TriggerCharacters: []string{".", "[", "_"},
 			},
 			CodeActionProvider: lsp.CodeActionOptions{
 				CodeActionKinds: ilsp.SupportedCodeActions.AsSlice(),
