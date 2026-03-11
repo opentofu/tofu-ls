@@ -7,7 +7,8 @@ package handlers
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
+	"strings"
 
 	"github.com/opentofu/tofu-ls/internal/langserver/errors"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
@@ -28,10 +29,37 @@ func (svc *service) textDocumentCodeAction(ctx context.Context, params lsp.CodeA
 	var ca []lsp.CodeAction
 
 	// For action definitions, refer to https://code.visualstudio.com/api/references/vscode-api#CodeActionKind
-	// We only support format type code actions at the moment, and do not want to format without the client asking for
-	// them, so exit early here if nothing is requested.
+	dh := ilsp.HandleFromDocumentURI(params.TextDocument.URI)
+
+	// Always check for quickfix actions when there are diagnostics, even if no
+	// explicit request via Only
+	if len(params.Context.Diagnostics) > 0 {
+		for _, diag := range params.Context.Diagnostics {
+			// Check for "Module schema not loaded" warning to suggest "tofu init"
+			if diag.Severity == lsp.SeverityWarning &&
+				strings.HasPrefix(diag.Message, "Module schema not loaded") {
+				// Arguments must be in "key=value" string format
+				arg, err := json.Marshal("uri=" + dh.Dir.URI)
+				if err != nil {
+					continue
+				}
+				ca = append(ca, lsp.CodeAction{
+					Title:       "Run 'tofu init'",
+					Kind:        ilsp.QuickFixTofuInit,
+					Diagnostics: []lsp.Diagnostic{diag},
+					Command: &lsp.Command{
+						Title:     "Run 'tofu init'",
+						Command:   "tofu-ls.tofu.init",
+						Arguments: []json.RawMessage{arg},
+					},
+				})
+				break // Only add one action
+			}
+		}
+	}
+
+	// For source actions, require explicit request via Only
 	if len(params.Context.Only) == 0 {
-		svc.logger.Printf("No code action requested, exiting")
 		return ca, nil
 	}
 
@@ -41,13 +69,11 @@ func (svc *service) textDocumentCodeAction(ctx context.Context, params lsp.CodeA
 
 	wantedCodeActions := ilsp.SupportedCodeActions.Only(params.Context.Only)
 	if len(wantedCodeActions) == 0 {
-		return nil, fmt.Errorf("could not find a supported code action to execute for %s, wanted %v",
-			params.TextDocument.URI, params.Context.Only)
+		// No matching source actions, but we may have quickfix actions already
+		return ca, nil
 	}
 
 	svc.logger.Printf("Code actions supported: %v", wantedCodeActions)
-
-	dh := ilsp.HandleFromDocumentURI(params.TextDocument.URI)
 
 	doc, err := svc.stateStore.DocumentStore.GetDocument(dh)
 	if err != nil {

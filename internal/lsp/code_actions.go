@@ -14,6 +14,9 @@ import (
 const (
 	// SourceFormatAllTofu is a OpenTofu specific format code action.
 	SourceFormatAllTofu = "source.formatAll.opentofu"
+
+	// QuickFixTofuInit is a quick fix action to run tofu init.
+	QuickFixTofuInit = "quickfix.opentofu.init"
 )
 
 type CodeActions map[lsp.CodeActionKind]bool
@@ -37,6 +40,7 @@ var (
 	// files to be formatted, but not terraform files (or vice versa).
 	SupportedCodeActions = CodeActions{
 		SourceFormatAllTofu: true,
+		QuickFixTofuInit:    true,
 	}
 )
 
