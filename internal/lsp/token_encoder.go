@@ -59,10 +59,11 @@ func (te *TokenEncoder) encodeTokenOfIndex(i int) []uint32 {
 	previousLine := 0
 	previousStartChar := 0
 	if i > 0 {
-		previousLine = te.Tokens[te.lastEncodedTokenIdx].Range.End.Line - 1
-		currentLine := te.Tokens[i].Range.End.Line - 1
-		if currentLine == previousLine {
-			previousStartChar = te.Tokens[te.lastEncodedTokenIdx].Range.Start.Column - 1
+		prevToken := te.Tokens[te.lastEncodedTokenIdx]
+		previousLine = prevToken.Range.End.Line - 1
+		currentLine := te.Tokens[i].Range.Start.Line - 1
+		if currentLine == previousLine && prevToken.Range.Start.Line == prevToken.Range.End.Line {
+			previousStartChar = prevToken.Range.Start.Column - 1
 		}
 	}
 

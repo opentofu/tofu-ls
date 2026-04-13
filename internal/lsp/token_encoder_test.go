@@ -230,6 +230,83 @@ func TestTokenEncoder_deltaStartCharBug(t *testing.T) {
 	}
 }
 
+func TestTokenEncoder_singleLineTokenAfterMultiLineToken(t *testing.T) {
+	// Simulates heredoc with two interpolations: the string between them
+	// is a multiline token, followed by a single-line token on the last line.
+	//
+	// locals {
+	//   test = <<-EOT
+	//     a: ${var.a}
+	//     b: ${var.b}
+	//   EOT
+	// }
+	bytes := []byte("locals {\n  test = <<-EOT\n    a: ${var.a}\n    b: ${var.b}\n  EOT\n}")
+	te := &TokenEncoder{
+		Lines: source.MakeSourceLines("test.tf", bytes),
+		Tokens: []lang.SemanticToken{
+			{
+				// "test" attr name
+				Type: lang.TokenAttrName,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 2, Column: 3, Byte: 11},
+					End:      hcl.Pos{Line: 2, Column: 7, Byte: 15},
+				},
+			},
+			{
+				// "var" in first interpolation
+				Type: lang.TokenReferenceStep,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 3, Column: 11, Byte: 36},
+					End:      hcl.Pos{Line: 3, Column: 14, Byte: 39},
+				},
+			},
+			{
+				// String content between "}\n    b: ${" — spans two lines
+				Type: lang.TokenString,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 3, Column: 16, Byte: 41},
+					End:      hcl.Pos{Line: 4, Column: 11, Byte: 56},
+				},
+			},
+			{
+				// "var" in second interpolation — on same line as end of multiline token
+				Type: lang.TokenReferenceStep,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 4, Column: 11, Byte: 56},
+					End:      hcl.Pos{Line: 4, Column: 14, Byte: 59},
+				},
+			},
+		},
+		ClientCaps: protocol.SemanticTokensClientCapabilities{
+			TokenTypes:     serverTokenTypes.AsStrings(),
+			TokenModifiers: serverTokenModifiers.AsStrings(),
+		},
+	}
+	data := te.Encode()
+	expectedData := []uint32{
+		// "test" attr: line 1 (0-based), col 2, len 4
+		1, 2, 4, 9, 0,
+		// "var" ref: line 2, col 10, len 3
+		1, 10, 3, 18, 0,
+		// multiline string line 1: same line as prev, delta from col 10, len to EOL
+		0, 5, 15, 13, 0,
+		// multiline string line 2: next line, col 0, len 10
+		1, 0, 10, 13, 0,
+		// "var" ref: same line as end of multiline, col 10, len 3
+		// deltaStartChar must be relative to 0 (last emitted entry started at col 0)
+		0, 10, 3, 18, 0,
+	}
+
+	if diff := cmp.Diff(expectedData, data); diff != "" {
+		t.Fatalf("unexpected encoded data.\nexpected: %#v\ngiven:    %#v",
+			expectedData, data)
+	}
+}
+
 func TestTokenEncoder_tokenModifiers(t *testing.T) {
 	bytes := []byte(`myblock "mytype" {
   str_attr = "something"
