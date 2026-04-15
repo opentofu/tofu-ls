@@ -11,6 +11,7 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/hashicorp/hcl-lang/lang"
 	"github.com/hashicorp/hcl/v2"
+	"github.com/opentofu/tofu-ls/internal/lsp/semtok"
 	"github.com/opentofu/tofu-ls/internal/protocol"
 	"github.com/opentofu/tofu-ls/internal/source"
 )
@@ -382,5 +383,86 @@ func TestTokenEncoder_unsupported(t *testing.T) {
 	if diff := cmp.Diff(expectedData, data); diff != "" {
 		t.Fatalf("unexpected encoded data.\nexpected: %#v\ngiven:    %#v",
 			expectedData, data)
+	}
+}
+
+func TestTokenEncoder_multiLineTokensWithChildTokens(t *testing.T) {
+	// Reproduces https://github.com/opentofu/tofu-ls/issues/156
+	//
+	// Simulates tokens from a heredoc with 2 interpolations:
+	//     a: ${var.a}
+	//     b: ${var.b}
+	//
+	bytes := []byte("    a: ${var.a}\n    b: ${var.b}\n")
+	te := &TokenEncoder{
+		Lines: source.MakeSourceLines("test.tf", bytes),
+		Tokens: []lang.SemanticToken{
+			{
+				// "var" reference in ${var.a}
+				Type: lang.TokenReferenceStep,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 1, Column: 10, Byte: 9},
+					End:      hcl.Pos{Line: 1, Column: 13, Byte: 12},
+				},
+			},
+			{
+				// "a" reference in ${var.a}
+				Type: lang.TokenReferenceStep,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 1, Column: 14, Byte: 13},
+					End:      hcl.Pos{Line: 1, Column: 15, Byte: 14},
+				},
+			},
+			{
+				Type: lang.TokenString,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 1, Column: 16, Byte: 15},
+					End:      hcl.Pos{Line: 2, Column: 9, Byte: 23},
+				},
+			},
+			{
+				// "var" reference in ${var.b} - on line 2 at col 10
+				Type: lang.TokenReferenceStep,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 2, Column: 10, Byte: 24},
+					End:      hcl.Pos{Line: 2, Column: 13, Byte: 27},
+				},
+			},
+			{
+				// "b" reference in ${var.b}
+				Type: lang.TokenReferenceStep,
+				Range: hcl.Range{
+					Filename: "test.tf",
+					Start:    hcl.Pos{Line: 2, Column: 14, Byte: 28},
+					End:      hcl.Pos{Line: 2, Column: 15, Byte: 29},
+				},
+			},
+		},
+		ClientCaps: protocol.SemanticTokensClientCapabilities{
+			TokenTypes:     serverTokenTypes.AsStrings(),
+			TokenModifiers: serverTokenModifiers.AsStrings(),
+		},
+	}
+	data := te.Encode()
+
+	refIdx := uint32(TokenTypesLegend(serverTokenTypes.AsStrings()).Index(semtok.TokenType(lang.TokenReferenceStep)))
+	strIdx := uint32(TokenTypesLegend(serverTokenTypes.AsStrings()).Index(semtok.TokenType(lang.TokenString)))
+
+	expectedData := []uint32{
+		0, 9, 3, refIdx, 0, // var
+		0, 4, 1, refIdx, 0, // a
+		0, 2, 0, strIdx, 0, // start of multiline string - length 0 since it starts at end of line 1
+		1, 0, 8, strIdx, 0, // continuation of string on next line
+		0, 9, 3, refIdx, 0, // "var" on line 2
+		0, 4, 1, refIdx, 0, // "b" on line 2
+	}
+
+	if diff := cmp.Diff(expectedData, data); diff != "" {
+		t.Fatalf("unexpected encoded data.\nexpected: %#v\ngiven:    %#v\ndiff: %s",
+			expectedData, data, diff)
 	}
 }
