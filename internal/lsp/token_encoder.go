@@ -59,9 +59,17 @@ func (te *TokenEncoder) encodeTokenOfIndex(i int) []uint32 {
 	previousLine := 0
 	previousStartChar := 0
 	if i > 0 {
+		previousTokenStartLine := te.Tokens[te.lastEncodedTokenIdx].Range.Start.Line - 1
 		previousLine = te.Tokens[te.lastEncodedTokenIdx].Range.End.Line - 1
 		currentLine := te.Tokens[i].Range.End.Line - 1
-		if currentLine == previousLine {
+		// If the previous token started on a line and ended on another one, there is a good chance
+		// to be inside a heredoc string which contains also different types of tokens (eg: references).
+		// If that happens, it's safe to assume that the previousStartChar is 0
+		// since the previous token "continued" from one line to another, making the start of the current line also the
+		// start of the previous token.
+		// But if both, the previous token (its start and end) and the current token are on the same line, we want
+		// to use the previous token start marker to be able to correctly indicate the current token deltaStartChar.
+		if currentLine == previousLine && previousTokenStartLine == previousLine {
 			previousStartChar = te.Tokens[te.lastEncodedTokenIdx].Range.Start.Column - 1
 		}
 	}
