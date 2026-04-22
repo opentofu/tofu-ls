@@ -7,8 +7,6 @@ package handlers
 
 import (
 	"context"
-	"fmt"
-	"strings"
 
 	"github.com/creachadair/jrpc2"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
@@ -56,25 +54,6 @@ func (svc *service) TextDocumentSemanticTokensFull(ctx context.Context, params l
 		return tks, err
 	}
 
-	// TODO remove this once finished. Meant only for debugging
-	var b strings.Builder
-	for _, token := range tokens {
-		var mods []string
-		for _, modifier := range token.Modifiers {
-			mods = append(mods, string(modifier))
-		}
-		b.WriteString(fmt.Sprintf("%s; mod: %s; rangeStart: %d-%d-%d; rangeEnd: %d-%d-%d ### ",
-			token.Type,
-			strings.Join(mods, " "),
-			token.Range.Start.Line,
-			token.Range.Start.Column,
-			token.Range.Start.Byte,
-			token.Range.End.Line,
-			token.Range.End.Column,
-			token.Range.End.Byte,
-		))
-	}
-	svc.logger.Println(b.String())
 	te := &ilsp.TokenEncoder{
 		Lines:      doc.Lines,
 		Tokens:     tokens,
