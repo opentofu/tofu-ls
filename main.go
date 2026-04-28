@@ -11,6 +11,7 @@ import (
 	"github.com/mitchellh/cli"
 
 	"github.com/opentofu/tofu-ls/internal/cmd"
+	"github.com/opentofu/tofu-ls/internal/schemas"
 )
 
 func main() {
@@ -42,6 +43,12 @@ func main() {
 			return &cmd.VersionCommand{
 				Ui:      ui,
 				Version: version,
+			}, nil
+		},
+		"providers bundled": func() (cli.Command, error) {
+			return &cmd.ProvidersBundledCommand{
+				Ui: ui,
+				FS: schemas.FS,
 			}, nil
 		},
 	}
