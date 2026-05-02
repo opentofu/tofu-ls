@@ -10,6 +10,12 @@ import (
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
 )
 
+// FullBlockRanger is implemented by diagnostic Extra data that provides
+// the full block range for quick fix code actions
+type FullBlockRanger interface {
+	FullBlockRange() *hcl.Range
+}
+
 func HCLSeverityToLSP(severity hcl.DiagnosticSeverity) lsp.DiagnosticSeverity {
 	var sev lsp.DiagnosticSeverity
 	switch severity {
@@ -23,7 +29,12 @@ func HCLSeverityToLSP(severity hcl.DiagnosticSeverity) lsp.DiagnosticSeverity {
 	return sev
 }
 
-func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string) []lsp.Diagnostic {
+type DiagnosticOptions struct {
+	Severity *lsp.DiagnosticSeverity
+	Tags     []lsp.DiagnosticTag
+}
+
+func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string, opts ...DiagnosticOptions) []lsp.Diagnostic {
 	diags := []lsp.Diagnostic{}
 
 	for _, hclDiag := range hclDiags {
@@ -35,13 +46,38 @@ func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string) []lsp.Diagnostic {
 		if hclDiag.Subject != nil {
 			rnge = HCLRangeToLSP(*hclDiag.Subject)
 		}
-		diags = append(diags, lsp.Diagnostic{
+
+		severity := HCLSeverityToLSP(hclDiag.Severity)
+		var tags []lsp.DiagnosticTag
+
+		// Apply options if provided
+		if len(opts) > 0 {
+			if opts[0].Severity != nil {
+				severity = *opts[0].Severity
+			}
+			if opts[0].Tags != nil {
+				tags = opts[0].Tags
+			}
+		}
+
+		diag := lsp.Diagnostic{
 			Range:    rnge,
-			Severity: HCLSeverityToLSP(hclDiag.Severity),
+			Severity: severity,
 			Source:   source,
 			Message:  msg,
-		})
+			Tags:     tags,
+		}
 
+		// Check if Extra provides full block range for quick fixes
+		if extra, ok := hclDiag.Extra.(FullBlockRanger); ok {
+			if fullRange := extra.FullBlockRange(); fullRange != nil {
+				diag.Data = map[string]interface{}{
+					"fullRange": HCLRangeToLSP(*fullRange),
+				}
+			}
+		}
+
+		diags = append(diags, diag)
 	}
 	return diags
 }
