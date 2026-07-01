@@ -200,3 +200,20 @@ func DirHasOpenDocuments(txn *memdb.Txn, dirHandle document.DirHandle) (bool, er
 
 	return obj != nil, nil
 }
+
+func (s *DocumentStore) OpenDocumentsForDir(dirHandle document.DirHandle) ([]*document.Document, error) {
+	txn := s.db.Txn(false)
+
+	it, err := txn.Get(documentsTableName, "dir", dirHandle)
+	if err != nil {
+		return nil, err
+	}
+
+	var docs []*document.Document
+	for obj := it.Next(); obj != nil; obj = it.Next() {
+		doc := obj.(*document.Document)
+		docs = append(docs, doc)
+	}
+
+	return docs, nil
+}

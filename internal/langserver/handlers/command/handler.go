@@ -10,12 +10,14 @@ import (
 
 	fmodules "github.com/opentofu/tofu-ls/internal/features/modules"
 	frootmodules "github.com/opentofu/tofu-ls/internal/features/rootmodules"
+	"github.com/opentofu/tofu-ls/internal/langserver/session"
 	"github.com/opentofu/tofu-ls/internal/state"
 )
 
 type CmdHandler struct {
 	StateStore *state.StateStore
 	Logger     *log.Logger
+	Server     session.Server
 	// TODO? Can features contribute commands, so we don't have to import
 	// the features here?
 	ModulesFeature     *fmodules.ModulesFeature
