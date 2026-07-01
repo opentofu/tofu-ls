@@ -361,6 +361,19 @@ func (f *ModulesFeature) decodeModule(ctx context.Context, dir document.DirHandl
 				if err != nil {
 					return deferIds, err
 				}
+
+				_, err = f.stateStore.JobStore.EnqueueJob(ctx, job.Job{
+					Dir: dir,
+					Func: func(ctx context.Context) error {
+						return jobs.UnusedDeclarationValidation(ctx, f.Store, f.rootFeature, dir.Path())
+					},
+					Type:        op.OpTypeUnusedDeclarationsValidation.String(),
+					DependsOn:   job.IDs{refOriginsId, refTargetsId},
+					IgnoreState: ignoreState,
+				})
+				if err != nil {
+					return deferIds, err
+				}
 			}
 
 			return deferIds, nil

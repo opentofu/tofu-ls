@@ -108,6 +108,7 @@ func newModule(modPath string) *ModuleRecord {
 			globalAst.SchemaValidationSource:    op.OpStateUnknown,
 			globalAst.ReferenceValidationSource: op.OpStateUnknown,
 			globalAst.TofuValidateSource:        op.OpStateUnknown,
+			globalAst.UnusedDeclarationSource:   op.OpStateUnknown,
 		},
 	}
 }

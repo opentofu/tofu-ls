@@ -62,7 +62,13 @@ func (n *Notifier) PublishHCLDiags(ctx context.Context, dirPath string, diags Di
 	for filename, ds := range diags {
 		fileDiags := make([]lsp.Diagnostic, 0)
 		for source, diags := range ds {
-			fileDiags = append(fileDiags, ilsp.HCLDiagsToLSP(diags, source.String())...)
+			switch source {
+			case ast.UnusedDeclarationSource:
+				hint := lsp.SeverityHint
+				fileDiags = append(fileDiags, ilsp.HCLDiagsToLSP(diags, source.String(), ilsp.DiagnosticOptions{Severity: &hint, Tags: []lsp.DiagnosticTag{lsp.Unnecessary}})...)
+			default:
+				fileDiags = append(fileDiags, ilsp.HCLDiagsToLSP(diags, source.String())...)
+			}
 		}
 
 		n.diags <- diagContext{
