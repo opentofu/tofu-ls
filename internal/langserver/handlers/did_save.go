@@ -27,7 +27,8 @@ func (svc *service) TextDocumentDidSave(ctx context.Context, params lsp.DidSaveT
 	dh := ilsp.HandleFromDocumentURI(params.TextDocument.URI)
 
 	cmdHandler := &command.CmdHandler{
-		StateStore: svc.stateStore,
+		StateStore:     svc.stateStore,
+		ModulesFeature: svc.features.Modules,
 	}
 	_, err = cmdHandler.TofuValidateHandler(ctx, cmd.CommandArgs{
 		"uri": dh.Dir.URI,

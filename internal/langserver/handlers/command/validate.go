@@ -11,6 +11,7 @@ import (
 
 	"github.com/creachadair/jrpc2"
 	"github.com/opentofu/tofu-ls/internal/document"
+	modulejobs "github.com/opentofu/tofu-ls/internal/features/modules/jobs"
 	"github.com/opentofu/tofu-ls/internal/job"
 	"github.com/opentofu/tofu-ls/internal/langserver/cmd"
 	"github.com/opentofu/tofu-ls/internal/langserver/progress"
@@ -39,7 +40,7 @@ func (h *CmdHandler) TofuValidateHandler(ctx context.Context, args cmd.CommandAr
 	id, err := h.StateStore.JobStore.EnqueueJob(ctx, job.Job{
 		Dir: dirHandle,
 		Func: func(ctx context.Context) error {
-			return nil //module.TofuValidate(ctx, h.StateStore.Modules, dirHandle.Path())
+			return modulejobs.TofuValidate(ctx, h.ModulesFeature.Store, dirHandle.Path())
 		},
 		Type:        op.OpTypeTofuValidate.String(),
 		IgnoreState: true,
