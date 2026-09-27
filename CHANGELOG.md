@@ -1,3 +1,9 @@
+## 0.5.4 (Unreleased)
+
+ENHANCEMENTS:
+
+- `provider_meta` blocks are no longer suggested by autocomplete. Existing blocks are marked as unnecessary, with a diagnostic hint explaining that OpenTofu ignores them. ([#186](https://github.com/opentofu/tofu-ls/issues/186))
+
 ## 0.34.3 (03 September 2024)
 
 ENHANCEMENTS:
