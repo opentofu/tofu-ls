@@ -15,6 +15,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/go-version"
+	"github.com/hashicorp/hcl-lang/lang"
 	tfjson "github.com/hashicorp/terraform-json"
 	"github.com/opentofu/tofu-ls/internal/document"
 	"github.com/opentofu/tofu-ls/internal/langserver"
@@ -1962,5 +1963,45 @@ func writeContentToFile(t *testing.T, path string, content string) {
 	err = f.Close()
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestIsCandidateProviderMeta(t *testing.T) {
+	tests := []struct {
+		name      string
+		candidate lang.Candidate
+		want      bool
+	}{
+		{
+			name: "is candidate, label is provider_meta and kind block",
+			candidate: lang.Candidate{
+				Kind:  lang.BlockCandidateKind,
+				Label: "provider_meta",
+			},
+			want: true,
+		},
+		{
+			name: "is not candidate, label not provider_meta block",
+			candidate: lang.Candidate{
+				Kind:  lang.BlockCandidateKind,
+				Label: "resource",
+			},
+			want: false,
+		},
+		{
+			name: "is not candidate, kind is not a block",
+			candidate: lang.Candidate{
+				Kind:  lang.AttributeCandidateKind,
+				Label: "provider_meta",
+			},
+			want: false,
+		},
+	}
+	for i, tt := range tests {
+		t.Run(fmt.Sprintf("%2d-%s", i, tt.name), func(t *testing.T) {
+			if got := isCandidateProviderMeta(tt.candidate); got != tt.want {
+				t.Errorf("isCandidateProviderMeta() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
