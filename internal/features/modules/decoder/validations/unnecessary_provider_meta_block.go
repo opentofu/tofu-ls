@@ -36,7 +36,7 @@ func (upmb UnnecessaryProviderMetaBlock) Visit(ctx context.Context, node hclsynt
 
 		diags = append(diags, &hcl.Diagnostic{
 			Severity: hcl.DiagWarning,
-			Summary:  "provider_meta block is ignored by OpenTofu",
+			Summary:  "provider_meta block is ignored by OpenTofu 1.14+",
 			Subject:  inner.Range().Ptr(),
 			Extra:    ilsp.DiagnosticMetadata{Hint: true, Unnecessary: true},
 		})
