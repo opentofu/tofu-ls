@@ -46,7 +46,7 @@ func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string) []lsp.Diagnostic {
 		severity := HCLSeverityToLSP(hclDiag.Severity)
 		var tags []lsp.DiagnosticTag
 
-		if metadata, ok := hclDiag.Extra.(DiagnosticMetadata); ok {
+		if metadata, ok := hcl.DiagnosticExtra[DiagnosticMetadata](hclDiag); ok {
 			if metadata.Hint {
 				severity = lsp.SeverityHint
 			}
