@@ -33,7 +33,7 @@ func TestUnnecessaryProviderMetaBlock(t *testing.T) {
 			want: hcl.Diagnostics{
 				&hcl.Diagnostic{
 					Severity: hcl.DiagWarning,
-					Summary:  "provider_meta block is ignored by OpenTofu",
+					Summary:  "provider_meta block is ignored since OpenTofu 1.14",
 					Subject: &hcl.Range{
 						Filename: "test.tf",
 						Start: hcl.Pos{
@@ -67,7 +67,7 @@ func TestUnnecessaryProviderMetaBlock(t *testing.T) {
 			want: hcl.Diagnostics{
 				&hcl.Diagnostic{
 					Severity: hcl.DiagWarning,
-					Summary:  "provider_meta block is ignored by OpenTofu",
+					Summary:  "provider_meta block is ignored since OpenTofu 1.14",
 					Subject: &hcl.Range{
 						Filename: "test.tf",
 						Start: hcl.Pos{
@@ -85,7 +85,7 @@ func TestUnnecessaryProviderMetaBlock(t *testing.T) {
 				},
 				&hcl.Diagnostic{
 					Severity: hcl.DiagWarning,
-					Summary:  "provider_meta block is ignored by OpenTofu",
+					Summary:  "provider_meta block is ignored since OpenTofu 1.14",
 					Subject: &hcl.Range{
 						Filename: "test.tf",
 						Start: hcl.Pos{
