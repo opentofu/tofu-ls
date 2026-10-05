@@ -1,3 +1,9 @@
+## Unreleased
+
+BUG FIXES:
+
+* Include `.tofu.json` files in module discovery ([#187](https://github.com/opentofu/tofu-ls/issues/187))
+
 ## 0.34.3 (03 September 2024)
 
 ENHANCEMENTS:
