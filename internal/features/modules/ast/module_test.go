@@ -41,3 +41,27 @@ func TestModuleDiags_autoloadedOnly(t *testing.T) {
 		t.Fatalf("unexpected diagnostics: %s", diff)
 	}
 }
+
+func TestIsModuleFilename(t *testing.T) {
+	tests := []struct {
+		filename string
+		expected bool
+	}{
+		{"main.tf", true},
+		{"main.tofu", true},
+		{"main.tf.json", true},
+		{"main.tofu.json", true},
+		{"main.txt", false},
+		{"main.json", false},
+		{".hidden.tf", true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.filename, func(t *testing.T) {
+			got := IsModuleFilename(tt.filename)
+			if got != tt.expected {
+				t.Errorf("IsModuleFilename(%q) = %v, want %v", tt.filename, got, tt.expected)
+			}
+		})
+	}
+}
