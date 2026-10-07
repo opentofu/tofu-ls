@@ -23,6 +23,13 @@ func HCLSeverityToLSP(severity hcl.DiagnosticSeverity) lsp.DiagnosticSeverity {
 	return sev
 }
 
+// DiagnosticMetadata holds metadata stored in the Extra field of hcl.Diagnostic.
+// It can be used to provide extra information, such as Hint severity and tags.
+type DiagnosticMetadata struct {
+	Hint        bool
+	Unnecessary bool
+}
+
 func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string) []lsp.Diagnostic {
 	diags := []lsp.Diagnostic{}
 
@@ -35,11 +42,24 @@ func HCLDiagsToLSP(hclDiags hcl.Diagnostics, source string) []lsp.Diagnostic {
 		if hclDiag.Subject != nil {
 			rnge = HCLRangeToLSP(*hclDiag.Subject)
 		}
+
+		severity := HCLSeverityToLSP(hclDiag.Severity)
+		var tags []lsp.DiagnosticTag
+
+		if metadata, ok := hcl.DiagnosticExtra[DiagnosticMetadata](hclDiag); ok {
+			if metadata.Hint {
+				severity = lsp.SeverityHint
+			}
+			if metadata.Unnecessary {
+				tags = append(tags, lsp.Unnecessary)
+			}
+		}
 		diags = append(diags, lsp.Diagnostic{
 			Range:    rnge,
-			Severity: HCLSeverityToLSP(hclDiag.Severity),
+			Severity: severity,
 			Source:   source,
 			Message:  msg,
+			Tags:     tags,
 		})
 
 	}

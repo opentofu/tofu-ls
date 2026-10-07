@@ -19,4 +19,5 @@ var moduleValidators = []validator.Validator{
 	validations.MissingRequiredAttribute{},
 	validator.UnexpectedAttribute{},
 	validator.UnexpectedBlock{},
+	validations.UnnecessaryProviderMetaBlock{},
 }

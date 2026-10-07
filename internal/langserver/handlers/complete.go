@@ -7,7 +7,9 @@ package handlers
 
 import (
 	"context"
+	"slices"
 
+	"github.com/hashicorp/hcl-lang/lang"
 	lsctx "github.com/opentofu/tofu-ls/internal/context"
 	ilsp "github.com/opentofu/tofu-ls/internal/lsp"
 	lsp "github.com/opentofu/tofu-ls/internal/protocol"
@@ -52,6 +54,11 @@ func (svc *service) TextDocumentComplete(ctx context.Context, params lsp.Complet
 
 	svc.logger.Printf("Looking for candidates at %q -> %#v", doc.Filename, pos)
 	candidates, err := d.CompletionAtPos(ctx, doc.Filename, pos)
+	candidates.List = slices.DeleteFunc(candidates.List, isCandidateProviderMeta)
 	svc.logger.Printf("received candidates: %#v", candidates)
 	return ilsp.ToCompletionList(candidates, cc.TextDocument), err
+}
+
+func isCandidateProviderMeta(candidate lang.Candidate) bool {
+	return candidate.Kind == lang.BlockCandidateKind && candidate.Label == "provider_meta"
 }
