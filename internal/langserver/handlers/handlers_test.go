@@ -53,7 +53,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 				"referencesProvider": true,
 				"documentSymbolProvider": true,
 				"codeActionProvider": {
-					"codeActionKinds": ["quickfix.opentofu.init","source.formatAll.opentofu"]
+					"codeActionKinds": ["quickfix","quickfix.opentofu.init","source.formatAll.opentofu"]
 				},
 				"codeLensProvider": {},
 				"documentLinkProvider": {},

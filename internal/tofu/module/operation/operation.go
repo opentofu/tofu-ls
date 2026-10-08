@@ -37,4 +37,5 @@ const (
 	OpTypeSchemaVarsValidation
 	OpTypeReferenceValidation
 	OpTypeTofuValidate
+	OpTypeUnusedDeclarationsValidation
 )
