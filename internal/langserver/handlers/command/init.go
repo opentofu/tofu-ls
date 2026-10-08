@@ -45,7 +45,7 @@ func (h *CmdHandler) TofuInitHandler(ctx context.Context, args cmd.CommandArgs) 
 	// Clear diagnostics for open documents in this module so stale warnings disappear, the next time the file is edited
 	// or saved, diagnostics will be re-computed.
 	if h.Server != nil && h.StateStore != nil {
-		docs, _ := h.StateStore.DocumentStore.OpenDocumentsForDir(dirHandle)
+		docs, _ := h.StateStore.DocumentStore.ListDocumentsInDir(dirHandle)
 		for _, doc := range docs {
 			docURI := doc.Dir.URI + "/" + doc.Filename
 			_ = h.Server.Notify(ctx, "textDocument/publishDiagnostics", lsp.PublishDiagnosticsParams{
