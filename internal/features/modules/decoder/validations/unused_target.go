@@ -28,6 +28,44 @@ func (u UnusedDeclarationExtra) FullBlockRange() *hcl.Range {
 	return &u.FullRange
 }
 
+func deprecatedVariableKey(filename, name string) string {
+	return filename + "\x00" + name
+}
+
+func deprecatedVariableTargets(files map[string]*hcl.File) map[string]bool {
+	targets := make(map[string]bool)
+	schema := &hcl.BodySchema{
+		Blocks: []hcl.BlockHeaderSchema{{
+			Type:       "variable",
+			LabelNames: []string{"name"},
+		}},
+	}
+
+	for filename, file := range files {
+		content, _, diags := file.Body.PartialContent(schema)
+		if diags.HasErrors() {
+			continue
+		}
+
+		for _, block := range content.Blocks {
+			if len(block.Labels) != 1 {
+				continue
+			}
+
+			attrs, diags := block.Body.JustAttributes()
+			if diags.HasErrors() {
+				continue
+			}
+			// If we have the `deprecated` attribute then keep a note of this to return at the end
+			if _, ok := attrs["deprecated"]; ok {
+				targets[deprecatedVariableKey(filename, block.Labels[0])] = true
+			}
+		}
+	}
+
+	return targets
+}
+
 func UnusedTargets(ctx context.Context, pathCtx *decoder.PathContext) lang.DiagnosticsMap {
 	diagsMap := make(lang.DiagnosticsMap)
 
@@ -50,6 +88,8 @@ func UnusedTargets(ctx context.Context, pathCtx *decoder.PathContext) lang.Diagn
 		}
 	}
 
+	deprecatedVariables := deprecatedVariableTargets(pathCtx.Files)
+
 	// Track seen targets to avoid duplicates (PathContext may contain duplicate targets)
 	seenTargets := make(map[string]bool)
 
@@ -71,7 +111,14 @@ func UnusedTargets(ctx context.Context, pathCtx *decoder.PathContext) lang.Diagn
 		}
 		seenTargets[targetKey] = true
 
-		if !usedOrigins[getKey(target.Addr)] {
+		deprecated := false
+		if targetAddrType == "var" {
+			if name, ok := target.Addr[1].(lang.AttrStep); ok {
+				deprecated = deprecatedVariables[deprecatedVariableKey(target.RangePtr.Filename, name.Name)]
+			}
+		}
+
+		if !usedOrigins[getKey(target.Addr)] && !deprecated {
 			file := target.RangePtr.Filename
 
 			d := &hcl.Diagnostic{
