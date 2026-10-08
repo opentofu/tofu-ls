@@ -12,10 +12,10 @@ import (
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/lang"
 	"github.com/hashicorp/hcl/v2"
-	"github.com/opentofu/tofu-ls/internal/lsp"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	"github.com/opentofu/opentofu-schema/registry"
 	tfaddr "github.com/opentofu/registry-address"
+	"github.com/opentofu/tofu-ls/internal/lsp"
 )
 
 // ModuleReader provides access to module state for validation

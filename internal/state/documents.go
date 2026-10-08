@@ -200,4 +200,3 @@ func DirHasOpenDocuments(txn *memdb.Txn, dirHandle document.DirHandle) (bool, er
 
 	return obj != nil, nil
 }
-
