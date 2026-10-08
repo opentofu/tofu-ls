@@ -72,6 +72,22 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 		var fileDiags hcl.Diagnostics
 		fileDiags, rErr = moduleDecoder.ValidateFile(ctx, filename)
 
+		unloadedResult := validations.ModuleSchemaNotLoaded(modStore, rootFeature, modPath)
+
+		if ranges, ok := unloadedResult.UnloadedRanges[filename]; ok {
+			var filtered hcl.Diagnostics
+			for _, diag := range fileDiags {
+				if !validations.ShouldFilterDiagnostic(diag, ranges) {
+					filtered = append(filtered, diag)
+				}
+			}
+			fileDiags = filtered
+		}
+
+		if fileModuleDiags, ok := unloadedResult.Diagnostics[filename]; ok {
+			fileDiags = fileDiags.Extend(fileModuleDiags)
+		}
+
 		modDiags, ok := mod.ModuleDiagnostics[globalAst.SchemaValidationSource]
 		if !ok {
 			modDiags = make(ast.ModDiags)
@@ -86,6 +102,13 @@ func SchemaModuleValidation(ctx context.Context, modStore *state.ModuleStore, ro
 		// We validate the whole module, e.g. on open
 		var diags lang.DiagnosticsMap
 		diags, rErr = moduleDecoder.Validate(ctx)
+
+		unloadedResult := validations.ModuleSchemaNotLoaded(modStore, rootFeature, modPath)
+		diags = validations.FilterDiagnosticsForUnloadedModules(diags, unloadedResult.UnloadedRanges)
+
+		for file, fileDiags := range unloadedResult.Diagnostics {
+			diags[file] = diags[file].Extend(fileDiags)
+		}
 
 		sErr := modStore.UpdateModuleDiagnostics(modPath, globalAst.SchemaValidationSource, ast.ModDiagsFromMap(diags))
 		if sErr != nil {

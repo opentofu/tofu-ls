@@ -20,6 +20,7 @@ func cmdHandlers(svc *service) cmd.Handlers {
 	cmdHandler := &command.CmdHandler{
 		StateStore: svc.stateStore,
 		Logger:     svc.logger,
+		Server:     svc.server,
 	}
 	if svc.features != nil {
 		cmdHandler.ModulesFeature = svc.features.Modules
