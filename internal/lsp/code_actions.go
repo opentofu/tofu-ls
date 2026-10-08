@@ -17,6 +17,9 @@ const (
 
 	// QuickFixTofuInit is a quick fix action to run tofu init.
 	QuickFixTofuInit = "quickfix.opentofu.init"
+
+	// ModuleSchemaNotLoadedDiagnosticSummary identifies diagnostics emitted when a module schema is unavailable.
+	ModuleSchemaNotLoadedDiagnosticSummary = "Module schema not loaded"
 )
 
 type CodeActions map[lsp.CodeActionKind]bool

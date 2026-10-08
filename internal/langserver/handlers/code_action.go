@@ -37,7 +37,7 @@ func (svc *service) textDocumentCodeAction(ctx context.Context, params lsp.CodeA
 		for _, diag := range params.Context.Diagnostics {
 			// Check for "Module schema not loaded" warning to suggest "tofu init"
 			if diag.Severity == lsp.SeverityWarning &&
-				strings.HasPrefix(diag.Message, "Module schema not loaded") {
+				strings.HasPrefix(diag.Message, ilsp.ModuleSchemaNotLoadedDiagnosticSummary) {
 				// Arguments must be in "key=value" string format
 				arg, err := json.Marshal("uri=" + dh.Dir.URI)
 				if err != nil {

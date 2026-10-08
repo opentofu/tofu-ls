@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/hcl-lang/lang"
 	"github.com/hashicorp/hcl/v2"
+	"github.com/opentofu/tofu-ls/internal/lsp"
 	tfmod "github.com/opentofu/opentofu-schema/module"
 	"github.com/opentofu/opentofu-schema/registry"
 	tfaddr "github.com/opentofu/registry-address"
@@ -69,7 +70,7 @@ func ModuleSchemaNotLoaded(
 
 			d := &hcl.Diagnostic{
 				Severity: hcl.DiagWarning,
-				Summary:  "Module schema not loaded",
+				Summary:  lsp.ModuleSchemaNotLoadedDiagnosticSummary,
 				Detail:   "Run 'tofu init' to download module metadata and enable full validation.",
 				Subject:  headerRange.Ptr(),
 			}
