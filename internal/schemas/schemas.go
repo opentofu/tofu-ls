@@ -15,6 +15,7 @@ import (
 	"path"
 
 	"github.com/hashicorp/go-version"
+	svchost "github.com/hashicorp/terraform-svchost"
 	tfaddr "github.com/opentofu/registry-address"
 )
 
@@ -46,7 +47,19 @@ func ListBundledProviders(filesystem fs.ReadDirFS) ([]BundledProvider, error) {
 	// We only bundle the latest version of each provider, so we expect exactly one
 	// version directory per provider. If there are more than one, that's an error
 	// If there are zero, then that provider is not bundled and we skip it.
-	hostname := tfaddr.DefaultProviderRegistryHost
+	for _, hn := range []svchost.Hostname{tfaddr.DefaultProviderRegistryHost, tfaddr.BuiltInProviderHost} {
+		hnProviders, err := listHostnameProviders(filesystem, hn)
+		if err != nil {
+			return nil, err
+		}
+		providers = append(providers, hnProviders...)
+	}
+
+	return providers, nil
+}
+
+func listHostnameProviders(filesystem fs.ReadDirFS, hostname svchost.Hostname) ([]BundledProvider, error) {
+	var providers []BundledProvider
 	namespacePath := path.Join("data", hostname.String())
 	namespaces, err := fs.ReadDir(filesystem, namespacePath)
 	if err != nil {
@@ -90,7 +103,6 @@ func ListBundledProviders(filesystem fs.ReadDirFS) ([]BundledProvider, error) {
 			})
 		}
 	}
-
 	return providers, nil
 }
 

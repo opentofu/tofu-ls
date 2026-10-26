@@ -70,6 +70,11 @@ func gen() error {
 		return err
 	}
 	log.Printf("fetched providers: %d", len(listOfProviders))
+	// add also the builtin provider to have it available without `tofu init`
+	listOfProviders = append(listOfProviders, registry.Provider{
+		Addr:    "terraform.io/builtin/terraform",
+		Version: "0",
+	})
 	for _, p := range listOfProviders {
 		pAddr, err := tfaddr.ParseProviderSource(p.Addr)
 		if err != nil {
@@ -88,7 +93,7 @@ func gen() error {
 		providers = append(providers, Provider{
 			ID: p.Addr,
 			Addr: tfaddr.NewProvider(
-				tfaddr.DefaultProviderRegistryHost,
+				pAddr.Hostname,
 				pAddr.Namespace,
 				pAddr.Type,
 			),
