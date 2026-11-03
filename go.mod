@@ -16,6 +16,7 @@ require (
 	github.com/hashicorp/hcl-lang v0.0.0-20260227034452-913389926489
 	github.com/hashicorp/hcl/v2 v2.24.0
 	github.com/hashicorp/terraform-json v0.27.2
+	github.com/hashicorp/terraform-svchost v0.2.1
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mitchellh/cli v1.1.5
 	github.com/mitchellh/go-homedir v1.1.0
@@ -77,7 +78,6 @@ require (
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
 	github.com/hashicorp/golang-lru v1.0.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/hashicorp/terraform-svchost v0.2.1 // indirect
 	github.com/huandu/xstrings v1.5.0 // indirect
 	github.com/iancoleman/strcase v0.2.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect

@@ -62,6 +62,11 @@ func gen() error {
 	defer cancelFunc()
 
 	providers := make([]Provider, 0)
+	// add also the builtin provider to have it available without `tofu init`
+	providers = append(providers, Provider{
+		ID:   "0",
+		Addr: tfaddr.NewProvider(tfaddr.BuiltInProviderHost, tfaddr.BuiltInProviderNamespace, "terraform"),
+	})
 
 	client := registry.NewClient()
 	log.Println("fetching from registry")
@@ -88,7 +93,7 @@ func gen() error {
 		providers = append(providers, Provider{
 			ID: p.Addr,
 			Addr: tfaddr.NewProvider(
-				tfaddr.DefaultProviderRegistryHost,
+				pAddr.Hostname,
 				pAddr.Namespace,
 				pAddr.Type,
 			),
@@ -239,6 +244,9 @@ type Outputs struct {
 func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 	var pVersion *version.Version
 	pVersion = input.ProviderVersion
+	if input.Provider.Addr.IsBuiltIn() || pVersion == nil {
+		pVersion = input.CoreVersion
+	}
 
 	wd := filepath.Join(input.WorkspacePath,
 		input.Provider.Addr.Hostname.String(),
@@ -290,7 +298,7 @@ func schemaForProvider(ctx context.Context, input Inputs) (*Outputs, error) {
 		TofuVersion: tofuVersion.String(),
 		LocalName:   input.Provider.Addr.Type,
 		Source:      input.Provider.Addr.ForDisplay(),
-		Version:     input.ProviderVersion.String(),
+		Version:     pVersion.String(),
 	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute template: %w", err)
