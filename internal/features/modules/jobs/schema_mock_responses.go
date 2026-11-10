@@ -185,7 +185,78 @@ var puppetModuleDataMockResponse = `{
 
   },
   "submodules": {
-
+    "ec": {
+      "variables": {
+        "autoscale": {
+          "type": "string",
+          "default": "true",
+          "description": "Enable autoscaling of elasticsearch",
+          "sensitive": false,
+          "required": false
+        },
+        "deployment_templateid": {
+          "type": "string",
+          "default": "gcp-io-optimized",
+          "description": "ID of Elastic Cloud deployment type",
+          "sensitive": false,
+          "required": false
+        },
+        "ec_region": {
+          "type": "string",
+          "default": "gcp-us-west1",
+          "description": "cloud provider region",
+          "sensitive": false,
+          "required": false
+        },
+        "ec_stack_version": {
+          "type": "string",
+          "default": "",
+          "description": "Version of Elastic Cloud stack to deploy",
+          "sensitive": false,
+          "required": false
+        },
+        "name": {
+          "type": "string",
+          "default": "ecproject",
+          "description": "Name of resources",
+          "sensitive": false,
+          "required": false
+        },
+        "traffic_filter_sourceip": {
+          "type": "string",
+          "default": "",
+          "description": "traffic filter source IP",
+          "sensitive": false,
+          "required": false
+        }
+      },
+      "outputs": {
+        "deployment_id": {
+          "sensitive": false,
+          "description": "Elastic Cloud deployment ID"
+        },
+        "elasticsearch_cloud_id": {
+          "sensitive": false,
+          "description": "Elastic Cloud project deployment ID"
+        },
+        "elasticsearch_https_endpoint": {
+          "sensitive": false,
+          "description": "elasticsearch https endpoint"
+        },
+        "elasticsearch_password": {
+          "sensitive": true,
+          "description": "elasticsearch password"
+        },
+        "elasticsearch_username": {
+          "sensitive": false,
+          "description": "elasticsearch username"
+        },
+        "elasticsearch_version": {
+          "sensitive": false,
+          "description": "Stack version deployed"
+        }
+      }
+    }
   }
 }`
 
