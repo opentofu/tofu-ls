@@ -32,8 +32,7 @@ type ModuleResponse struct {
 }
 
 type Submodule struct {
-	Path    string            `json:"path"`
-	Inputs  map[string]Input  `json:"inputs"`
+	Inputs  map[string]Input  `json:"variables"`
 	Outputs map[string]Output `json:"outputs"`
 }
 type Input struct {
