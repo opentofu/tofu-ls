@@ -15,19 +15,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Get tag version
-        id: tag
-        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-      - name: Get file version
-        id: file
-        run: echo "version=$(cat version/VERSION)" >> $GITHUB_OUTPUT
-      - name: Compare versions
+        with:
+          fetch-depth: 0
+      # Fork tags look like v<upstream version>+<short commit>, e.g. v0.5.3+158d88e
+      - name: Check tag against version file, upstream tag and commit
         run: |
-          if [ "${{ steps.tag.outputs.version }}" != "${{ steps.file.outputs.version }}" ]; then
-            echo "Tag version (${{ steps.tag.outputs.version }}) does not match file version (${{ steps.file.outputs.version }})"
+          tag="${GITHUB_REF#refs/tags/v}"
+          base="${tag%%+*}"
+          file="$(cat version/VERSION)"
+          if [ "$base" != "$file" ]; then
+            echo "Tag version ($base) does not match file version ($file)"
             exit 1
           fi
-          echo "Version check passed: ${{ steps.tag.outputs.version }}"
+          if [ "$tag" != "$base+$(git rev-parse --short=7 HEAD)" ]; then
+            echo "Tag $tag must be v$base+<7-char hash of the tagged commit>"
+            exit 1
+          fi
+          git fetch --no-tags https://github.com/opentofu/tofu-ls.git "refs/tags/v$base:refs/tags/upstream-v$base"
+          git merge-base --is-ancestor "upstream-v$base" HEAD || {
+            echo "Tagged commit does not contain upstream v$base"
+            exit 1
+          }
+          echo "Version check passed: $tag"
 
   goreleaser:
     needs: check-version-file

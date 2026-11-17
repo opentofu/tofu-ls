@@ -1,5 +1,11 @@
 # OpenTofu Language Server [WIP]
 
+> [!WARNING]
+> This is a **personal fork** of [opentofu/tofu-ls](https://github.com/opentofu/tofu-ls), maintained by
+> [@twaslowski](https://github.com/twaslowski). It contains **AI-authored contributions**, which upstream does not
+> accept ([AI usage policy](./AI-USAGE-POLICY.md)). It is not affiliated with or endorsed by the OpenTofu project.
+> See [FORK.md](./FORK.md) for what differs and how releases work.
+
 The official [OpenTofu](https://opentofu.org/) language server (`tofu-ls`) maintained by the OpenTofu Core Team provides IDE features to any [LSP](https://microsoft.github.io/language-server-protocol/)-compatible editor.
 
 ## Current Status

@@ -14,6 +14,8 @@ before:
 builds:
   - env:
       - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X main.commit={{ slice .FullCommit 0 7 }}
     goos:
       - linux
       - windows
@@ -42,4 +44,5 @@ release:
 
     ---
 
+    Unofficial fork build (includes AI-authored changes not accepted upstream), see [FORK.md](https://github.com/twaslowski/tofu-ls/blob/main/FORK.md).
     Released by [GoReleaser](https://github.com/goreleaser/goreleaser).

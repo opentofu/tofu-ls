@@ -22,5 +22,16 @@ var (
 	//go:embed version/VERSION
 	rawVersion string
 
-	version = goversion.Must(goversion.NewVersion(strings.TrimSpace(rawVersion))).String()
+	// Short commit hash, set by goreleaser via -ldflags (see FORK.md); empty in dev builds.
+	commit string
+
+	version = withCommit(goversion.Must(goversion.NewVersion(strings.TrimSpace(rawVersion))).String())
 )
+
+// withCommit appends the commit as semver build metadata: 0.5.3+abc1234.
+func withCommit(v string) string {
+	if commit == "" {
+		return v
+	}
+	return v + "+" + commit
+}
