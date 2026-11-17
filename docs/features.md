@@ -42,11 +42,11 @@ It's important to note that ✅ does **not** imply the functionality is _fully_ 
 | textDocument/moniker                   |     ❌      |                                                                                                                         |
 | textDocument/onTypeFormatting          |     ❌      |                                                                                                                         |
 | textDocument/prepareCallHierarchy      |     ❌      |                                                                                                                         |
-| textDocument/prepareRename             |     ❌      |                                                                                                                         |
+| textDocument/prepareRename                  |     ✅      | Resource, data, variable, local and module names                                                                       |
 | textDocument/prepareTypeHierarchy      |     ❌      |                                                                                                                         |
 | textDocument/rangeFormatting           |     ❌      |                                                                                                                         |
 | textDocument/references                |     ✅      |                                                                                                                         |
-| textDocument/rename                    |     ❌      |                                                                                                                         |
+| textDocument/rename                         |     ✅      | Rewrites the definition and all references; does not add a `moved` block                                               |
 | textDocument/selectionRange            |     ❌      |                                                                                                                         |
 | textDocument/semanticTokens/full       |     ✅      | See [syntax-highlighting.md](https://github.com/opentofu/tofu-ls/blob/main/docs/syntax-highlighting.md#semantic-tokens) |
 | textDocument/semanticTokens/full/delta |     ❌      |                                                                                                                         |

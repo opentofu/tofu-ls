@@ -187,6 +187,7 @@ func initializeResult(ctx context.Context) lsp.InitializeResult {
 			DefinitionProvider:         true,
 			CodeLensProvider:           &lsp.CodeLensOptions{},
 			ReferencesProvider:         true,
+			RenameProvider:             lsp.RenameOptions{PrepareProvider: true},
 			HoverProvider:              true,
 			DocumentFormattingProvider: true,
 			DocumentSymbolProvider:     true,

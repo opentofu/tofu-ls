@@ -59,6 +59,7 @@ func initializeResponse(t *testing.T, commandPrefix string) string {
 				"documentLinkProvider": {},
 				"workspaceSymbolProvider": true,
 				"documentFormattingProvider": true,
+				"renameProvider": {"prepareProvider": true},
 				"executeCommandProvider": {
 					"commands": %s,
 					"workDoneProgress":true
