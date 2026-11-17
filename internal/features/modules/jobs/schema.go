@@ -261,9 +261,9 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 		// Check if the source address contains a submodule
 		// If we can find the submodule in the API response, we will use its inputs and outputs instead
 		if sourceAddr.Subdir != "" {
-			for _, mod := range metaData.Submodules {
-				if mod.Path == sourceAddr.Subdir {
-					registryInputs = mod.Inputs
+			for name, mod := range metaData.Submodules {
+				if mod.Path == sourceAddr.Subdir || "modules/"+name == sourceAddr.Subdir {
+					registryInputs = mod.GetInputs()
 					registryOutputs = mod.Outputs
 
 					break
