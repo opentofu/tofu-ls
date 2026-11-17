@@ -24,7 +24,7 @@ scripts/release.sh               # tags v$(cat version/VERSION)+<short hash> and
 
 The tag triggers `.github/workflows/release.yml`. It fails unless the tag matches `version/VERSION`,
 the tagged commit's short hash, and a descendant of the upstream tag. GoReleaser then builds
-linux/windows/darwin archives and publishes the GitHub release.
+linux/darwin archives and publishes the GitHub release.
 
 Local build with the commit embedded:
 

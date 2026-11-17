@@ -18,7 +18,6 @@ builds:
       - -s -w -X main.commit={{ slice .FullCommit 0 7 }}
     goos:
       - linux
-      - windows
       - darwin
 
 archives:
