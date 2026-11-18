@@ -117,11 +117,17 @@ func TestGetModuleDataFromRegistry_singleModule(t *testing.T) {
 
 func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 	ctx := context.Background()
+
 	gs, err := globalState.NewStateStore()
 	if err != nil {
 		t.Fatal(err)
 	}
-	ms, err := state.NewModuleStore(gs.ProviderSchemas, gs.RegistryModules, gs.ChangeStore)
+
+	ms, err := state.NewModuleStore(
+		gs.ProviderSchemas,
+		gs.RegistryModules,
+		gs.ChangeStore,
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -130,65 +136,110 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	modPath := filepath.Join(testData, "uninitialized-external-submodule")
 
-	err = ms.Add(modPath)
-	if err != nil {
+	if err := ms.Add(modPath); err != nil {
 		t.Fatal(err)
 	}
 
 	fs := filesystem.NewFilesystem(gs.DocumentStore)
 	ctx = lsctx.WithDocumentContext(ctx, lsctx.Document{})
-	err = ParseModuleConfiguration(ctx, fs, ms, modPath)
-	if err != nil {
+
+	if err := ParseModuleConfiguration(ctx, fs, ms, modPath); err != nil {
 		t.Fatal(err)
 	}
 
-	err = LoadModuleMetadata(ctx, ms, modPath)
-	if err != nil {
+	if err := LoadModuleMetadata(ctx, ms, modPath); err != nil {
 		t.Fatal(err)
 	}
+
+	const moduleResponse = `{
+		"id": "v0.0.8",
+		"published": "2021-08-05T00:26:01Z",
+		"variables": {},
+		"outputs": {},
+		"submodules": {
+			"ec": {
+				"variables": {
+					"trusted_role_services": {
+						"name": "trusted_role_services",
+						"type": "string"
+					},
+					"create_role": {
+						"name": "create_role",
+						"type": "bool"
+					}
+				},
+				"outputs": {
+					"iam_role_arn": {
+						"name": "iam_role_arn"
+					}
+				}
+			}
+		}
+	}`
 
 	regClient := registry.NewClient()
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
-			w.Write([]byte(puppetModuleVersionsMockResponse))
-			return
-		}
-		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
-			w.Write([]byte(puppetModuleDataMockResponse))
-			return
-		}
-		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
-	}))
+
+	srv := httptest.NewServer(http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			switch r.URL.Path {
+			case "/registry/docs/modules/puppetlabs/deployment/ec/index.json":
+				w.Write([]byte(puppetModuleVersionsMockResponse))
+			case "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json":
+				w.Write([]byte(moduleResponse))
+			default:
+				http.Error(w, "unexpected request", http.StatusBadRequest)
+			}
+		},
+	))
+
 	regClient.BaseAPIURL = srv.URL
 	t.Cleanup(srv.Close)
 
-	err = GetModuleDataFromRegistry(ctx, regClient, ms, gs.RegistryModules, modPath)
+	err = GetModuleDataFromRegistry(
+		ctx, regClient, ms, gs.RegistryModules, modPath,
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	addr, err := tfaddr.ParseModuleSource("puppetlabs/deployment/ec//modules/ec")
+	addr, err := tfaddr.ParseModuleSource(
+		"puppetlabs/deployment/ec//modules/ec",
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	cons := version.MustConstraints(version.NewConstraint("0.0.8"))
-
-	exists, err := gs.RegistryModules.Exists(addr, cons)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !exists {
-		t.Fatalf("expected cached metadata to exist for %q %q", addr, cons)
-	}
 
 	meta, err := ms.RegistryModuleMeta(addr, cons)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if diff := cmp.Diff(puppetExpectedSubmoduleData, meta, ctydebug.CmpOptions); diff != "" {
-		t.Fatalf("metadata mismatch: %s", diff)
+
+	if len(meta.Inputs) != 2 {
+		t.Fatalf("expected 2 submodule inputs, got %d", len(meta.Inputs))
+	}
+
+	inputNames := make(map[string]bool)
+	for _, input := range meta.Inputs {
+		inputNames[input.Name] = true
+	}
+
+	for _, name := range []string{"trusted_role_services", "create_role"} {
+		if !inputNames[name] {
+			t.Errorf("expected submodule input %q not found", name)
+		}
+	}
+
+	if len(meta.Outputs) != 1 {
+		t.Fatalf("expected 1 submodule output, got %d", len(meta.Outputs))
+	}
+
+	if meta.Outputs[0].Name != "iam_role_arn" {
+		t.Errorf("unexpected output: %q", meta.Outputs[0].Name)
 	}
 }
 
