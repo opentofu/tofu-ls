@@ -32,10 +32,9 @@ type ModuleResponse struct {
 }
 
 type Submodule struct {
-	Path      string            `json:"path"`
-	Inputs    map[string]Input  `json:"inputs"`
-	Variables map[string]Input  `json:"variables"`
-	Outputs   map[string]Output `json:"outputs"`
+	Path    string            `json:"path"`
+	Inputs  map[string]Input  `json:"variables"`
+	Outputs map[string]Output `json:"outputs"`
 }
 type Input struct {
 	Name        string `json:"name"`
@@ -185,11 +184,4 @@ func (c Client) GetModuleVersions(ctx context.Context, addr tfaddr.Module) (vers
 	sort.Sort(sort.Reverse(foundVersions))
 
 	return foundVersions, nil
-}
-
-func (s Submodule) GetInputs() map[string]Input {
-	if s.Variables != nil {
-		return s.Variables
-	}
-	return s.Inputs
 }

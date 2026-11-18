@@ -7,6 +7,7 @@ package registry
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -177,5 +178,52 @@ func TestCancellationThroughContext(t *testing.T) {
 
 	if e.Err != context.DeadlineExceeded {
 		t.Fatalf("expected error: %#v, given: %#v", context.DeadlineExceeded, e.Err)
+	}
+}
+
+func TestSubmoduleVariablesDecoding(t *testing.T) {
+	data := []byte(`{
+		"id": "v5.60.0",
+		"variables": {},
+		"outputs": {},
+		"submodules": {
+			"iam-assumable-role": {
+				"variables": {
+					"trusted_role_services": {
+						"name": "trusted_role_services"
+					},
+					"create_role": {
+						"name": "create_role"
+					}
+				},
+				"outputs": {
+					"iam_role_arn": {
+						"name": "iam_role_arn"
+					}
+				}
+			}
+		}
+	}`)
+
+	var response ModuleResponse
+	if err := json.Unmarshal(data, &response); err != nil {
+		t.Fatal(err)
+	}
+
+	submodule, ok := response.Submodules["iam-assumable-role"]
+	if !ok {
+		t.Fatal("submodule not found")
+	}
+
+	if len(submodule.Inputs) != 2 {
+		t.Fatalf("expected 2 inputs, got %d", len(submodule.Inputs))
+	}
+
+	if _, ok := submodule.Inputs["trusted_role_services"]; !ok {
+		t.Error("trusted_role_services input not found")
+	}
+
+	if _, ok := submodule.Outputs["iam_role_arn"]; !ok {
+		t.Error("iam_role_arn output not found")
 	}
 }
