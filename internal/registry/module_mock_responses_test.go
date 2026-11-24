@@ -181,3 +181,53 @@ var moduleDataMockResponse = `{
 
   }
 }`
+
+var submoduleDataMockResponse = `{
+  "id": "v5.60.0",
+  "published": "2025-08-08T14:53:23Z",
+  "variables": {
+
+  },
+  "outputs": {
+
+  },
+  "submodules": {
+    "iam-assumable-role": {
+      "readme": true,
+      "edit_link": "https://github.com/terraform-aws-modules/terraform-aws-iam/blob/v5.60.0/modules/iam-assumable-role/README.md",
+      "variables": {
+        "create_role": {
+          "type": "bool",
+          "default": false,
+          "description": "Whether to create a role",
+          "sensitive": false,
+          "required": false
+        },
+        "role_name": {
+          "type": "string",
+          "default": null,
+          "description": "IAM role name",
+          "sensitive": false,
+          "required": false
+        },
+        "trusted_role_services": {
+          "type": "list of string",
+          "default": [],
+          "description": "AWS Services that can assume these roles",
+          "sensitive": false,
+          "required": false
+        }
+      },
+      "outputs": {
+        "iam_role_arn": {
+          "sensitive": false,
+          "description": "ARN of IAM role"
+        }
+      },
+      "schema_error": "",
+      "providers": [],
+      "dependencies": [],
+      "resources": []
+    }
+  }
+}`

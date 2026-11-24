@@ -7,6 +7,7 @@ package registry
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -177,5 +178,45 @@ func TestCancellationThroughContext(t *testing.T) {
 
 	if e.Err != context.DeadlineExceeded {
 		t.Fatalf("expected error: %#v, given: %#v", context.DeadlineExceeded, e.Err)
+	}
+}
+
+func TestSubmoduleVariablesDecoding(t *testing.T) {
+	var response ModuleResponse
+	if err := json.Unmarshal([]byte(submoduleDataMockResponse), &response); err != nil {
+		t.Fatal(err)
+	}
+
+	expectedSubmodules := map[string]Submodule{
+		"iam-assumable-role": {
+			Inputs: map[string]Input{
+				"create_role": {
+					Type:        "bool",
+					Description: "Whether to create a role",
+					Default:     false,
+					Required:    false,
+				},
+				"role_name": {
+					Type:        "string",
+					Description: "IAM role name",
+					Default:     nil,
+					Required:    false,
+				},
+				"trusted_role_services": {
+					Type:        "list of string",
+					Description: "AWS Services that can assume these roles",
+					Default:     []any{},
+					Required:    false,
+				},
+			},
+			Outputs: map[string]Output{
+				"iam_role_arn": {
+					Description: "ARN of IAM role",
+				},
+			},
+		},
+	}
+	if diff := cmp.Diff(expectedSubmodules, response.Submodules); diff != "" {
+		t.Fatalf("mismatched submodules: %s", diff)
 	}
 }

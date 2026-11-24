@@ -117,11 +117,17 @@ func TestGetModuleDataFromRegistry_singleModule(t *testing.T) {
 
 func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 	ctx := context.Background()
+
 	gs, err := globalState.NewStateStore()
 	if err != nil {
 		t.Fatal(err)
 	}
-	ms, err := state.NewModuleStore(gs.ProviderSchemas, gs.RegistryModules, gs.ChangeStore)
+
+	ms, err := state.NewModuleStore(
+		gs.ProviderSchemas,
+		gs.RegistryModules,
+		gs.ChangeStore,
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -130,55 +136,63 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	modPath := filepath.Join(testData, "uninitialized-external-submodule")
 
-	err = ms.Add(modPath)
-	if err != nil {
+	if err := ms.Add(modPath); err != nil {
 		t.Fatal(err)
 	}
 
 	fs := filesystem.NewFilesystem(gs.DocumentStore)
 	ctx = lsctx.WithDocumentContext(ctx, lsctx.Document{})
-	err = ParseModuleConfiguration(ctx, fs, ms, modPath)
-	if err != nil {
+
+	if err := ParseModuleConfiguration(ctx, fs, ms, modPath); err != nil {
 		t.Fatal(err)
 	}
 
-	err = LoadModuleMetadata(ctx, ms, modPath)
-	if err != nil {
+	if err := LoadModuleMetadata(ctx, ms, modPath); err != nil {
 		t.Fatal(err)
 	}
 
 	regClient := registry.NewClient()
-	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/index.json" {
-			w.Write([]byte(puppetModuleVersionsMockResponse))
-			return
-		}
-		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
-			w.Write([]byte(puppetModuleDataMockResponse))
-			return
-		}
-		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
-	}))
+
+	srv := httptest.NewServer(http.HandlerFunc(
+		func(w http.ResponseWriter, r *http.Request) {
+			switch r.URL.Path {
+			case "/registry/docs/modules/puppetlabs/deployment/ec/index.json":
+				w.Write([]byte(puppetModuleVersionsMockResponse))
+			case "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json":
+				w.Write([]byte(puppetSubmoduleDataMockResponse))
+			default:
+				http.Error(w, "unexpected request", http.StatusBadRequest)
+			}
+		},
+	))
+
 	regClient.BaseAPIURL = srv.URL
 	t.Cleanup(srv.Close)
 
-	err = GetModuleDataFromRegistry(ctx, regClient, ms, gs.RegistryModules, modPath)
+	err = GetModuleDataFromRegistry(
+		ctx, regClient, ms, gs.RegistryModules, modPath,
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	addr, err := tfaddr.ParseModuleSource("puppetlabs/deployment/ec//modules/ec")
+	addr, err := tfaddr.ParseModuleSource(
+		"puppetlabs/deployment/ec//modules/ec",
+	)
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	cons := version.MustConstraints(version.NewConstraint("0.0.8"))
 
 	exists, err := gs.RegistryModules.Exists(addr, cons)
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if !exists {
 		t.Fatalf("expected cached metadata to exist for %q %q", addr, cons)
 	}
@@ -187,8 +201,9 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if diff := cmp.Diff(puppetExpectedSubmoduleData, meta, ctydebug.CmpOptions); diff != "" {
-		t.Fatalf("metadata mismatch: %s", diff)
+		t.Fatalf("submodule metadata mismatch: %s", diff)
 	}
 }
 
@@ -537,72 +552,29 @@ var puppetExpectedSubmoduleData = &tfregistry.ModuleData{
 	Version: version.Must(version.NewVersion("0.0.8")),
 	Inputs: []tfregistry.Input{
 		{
-			Name:        "autoscale",
-			Type:        cty.String,
-			Default:     cty.StringVal("true"),
-			Description: lang.Markdown("Enable autoscaling of elasticsearch"),
+			Name:        "create_deployment",
+			Type:        cty.Bool,
+			Default:     cty.False,
+			Description: lang.Markdown("Whether to create the deployment"),
 			Required:    false,
 		},
 		{
-			Name:        "deployment_templateid",
+			Name:        "deployment_name",
 			Type:        cty.String,
-			Default:     cty.StringVal("gcp-io-optimized"),
-			Description: lang.Markdown("ID of Elastic Cloud deployment type"),
+			Description: lang.Markdown("Name of the deployment"),
 			Required:    false,
 		},
 		{
-			Name:        "ec_region",
-			Type:        cty.String,
-			Default:     cty.StringVal("gcp-us-west1"),
-			Description: lang.Markdown("cloud provider region"),
-			Required:    false,
-		},
-		{
-			Name:        "ec_stack_version",
-			Type:        cty.String,
-			Default:     cty.StringVal(""),
-			Description: lang.Markdown("Version of Elastic Cloud stack to deploy"),
-			Required:    false,
-		},
-		{
-			Name:        "name",
-			Type:        cty.String,
-			Default:     cty.StringVal("ecproject"),
-			Description: lang.Markdown("Name of resources"),
-			Required:    false,
-		},
-		{
-			Name:        "traffic_filter_sourceip",
-			Type:        cty.String,
-			Default:     cty.StringVal(""),
-			Description: lang.Markdown("traffic filter source IP"),
+			Name:        "traffic_filter_sourceips",
+			Type:        cty.DynamicPseudoType,
+			Description: lang.Markdown("Source IPs allowed by the traffic filter"),
 			Required:    false,
 		},
 	},
 	Outputs: []tfregistry.Output{
 		{
-			Name:        "deployment_id",
-			Description: lang.Markdown("Elastic Cloud deployment ID"),
-		},
-		{
-			Name:        "elasticsearch_cloud_id",
-			Description: lang.Markdown("Elastic Cloud project deployment ID"),
-		},
-		{
-			Name:        "elasticsearch_https_endpoint",
-			Description: lang.Markdown("elasticsearch https endpoint"),
-		},
-		{
-			Name:        "elasticsearch_password",
-			Description: lang.Markdown("elasticsearch password"),
-		},
-		{
-			Name:        "elasticsearch_username",
-			Description: lang.Markdown("elasticsearch username"),
-		},
-		{
-			Name:        "elasticsearch_version",
-			Description: lang.Markdown("Stack version deployed"),
+			Name:        "elasticsearch_endpoint",
+			Description: lang.Markdown("Elasticsearch endpoint of the deployment"),
 		},
 	},
 }
