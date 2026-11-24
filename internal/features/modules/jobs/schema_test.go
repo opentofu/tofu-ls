@@ -202,11 +202,6 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	inputNames := make(map[string]bool)
-	for _, input := range meta.Inputs {
-		inputNames[input.Name] = true
-	}
-
 	if diff := cmp.Diff(puppetExpectedSubmoduleData, meta, ctydebug.CmpOptions); diff != "" {
 		t.Fatalf("submodule metadata mismatch: %s", diff)
 	}
