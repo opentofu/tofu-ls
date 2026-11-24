@@ -216,7 +216,7 @@ var puppetSubmoduleDataMockResponse = `{
   "examples": {
 
   },
-  submodules": {
+  "submodules": {
     "ec": {
       "readme": false,
       "edit_link": "",
