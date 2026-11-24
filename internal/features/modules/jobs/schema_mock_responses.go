@@ -189,6 +189,74 @@ var puppetModuleDataMockResponse = `{
   }
 }`
 
+var puppetSubmoduleDataMockResponse = `{
+  "id": "v0.0.8",
+  "published": "2021-08-05T00:26:01Z",
+  "readme": true,
+  "edit_link": "https://github.com/puppetlabs/terraform-ec-deployment/blob/v0.0.8/README.md",
+  "variables": {
+    "name": {
+      "type": "string",
+      "default": "ecproject",
+      "description": "Name of resources",
+      "sensitive": false,
+      "required": false
+    }
+  },
+  "outputs": {
+    "deployment_id": {
+      "sensitive": false,
+      "description": "Elastic Cloud deployment ID"
+    }
+  },
+  "schema_error": "",
+  "providers": [],
+  "dependencies": [],
+  "resources": [],
+  "examples": {
+
+  },
+  submodules": {
+    "ec": {
+      "readme": false,
+      "edit_link": "",
+      "variables": {
+        "create_deployment": {
+          "type": "bool",
+          "default": false,
+          "description": "Whether to create the deployment",
+          "sensitive": false,
+          "required": false
+        },
+        "deployment_name": {
+          "type": "string",
+          "default": null,
+          "description": "Name of the deployment",
+          "sensitive": false,
+          "required": false
+        },
+        "traffic_filter_sourceips": {
+          "type": "list of string",
+          "default": [],
+          "description": "Source IPs allowed by the traffic filter",
+          "sensitive": false,
+          "required": false
+        }
+      },
+      "outputs": {
+        "elasticsearch_endpoint": {
+          "sensitive": false,
+          "description": "Elasticsearch endpoint of the deployment"
+        }
+      },
+      "schema_error": "",
+      "providers": [],
+      "dependencies": [],
+      "resources": []
+    }
+  }
+}`
+
 // labelNullModuleVersionsMockResponse represents response for
 // versions of module that suffers from "unreliable" input data, as described in
 // https://github.com/hashicorp/vscode-terraform/issues/1582

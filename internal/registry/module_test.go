@@ -182,48 +182,41 @@ func TestCancellationThroughContext(t *testing.T) {
 }
 
 func TestSubmoduleVariablesDecoding(t *testing.T) {
-	data := []byte(`{
-		"id": "v5.60.0",
-		"variables": {},
-		"outputs": {},
-		"submodules": {
-			"iam-assumable-role": {
-				"variables": {
-					"trusted_role_services": {
-						"name": "trusted_role_services"
-					},
-					"create_role": {
-						"name": "create_role"
-					}
-				},
-				"outputs": {
-					"iam_role_arn": {
-						"name": "iam_role_arn"
-					}
-				}
-			}
-		}
-	}`)
-
 	var response ModuleResponse
-	if err := json.Unmarshal(data, &response); err != nil {
+	if err := json.Unmarshal([]byte(submoduleDataMockResponse), &response); err != nil {
 		t.Fatal(err)
 	}
 
-	submodule, ok := response.Submodules["iam-assumable-role"]
-	if !ok {
-		t.Fatal("submodule not found")
+	expectedSubmodules := map[string]Submodule{
+		"iam-assumable-role": {
+			Inputs: map[string]Input{
+				"create_role": {
+					Type:        "bool",
+					Description: "Whether to create a role",
+					Default:     false,
+					Required:    false,
+				},
+				"role_name": {
+					Type:        "string",
+					Description: "IAM role name",
+					Default:     nil,
+					Required:    false,
+				},
+				"trusted_role_services": {
+					Type:        "list of string",
+					Description: "AWS Services that can assume these roles",
+					Default:     []any{},
+					Required:    false,
+				},
+			},
+			Outputs: map[string]Output{
+				"iam_role_arn": {
+					Description: "ARN of IAM role",
+				},
+			},
+		},
 	}
-
-	if len(submodule.Inputs) != 2 {
-		t.Fatalf("expected 2 inputs, got %d", len(submodule.Inputs))
-	}
-
-	if _, ok := submodule.Inputs["trusted_role_services"]; !ok {
-		t.Error("trusted_role_services input not found")
-	}
-
-	if _, ok := submodule.Outputs["iam_role_arn"]; !ok {
-		t.Error("iam_role_arn output not found")
+	if diff := cmp.Diff(expectedSubmodules, response.Submodules); diff != "" {
+		t.Fatalf("mismatched submodules: %s", diff)
 	}
 }
