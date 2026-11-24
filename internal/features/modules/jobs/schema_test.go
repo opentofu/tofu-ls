@@ -79,7 +79,7 @@ func TestGetModuleDataFromRegistry_singleModule(t *testing.T) {
 			return
 		}
 		if r.RequestURI == "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json" {
-			w.Write([]byte(puppetSubmoduleDataMockResponse))
+			w.Write([]byte(puppetModuleDataMockResponse))
 			return
 		}
 		http.Error(w, fmt.Sprintf("unexpected request: %q", r.RequestURI), 400)
@@ -154,32 +154,6 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	const moduleResponse = `{
-		"id": "v0.0.8",
-		"published": "2021-08-05T00:26:01Z",
-		"variables": {},
-		"outputs": {},
-		"submodules": {
-			"ec": {
-				"variables": {
-					"trusted_role_services": {
-						"name": "trusted_role_services",
-						"type": "string"
-					},
-					"create_role": {
-						"name": "create_role",
-						"type": "bool"
-					}
-				},
-				"outputs": {
-					"iam_role_arn": {
-						"name": "iam_role_arn"
-					}
-				}
-			}
-		}
-	}`
-
 	regClient := registry.NewClient()
 
 	srv := httptest.NewServer(http.HandlerFunc(
@@ -188,7 +162,7 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 			case "/registry/docs/modules/puppetlabs/deployment/ec/index.json":
 				w.Write([]byte(puppetModuleVersionsMockResponse))
 			case "/registry/docs/modules/puppetlabs/deployment/ec/v0.0.8/index.json":
-				w.Write([]byte(moduleResponse))
+				w.Write([]byte(puppetSubmoduleDataMockResponse))
 			default:
 				http.Error(w, "unexpected request", http.StatusBadRequest)
 			}
@@ -214,13 +188,18 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 
 	cons := version.MustConstraints(version.NewConstraint("0.0.8"))
 
-	meta, err := ms.RegistryModuleMeta(addr, cons)
+	exists, err := gs.RegistryModules.Exists(addr, cons)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(meta.Inputs) != 2 {
-		t.Fatalf("expected 2 submodule inputs, got %d", len(meta.Inputs))
+	if !exists {
+		t.Fatalf("expected cached metadata to exist for %q %q", addr, cons)
+	}
+
+	meta, err := ms.RegistryModuleMeta(addr, cons)
+	if err != nil {
+		t.Fatal(err)
 	}
 
 	inputNames := make(map[string]bool)
@@ -228,18 +207,8 @@ func TestGetModuleDataFromRegistry_submodule(t *testing.T) {
 		inputNames[input.Name] = true
 	}
 
-	for _, name := range []string{"trusted_role_services", "create_role"} {
-		if !inputNames[name] {
-			t.Errorf("expected submodule input %q not found", name)
-		}
-	}
-
-	if len(meta.Outputs) != 1 {
-		t.Fatalf("expected 1 submodule output, got %d", len(meta.Outputs))
-	}
-
-	if meta.Outputs[0].Name != "iam_role_arn" {
-		t.Errorf("unexpected output: %q", meta.Outputs[0].Name)
+	if diff := cmp.Diff(puppetExpectedSubmoduleData, meta, ctydebug.CmpOptions); diff != "" {
+		t.Fatalf("submodule metadata mismatch: %s", diff)
 	}
 }
 
