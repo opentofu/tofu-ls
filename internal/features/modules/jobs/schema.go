@@ -14,6 +14,7 @@ import (
 	"io/fs"
 	"log"
 	"maps"
+	"path/filepath"
 	"slices"
 	"time"
 
@@ -259,15 +260,13 @@ func GetModuleDataFromRegistry(ctx context.Context, regClient registry.Client, m
 		registryOutputs := metaData.Outputs
 
 		// Check if the source address contains a submodule
-		// If we can find the submodule in the API response, we will use its inputs and outputs instead
+		// If we can find the submodule in the API response, we will use its inputs and outputs instead.
+		// The API keys submodules by name, e.g. "karpenter" for "//modules/karpenter".
 		if sourceAddr.Subdir != "" {
-			for _, mod := range metaData.Submodules {
-				if mod.Path == sourceAddr.Subdir {
-					registryInputs = mod.Inputs
-					registryOutputs = mod.Outputs
-
-					break
-				}
+			submoduleName := filepath.Base(sourceAddr.Subdir)
+			if mod, ok := metaData.Submodules[submoduleName]; ok {
+				registryInputs = mod.Inputs
+				registryOutputs = mod.Outputs
 			}
 		}
 
