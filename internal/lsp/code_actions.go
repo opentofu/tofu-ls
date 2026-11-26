@@ -44,12 +44,13 @@ var (
 	SupportedCodeActions = CodeActions{
 		SourceFormatAllTofu: true,
 		QuickFixTofuInit:    true,
+		lsp.QuickFix:        true,
 	}
 )
 
-func (c CodeActions) AsSlice() []lsp.CodeActionKind {
+func (ca CodeActions) AsSlice() []lsp.CodeActionKind {
 	s := make([]lsp.CodeActionKind, 0)
-	for v := range c {
+	for v := range ca {
 		s = append(s, v)
 	}
 

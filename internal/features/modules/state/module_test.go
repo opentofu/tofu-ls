@@ -96,6 +96,7 @@ func TestModuleStore_ModuleByPath(t *testing.T) {
 			globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 			globalAst.ReferenceValidationSource: operation.OpStateUnknown,
 			globalAst.TofuValidateSource:        operation.OpStateUnknown,
+			globalAst.UnusedDeclarationSource:   operation.OpStateUnknown,
 		},
 	}
 	if diff := cmp.Diff(expectedModule, mod, cmpOpts); diff != "" {
@@ -140,6 +141,7 @@ func TestModuleStore_List(t *testing.T) {
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
 				globalAst.TofuValidateSource:        operation.OpStateUnknown,
+				globalAst.UnusedDeclarationSource:   operation.OpStateUnknown,
 			},
 		},
 		{
@@ -149,6 +151,7 @@ func TestModuleStore_List(t *testing.T) {
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
 				globalAst.TofuValidateSource:        operation.OpStateUnknown,
+				globalAst.UnusedDeclarationSource:   operation.OpStateUnknown,
 			},
 		},
 		{
@@ -158,6 +161,7 @@ func TestModuleStore_List(t *testing.T) {
 				globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 				globalAst.ReferenceValidationSource: operation.OpStateUnknown,
 				globalAst.TofuValidateSource:        operation.OpStateUnknown,
+				globalAst.UnusedDeclarationSource:   operation.OpStateUnknown,
 			},
 		},
 	}
@@ -226,6 +230,7 @@ func TestModuleStore_UpdateMetadata(t *testing.T) {
 			globalAst.SchemaValidationSource:    operation.OpStateUnknown,
 			globalAst.ReferenceValidationSource: operation.OpStateUnknown,
 			globalAst.TofuValidateSource:        operation.OpStateUnknown,
+			globalAst.UnusedDeclarationSource:   operation.OpStateUnknown,
 		},
 	}
 
