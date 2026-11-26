@@ -70,13 +70,59 @@ func (f *ModulesFeature) didOpen(ctx context.Context, dir document.DirHandle, la
 	return f.decodeModule(ctx, dir, false, true)
 }
 
+func (f *ModulesFeature) callerDirs(modPath string) []string {
+	target := filepath.Clean(modPath)
+
+	mods, err := f.Store.List()
+	if err != nil {
+		return nil
+	}
+	callers := make([]string, 0)
+	for _, mod := range mods {
+		declared, err := f.Store.DeclaredModuleCalls(mod.Path())
+		if err != nil {
+			continue
+		}
+		for _, mc := range declared {
+			dir, ok := f.moduleCallDir(mod.Path(), mc)
+			if ok && dir == target {
+				callers = append(callers, mod.Path())
+				break
+			}
+		}
+	}
+
+	return callers
+}
+
 func (f *ModulesFeature) didChange(ctx context.Context, dir document.DirHandle) (job.IDs, error) {
 	hasModuleRecord := f.Store.Exists(dir.Path())
 	if !hasModuleRecord {
 		return job.IDs{}, nil
 	}
+	ids, err := f.decodeModule(ctx, dir, true, true)
+	if err != nil {
+		return job.IDs{}, err
+	}
 
-	return f.decodeModule(ctx, dir, true, true)
+	for _, callerPath := range f.callerDirs(dir.Path()) {
+		callerPath := callerPath
+		id, err := f.stateStore.JobStore.EnqueueJob(ctx, job.Job{
+			Dir: document.DirHandleFromPath(callerPath),
+			Func: func(ctx context.Context) error {
+				return jobs.DecodeReferenceTargets(ctx, f.Store, f.rootFeature, callerPath)
+			},
+			Type:        op.OpTypeDecodeReferenceTargets.String(),
+			IgnoreState: true,
+		})
+		if err != nil {
+			f.logger.Printf("failed to reload reference targets of caller %q: %s", callerPath, err)
+			continue
+		}
+		ids = append(ids, id)
+	}
+
+	return ids, nil
 }
 
 func (f *ModulesFeature) didChangeWatched(ctx context.Context, rawPath string, changeType protocol.FileChangeType, isDir bool) (job.IDs, error) {
@@ -177,6 +223,31 @@ func (f *ModulesFeature) removeIndexedModule(rawPath string) {
 	}
 }
 
+func (f *ModulesFeature) moduleCallDir(dir string, mc tfmod.DeclaredModuleCall) (path string, ok bool) {
+	switch source := mc.SourceAddr.(type) {
+	// For local module sources, we can construct the path directly from the configuration
+	case tfmod.LocalSourceAddr:
+		return filepath.Join(dir, filepath.FromSlash(source.String())), true
+	// For registry modules, we need to find the local installation path (if installed)
+	case tfaddr.Module:
+		installedDir, ok := f.rootFeature.InstalledModulePath(dir, source.String())
+		if !ok {
+			return "", false
+		}
+		return filepath.Join(dir, filepath.FromSlash(installedDir)), true
+	// For other remote modules, we need to find the local installation path (if installed)
+	case tfmod.RemoteSourceAddr:
+		installedDir, ok := f.rootFeature.InstalledModulePath(dir, source.String())
+		if !ok {
+			return "", false
+		}
+		return filepath.Join(dir, filepath.FromSlash(installedDir)), true
+	// Unknown source address, we can't resolve the path
+	default:
+		return "", false
+	}
+}
+
 func (f *ModulesFeature) decodeDeclaredModuleCalls(ctx context.Context, dir document.DirHandle, ignoreState bool) (job.IDs, error) {
 	jobIds := make(job.IDs, 0)
 
@@ -188,27 +259,8 @@ func (f *ModulesFeature) decodeDeclaredModuleCalls(ctx context.Context, dir docu
 	var errs *multierror.Error
 
 	for _, mc := range declared {
-		var mcPath string
-		switch source := mc.SourceAddr.(type) {
-		// For local module sources, we can construct the path directly from the configuration
-		case tfmod.LocalSourceAddr:
-			mcPath = filepath.Join(dir.Path(), filepath.FromSlash(source.String()))
-		// For registry modules, we need to find the local installation path (if installed)
-		case tfaddr.Module:
-			installedDir, ok := f.rootFeature.InstalledModulePath(dir.Path(), source.String())
-			if !ok {
-				continue
-			}
-			mcPath = filepath.Join(dir.Path(), filepath.FromSlash(installedDir))
-		// For other remote modules, we need to find the local installation path (if installed)
-		case tfmod.RemoteSourceAddr:
-			installedDir, ok := f.rootFeature.InstalledModulePath(dir.Path(), source.String())
-			if !ok {
-				continue
-			}
-			mcPath = filepath.Join(dir.Path(), filepath.FromSlash(installedDir))
-		default:
-			// Unknown source address, we can't resolve the path
+		mcPath, ok := f.moduleCallDir(dir.Path(), mc)
+		if !ok {
 			continue
 		}
 
